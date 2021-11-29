@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kq5-Uq-IZp">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
@@ -433,7 +433,7 @@
                                         </buttonConfiguration>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" red="0.13799327610000001" green="0.16005653140000001" blue="0.19608342649999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="backgroundColor" red="0.13333333333333333" green="0.16470588235294117" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="3yB-g2-Iw0"/>
                                     <constraint firstItem="LAK-ZM-JAL" firstAttribute="top" secondItem="8Nd-vx-Fbs" secondAttribute="top" constant="40" id="5U5-Ou-Jid"/>
@@ -655,13 +655,13 @@
         <image name="plus.circle.fill" catalog="system" width="128" height="121"/>
         <image name="subs_dark" width="500" height="250"/>
         <namedColor name="background">
-            <color red="0.93333333730000001" green="0.93333333730000001" blue="0.93333333730000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="0.93300002813339233" green="0.93300002813339233" blue="0.93300002813339233" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="maintext">
-            <color red="0.2280428112" green="0.2464374006" blue="0.27843600509999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="0.22800000011920929" green="0.2460000067949295" blue="0.27799999713897705" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="reverse_bg">
-            <color red="0.13799327610000001" green="0.16005653140000001" blue="0.19608342649999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="0.1379999965429306" green="0.15999999642372131" blue="0.19599999487400055" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="yellowgrey">
             <color red="0.13799327610000001" green="0.16005653140000001" blue="0.19608342649999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
