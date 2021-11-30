@@ -19,6 +19,7 @@
 		EF96B9AA274FE1C900961F9C /* mysubsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF96B9A9274FE1C900961F9C /* mysubsUITestsLaunchTests.swift */; };
 		EFC2367027550144008982D2 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC2366F27550144008982D2 /* HeaderView.swift */; };
 		EFFA24DF275644E20068DFE3 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFA24DE275644E20068DFE3 /* CollectionViewController.swift */; };
+		EFFA24E227566E570068DFE3 /* LogoFinderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFA24E127566E570068DFE3 /* LogoFinderService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		EF96B9A9274FE1C900961F9C /* mysubsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mysubsUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		EFC2366F27550144008982D2 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		EFFA24DE275644E20068DFE3 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
+		EFFA24E127566E570068DFE3 /* LogoFinderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoFinderService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				EF96B983274FE1C700961F9C /* AppDelegate.swift */,
+				EFFA24E027566E120068DFE3 /* Services */,
 				EF96B985274FE1C700961F9C /* SceneDelegate.swift */,
 				EF1168D52750035F00274911 /* Main.storyboard */,
 				EFC2366F27550144008982D2 /* HeaderView.swift */,
@@ -134,6 +137,14 @@
 				EF96B9A9274FE1C900961F9C /* mysubsUITestsLaunchTests.swift */,
 			);
 			path = mysubsUITests;
+			sourceTree = "<group>";
+		};
+		EFFA24E027566E120068DFE3 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				EFFA24E127566E570068DFE3 /* LogoFinderService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -268,6 +279,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EFFA24DF275644E20068DFE3 /* CollectionViewController.swift in Sources */,
+				EFFA24E227566E570068DFE3 /* LogoFinderService.swift in Sources */,
 				EFC2367027550144008982D2 /* HeaderView.swift in Sources */,
 				EF96B988274FE1C700961F9C /* ViewController.swift in Sources */,
 				EF96B984274FE1C700961F9C /* AppDelegate.swift in Sources */,
