@@ -8,19 +8,19 @@ import Foundation
 import Alamofire
 
 class LogoFinderService {
-    let httpHeader = "sk_660acc9a08a57b15fc87681a65fe5be8"
+    let httpHeader = "\(APIConfig.apiKey)"
 
     private let session: Session
     init(session: Session = .default) {
         self.session = session
     }
 
-    func testingClearBit() {
+    func testingClearBit(for searchTerms: String) {
         let headers: HTTPHeaders = [
-            "Authorization": "sk_660acc9a08a57b15fc87681a65fe5be8"
+            "Authorization": "\(httpHeader)"
         ]
         
-        AF.request("https://autocomplete.clearbit.com/v1/companies/suggest?query=laposte", headers: headers).responseJSON { response in
+        AF.request("https://autocomplete.clearbit.com/v1/companies/suggest?query=\(searchTerms)", headers: headers).responseJSON { response in
             debugPrint(response)
         }
         

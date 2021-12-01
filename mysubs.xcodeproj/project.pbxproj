@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		EF1168D62750035F00274911 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF1168D52750035F00274911 /* Main.storyboard */; };
-		EF125B0827577FA900E6FD6B /* APIConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF125B0727577FA900E6FD6B /* APIConfig.swift */; };
+		EF125B0827577FA900E6FD6B /* APIConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF125B0727577FA900E6FD6B /* APIConfiguration.swift */; };
+		EF125B0A275780E000E6FD6B /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF125B09275780E000E6FD6B /* StorageService.swift */; };
+		EF125B0C2757820400E6FD6B /* SubInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF125B0B2757820400E6FD6B /* SubInfo.swift */; };
 		EF70E4F027567D270011AB06 /* Pods_mysubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF70E4EF27567D270011AB06 /* Pods_mysubs.framework */; };
 		EF70E4F32756868A0011AB06 /* BrandInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70E4F22756868A0011AB06 /* BrandInfo.swift */; };
 		EF96B984274FE1C700961F9C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF96B983274FE1C700961F9C /* AppDelegate.swift */; };
@@ -46,7 +48,9 @@
 		28734AF35D4C5AB8620AFF30 /* Pods-mysubs.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mysubs.release.xcconfig"; path = "Target Support Files/Pods-mysubs/Pods-mysubs.release.xcconfig"; sourceTree = "<group>"; };
 		E92B44913F948E7701CD59C6 /* Pods-mysubs.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mysubs.debug.xcconfig"; path = "Target Support Files/Pods-mysubs/Pods-mysubs.debug.xcconfig"; sourceTree = "<group>"; };
 		EF1168D52750035F00274911 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		EF125B0727577FA900E6FD6B /* APIConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConfig.swift; sourceTree = "<group>"; };
+		EF125B0727577FA900E6FD6B /* APIConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConfiguration.swift; sourceTree = "<group>"; };
+		EF125B09275780E000E6FD6B /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
+		EF125B0B2757820400E6FD6B /* SubInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubInfo.swift; sourceTree = "<group>"; };
 		EF70E4ED27567CEA0011AB06 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF70E4EF27567D270011AB06 /* Pods_mysubs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_mysubs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF70E4F22756868A0011AB06 /* BrandInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandInfo.swift; sourceTree = "<group>"; };
@@ -114,10 +118,31 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		EF125B0D2757822C00E6FD6B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				EF96B98F274FE1C900961F9C /* Assets.xcassets */,
+				EF96B991274FE1C900961F9C /* LaunchScreen.storyboard */,
+				EF1168D52750035F00274911 /* Main.storyboard */,
+				EFC2366F27550144008982D2 /* HeaderView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		EF125B0E2757824000E6FD6B /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				EF96B987274FE1C700961F9C /* ViewController.swift */,
+				EFFA24DE275644E20068DFE3 /* CollectionViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
 		EF70E4F1275686780011AB06 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				EF70E4F22756868A0011AB06 /* BrandInfo.swift */,
+				EF125B0B2757820400E6FD6B /* SubInfo.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -151,12 +176,8 @@
 				EFFA24E027566E120068DFE3 /* Services */,
 				EF96B985274FE1C700961F9C /* SceneDelegate.swift */,
 				EF70E4F1275686780011AB06 /* Models */,
-				EF1168D52750035F00274911 /* Main.storyboard */,
-				EFC2366F27550144008982D2 /* HeaderView.swift */,
-				EF96B987274FE1C700961F9C /* ViewController.swift */,
-				EFFA24DE275644E20068DFE3 /* CollectionViewController.swift */,
-				EF96B98F274FE1C900961F9C /* Assets.xcassets */,
-				EF96B991274FE1C900961F9C /* LaunchScreen.storyboard */,
+				EF125B0D2757822C00E6FD6B /* Views */,
+				EF125B0E2757824000E6FD6B /* Controllers */,
 				EF96B994274FE1C900961F9C /* Info.plist */,
 				EF96B98C274FE1C700961F9C /* mysubs.xcdatamodeld */,
 			);
@@ -184,7 +205,8 @@
 			isa = PBXGroup;
 			children = (
 				EFFA24E127566E570068DFE3 /* LogoFinderService.swift */,
-				EF125B0727577FA900E6FD6B /* APIConfig.swift */,
+				EF125B09275780E000E6FD6B /* StorageService.swift */,
+				EF125B0727577FA900E6FD6B /* APIConfiguration.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -367,9 +389,11 @@
 				EFFA24DF275644E20068DFE3 /* CollectionViewController.swift in Sources */,
 				EFFA24E227566E570068DFE3 /* LogoFinderService.swift in Sources */,
 				EFC2367027550144008982D2 /* HeaderView.swift in Sources */,
+				EF125B0C2757820400E6FD6B /* SubInfo.swift in Sources */,
 				EF96B988274FE1C700961F9C /* ViewController.swift in Sources */,
 				EF96B984274FE1C700961F9C /* AppDelegate.swift in Sources */,
-				EF125B0827577FA900E6FD6B /* APIConfig.swift in Sources */,
+				EF125B0A275780E000E6FD6B /* StorageService.swift in Sources */,
+				EF125B0827577FA900E6FD6B /* APIConfiguration.swift in Sources */,
 				EF70E4F32756868A0011AB06 /* BrandInfo.swift in Sources */,
 				EF96B98E274FE1C700961F9C /* mysubs.xcdatamodeld in Sources */,
 				EF96B986274FE1C700961F9C /* SceneDelegate.swift in Sources */,
