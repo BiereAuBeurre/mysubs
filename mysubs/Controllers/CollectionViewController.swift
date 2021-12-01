@@ -23,12 +23,15 @@ class CollectionViewController: UIViewController, UINavigationBarDelegate {
 //        }
 //        catch { print(error)}
     
-    // MARK: Properties
-    var navBar: UINavigationBar!
-//    var categoryLabel = UILabel()
-    var storageService = StorageService()
+    var category = CategoryEntity(name: " Loisirs ")
     
+    // MARK: UI Properties
+    var navBar: UINavigationBar!
+    var categoryButton = UIButton()
     private let activityIndicator = UIActivityIndicatorView(style: .large)
+
+    // MARK: Properties
+    var storageService = StorageService()
     var subscriptions: [SubInfo] = []
     
     var viewState: State<[SubInfo]> = .empty {
@@ -56,6 +59,7 @@ class CollectionViewController: UIViewController, UINavigationBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpNavBar()
+        setUpView()
         activateConstraints()
     }
     
@@ -70,7 +74,7 @@ class CollectionViewController: UIViewController, UINavigationBarDelegate {
             try storageService.deleteSubs(sub)
             //fetchSubs()
         }
-        catch { print (error); self.showAlert("Erreur", "Suppression impossible. Merci de réessayer plus tard")}
+        catch { print (error); self.showAlert("Erreur", "Suppression impossible. Merci de réessayer plus tard") }
     }
     
     func setUpNavBar() {
@@ -79,7 +83,6 @@ class CollectionViewController: UIViewController, UINavigationBarDelegate {
         navBar.translatesAutoresizingMaskIntoConstraints = false
         navBar.isHidden = false
         navBar.backgroundColor = #colorLiteral(red: 0.1333333333, green: 0.1647058824, blue: 0.2, alpha: 1)
-        title = "TEST!!!"
 //        let imageTitleBar = UIImage(named: "subs_dark")
 //        self.navigationItem.titleView = UIImageView(image: imageTitleBar)
         
@@ -87,11 +90,13 @@ class CollectionViewController: UIViewController, UINavigationBarDelegate {
     }
     
     func setUpView() {
-//        categoryLabel.translatesAutoresizingMaskIntoConstraints = false
-//        categoryLabel.text = "Ajouter une catégorie"
-//        categoryLabel.backgroundColor = UIColor(named: "reverse_bg")
-//        categoryLabel.textColor = UIColor(named: "background")
-//        view.addSubview(categoryLabel)
+        categoryButton.translatesAutoresizingMaskIntoConstraints = false
+        categoryButton.setTitle(category.name, for: UIControl.State.normal)
+        categoryButton.backgroundColor = UIColor(named: "reverse_bg")
+        categoryButton.setTitleColor(UIColor(named: "background"), for: UIControl.State.normal)
+        categoryButton.addCornerRadius()
+        categoryButton.isUserInteractionEnabled = true
+        view.addSubview(categoryButton)
     }
     
     func activateConstraints() {
@@ -99,10 +104,10 @@ class CollectionViewController: UIViewController, UINavigationBarDelegate {
             navBar.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 0),
             navBar.topAnchor.constraint(equalToSystemSpacingBelow: view.topAnchor, multiplier: 0),
             navBar.trailingAnchor.constraint(equalToSystemSpacingAfter: view.trailingAnchor, multiplier: 0),
-            navBar.heightAnchor.constraint(equalToConstant: 100)
-//            categoryLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            categoryLabel.heightAnchor.constraint(equalToConstant: 32),
-//            categoryLabel.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 16)
+            navBar.heightAnchor.constraint(equalToConstant: 100),
+            categoryButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            categoryButton.heightAnchor.constraint(equalToConstant: 32),
+            categoryButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 116)
         ])
     }
 
