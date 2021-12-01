@@ -10,11 +10,14 @@ import CoreData
 class StorageService {
     
     let viewContext: NSManagedObjectContext
+    
     init(persistentContainer: NSPersistentCloudKitContainer = AppDelegate.persistentContainer) {
         self.viewContext = persistentContainer.viewContext
     }
     
     func loadSubs() throws -> [SubInfo] {
+        /// CoreData request, return a subscriptionEntity object that is convert into SubInfo as soon as it's loaded.
+
         let fetchRequest: NSFetchRequest<SubscriptionEntity> = SubscriptionEntity.fetchRequest()
         let subscriptionEntities: [SubscriptionEntity]
         do { subscriptionEntities = try viewContext.fetch(fetchRequest) }
@@ -35,7 +38,7 @@ class StorageService {
         subscriptionEntity.price = subInfo.price
         subscriptionEntity.reminder = subInfo.reminder
         subscriptionEntity.suggestedLogo = subInfo.suggestedLogo
-//        print(subscriptionEntity.name)
+        print(subscriptionEntity)
     }
     
     func deleteSubs(_ subInfo: SubInfo) throws {
