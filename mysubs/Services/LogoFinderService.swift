@@ -8,7 +8,7 @@ import Foundation
 import Alamofire
 
 class LogoFinderService {
-    let httpHeader = "\(APIConfig.apiKey)"
+    let httpHeader = "\(APIConfiguration.apiKey)"
 
     private let session: Session
     init(session: Session = .default) {
