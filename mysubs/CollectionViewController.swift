@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import Alamofire
 class CollectionViewController: UIViewController {
     var headerView = HeaderView()
     var categoryLabel = UILabel()
@@ -17,7 +17,6 @@ class CollectionViewController: UIViewController {
         setUpView()
         activateConstraints()
     }
-    
 
     func setUpView() {
         headerView.configureHeaderView()
