@@ -17,7 +17,6 @@
 		EF70E4F32756868A0011AB06 /* BrandInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70E4F22756868A0011AB06 /* BrandInfo.swift */; };
 		EF96B984274FE1C700961F9C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF96B983274FE1C700961F9C /* AppDelegate.swift */; };
 		EF96B986274FE1C700961F9C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF96B985274FE1C700961F9C /* SceneDelegate.swift */; };
-		EF96B988274FE1C700961F9C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF96B987274FE1C700961F9C /* ViewController.swift */; };
 		EF96B98E274FE1C700961F9C /* mysubs.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EF96B98C274FE1C700961F9C /* mysubs.xcdatamodeld */; };
 		EF96B990274FE1C900961F9C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF96B98F274FE1C900961F9C /* Assets.xcassets */; };
 		EF96B993274FE1C900961F9C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF96B991274FE1C900961F9C /* LaunchScreen.storyboard */; };
@@ -61,7 +60,6 @@
 		EF96B980274FE1C700961F9C /* mysubs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mysubs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF96B983274FE1C700961F9C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EF96B985274FE1C700961F9C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		EF96B987274FE1C700961F9C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		EF96B98D274FE1C700961F9C /* mysubs.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = mysubs.xcdatamodel; sourceTree = "<group>"; };
 		EF96B98F274FE1C900961F9C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EF96B992274FE1C900961F9C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -106,6 +104,7 @@
 		C34FE279BCE2E8DE6B69B0E6 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
+				DA2093929DD6F972E67F8BD1 /* Frameworks */,
 				E92B44913F948E7701CD59C6 /* Pods-mysubs.debug.xcconfig */,
 				28734AF35D4C5AB8620AFF30 /* Pods-mysubs.release.xcconfig */,
 			);
@@ -120,6 +119,7 @@
 				FAF26DAD802A3EFEB87F6109 /* Pods_mysubs.framework */,
 			);
 			name = Frameworks;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		EF125B0D2757822C00E6FD6B /* Views */ = {
@@ -136,7 +136,6 @@
 		EF125B0E2757824000E6FD6B /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				EF96B987274FE1C700961F9C /* ViewController.swift */,
 				EFFA24DE275644E20068DFE3 /* CollectionViewController.swift */,
 			);
 			path = Controllers;
@@ -184,7 +183,8 @@
 				EF96B9A6274FE1C900961F9C /* mysubsUITests */,
 				EF96B981274FE1C700961F9C /* Products */,
 				C34FE279BCE2E8DE6B69B0E6 /* Pods */,
-				DA2093929DD6F972E67F8BD1 /* Frameworks */,
+				EF96B985274FE1C700961F9C /* SceneDelegate.swift */,
+				EF96B983274FE1C700961F9C /* AppDelegate.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -201,9 +201,7 @@
 		EF96B982274FE1C700961F9C /* mysubs */ = {
 			isa = PBXGroup;
 			children = (
-				EF96B983274FE1C700961F9C /* AppDelegate.swift */,
 				EFFA24E027566E120068DFE3 /* Services */,
-				EF96B985274FE1C700961F9C /* SceneDelegate.swift */,
 				EF125B0F2757887700E6FD6B /* Extensions */,
 				EF70E4F1275686780011AB06 /* Models */,
 				EF125B0D2757822C00E6FD6B /* Views */,
@@ -420,7 +418,6 @@
 				EFFA24E227566E570068DFE3 /* LogoFinderService.swift in Sources */,
 				EFC2367027550144008982D2 /* HeaderView.swift in Sources */,
 				EF125B0C2757820400E6FD6B /* SubInfo.swift in Sources */,
-				EF96B988274FE1C700961F9C /* ViewController.swift in Sources */,
 				EF96B984274FE1C700961F9C /* AppDelegate.swift in Sources */,
 				EF125B0A275780E000E6FD6B /* StorageService.swift in Sources */,
 				EF125B0827577FA900E6FD6B /* APIConfiguration.swift in Sources */,

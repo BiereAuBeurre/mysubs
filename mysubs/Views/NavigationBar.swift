@@ -1,25 +1,17 @@
 //
-//  ViewController.swift
+//  NavigationBar.swift
 //  mysubs
 //
-//  Created by Manon Russo on 25/11/2021.
+//  Created by Manon Russo on 01/12/2021.
 //
 
 import UIKit
 
-class ViewController: UIViewController, UINavigationBarDelegate {
-
+class NavigationBar: UIViewController, UINavigationBarDelegate {
+    
     var navBar: UINavigationBar!
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        self.title = "TEST"
-        setUpNavBar()
-        activateConstraints()
-    }
-
-    func setUpNavBar() {
+    func setUp() {
         navBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 100))
         navBar.delegate = self
         navBar.translatesAutoresizingMaskIntoConstraints = false
@@ -39,5 +31,5 @@ class ViewController: UIViewController, UINavigationBarDelegate {
             navBar.heightAnchor.constraint(equalToConstant: 100)
         ])
     }
+    
 }
-

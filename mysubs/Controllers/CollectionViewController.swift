@@ -15,7 +15,7 @@ enum State<Data> {
     case showData(Data)
 }
 
-class CollectionViewController: UIViewController {
+class CollectionViewController: UIViewController, UINavigationBarDelegate {
 // TEST CODE DATA (mettre dans viewdidLoad à partir du do pour test
 //    var subInfo = SubInfo(category: "ciné", commitment: "mensuel", extraInfo: "test", name: "NETFLIX", paymentRecurrency: "mensuel", price: 9.99, reminder: "2j avant", suggestedLogo: "rien")
 //        do {
@@ -24,8 +24,8 @@ class CollectionViewController: UIViewController {
 //        catch { print(error)}
     
     // MARK: Properties
-    var headerView = HeaderView()
-    var categoryLabel = UILabel()
+    var navBar: UINavigationBar!
+//    var categoryLabel = UILabel()
     var storageService = StorageService()
     
     private let activityIndicator = UIActivityIndicatorView(style: .large)
@@ -33,7 +33,7 @@ class CollectionViewController: UIViewController {
     
     var viewState: State<[SubInfo]> = .empty {
         didSet {
-            //resetState()
+            resetState()
             switch viewState {
             case .loading:
                 activityIndicator.startAnimating()
@@ -55,9 +55,8 @@ class CollectionViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpView()
+        setUpNavBar()
         activateConstraints()
-
     }
     
     //MARK: Private methods
@@ -73,27 +72,37 @@ class CollectionViewController: UIViewController {
         }
         catch { print (error); self.showAlert("Erreur", "Suppression impossible. Merci de réessayer plus tard")}
     }
-
+    
+    func setUpNavBar() {
+        navBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 100))
+        navBar.delegate = self
+        navBar.translatesAutoresizingMaskIntoConstraints = false
+        navBar.isHidden = false
+        navBar.backgroundColor = #colorLiteral(red: 0.1333333333, green: 0.1647058824, blue: 0.2, alpha: 1)
+        title = "TEST!!!"
+//        let imageTitleBar = UIImage(named: "subs_dark")
+//        self.navigationItem.titleView = UIImageView(image: imageTitleBar)
+        
+        view.addSubview(navBar)
+    }
+    
     func setUpView() {
-        headerView.configureHeaderView()
-        headerView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(headerView)
-        categoryLabel.translatesAutoresizingMaskIntoConstraints = false
-        categoryLabel.text = "Ajouter une catégorie"
-        categoryLabel.backgroundColor = UIColor(named: "reverse_bg")
-        categoryLabel.textColor = UIColor(named: "background")
-        view.addSubview(categoryLabel)
+//        categoryLabel.translatesAutoresizingMaskIntoConstraints = false
+//        categoryLabel.text = "Ajouter une catégorie"
+//        categoryLabel.backgroundColor = UIColor(named: "reverse_bg")
+//        categoryLabel.textColor = UIColor(named: "background")
+//        view.addSubview(categoryLabel)
     }
     
     func activateConstraints() {
         NSLayoutConstraint.activate([
-            headerView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 0),
-            headerView.heightAnchor.constraint(equalToConstant: 100),
-            headerView.trailingAnchor.constraint(equalToSystemSpacingAfter: view.trailingAnchor, multiplier: 0),
-            headerView.topAnchor.constraint(equalToSystemSpacingBelow: view.topAnchor, multiplier: 0),
-            categoryLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            categoryLabel.heightAnchor.constraint(equalToConstant: 32),
-            categoryLabel.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 16)
+            navBar.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 0),
+            navBar.topAnchor.constraint(equalToSystemSpacingBelow: view.topAnchor, multiplier: 0),
+            navBar.trailingAnchor.constraint(equalToSystemSpacingAfter: view.trailingAnchor, multiplier: 0),
+            navBar.heightAnchor.constraint(equalToConstant: 100)
+//            categoryLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            categoryLabel.heightAnchor.constraint(equalToConstant: 32),
+//            categoryLabel.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 16)
         ])
     }
 
