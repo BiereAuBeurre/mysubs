@@ -45,6 +45,7 @@ class CollectionViewController: UIViewController, UINavigationBarDelegate {
     var totalAmountLabel = UILabel()
     var amountLabel = UILabel()
     var myCollectionView: UICollectionView?
+    var stackView = UIStackView()
 //    var subcell = SubCell()
     var categoryButton = AdaptableSizeButton()
     private let activityIndicator = UIActivityIndicatorView(style: .large)
@@ -101,8 +102,7 @@ class CollectionViewController: UIViewController, UINavigationBarDelegate {
     func setUpUI() {
         setUpNavBar()
         setUpView()
-        setUpSubsView()
-        setUpTotalAmountView()
+        setUpStackView()
         activateConstraints()
     }
     
@@ -117,6 +117,23 @@ class CollectionViewController: UIViewController, UINavigationBarDelegate {
         view.addSubview(navBar)
     }
     
+    func setUpCollectionView() {
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+//        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.itemSize = CGSize(width: self.view.frame.width - 16, height: 60)
+        layout.collectionView?.backgroundColor = UIColor(named: "reverse_bg")
+        layout.scrollDirection = .vertical
+        myCollectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
+        myCollectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "SubCell")
+        myCollectionView?.backgroundColor = UIColor(named: "background")
+        myCollectionView?.dataSource = self
+        myCollectionView?.delegate = self
+        myCollectionView?.translatesAutoresizingMaskIntoConstraints = false
+        myCollectionView?.isScrollEnabled = true
+        myCollectionView?.isUserInteractionEnabled = true
+        stackView.addArrangedSubview(myCollectionView ?? UICollectionView())
+    }
+
     func setUpView() {
         categoryButton.translatesAutoresizingMaskIntoConstraints = false
         categoryButton.setTitle(category.name, for: UIControl.State.normal)
@@ -130,11 +147,11 @@ class CollectionViewController: UIViewController, UINavigationBarDelegate {
         view.addSubview(categoryButton)
     }
     
-    func setUpSubsView() {
-        subsView.translatesAutoresizingMaskIntoConstraints = false
-        subsView.backgroundColor = UIColor(named: "background")
-        view.addSubview(subsView)
-        
+    func setUpStackView() {
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+//        stackView.backgroundColor = .yellow//UIColor(named: "background")
+
         //MARK: Collection View
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
 //        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -149,14 +166,17 @@ class CollectionViewController: UIViewController, UINavigationBarDelegate {
         myCollectionView?.translatesAutoresizingMaskIntoConstraints = false
         myCollectionView?.isScrollEnabled = true
         myCollectionView?.isUserInteractionEnabled = true
-        subsView.addSubview(myCollectionView ?? UICollectionView())
+        stackView.addArrangedSubview(myCollectionView ?? UICollectionView())
+        setUpTotalAmountView()
+        view.addSubview(stackView)
+
     }
     
     func setUpTotalAmountView() {
         totalAmountView.translatesAutoresizingMaskIntoConstraints = false
         totalAmountView.backgroundColor = .systemBackground
-        subsView.addSubview(totalAmountView)
-        
+        stackView.addArrangedSubview(totalAmountView)
+
         totalAmountLabel.translatesAutoresizingMaskIntoConstraints = false
         totalAmountLabel.adjustsFontForContentSizeCategory = true
         totalAmountLabel.text = "Coût total"
@@ -193,15 +213,26 @@ class CollectionViewController: UIViewController, UINavigationBarDelegate {
             categoryButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             categoryButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
-            subsView.bottomAnchor.constraint(equalToSystemSpacingBelow: view.bottomAnchor, multiplier: 0),
-            subsView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 0),
-            subsView.trailingAnchor.constraint(equalToSystemSpacingAfter: view.trailingAnchor, multiplier: 0),
-            subsView.topAnchor.constraint(equalTo: categoryButton.bottomAnchor, constant: 16),
+            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -16),
+
+//            stackView.bottomAnchor.constraint(equalToSystemSpacingBelow: view.bottomAnchor, multiplier: 0),
+            stackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 0),
+            stackView.trailingAnchor.constraint(equalToSystemSpacingAfter: view.trailingAnchor, multiplier: 0),
+            stackView.topAnchor.constraint(equalTo: categoryButton.bottomAnchor, constant: 16),
+//            subsView.bottomAnchor.constraint(equalToSystemSpacingBelow: view.bottomAnchor, multiplier: 0),
+//            subsView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 0),
+//            subsView.trailingAnchor.constraint(equalToSystemSpacingAfter: view.trailingAnchor, multiplier: 0),
+//            subsView.topAnchor.constraint(equalTo: categoryButton.bottomAnchor, constant: 16),
             
-            totalAmountView.leadingAnchor.constraint(equalToSystemSpacingAfter: subsView.leadingAnchor, multiplier: 0),
-            totalAmountView.trailingAnchor.constraint(equalToSystemSpacingAfter: subsView.trailingAnchor, multiplier: 0),
-            totalAmountView.bottomAnchor.constraint(equalTo: subsView.bottomAnchor, constant: -24),
+            totalAmountView.leadingAnchor.constraint(equalToSystemSpacingAfter: stackView.leadingAnchor, multiplier: 0),
+            totalAmountView.trailingAnchor.constraint(equalToSystemSpacingAfter: stackView.trailingAnchor, multiplier: 0),
+            totalAmountView.bottomAnchor.constraint(equalTo: stackView.bottomAnchor, constant: -24),
             totalAmountView.heightAnchor.constraint(equalToConstant: 50),
+            
+//            totalAmountView.leadingAnchor.constraint(equalToSystemSpacingAfter: subsView.leadingAnchor, multiplier: 0),
+//            totalAmountView.trailingAnchor.constraint(equalToSystemSpacingAfter: subsView.trailingAnchor, multiplier: 0),
+//            totalAmountView.bottomAnchor.constraint(equalTo: subsView.bottomAnchor, constant: -24),
+//            totalAmountView.heightAnchor.constraint(equalToConstant: 50),
             
             totalAmountLabel.leadingAnchor.constraint(equalTo: totalAmountView.leadingAnchor, constant: 32),
             totalAmountLabel.centerYAnchor.constraint(equalTo: totalAmountView.centerYAnchor, constant: 0),
@@ -210,10 +241,32 @@ class CollectionViewController: UIViewController, UINavigationBarDelegate {
             amountLabel.centerYAnchor.constraint(equalTo: totalAmountView.centerYAnchor, constant: 0),
             amountLabel.widthAnchor.constraint(equalToConstant: 90),
             amountLabel.heightAnchor.constraint(equalToConstant: 30),
-//            myCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+//            myCollectionView?.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
             ])
     }
 
+    //    func setUpSubsView() {
+    //        subsView.translatesAutoresizingMaskIntoConstraints = false
+    //        subsView.backgroundColor = UIColor(named: "background")
+    //        view.addSubview(subsView)
+    //
+    //        //MARK: Collection View
+    //        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+    //        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    //        layout.itemSize = CGSize(width: self.view.frame.width - 16, height: 60)
+    //        layout.collectionView?.backgroundColor = UIColor(named: "reverse_bg")
+    //        layout.scrollDirection = .vertical
+    //        myCollectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
+    //        myCollectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "SubCell")
+    //        myCollectionView?.backgroundColor = UIColor(named: "background")
+    //        myCollectionView?.dataSource = self
+    //        myCollectionView?.delegate = self
+    //        myCollectionView?.translatesAutoresizingMaskIntoConstraints = false
+    //        myCollectionView?.isScrollEnabled = true
+    //        myCollectionView?.isUserInteractionEnabled = true
+    //        subsView.addSubview(myCollectionView ?? UICollectionView())
+    //    }
+    
 }
 
 extension CollectionViewController: UICollectionViewDataSource {
