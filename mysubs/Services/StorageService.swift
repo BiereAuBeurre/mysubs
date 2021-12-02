@@ -10,14 +10,47 @@ import CoreData
 class StorageService {
     
     let viewContext: NSManagedObjectContext
-    
     init(persistentContainer: NSPersistentCloudKitContainer = AppDelegate.persistentContainer) {
         self.viewContext = persistentContainer.viewContext
     }
     
+    //MARK: Category Methods
+    func loadCategory() throws -> [CategoryInfo] {
+        /// CoreData request, return a subscriptionEntity object that is convert into SubInfo as soon as it's loaded.
+        let fetchRequest: NSFetchRequest<CategoryEntity> = CategoryEntity.fetchRequest()
+        let categoryEntities: [CategoryEntity]
+        do { categoryEntities = try viewContext.fetch(fetchRequest) }
+        catch { throw error }
+        let category = categoryEntities.map { (categoryEntity) -> CategoryInfo in
+            return CategoryInfo(from: categoryEntity)
+        }
+        return category
+    }
+    
+    func saveCategory(_ categoryInfo: CategoryInfo) throws {
+        let categoryEntity = CategoryEntity(context: viewContext)
+        categoryEntity.name = categoryInfo.name
+        print(categoryEntity)
+    }
+    
+    func deleteCategory(_ categoryInfo: CategoryInfo) throws {
+        let fetchRequest: NSFetchRequest<CategoryEntity> = CategoryEntity.fetchRequest()
+        let predicate = NSPredicate(format: "name == %@", categoryInfo.name)
+        fetchRequest.predicate = predicate
+        let categoriesEntities: [ CategoryEntity]
+        do { categoriesEntities = try viewContext.fetch(fetchRequest)
+            categoriesEntities.forEach { (categoryEntity) in
+                viewContext.delete(categoryEntity) }
+            /// Save once recipe is deleted.
+            try viewContext.save() }
+        catch { throw error }
+        print(categoriesEntities)
+    }
+    
+    //MARK: Subscription methods
     func loadSubs() throws -> [SubInfo] {
         /// CoreData request, return a subscriptionEntity object that is convert into SubInfo as soon as it's loaded.
-
+        
         let fetchRequest: NSFetchRequest<SubscriptionEntity> = SubscriptionEntity.fetchRequest()
         let subscriptionEntities: [SubscriptionEntity]
         do { subscriptionEntities = try viewContext.fetch(fetchRequest) }
@@ -52,6 +85,6 @@ class StorageService {
             /// Save once recipe is deleted.
             try viewContext.save() }
         catch { throw error }
+        print(subscriptionEntities)
     }
-    
 }

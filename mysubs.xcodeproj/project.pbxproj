@@ -14,7 +14,8 @@
 		EF125B1227578AC600E6FD6B /* LoadImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF125B1127578AC600E6FD6B /* LoadImage.swift */; };
 		EF125B152757962500E6FD6B /* ShowAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF125B142757962500E6FD6B /* ShowAlert.swift */; };
 		EF125B192757C11000E6FD6B /* AddCornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF125B182757C11000E6FD6B /* AddCornerRadius.swift */; };
-		EF125B1B2757C82D00E6FD6B /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF125B1A2757C82D00E6FD6B /* Category.swift */; };
+		EF125B1B2757C82D00E6FD6B /* CategoryInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF125B1A2757C82D00E6FD6B /* CategoryInfo.swift */; };
+		EF1F6C6B2759125E00DA0BBB /* SubCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1F6C6A2759125E00DA0BBB /* SubCell.swift */; };
 		EF70E4F027567D270011AB06 /* Pods_mysubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF70E4EF27567D270011AB06 /* Pods_mysubs.framework */; };
 		EF70E4F32756868A0011AB06 /* BrandInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70E4F22756868A0011AB06 /* BrandInfo.swift */; };
 		EF96B984274FE1C700961F9C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF96B983274FE1C700961F9C /* AppDelegate.swift */; };
@@ -57,7 +58,8 @@
 		EF125B1127578AC600E6FD6B /* LoadImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadImage.swift; sourceTree = "<group>"; };
 		EF125B142757962500E6FD6B /* ShowAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowAlert.swift; sourceTree = "<group>"; };
 		EF125B182757C11000E6FD6B /* AddCornerRadius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCornerRadius.swift; sourceTree = "<group>"; };
-		EF125B1A2757C82D00E6FD6B /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		EF125B1A2757C82D00E6FD6B /* CategoryInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryInfo.swift; sourceTree = "<group>"; };
+		EF1F6C6A2759125E00DA0BBB /* SubCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubCell.swift; sourceTree = "<group>"; };
 		EF70E4ED27567CEA0011AB06 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF70E4EF27567D270011AB06 /* Pods_mysubs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_mysubs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF70E4F22756868A0011AB06 /* BrandInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandInfo.swift; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				EFFA24DE275644E20068DFE3 /* CollectionViewController.swift */,
+				EF1F6C6A2759125E00DA0BBB /* SubCell.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -176,7 +179,7 @@
 			children = (
 				EF70E4F22756868A0011AB06 /* BrandInfo.swift */,
 				EF125B0B2757820400E6FD6B /* SubInfo.swift */,
-				EF125B1A2757C82D00E6FD6B /* Category.swift */,
+				EF125B1A2757C82D00E6FD6B /* CategoryInfo.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -421,6 +424,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EFFA24DF275644E20068DFE3 /* CollectionViewController.swift in Sources */,
+				EF1F6C6B2759125E00DA0BBB /* SubCell.swift in Sources */,
 				EFFA24E227566E570068DFE3 /* LogoFinderService.swift in Sources */,
 				EF125B192757C11000E6FD6B /* AddCornerRadius.swift in Sources */,
 				EFC2367027550144008982D2 /* HeaderView.swift in Sources */,
@@ -433,7 +437,7 @@
 				EF125B152757962500E6FD6B /* ShowAlert.swift in Sources */,
 				EF96B98E274FE1C700961F9C /* mysubs.xcdatamodeld in Sources */,
 				EF96B986274FE1C700961F9C /* SceneDelegate.swift in Sources */,
-				EF125B1B2757C82D00E6FD6B /* Category.swift in Sources */,
+				EF125B1B2757C82D00E6FD6B /* CategoryInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

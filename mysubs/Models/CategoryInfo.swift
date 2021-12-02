@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct CategoryEntity {
+struct CategoryInfo: Decodable {
     let name: String
 }
 
-extension CategoryEntity {
+extension CategoryInfo {
     init(from category: CategoryEntity) {
-        self.name = category.name
+        self.name = category.name ?? ""
     }
 }
