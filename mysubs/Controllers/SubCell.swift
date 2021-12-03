@@ -9,11 +9,23 @@ import UIKit
 
 class SubCell: UICollectionViewCell {
         
-    @IBOutlet weak var subNameLabel: UILabel!
+    private var subNameLabel = UILabel()
+    private var stackView = UIStackView()
     
     func setup() {
-        subNameLabel?.text = "Netflix test"
+        subNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        subNameLabel.text = "Netflix test"
         subNameLabel.textColor = .systemYellow
-        self.addSubview(subNameLabel)
+        
+        addSubview(subNameLabel)
+        
+        // MARK: - Constraints
+        NSLayoutConstraint.activate([
+            subNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
+            subNameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            subNameLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 8),
+            subNameLabel.widthAnchor.constraint(equalToConstant: 100)
+        ])
+        
     }
 }

@@ -46,7 +46,7 @@ class CollectionViewController: UIViewController, UINavigationBarDelegate {
     var amountLabel = UILabel()
     var myCollectionView: UICollectionView?
     var stackView = UIStackView()
-//    var subcell = SubCell()
+    var subcell = SubCell()
     var categoryButton = AdaptableSizeButton()
     private let activityIndicator = UIActivityIndicatorView(style: .large)
     
@@ -117,22 +117,22 @@ class CollectionViewController: UIViewController, UINavigationBarDelegate {
         view.addSubview(navBar)
     }
     
-    func setUpCollectionView() {
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-//        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        layout.itemSize = CGSize(width: self.view.frame.width - 16, height: 60)
-        layout.collectionView?.backgroundColor = UIColor(named: "reverse_bg")
-        layout.scrollDirection = .vertical
-        myCollectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
-        myCollectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "SubCell")
-        myCollectionView?.backgroundColor = UIColor(named: "background")
-        myCollectionView?.dataSource = self
-        myCollectionView?.delegate = self
-        myCollectionView?.translatesAutoresizingMaskIntoConstraints = false
-        myCollectionView?.isScrollEnabled = true
-        myCollectionView?.isUserInteractionEnabled = true
-        stackView.addArrangedSubview(myCollectionView ?? UICollectionView())
-    }
+//    func setUpCollectionView() {
+//        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+////        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+//        layout.itemSize = CGSize(width: self.view.frame.width - 16, height: 60)
+//        layout.collectionView?.backgroundColor = UIColor(named: "reverse_bg")
+//        layout.scrollDirection = .vertical
+//        myCollectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
+//        myCollectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "SubCell")
+//        myCollectionView?.backgroundColor = UIColor(named: "background")
+//        myCollectionView?.dataSource = self
+//        myCollectionView?.delegate = self
+//        myCollectionView?.translatesAutoresizingMaskIntoConstraints = false
+//        myCollectionView?.isScrollEnabled = true
+//        myCollectionView?.isUserInteractionEnabled = true
+//        stackView.addArrangedSubview(myCollectionView ?? UICollectionView())
+//    }
 
     func setUpView() {
         categoryButton.translatesAutoresizingMaskIntoConstraints = false
@@ -169,6 +169,7 @@ class CollectionViewController: UIViewController, UINavigationBarDelegate {
         stackView.addArrangedSubview(myCollectionView ?? UICollectionView())
         setUpTotalAmountView()
         view.addSubview(stackView)
+//        subcell.setup()
 
     }
     
@@ -199,7 +200,6 @@ class CollectionViewController: UIViewController, UINavigationBarDelegate {
 //        amountLabel.layer.shadowOpacity = 1.0
 //        amountLabel.layer.shadowOffset = CGSize(width: 4, height: 4)
     }
-    
     func activateConstraints() {
         NSLayoutConstraint.activate([
             navBar.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 0),
@@ -214,26 +214,14 @@ class CollectionViewController: UIViewController, UINavigationBarDelegate {
             categoryButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
             stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -16),
-
-//            stackView.bottomAnchor.constraint(equalToSystemSpacingBelow: view.bottomAnchor, multiplier: 0),
             stackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 0),
             stackView.trailingAnchor.constraint(equalToSystemSpacingAfter: view.trailingAnchor, multiplier: 0),
             stackView.topAnchor.constraint(equalTo: categoryButton.bottomAnchor, constant: 16),
-//            subsView.bottomAnchor.constraint(equalToSystemSpacingBelow: view.bottomAnchor, multiplier: 0),
-//            subsView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 0),
-//            subsView.trailingAnchor.constraint(equalToSystemSpacingAfter: view.trailingAnchor, multiplier: 0),
-//            subsView.topAnchor.constraint(equalTo: categoryButton.bottomAnchor, constant: 16),
-            
+
             totalAmountView.leadingAnchor.constraint(equalToSystemSpacingAfter: stackView.leadingAnchor, multiplier: 0),
             totalAmountView.trailingAnchor.constraint(equalToSystemSpacingAfter: stackView.trailingAnchor, multiplier: 0),
-            totalAmountView.bottomAnchor.constraint(equalTo: stackView.bottomAnchor, constant: -24),
+            totalAmountView.bottomAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 0),
             totalAmountView.heightAnchor.constraint(equalToConstant: 50),
-            
-//            totalAmountView.leadingAnchor.constraint(equalToSystemSpacingAfter: subsView.leadingAnchor, multiplier: 0),
-//            totalAmountView.trailingAnchor.constraint(equalToSystemSpacingAfter: subsView.trailingAnchor, multiplier: 0),
-//            totalAmountView.bottomAnchor.constraint(equalTo: subsView.bottomAnchor, constant: -24),
-//            totalAmountView.heightAnchor.constraint(equalToConstant: 50),
-            
             totalAmountLabel.leadingAnchor.constraint(equalTo: totalAmountView.leadingAnchor, constant: 32),
             totalAmountLabel.centerYAnchor.constraint(equalTo: totalAmountView.centerYAnchor, constant: 0),
             
