@@ -124,7 +124,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wRf-6W-7zW" userLabel="ButtonAdCategory">
-                                <rect key="frame" x="74.666666666666686" y="138" width="241" height="31"/>
+                                <rect key="frame" x="75.333333333333329" y="138" width="239.33333333333337" height="31"/>
                                 <color key="backgroundColor" name="yellowgrey"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="31" id="UsJ-KP-nSY"/>
@@ -165,7 +165,7 @@
         <!--CollectionViewController-->
         <scene sceneID="Uyw-n8-WIv">
             <objects>
-                <viewController id="TG4-X9-vJF" userLabel="CollectionViewController" customClass="CollectionViewController" customModule="mysubs" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="TG4-X9-vJF" userLabel="CollectionViewController" customClass="HomeViewController" customModule="mysubs" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="pnZ-ET-15p">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

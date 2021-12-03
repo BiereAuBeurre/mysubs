@@ -23,7 +23,7 @@ class AdaptableSizeButton: UIButton {
     }
 }
 
-class CollectionViewController: UIViewController, UINavigationBarDelegate {
+class HomeViewController: UIViewController, UINavigationBarDelegate {
 // TEST CODE DATA (mettre dans viewdidLoad à partir du do pour test
 //    var subInfo = SubInfo(category: "ciné", commitment: "mensuel", extraInfo: "test", name: "NETFLIX", paymentRecurrency: "mensuel", price: 9.99, reminder: "2j avant", suggestedLogo: "rien")
 //    do {
@@ -48,7 +48,7 @@ class CollectionViewController: UIViewController, UINavigationBarDelegate {
     var stackView = UIStackView()
     var categoryButton = AdaptableSizeButton()
     private let activityIndicator = UIActivityIndicatorView(style: .large)
-    
+    let navBarAppearance = UINavigationBarAppearance()
     // MARK: Properties
     var storageService = StorageService()
     var subscriptions: [SubInfo] = []
@@ -78,7 +78,7 @@ class CollectionViewController: UIViewController, UINavigationBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-        title = "hhf"
+//        self.title = Strings.menuTitle
     }
     
     //MARK: Private methods
@@ -110,25 +110,10 @@ class CollectionViewController: UIViewController, UINavigationBarDelegate {
         navBar.backgroundColor = #colorLiteral(red: 0.1333333333, green: 0.1647058824, blue: 0.2, alpha: 1)
         let imageTitleBar = UIImage(named: "subs_dark")
         self.navigationItem.titleView = UIImageView(image: imageTitleBar)
+        self.navigationController?.navigationBar.standardAppearance = navBarAppearance
+        self.navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
         view.addSubview(navBar)
     }
-    
-//    func setUpCollectionView() {
-//        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-////        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-//        layout.itemSize = CGSize(width: self.view.frame.width - 16, height: 60)
-//        layout.collectionView?.backgroundColor = UIColor(named: "reverse_bg")
-//        layout.scrollDirection = .vertical
-//        myCollectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
-//        myCollectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "SubCell")
-//        myCollectionView?.backgroundColor = UIColor(named: "background")
-//        myCollectionView?.dataSource = self
-//        myCollectionView?.delegate = self
-//        myCollectionView?.translatesAutoresizingMaskIntoConstraints = false
-//        myCollectionView?.isScrollEnabled = true
-//        myCollectionView?.isUserInteractionEnabled = true
-//        stackView.addArrangedSubview(myCollectionView ?? UICollectionView())
-//    }
 
     func setUpView() {
         categoryButton.translatesAutoresizingMaskIntoConstraints = false
@@ -229,7 +214,7 @@ class CollectionViewController: UIViewController, UINavigationBarDelegate {
     }
 }
 
-extension CollectionViewController: UICollectionViewDataSource {
+extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 25
     }
@@ -241,7 +226,7 @@ extension CollectionViewController: UICollectionViewDataSource {
     }
 }
 
-extension CollectionViewController: UICollectionViewDelegate {
+extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
        print("item \(indexPath.row+1) tapped")
     }

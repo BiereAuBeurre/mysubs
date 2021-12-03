@@ -16,6 +16,10 @@
 		EF125B192757C11000E6FD6B /* AddCornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF125B182757C11000E6FD6B /* AddCornerRadius.swift */; };
 		EF125B1B2757C82D00E6FD6B /* CategoryInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF125B1A2757C82D00E6FD6B /* CategoryInfo.swift */; };
 		EF1F6C6B2759125E00DA0BBB /* SubCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1F6C6A2759125E00DA0BBB /* SubCell.swift */; };
+		EF1F6C6F275A464900DA0BBB /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1F6C6E275A464900DA0BBB /* Strings.swift */; };
+		EF1F6C73275A484C00DA0BBB /* MSImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1F6C72275A484C00DA0BBB /* MSImages.swift */; };
+		EF1F6C75275A4A4100DA0BBB /* MSColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1F6C74275A4A4100DA0BBB /* MSColors.swift */; };
+		EF1F6C77275A4AF100DA0BBB /* MSFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1F6C76275A4AF100DA0BBB /* MSFonts.swift */; };
 		EF70E4F027567D270011AB06 /* Pods_mysubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF70E4EF27567D270011AB06 /* Pods_mysubs.framework */; };
 		EF70E4F32756868A0011AB06 /* BrandInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70E4F22756868A0011AB06 /* BrandInfo.swift */; };
 		EF96B984274FE1C700961F9C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF96B983274FE1C700961F9C /* AppDelegate.swift */; };
@@ -26,8 +30,7 @@
 		EF96B99E274FE1C900961F9C /* mysubsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF96B99D274FE1C900961F9C /* mysubsTests.swift */; };
 		EF96B9A8274FE1C900961F9C /* mysubsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF96B9A7274FE1C900961F9C /* mysubsUITests.swift */; };
 		EF96B9AA274FE1C900961F9C /* mysubsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF96B9A9274FE1C900961F9C /* mysubsUITestsLaunchTests.swift */; };
-		EFC2367027550144008982D2 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC2366F27550144008982D2 /* HeaderView.swift */; };
-		EFFA24DF275644E20068DFE3 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFA24DE275644E20068DFE3 /* CollectionViewController.swift */; };
+		EFFA24DF275644E20068DFE3 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFA24DE275644E20068DFE3 /* HomeViewController.swift */; };
 		EFFA24E227566E570068DFE3 /* LogoFinderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFA24E127566E570068DFE3 /* LogoFinderService.swift */; };
 /* End PBXBuildFile section */
 
@@ -60,6 +63,10 @@
 		EF125B182757C11000E6FD6B /* AddCornerRadius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCornerRadius.swift; sourceTree = "<group>"; };
 		EF125B1A2757C82D00E6FD6B /* CategoryInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryInfo.swift; sourceTree = "<group>"; };
 		EF1F6C6A2759125E00DA0BBB /* SubCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubCell.swift; sourceTree = "<group>"; };
+		EF1F6C6E275A464900DA0BBB /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
+		EF1F6C72275A484C00DA0BBB /* MSImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSImages.swift; sourceTree = "<group>"; };
+		EF1F6C74275A4A4100DA0BBB /* MSColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSColors.swift; sourceTree = "<group>"; };
+		EF1F6C76275A4AF100DA0BBB /* MSFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFonts.swift; sourceTree = "<group>"; };
 		EF70E4ED27567CEA0011AB06 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF70E4EF27567D270011AB06 /* Pods_mysubs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_mysubs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF70E4F22756868A0011AB06 /* BrandInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandInfo.swift; sourceTree = "<group>"; };
@@ -69,14 +76,13 @@
 		EF96B98D274FE1C700961F9C /* mysubs.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = mysubs.xcdatamodel; sourceTree = "<group>"; };
 		EF96B98F274FE1C900961F9C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EF96B992274FE1C900961F9C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		EF96B994274FE1C900961F9C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EF96B994274FE1C900961F9C /* MySubs_Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = MySubs_Info.plist; sourceTree = "<group>"; };
 		EF96B999274FE1C900961F9C /* mysubsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mysubsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF96B99D274FE1C900961F9C /* mysubsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mysubsTests.swift; sourceTree = "<group>"; };
 		EF96B9A3274FE1C900961F9C /* mysubsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mysubsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF96B9A7274FE1C900961F9C /* mysubsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mysubsUITests.swift; sourceTree = "<group>"; };
 		EF96B9A9274FE1C900961F9C /* mysubsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mysubsUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		EFC2366F27550144008982D2 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
-		EFFA24DE275644E20068DFE3 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
+		EFFA24DE275644E20068DFE3 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		EFFA24E127566E570068DFE3 /* LogoFinderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoFinderService.swift; sourceTree = "<group>"; };
 		FAF26DAD802A3EFEB87F6109 /* Pods_mysubs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_mysubs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -131,10 +137,7 @@
 		EF125B0D2757822C00E6FD6B /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				EF96B98F274FE1C900961F9C /* Assets.xcassets */,
-				EF96B991274FE1C900961F9C /* LaunchScreen.storyboard */,
 				EF1168D52750035F00274911 /* Main.storyboard */,
-				EFC2366F27550144008982D2 /* HeaderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -142,7 +145,7 @@
 		EF125B0E2757824000E6FD6B /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				EFFA24DE275644E20068DFE3 /* CollectionViewController.swift */,
+				EFFA24DE275644E20068DFE3 /* HomeViewController.swift */,
 				EF1F6C6A2759125E00DA0BBB /* SubCell.swift */,
 			);
 			path = Controllers;
@@ -174,6 +177,80 @@
 			path = UIViewcontroller;
 			sourceTree = "<group>";
 		};
+		EF1F6C6C275A45F800DA0BBB /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				EF96B98F274FE1C900961F9C /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		EF1F6C6D275A463800DA0BBB /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				EF1F6C6E275A464900DA0BBB /* Strings.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		EF1F6C70275A471D00DA0BBB /* Supporting files */ = {
+			isa = PBXGroup;
+			children = (
+				EF96B994274FE1C900961F9C /* MySubs_Info.plist */,
+				EF96B991274FE1C900961F9C /* LaunchScreen.storyboard */,
+			);
+			path = "Supporting files";
+			sourceTree = "<group>";
+		};
+		EF1F6C71275A47DF00DA0BBB /* Styles */ = {
+			isa = PBXGroup;
+			children = (
+				EF1F6C72275A484C00DA0BBB /* MSImages.swift */,
+				EF1F6C74275A4A4100DA0BBB /* MSColors.swift */,
+				EF1F6C76275A4AF100DA0BBB /* MSFonts.swift */,
+			);
+			path = Styles;
+			sourceTree = "<group>";
+		};
+		EF1F6C78275A4BA500DA0BBB /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				EF96B985274FE1C700961F9C /* SceneDelegate.swift */,
+				EF96B983274FE1C700961F9C /* AppDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		EF1F6C79275A4BBF00DA0BBB /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		EF1F6C7A275A4C5300DA0BBB /* Flows */ = {
+			isa = PBXGroup;
+			children = (
+				EF1F6C7B275A4C9500DA0BBB /* Subscription */,
+			);
+			path = Flows;
+			sourceTree = "<group>";
+		};
+		EF1F6C7B275A4C9500DA0BBB /* Subscription */ = {
+			isa = PBXGroup;
+			children = (
+				EF1F6C7C275A4D2000DA0BBB /* Home */,
+			);
+			path = Subscription;
+			sourceTree = "<group>";
+		};
+		EF1F6C7C275A4D2000DA0BBB /* Home */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		EF70E4F1275686780011AB06 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -192,8 +269,6 @@
 				EF96B9A6274FE1C900961F9C /* mysubsUITests */,
 				EF96B981274FE1C700961F9C /* Products */,
 				C34FE279BCE2E8DE6B69B0E6 /* Pods */,
-				EF96B985274FE1C700961F9C /* SceneDelegate.swift */,
-				EF96B983274FE1C700961F9C /* AppDelegate.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -210,12 +285,18 @@
 		EF96B982274FE1C700961F9C /* mysubs */ = {
 			isa = PBXGroup;
 			children = (
+				EF1F6C7A275A4C5300DA0BBB /* Flows */,
+				EF1F6C78275A4BA500DA0BBB /* Application */,
+				EF1F6C79275A4BBF00DA0BBB /* Networking */,
 				EFFA24E027566E120068DFE3 /* Services */,
 				EF125B0F2757887700E6FD6B /* Extensions */,
+				EF1F6C71275A47DF00DA0BBB /* Styles */,
+				EF1F6C70275A471D00DA0BBB /* Supporting files */,
+				EF1F6C6D275A463800DA0BBB /* Helpers */,
+				EF1F6C6C275A45F800DA0BBB /* Resources */,
 				EF70E4F1275686780011AB06 /* Models */,
 				EF125B0D2757822C00E6FD6B /* Views */,
 				EF125B0E2757824000E6FD6B /* Controllers */,
-				EF96B994274FE1C900961F9C /* Info.plist */,
 				EF96B98C274FE1C700961F9C /* mysubs.xcdatamodeld */,
 			);
 			path = mysubs;
@@ -423,21 +504,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EFFA24DF275644E20068DFE3 /* CollectionViewController.swift in Sources */,
+				EFFA24DF275644E20068DFE3 /* HomeViewController.swift in Sources */,
 				EF1F6C6B2759125E00DA0BBB /* SubCell.swift in Sources */,
+				EF1F6C6F275A464900DA0BBB /* Strings.swift in Sources */,
 				EFFA24E227566E570068DFE3 /* LogoFinderService.swift in Sources */,
 				EF125B192757C11000E6FD6B /* AddCornerRadius.swift in Sources */,
-				EFC2367027550144008982D2 /* HeaderView.swift in Sources */,
 				EF125B0C2757820400E6FD6B /* SubInfo.swift in Sources */,
+				EF1F6C73275A484C00DA0BBB /* MSImages.swift in Sources */,
 				EF96B984274FE1C700961F9C /* AppDelegate.swift in Sources */,
 				EF125B0A275780E000E6FD6B /* StorageService.swift in Sources */,
 				EF125B0827577FA900E6FD6B /* APIConfiguration.swift in Sources */,
 				EF70E4F32756868A0011AB06 /* BrandInfo.swift in Sources */,
 				EF125B1227578AC600E6FD6B /* LoadImage.swift in Sources */,
+				EF1F6C75275A4A4100DA0BBB /* MSColors.swift in Sources */,
 				EF125B152757962500E6FD6B /* ShowAlert.swift in Sources */,
 				EF96B98E274FE1C700961F9C /* mysubs.xcdatamodeld in Sources */,
 				EF96B986274FE1C700961F9C /* SceneDelegate.swift in Sources */,
 				EF125B1B2757C82D00E6FD6B /* CategoryInfo.swift in Sources */,
+				EF1F6C77275A4AF100DA0BBB /* MSFonts.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -536,7 +620,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -591,7 +675,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -611,7 +695,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 33VL4C78U3;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = mysubs/Info.plist;
+				INFOPLIST_FILE = "mysubs/Supporting files/MySubs_Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = mysubs;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -619,6 +703,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -642,7 +727,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 33VL4C78U3;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = mysubs/Info.plist;
+				INFOPLIST_FILE = "mysubs/Supporting files/MySubs_Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = mysubs;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -650,6 +735,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
