@@ -46,7 +46,6 @@ class CollectionViewController: UIViewController, UINavigationBarDelegate {
     var amountLabel = UILabel()
     var myCollectionView: UICollectionView?
     var stackView = UIStackView()
-    var subcell = SubCell()
     var categoryButton = AdaptableSizeButton()
     private let activityIndicator = UIActivityIndicatorView(style: .large)
     
@@ -72,7 +71,6 @@ class CollectionViewController: UIViewController, UINavigationBarDelegate {
                 print("thats datas")
                 self.subscriptions = subscriptions
                 //collectionView.reloadData() (equivalent)?
-                
             }
         }
     }
@@ -80,10 +78,8 @@ class CollectionViewController: UIViewController, UINavigationBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-//        subcell.setup()
         title = "hhf"
     }
-    
     
     //MARK: Private methods
     private func resetState() {
@@ -159,7 +155,7 @@ class CollectionViewController: UIViewController, UINavigationBarDelegate {
         layout.collectionView?.backgroundColor = UIColor(named: "reverse_bg")
         layout.scrollDirection = .vertical
         myCollectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
-        myCollectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "SubCell")
+        myCollectionView?.register(SubCell.self, forCellWithReuseIdentifier: SubCell.identifier)
         myCollectionView?.backgroundColor = UIColor(named: "background")
         myCollectionView?.dataSource = self
         myCollectionView?.delegate = self
@@ -169,8 +165,6 @@ class CollectionViewController: UIViewController, UINavigationBarDelegate {
         stackView.addArrangedSubview(myCollectionView ?? UICollectionView())
         setUpTotalAmountView()
         view.addSubview(stackView)
-//        subcell.setup()
-
     }
     
     func setUpTotalAmountView() {
@@ -195,11 +189,13 @@ class CollectionViewController: UIViewController, UINavigationBarDelegate {
         amountLabel.layer.cornerRadius = 5
         amountLabel.textAlignment = .center
         amountLabel.layer.masksToBounds = true
+        
 //        amountLabel.layer.shadowColor = UIColor.black.cgColor
 //        amountLabel.layer.shadowRadius = 3.0
 //        amountLabel.layer.shadowOpacity = 1.0
 //        amountLabel.layer.shadowOffset = CGSize(width: 4, height: 4)
     }
+    
     func activateConstraints() {
         NSLayoutConstraint.activate([
             navBar.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 0),
@@ -229,32 +225,8 @@ class CollectionViewController: UIViewController, UINavigationBarDelegate {
             amountLabel.centerYAnchor.constraint(equalTo: totalAmountView.centerYAnchor, constant: 0),
             amountLabel.widthAnchor.constraint(equalToConstant: 90),
             amountLabel.heightAnchor.constraint(equalToConstant: 30),
-//            myCollectionView?.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
             ])
     }
-
-    //    func setUpSubsView() {
-    //        subsView.translatesAutoresizingMaskIntoConstraints = false
-    //        subsView.backgroundColor = UIColor(named: "background")
-    //        view.addSubview(subsView)
-    //
-    //        //MARK: Collection View
-    //        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-    //        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-    //        layout.itemSize = CGSize(width: self.view.frame.width - 16, height: 60)
-    //        layout.collectionView?.backgroundColor = UIColor(named: "reverse_bg")
-    //        layout.scrollDirection = .vertical
-    //        myCollectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
-    //        myCollectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "SubCell")
-    //        myCollectionView?.backgroundColor = UIColor(named: "background")
-    //        myCollectionView?.dataSource = self
-    //        myCollectionView?.delegate = self
-    //        myCollectionView?.translatesAutoresizingMaskIntoConstraints = false
-    //        myCollectionView?.isScrollEnabled = true
-    //        myCollectionView?.isUserInteractionEnabled = true
-    //        subsView.addSubview(myCollectionView ?? UICollectionView())
-    //    }
-    
 }
 
 extension CollectionViewController: UICollectionViewDataSource {
@@ -263,15 +235,14 @@ extension CollectionViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let myCell = collectionView.dequeueReusableCell(withReuseIdentifier: "SubCell", for: indexPath)
+        let myCell = collectionView.dequeueReusableCell(withReuseIdentifier: SubCell.identifier, for: indexPath)
         myCell.backgroundColor = UIColor(named: "reverse_bg")
         return myCell
     }
 }
 
 extension CollectionViewController: UICollectionViewDelegate {
- 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-       print("User tapped on item \(indexPath.row+1)")
+       print("item \(indexPath.row+1) tapped")
     }
 }
