@@ -47,7 +47,6 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     var stackView = UIStackView()
     var categoryButton = AdaptableSizeButton()
     private let activityIndicator = UIActivityIndicatorView(style: .large)
-//    let navBarAppearance = UINavigationBarAppearance()
     // MARK: Properties
     var storageService = StorageService()
     var subscriptions: [SubInfo] = []
@@ -76,8 +75,6 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-        
-//        self.title = Strings.menuTitle
     }
     
     //MARK: Private methods
@@ -115,23 +112,24 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
                                           target: self,
                                           action: #selector(test))
         navigationItem.rightBarButtonItem = rightButton
+        
         //DISPLAYING SETTINGS BUTTON
         let leftButton = UIBarButtonItem(image: UIImage(named: "menu_button")!,
-                                          style: .plain,
+                                         style: .plain,
                                           target: self,
                                           action: #selector(test))
         navigationItem.leftBarButtonItem = leftButton
-//        self.navigationController?.navigationBar.standardAppearance = navBarAppearance
-//        self.navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
-
-    }
+        leftButton.tintColor = #colorLiteral(red: 0.9333333373, green: 0.9333333373, blue: 0.9333333373, alpha: 1)
+        rightButton.tintColor = #colorLiteral(red: 0.9333333373, green: 0.9333333373, blue: 0.9333333373, alpha: 1)
+        }
+    
     @objc func test(){
         print("test")
     }
+    
     func setUpView() {
         categoryButton.translatesAutoresizingMaskIntoConstraints = false
         categoryButton.setTitle(category.name, for: UIControl.State.normal)
-        //       categoryButton.setTitle(" Ajouter une category ", for: UIControl.State.normal)
         categoryButton.titleLabel?.adjustsFontForContentSizeCategory = true
         categoryButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title2)
         categoryButton.backgroundColor = UIColor(named: "reverse_bg")
@@ -148,9 +146,8 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
 
         //MARK: Collection View
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-//        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.itemSize = CGSize(width: self.view.frame.width - 16, height: 60)
-        layout.collectionView?.backgroundColor = UIColor(named: "reverse_bg")
+//        layout.collectionView?.backgroundColor = .systemRed//UIColor(named: "background")
         layout.scrollDirection = .vertical
         myCollectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         myCollectionView?.register(SubCell.self, forCellWithReuseIdentifier: SubCell.identifier)
@@ -196,14 +193,8 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     
     func activateConstraints() {
         NSLayoutConstraint.activate([
-//            navBar.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 0),
-//            navBar.topAnchor.constraint(equalToSystemSpacingBelow: view.topAnchor, multiplier: 0),
-//            navBar.trailingAnchor.constraint(equalToSystemSpacingAfter: view.trailingAnchor, multiplier: 0),
-//            navBar.heightAnchor.constraint(equalToConstant: 100),
-//
             categoryButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             categoryButton.heightAnchor.constraint(equalToConstant: 50),
-//            categoryButton.topAnchor.constraint(equalTo: navBar.bottomAnchor, constant: 16),
             categoryButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
 
             categoryButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
@@ -236,7 +227,7 @@ extension HomeViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let myCell = collectionView.dequeueReusableCell(withReuseIdentifier: SubCell.identifier, for: indexPath)
-        myCell.backgroundColor = UIColor(named: "reverse_bg")
+        myCell.backgroundColor = .systemBlue//UIColor(named: "background")
         return myCell
     }
 }

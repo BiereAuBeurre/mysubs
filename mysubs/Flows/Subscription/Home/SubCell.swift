@@ -16,7 +16,7 @@ class SubCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .systemBlue
+        contentView.backgroundColor = UIColor(named: "reverse_bg")
         setup()
     }
     
@@ -47,7 +47,7 @@ class SubCell: UICollectionViewCell {
         // MARK: - Constraints
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 8),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
             stackView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
             logo.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: 0),
@@ -55,14 +55,9 @@ class SubCell: UICollectionViewCell {
             logo.bottomAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 0),
             logo.widthAnchor.constraint(equalToConstant: 34),
 //
-//            subNameLabel.leadingAnchor.constraint(equalTo: logo.trailingAnchor, constant: 8),
-//            subNameLabel.topAnchor.constraint(equalTo: stackView.topAnchor, constant: 8),
-//            subNameLabel.bottomAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 8)
-//            logo.topAnchor.constraint(equalTo: topAnchor, constant: 8),
-//            logo.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
-//            logo.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-//            logo.widthAnchor.constraint(equalToConstant: 40),
-//            logo.trailingAnchor.constraint(equalTo: subNameLabel.leadingAnchor, constant: 16),
+//            subNameLabel.leadingAnchor.constraint(equalTo: logo.trailingAnchor, constant: 16),
+//            subNameLabel.topAnchor.constraint(equalTo: stackView.topAnchor, constant: 0),
+//            subNameLabel.bottomAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 0)
 //            subNameLabel.trailingAnchor.constraint(equalTo: logo.trailingAnchor, constant: 16),
 //            subNameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 8),
 //            subNameLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 8),

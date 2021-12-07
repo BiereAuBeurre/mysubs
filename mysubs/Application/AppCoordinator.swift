@@ -26,7 +26,7 @@ class AppCoordinator: Coordinator {
     }
     
     private func startHomeFlow() {
-        let homeViewController = HomeViewController() //aura propriété viewmodel
+        let homeViewController = NewSubController()//HomeViewController() //aura propriété viewmodel
         //let homeViewModel = HomeViewModel() <- gere appel réseau, core data, on injecte service initialisé plus haut
        // homeViewController.viewModel = homeViewModel (aura un viewDelegate qui sera la viewcontroller)
         // (le viewmodel sera de type protocol : viewMOdel: HomeViewMOdelProtocol)
@@ -41,15 +41,17 @@ class AppCoordinator: Coordinator {
         navigationController.setViewControllers([homeViewController], animated: false)
         window.rootViewController = navigationController
         let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.backgroundColor = #colorLiteral(red: 0.1325160861, green: 0.1609178782, blue: 0.1995640397, alpha: 1)
+        navigationController.navigationBar.standardAppearance.backgroundColor = #colorLiteral(red: 0, green: 0.1313822269, blue: 0.2973747551, alpha: 1)
+
         navigationController.navigationBar.standardAppearance = navBarAppearance
         navigationController.navigationBar.scrollEdgeAppearance = navBarAppearance
-        navBarAppearance.backgroundColor = #colorLiteral(red: 0.1325160861, green: 0.1609178782, blue: 0.1995640397, alpha: 1)
-
-//        navigationController.navigationBar.backgroundColor = #colorLiteral(red: 0.1325160861, green: 0.1609178782, blue: 0.1995640397, alpha: 1)
-//        navigationController.navigationBar.barTintColor = #colorLiteral(red: 0.1325160861, green: 0.1609178782, blue: 0.1995640397, alpha: 1)
-//        let imageTitleBar = UIImage(named: "subs_dark")
-//        self.navigationController.navigationItem.titleView = UIImageView(image: imageTitleBar)
-        
         }
+    
+    @IBAction func addSubscription(_ sender: UIButton) {
+        let vc = NewSubController()
+//        vc.coordinator = self
+        navigationController.pushViewController(vc, animated: true)
+    }
     
 }

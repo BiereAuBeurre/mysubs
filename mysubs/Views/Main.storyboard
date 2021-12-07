@@ -42,14 +42,15 @@
                                         </buttonConfiguration>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IYs-CB-3WN" userLabel="ButtonPlus">
-                                        <rect key="frame" x="286" y="40" width="74" height="40"/>
+                                        <rect key="frame" x="296" y="40" width="64" height="30"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="srx-nV-RvQ"/>
+                                            <constraint firstAttribute="height" constant="30" id="srx-nV-RvQ"/>
                                         </constraints>
                                         <color key="tintColor" red="0.93333333730000001" green="0.93333333730000001" blue="0.93333333730000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain">
                                             <imageReference key="image" image="plus_button" symbolScale="large"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" scale="small"/>
                                         </buttonConfiguration>
                                     </button>
                                 </subviews>
@@ -459,7 +460,7 @@
         <image name="306-3062771_a-better-way-to-innovate-adobe-white-logo" width="243" height="330"/>
         <image name="gearshape.fill" catalog="system" width="128" height="121"/>
         <image name="plus.circle.fill" catalog="system" width="128" height="121"/>
-        <image name="plus_button" width="50" height="50"/>
+        <image name="plus_button" width="40" height="40"/>
         <image name="subs_dark" width="500" height="250"/>
         <namedColor name="background">
             <color red="0.93300002813339233" green="0.93300002813339233" blue="0.93300002813339233" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>

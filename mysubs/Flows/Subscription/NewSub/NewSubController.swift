@@ -18,29 +18,56 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     var leftSideStackView = UIStackView()
     var rightSideStackView = UIStackView()
     var formView = UIStackView()
+    var name = UILabel()
+    var nameFilling = UITextField()
+    var commitment = UILabel()
+    var commitmentFilling = UITextField()
+    var category = UILabel()
+    var categoryFilling = UITextField() //A changer pour appeler liste des catégories user
+    var info = UILabel()
+    var infoFilling = UITextField()
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setUpNavBar()
+        setUpNavBar()
         setUpView()
         activateConstraints()
         // Do any additional setup after loading the view.
     }
     
-//    func setUpNavBar() {
-//        navBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 100))
-//        navBar.delegate = self
-//        navBar.translatesAutoresizingMaskIntoConstraints = false
-//        navBar.isHidden = false
-//        navBar.backgroundColor = #colorLiteral(red: 0.1333333333, green: 0.1647058824, blue: 0.2, alpha: 1)
-//        let imageTitleBar = UIImage(named: "subs_dark")
-//        self.navigationItem.titleView = UIImageView(image: imageTitleBar)
-//        self.navigationController?.navigationBar.standardAppearance = navBarAppearance
-//        self.navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
-//        view.addSubview(navBar)
-//    }
+    func setUpNavBar() {
+        // DISPLAYING LOGO
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 38, height: 38))
+        imageView.contentMode = .scaleAspectFit
+        let image = UIImage(named: "subs_dark")
+        imageView.image = image
+        navigationItem.titleView = imageView
+        
+        //DISPLAYING "+" BUTTON
+        let rightButton = UIBarButtonItem(image: UIImage(named: "plus_button"),
+                                          style: .plain,
+                                          target: self,
+                                          action: #selector(test))
+        navigationItem.rightBarButtonItem = rightButton
+        
+        //DISPLAYING SETTINGS BUTTON
+        let leftButton = UIBarButtonItem(image: UIImage(named: "menu_button")!,
+                                         style: .plain,
+                                         target: self,
+                                         action: #selector(test))
+        navigationItem.leftBarButtonItem = leftButton
+        leftButton.tintColor = #colorLiteral(red: 0.9333333373, green: 0.9333333373, blue: 0.9333333373, alpha: 1)
+        rightButton.tintColor = #colorLiteral(red: 0.9333333373, green: 0.9333333373, blue: 0.9333333373, alpha: 1)
+    }
+    
+    @objc func test(){
+        print("test")
+    }
     
     func setUpView() {
+        view.backgroundColor = UIColor(named: "background")
         newSubLabel.text = "Nouvel abonnement"
         newSubLabel.font = UIFont.preferredFont(forTextStyle: .title2)
         newSubLabel.textColor = UIColor(named: "mainText")
@@ -62,9 +89,49 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         view.addSubview(separatorLine)
 
         leftSideStackView.translatesAutoresizingMaskIntoConstraints = false
+        leftSideStackView.alignment = .fill
+        leftSideStackView.distribution = .fillEqually
+        //MARK: Adding name field
+        leftSideStackView.addArrangedSubview(name)
+        name.translatesAutoresizingMaskIntoConstraints = false
+        name.text = "Nom"
+        leftSideStackView.addArrangedSubview(nameFilling)
+        nameFilling.text = "netflix"
+        nameFilling.borderStyle = .roundedRect
+        nameFilling.translatesAutoresizingMaskIntoConstraints = false
+        
+        //MARK: Adding commitment field
+        leftSideStackView.addArrangedSubview(commitment)
+        commitment.translatesAutoresizingMaskIntoConstraints = false
+        commitment.text = "Engagement"
+        leftSideStackView.addArrangedSubview(commitmentFilling)
+        commitmentFilling.borderStyle = .roundedRect
+        commitmentFilling.translatesAutoresizingMaskIntoConstraints = false
+        commitmentFilling.text = "Mensuel" // changer pour liste préconçue
+        
+        //MARK: Adding category field
+        leftSideStackView.addArrangedSubview(category)
+        category.translatesAutoresizingMaskIntoConstraints = false
+        category.text = "Catégorie"
+        leftSideStackView.addArrangedSubview(categoryFilling)
+        categoryFilling.borderStyle = .roundedRect
+        categoryFilling.translatesAutoresizingMaskIntoConstraints = false
+        commitmentFilling.text = "Loisirs" // changer pour liste préconçue
+        
+        //MARK: Adding info field
+        leftSideStackView.addArrangedSubview(info)
+        info.translatesAutoresizingMaskIntoConstraints = false
+        info.text = "INFOS"
+        leftSideStackView.addArrangedSubview(infoFilling)
+        infoFilling.borderStyle = .roundedRect
+        infoFilling.translatesAutoresizingMaskIntoConstraints = false
+        infoFilling.text = "Période d'essai"
+
         rightSideStackView.translatesAutoresizingMaskIntoConstraints = false
+        rightSideStackView.alignment = .fill
+        rightSideStackView.distribution = .fillEqually
         formView.translatesAutoresizingMaskIntoConstraints = false
-        formView.axis = .vertical
+        formView.axis = .horizontal
         leftSideStackView.axis = .vertical
         rightSideStackView.axis = .vertical
         view.addSubview(formView)
@@ -82,7 +149,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
 //            navBar.topAnchor.constraint(equalToSystemSpacingBelow: view.topAnchor, multiplier: 0),
 //            navBar.trailingAnchor.constraint(equalToSystemSpacingAfter: view.trailingAnchor, multiplier: 0),
 //            navBar.heightAnchor.constraint(equalToConstant: 100),
-//            titleView.topAnchor.constraint(equalTo: navBar.bottomAnchor, constant: 16),
+            titleView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
             titleView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             titleView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             titleView.heightAnchor.constraint(equalToConstant: 30),
@@ -105,7 +172,10 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
             formView.topAnchor.constraint(equalTo: separatorLine.bottomAnchor, constant: 16),
             formView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             formView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            formView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -16),
+            formView.heightAnchor.constraint(equalToConstant: 400)
+//            formView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -16),
+            
+            
 //            leftSideStackView.leadingAnchor.constraint(equalTo: formView.leadingAnchor),
 //            leftSideStackView.topAnchor.constraint(equalTo: formView.topAnchor),
 //            leftSideStackView.bottomAnchor.constraint(equalTo: formView.bottomAnchor),

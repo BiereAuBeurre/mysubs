@@ -248,6 +248,7 @@
 			isa = PBXGroup;
 			children = (
 				EFFA24DE275644E20068DFE3 /* HomeViewController.swift */,
+				EF1F6C6A2759125E00DA0BBB /* SubCell.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -266,7 +267,6 @@
 			isa = PBXGroup;
 			children = (
 				EF9072EA275E1FE8006CF678 /* NewSubController.swift */,
-				EF1F6C6A2759125E00DA0BBB /* SubCell.swift */,
 			);
 			path = NewSub;
 			sourceTree = "<group>";
