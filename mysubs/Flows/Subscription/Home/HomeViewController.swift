@@ -22,7 +22,7 @@ class AdaptableSizeButton: UIButton {
         return desiredButtonSize
     }
 }
-
+//créer tabbar, 1 navigationcontroller pour chaque objet 
 class HomeViewController: UIViewController, UINavigationBarDelegate {
 // TEST CODE DATA (mettre dans viewdidLoad à partir du do pour test
 //    var subInfo = SubInfo(category: "ciné", commitment: "mensuel", extraInfo: "test", name: "NETFLIX", paymentRecurrency: "mensuel", price: 9.99, reminder: "2j avant", suggestedLogo: "rien")
@@ -39,7 +39,6 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     var category = CategoryInfo(name: " Ajouter une catégorie ")
     
     // MARK: UI Properties
-    var navBar: UINavigationBar!
     var subsView = UIView()
     var totalAmountView = UIView()
     var totalAmountLabel = UILabel()
@@ -48,11 +47,10 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     var stackView = UIStackView()
     var categoryButton = AdaptableSizeButton()
     private let activityIndicator = UIActivityIndicatorView(style: .large)
-    let navBarAppearance = UINavigationBarAppearance()
+//    let navBarAppearance = UINavigationBarAppearance()
     // MARK: Properties
     var storageService = StorageService()
     var subscriptions: [SubInfo] = []
-    
     
     var viewState: State<[SubInfo]> = .empty {
         didSet {
@@ -78,6 +76,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
+        
 //        self.title = Strings.menuTitle
     }
     
@@ -103,18 +102,32 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     }
     
     func setUpNavBar() {
-        navBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 100))
-        navBar.delegate = self
-        navBar.translatesAutoresizingMaskIntoConstraints = false
-        navBar.isHidden = false
-        navBar.backgroundColor = #colorLiteral(red: 0.1333333333, green: 0.1647058824, blue: 0.2, alpha: 1)
-        let imageTitleBar = UIImage(named: "subs_dark")
-        self.navigationItem.titleView = UIImageView(image: imageTitleBar)
-        self.navigationController?.navigationBar.standardAppearance = navBarAppearance
-        self.navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
-        view.addSubview(navBar)
-    }
+        // DISPLAYING LOGO
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 38, height: 38))
+        imageView.contentMode = .scaleAspectFit
+            let image = UIImage(named: "subs_dark")
+            imageView.image = image
+            navigationItem.titleView = imageView
+        
+        //DISPLAYING "+" BUTTON
+        let rightButton = UIBarButtonItem(image: UIImage(named: "plus_button"),
+                                          style: .plain,
+                                          target: self,
+                                          action: #selector(test))
+        navigationItem.rightBarButtonItem = rightButton
+        //DISPLAYING SETTINGS BUTTON
+        let leftButton = UIBarButtonItem(image: UIImage(named: "menu_button")!,
+                                          style: .plain,
+                                          target: self,
+                                          action: #selector(test))
+        navigationItem.leftBarButtonItem = leftButton
+//        self.navigationController?.navigationBar.standardAppearance = navBarAppearance
+//        self.navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
 
+    }
+    @objc func test(){
+        print("test")
+    }
     func setUpView() {
         categoryButton.translatesAutoresizingMaskIntoConstraints = false
         categoryButton.setTitle(category.name, for: UIControl.State.normal)
@@ -183,14 +196,16 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     
     func activateConstraints() {
         NSLayoutConstraint.activate([
-            navBar.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 0),
-            navBar.topAnchor.constraint(equalToSystemSpacingBelow: view.topAnchor, multiplier: 0),
-            navBar.trailingAnchor.constraint(equalToSystemSpacingAfter: view.trailingAnchor, multiplier: 0),
-            navBar.heightAnchor.constraint(equalToConstant: 100),
-            
+//            navBar.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 0),
+//            navBar.topAnchor.constraint(equalToSystemSpacingBelow: view.topAnchor, multiplier: 0),
+//            navBar.trailingAnchor.constraint(equalToSystemSpacingAfter: view.trailingAnchor, multiplier: 0),
+//            navBar.heightAnchor.constraint(equalToConstant: 100),
+//
             categoryButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             categoryButton.heightAnchor.constraint(equalToConstant: 50),
-            categoryButton.topAnchor.constraint(equalTo: navBar.bottomAnchor, constant: 16),
+//            categoryButton.topAnchor.constraint(equalTo: navBar.bottomAnchor, constant: 16),
+            categoryButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+
             categoryButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             categoryButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
