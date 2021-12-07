@@ -106,26 +106,33 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
             imageView.image = image
             navigationItem.titleView = imageView
         
-        //DISPLAYING "+" BUTTON
-        let rightButton = UIBarButtonItem(image: UIImage(named: "plus_button"),
-                                          style: .plain,
-                                          target: self,
-                                          action: #selector(test))
-        navigationItem.rightBarButtonItem = rightButton
-        
         //DISPLAYING SETTINGS BUTTON
-        let leftButton = UIBarButtonItem(image: UIImage(named: "menu_button")!,
-                                         style: .plain,
-                                          target: self,
-                                          action: #selector(test))
-        navigationItem.leftBarButtonItem = leftButton
-        leftButton.tintColor = #colorLiteral(red: 0.9333333373, green: 0.9333333373, blue: 0.9333333373, alpha: 1)
-        rightButton.tintColor = #colorLiteral(red: 0.9333333373, green: 0.9333333373, blue: 0.9333333373, alpha: 1)
+        let menuButton = UIButton(type: .custom)
+           menuButton.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
+           menuButton.setImage(UIImage(named:"menu_button"), for: .normal)
+        let menuBarItem = UIBarButtonItem(customView: menuButton)
+        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 24)
+            currWidth?.isActive = true
+            let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 24)
+            currHeight?.isActive = true
+        navigationItem.leftBarButtonItem = menuBarItem
+        
+        //DISPLAYING Plus BUTTON
+        let plusButton = UIButton(type: .custom)
+           plusButton.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
+           plusButton.setImage(UIImage(named:"plus_button"), for: .normal)
+        let plusBarItem = UIBarButtonItem(customView: plusButton)
+        let plusWidth = plusBarItem.customView?.widthAnchor.constraint(equalToConstant: 24)
+            plusWidth?.isActive = true
+            let plusHeight = plusBarItem.customView?.heightAnchor.constraint(equalToConstant: 24)
+            plusHeight?.isActive = true
+        
+        navigationItem.rightBarButtonItem = plusBarItem
         }
     
-    @objc func test(){
-        print("test")
-    }
+//    @objc func test(){
+//        print("test")
+//    }
     
     func setUpView() {
         categoryButton.translatesAutoresizingMaskIntoConstraints = false
