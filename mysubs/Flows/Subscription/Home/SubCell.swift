@@ -16,7 +16,7 @@ class SubCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = UIColor(named: "reverse_bg")
+        contentView.backgroundColor = .systemPink//UIColor(named: "background")
         setup()
     }
     

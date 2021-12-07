@@ -1,19 +1,17 @@
 //
-//  NewSubController.swift
+//  EditSubController.swift
 //  mysubs
 //
-//  Created by Manon Russo on 06/12/2021.
+//  Created by Manon Russo on 07/12/2021.
 //
 
 import UIKit
 
-class NewSubController: UIViewController, UINavigationBarDelegate {
-//    var navBar: UINavigationBar!
-//    let navBarAppearance = UINavigationBarAppearance()
-    var newSubLabel = UILabel()
-    var titleView = UIView()
-    var addButton = UIButton()
-    var separatorLine = UIView()
+class EditSubController: UIViewController {
+
+    var logoHeader = UIImageView()
+    var validateButton = UIButton()
+    
     //MARK: LeftSideStackView properties
     var leftSideStackView = UIStackView()
     var formView = UIStackView()
@@ -38,6 +36,11 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     //MARK: LOGO PROPERTY
     var suggestedLogo = UILabel()
     var logo = UIImageView()
+    
+    //MARK: FOOTER BUTTON PROPERTY
+    var footerStackView = UIStackView()
+    var modifyButton = UIButton()
+    var deleteButton = UIButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,44 +82,23 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         navigationItem.rightBarButtonItem = plusBarItem
     }
     
-//    @objc func test(){
-//        print("test")
-//    }
-    
-
-    func setUpView() {
-        
-        // MARK: SETTING TITLE
+    func setUpView(){
         view.backgroundColor = UIColor(named: "background")
-        newSubLabel.text = "Nouvel abonnement"
-        newSubLabel.font = UIFont.preferredFont(forTextStyle: .title2)
-        newSubLabel.textColor = UIColor(named: "maintext")
-        newSubLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleView.translatesAutoresizingMaskIntoConstraints = false
-        addButton.translatesAutoresizingMaskIntoConstraints = false
-        addButton.setTitle("Ajouter", for: .normal)
-        addButton.titleLabel?.adjustsFontForContentSizeCategory = true
-        addButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3)
-        addButton.setTitleColor(UIColor(named: "maintext"), for: UIControl.State.normal)
-        view.addSubview(titleView)
-        view.addSubview(logo)
-        view.addSubview(suggestedLogo)
-        titleView.addSubview(newSubLabel)
-        titleView.addSubview(addButton)
-        // MARK: SEPARATOR LINE VIEW
-        separatorLine.translatesAutoresizingMaskIntoConstraints = false
-        separatorLine.backgroundColor = UIColor(named: "yellowgrey")
-        view.addSubview(separatorLine)
-
+        logoHeader.translatesAutoresizingMaskIntoConstraints = false
+        logoHeader.image = UIImage(named: "ps")
+        view.addSubview(logoHeader)
+        validateButton.translatesAutoresizingMaskIntoConstraints = false
+        validateButton.setTitle("Valider", for: .normal)
+        validateButton.setTitleColor(UIColor(named: "maintext"), for: .normal)
+        view.addSubview(validateButton)
+        
         // MARK: FORMVIEW
         formView.translatesAutoresizingMaskIntoConstraints = false
         formView.axis = .horizontal
         formView.alignment = .top
-        formView.distribution = .fillEqually
         formView.spacing = 8
+        formView.distribution = .fillEqually
         view.addSubview(formView)
-        formView.addArrangedSubview(leftSideStackView)
-        formView.addArrangedSubview(rightSideStackView)
         
     //MARK: LEFTSIDE STACKVIEW
         leftSideStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -125,6 +107,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         leftSideStackView.alignment = .fill
         leftSideStackView.distribution = .fillEqually
         leftSideStackView.spacing = 8
+        
         //MARK: Adding name field
         leftSideStackView.addArrangedSubview(name)
         name.translatesAutoresizingMaskIntoConstraints = false
@@ -165,6 +148,8 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         infoField.translatesAutoresizingMaskIntoConstraints = false
         infoField.text = "Période d'essai"
         
+        formView.addArrangedSubview(leftSideStackView)
+        
     //MARK: RIGHTSIDE STACKVIEW
         rightSideStackView.translatesAutoresizingMaskIntoConstraints = false
         rightSideStackView.contentMode = .scaleToFill
@@ -200,49 +185,60 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         recurrencyField.borderStyle = .roundedRect
         recurrencyField.translatesAutoresizingMaskIntoConstraints = false
         
-        //MARK: Adding logo suggestion
+        formView.addArrangedSubview(rightSideStackView)
+
+    //MARK: Adding logo suggestion
         suggestedLogo.translatesAutoresizingMaskIntoConstraints = false
         logo.translatesAutoresizingMaskIntoConstraints = false
         suggestedLogo.text = "Logo suggéré"
         logo.image = UIImage(named: "ps")
+        
+        
+    //MARK: FOOTER BUTTONS
+        footerStackView.translatesAutoresizingMaskIntoConstraints = false
+        footerStackView.axis = .horizontal
+        footerStackView.alignment = .fill
+        footerStackView.distribution = .fillEqually
+        footerStackView.contentMode = .scaleToFill
+        footerStackView.spacing = 16
+//        footerStackView.layer.borderWidth = 2
+//        footerStackView.layer.borderColor = #colorLiteral(red: 0.2237218916, green: 0.2467257082, blue: 0.2812070549, alpha: 1)
+        modifyButton.backgroundColor = UIColor(named: "reverse_bg")
+        modifyButton.addCornerRadius()
+        deleteButton.backgroundColor = UIColor(named: "reverse_bg")
+        deleteButton.addCornerRadius()
+        view.addSubview(footerStackView)
+        modifyButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        deleteButton.titleLabel?.textAlignment = .center
+        footerStackView.addArrangedSubview(modifyButton)
+        modifyButton.setTitle("Modifier", for: .normal)
+        modifyButton.titleLabel!.textAlignment = .center
+        modifyButton.setTitleColor(UIColor(named: "background"), for: .normal)
+        deleteButton.translatesAutoresizingMaskIntoConstraints = false
+        footerStackView.addArrangedSubview(deleteButton)
+        deleteButton.setTitle("Supprimer", for: .normal)
+        deleteButton.setTitleColor(UIColor(named: "background"), for: .normal)
+        
+        
     }
     
     func activateConstraints() {
         NSLayoutConstraint.activate([
-            titleView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
-            titleView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            titleView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            titleView.heightAnchor.constraint(equalToConstant: 30),
-            
-            newSubLabel.topAnchor.constraint(equalTo: titleView.topAnchor, constant: 0),
-            newSubLabel.leadingAnchor.constraint(equalTo: titleView.leadingAnchor, constant: 0),
-//            newSubLabel.trailingAnchor.constraint(equalTo: addButton.leadingAnchor, constant: 16),
-            newSubLabel.heightAnchor.constraint(equalToConstant: 20),
-            
-            addButton.topAnchor.constraint(equalTo: titleView.topAnchor, constant: 0),
-            addButton.trailingAnchor.constraint(equalTo: titleView.trailingAnchor, constant: -0),
-            addButton.heightAnchor.constraint(equalToConstant: 20),
-            
-            separatorLine.heightAnchor.constraint(equalToConstant: 1),
-            separatorLine.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: 8),
-            separatorLine.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            separatorLine.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            separatorLine.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
-            formView.topAnchor.constraint(equalTo: separatorLine.bottomAnchor, constant: 16),
-            formView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            formView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            formView.heightAnchor.constraint(equalToConstant: 350),
-            
-            suggestedLogo.topAnchor.constraint(equalTo: formView.bottomAnchor, constant: 16),
-            suggestedLogo.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            logo.topAnchor.constraint(equalTo: suggestedLogo.bottomAnchor, constant: 8),
-            logo.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
-,
-            logo.widthAnchor.constraint(equalToConstant: 100),
-            logo.heightAnchor.constraint(equalToConstant: 100)
-            
-            
-            ])
+        logoHeader.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+        logoHeader.widthAnchor.constraint(equalToConstant: 50),
+        logoHeader.heightAnchor.constraint(equalToConstant: 50),
+        logoHeader.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+        validateButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+        validateButton.centerYAnchor.constraint(equalTo: logoHeader.centerYAnchor, constant: 0),
+        formView.topAnchor.constraint(equalTo: logoHeader.bottomAnchor, constant: 16),
+        formView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+        formView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+        formView.heightAnchor.constraint(equalToConstant: 350),
+        footerStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -24),
+        footerStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+        footerStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+        footerStackView.heightAnchor.constraint(equalToConstant: 40)
+        ])
     }
 }

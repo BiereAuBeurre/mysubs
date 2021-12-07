@@ -26,7 +26,7 @@ class AppCoordinator: Coordinator {
     }
     
     private func startHomeFlow() {
-        let homeViewController = NewSubController()//HomeViewController() //aura propriété viewmodel
+        let homeViewController = HomeViewController()//EditSubController()  //aura propriété viewmodel
         //let homeViewModel = HomeViewModel() <- gere appel réseau, core data, on injecte service initialisé plus haut
        // homeViewController.viewModel = homeViewModel (aura un viewDelegate qui sera la viewcontroller)
         // (le viewmodel sera de type protocol : viewMOdel: HomeViewMOdelProtocol)

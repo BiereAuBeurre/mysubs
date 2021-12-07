@@ -135,6 +135,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
 //    }
     
     func setUpView() {
+        view.backgroundColor = UIColor(named: "background")
         categoryButton.translatesAutoresizingMaskIntoConstraints = false
         categoryButton.setTitle(category.name, for: UIControl.State.normal)
         categoryButton.titleLabel?.adjustsFontForContentSizeCategory = true
@@ -154,7 +155,6 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         //MARK: Collection View
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: self.view.frame.width - 16, height: 60)
-//        layout.collectionView?.backgroundColor = .systemRed//UIColor(named: "background")
         layout.scrollDirection = .vertical
         myCollectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         myCollectionView?.register(SubCell.self, forCellWithReuseIdentifier: SubCell.identifier)
@@ -234,7 +234,8 @@ extension HomeViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let myCell = collectionView.dequeueReusableCell(withReuseIdentifier: SubCell.identifier, for: indexPath)
-        myCell.backgroundColor = .systemBlue//UIColor(named: "background")
+//        myCell.backgroundColor = .systemBlue
+//        UIColor(named: "background")
         return myCell
     }
 }
