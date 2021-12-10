@@ -21,7 +21,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     var nameField = UITextField()
     var commitment = UILabel()
     var commitmentField = UITextField()
-    var category = UILabel()
+    var categoryLabel = UILabel()
     var categoryField = UITextField() //A changer pour appeler liste des catégories user
     var info = UILabel()
     var infoField = UITextField()
@@ -39,12 +39,20 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     var suggestedLogo = UILabel()
     var logo = UIImageView()
     
+    weak var coordinator: AppCoordinator?
+    var category: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpNavBar()
+//        setUpNavBar()
         setUpView()
         activateConstraints()
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("Category : \(category ?? "Missing")")
     }
     
     func setUpNavBar() {
@@ -146,10 +154,10 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         commitmentField.text = "Annuel" // changer pour liste préconçue
         
         //MARK: Adding category field
-        leftSideStackView.addArrangedSubview(category)
-        category.translatesAutoresizingMaskIntoConstraints = false
-        category.text = "Catégorie"
-        category.textColor = UIColor(named: "maintext")
+        leftSideStackView.addArrangedSubview(categoryLabel)
+        categoryLabel.translatesAutoresizingMaskIntoConstraints = false
+        categoryLabel.text = "Catégorie"
+        categoryLabel.textColor = UIColor(named: "maintext")
         leftSideStackView.addArrangedSubview(categoryField)
         categoryField.borderStyle = .roundedRect
         categoryField.translatesAutoresizingMaskIntoConstraints = false

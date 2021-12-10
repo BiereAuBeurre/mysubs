@@ -111,13 +111,6 @@
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dna-PB-6Mh">
-                                        <rect key="frame" x="107" y="302" width="67" height="31"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" name="maintext"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="Button"/>
-                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" name="background"/>
                                 <constraints>
@@ -213,9 +206,6 @@
         <image name="subs_dark" width="500" height="250"/>
         <namedColor name="background">
             <color red="0.93300002813339233" green="0.93300002813339233" blue="0.93300002813339233" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-        </namedColor>
-        <namedColor name="maintext">
-            <color red="0.22800000011920929" green="0.2460000067949295" blue="0.27799999713897705" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="yellowgrey">
             <color red="0.1379999965429306" green="0.15999999642372131" blue="0.19599999487400055" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>

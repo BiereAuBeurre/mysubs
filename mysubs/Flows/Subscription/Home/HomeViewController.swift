@@ -15,13 +15,13 @@ enum State<Data> {
     case showData(Data)
 }
 
-class AdaptableSizeButton: UIButton {
-    override var intrinsicContentSize: CGSize {
-        let labelSize = titleLabel?.sizeThatFits(CGSize(width: frame.size.width, height: CGFloat.greatestFiniteMagnitude)) ?? .zero
-        let desiredButtonSize = CGSize(width: labelSize.width, height: labelSize.height)
-        return desiredButtonSize
-    }
-}
+//class AdaptableSizeButton: UIButton {
+//    override var intrinsicContentSize: CGSize {
+//        let labelSize = titleLabel?.sizeThatFits(CGSize(width: frame.size.width, height: CGFloat.greatestFiniteMagnitude)) ?? .zero
+//        let desiredButtonSize = CGSize(width: labelSize.width, height: labelSize.height)
+//        return desiredButtonSize
+//    }
+//}
 //créer tabbar, 1 navigationcontroller pour chaque objet 
 class HomeViewController: UIViewController, UINavigationBarDelegate {
 // TEST CODE DATA (mettre dans viewdidLoad à partir du do pour test
@@ -38,14 +38,18 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     
     var category = CategoryInfo(name: " Ajouter une catégorie ")
     
+    var viewModel : HomeViewModel?
+    weak var coordinator: AppCoordinator?
+    
+    
     // MARK: UI Properties
     var subsView = UIView()
     var totalAmountView = UIView()
     var totalAmountLabel = UILabel()
     var amountLabel = UILabel()
-    var myCollectionView: UICollectionView?
+    var myCollectionView: UICollectionView!
     var stackView = UIStackView()
-    var categoryButton = AdaptableSizeButton()
+    var categoryButton = UIButton()//AdaptableSizeButton()
     private let activityIndicator = UIActivityIndicatorView(style: .large)
     // MARK: Properties
     var storageService = StorageService()
@@ -75,6 +79,19 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
+        viewModel?.fetchSubs()
+    }
+    
+    func refreshWith(subs: [String]) {
+        myCollectionView.reloadData()
+    }
+    
+//    func addCategoryButtonAction() {
+//    }
+    
+    @objc func categoryButtonAction() {
+        viewModel?.showDetail()
+        print("passage dans methode obj c")
     }
     
     //MARK: Private methods
@@ -92,50 +109,15 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     }
     
     func setUpUI() {
-        setUpNavBar()
         setUpView()
         setUpStackView()
         activateConstraints()
     }
     
-    func setUpNavBar() {
-        // DISPLAYING LOGO
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 38, height: 38))
-        imageView.contentMode = .scaleAspectFit
-            let image = UIImage(named: "subs_dark")
-            imageView.image = image
-            navigationItem.titleView = imageView
-        
-        //DISPLAYING SETTINGS BUTTON
-        let menuButton = UIButton(type: .custom)
-           menuButton.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
-           menuButton.setImage(UIImage(named:"menu_button"), for: .normal)
-        let menuBarItem = UIBarButtonItem(customView: menuButton)
-        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 24)
-            currWidth?.isActive = true
-            let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 24)
-            currHeight?.isActive = true
-        navigationItem.leftBarButtonItem = menuBarItem
-        
-        //DISPLAYING Plus BUTTON
-        let plusButton = UIButton(type: .custom)
-           plusButton.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
-           plusButton.setImage(UIImage(named:"plus_button"), for: .normal)
-        let plusBarItem = UIBarButtonItem(customView: plusButton)
-        let plusWidth = plusBarItem.customView?.widthAnchor.constraint(equalToConstant: 24)
-            plusWidth?.isActive = true
-            let plusHeight = plusBarItem.customView?.heightAnchor.constraint(equalToConstant: 24)
-            plusHeight?.isActive = true
-        
-        navigationItem.rightBarButtonItem = plusBarItem
-        }
-    
-//    @objc func test(){
-//        print("test")
-//    }
     
     func setUpView() {
         view.backgroundColor = UIColor(named: "background")
+//        view.isUserInteractionEnabled = true
         categoryButton.translatesAutoresizingMaskIntoConstraints = false
         categoryButton.setTitle(category.name, for: UIControl.State.normal)
         categoryButton.titleLabel?.adjustsFontForContentSizeCategory = true
@@ -144,13 +126,15 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         categoryButton.setTitleColor(UIColor(named: "background"), for: UIControl.State.normal)
         categoryButton.addCornerRadius()
         categoryButton.isUserInteractionEnabled = true
+//        categoryButton.
         view.addSubview(categoryButton)
+        categoryButton.addTarget(self, action: #selector(categoryButtonAction), for: .touchUpInside)
+
     }
     
     func setUpStackView() {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-//        stackView.backgroundColor = .yellow//UIColor(named: "background")
 
         //MARK: Collection View
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -229,13 +213,14 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
 
 extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 25
+        return viewModel?.subs.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let myCell = collectionView.dequeueReusableCell(withReuseIdentifier: SubCell.identifier, for: indexPath)
 //        myCell.backgroundColor = .systemBlue
 //        UIColor(named: "background")
+        print(viewModel?.subs[indexPath.row])
         return myCell
     }
 }
