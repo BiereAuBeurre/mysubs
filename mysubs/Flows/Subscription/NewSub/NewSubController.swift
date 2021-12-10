@@ -39,14 +39,17 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     var suggestedLogo = UILabel()
     var logo = UIImageView()
     
+    var viewModel: NewSubViewModel?
+    
     weak var coordinator: AppCoordinator?
     var category: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setUpNavBar()
+        setUpNavBar()
         setUpView()
         activateConstraints()
+
         // Do any additional setup after loading the view.
     }
     
@@ -63,39 +66,32 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         imageView.image = image
         navigationItem.titleView = imageView
         
-        //DISPLAYING SETTINGS BUTTON
-        let menuButton = UIButton(type: .custom)
-           menuButton.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
-           menuButton.setImage(UIImage(named:"menu_button"), for: .normal)
-        let menuBarItem = UIBarButtonItem(customView: menuButton)
-        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 24)
-            currWidth?.isActive = true
-            let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 24)
-            currHeight?.isActive = true
-        navigationItem.leftBarButtonItem = menuBarItem
+        //DISPLAYING ADD SUB BUTTON
         
-        //DISPLAYING Plus BUTTON
-        let plusButton = UIButton(type: .custom)
-           plusButton.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
-           plusButton.setImage(UIImage(named:"plus_button"), for: .normal)
-        let plusBarItem = UIBarButtonItem(customView: plusButton)
-        let plusWidth = plusBarItem.customView?.widthAnchor.constraint(equalToConstant: 24)
-            plusWidth?.isActive = true
-            let plusHeight = plusBarItem.customView?.heightAnchor.constraint(equalToConstant: 24)
-            plusHeight?.isActive = true
+//        let addSubButton = UIButton()
+//        addSubButton.addTarget(self, action: #selector(addButtonAction), for: .touchUpInside)
+//        let rightbarbutttonitem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action:  #selector(addButtonAction))
+//        self.navigationItem.rightBarButtonItem = rightbarbutttonitem
+//
         
-        navigationItem.rightBarButtonItem = plusBarItem
+        let addSubButton: UIButton = UIButton(type: .custom)
+        addSubButton.setTitle("Ajouter", for: .normal)
+        addSubButton.addTarget(self, action: #selector(addButtonAction), for: .touchUpInside)
+        let rightBarButtonItem:UIBarButtonItem = UIBarButtonItem(customView: addSubButton)
+        rightBarButtonItem.customView = addSubButton
+        self.navigationItem.rightBarButtonItem = rightBarButtonItem
     }
     
-//    @objc func test(){
-//        print("test")
-//    }
+    @objc func addButtonAction(){
+        viewModel?.showHomeVC()
+        print("test")
+    }
     
 
     func setUpView() {
         
         // MARK: SETTING TITLE
-        view.backgroundColor = UIColor(named: "background")
+        view.backgroundColor = MSColors.background
         newSubLabel.text = "Nouvel abonnement"
         newSubLabel.font = UIFont.preferredFont(forTextStyle: .title2)
         newSubLabel.textColor = UIColor(named: "maintext")

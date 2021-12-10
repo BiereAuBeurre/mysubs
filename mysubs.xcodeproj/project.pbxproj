@@ -22,6 +22,7 @@
 		EF1F6C75275A4A4100DA0BBB /* MSColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1F6C74275A4A4100DA0BBB /* MSColors.swift */; };
 		EF1F6C77275A4AF100DA0BBB /* MSFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1F6C76275A4AF100DA0BBB /* MSFonts.swift */; };
 		EF3578BE2763588B00DA443F /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3578BD2763588A00DA443F /* HomeViewModel.swift */; };
+		EF3578C22763A15100DA443F /* NewSubViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3578C12763A15000DA443F /* NewSubViewModel.swift */; };
 		EF3D8D5C275F9FC100D8B6A4 /* EditSubController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3D8D5B275F9FC100D8B6A4 /* EditSubController.swift */; };
 		EF70E4F027567D270011AB06 /* Pods_mysubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF70E4EF27567D270011AB06 /* Pods_mysubs.framework */; };
 		EF70E4F32756868A0011AB06 /* BrandInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70E4F22756868A0011AB06 /* BrandInfo.swift */; };
@@ -75,6 +76,7 @@
 		EF1F6C74275A4A4100DA0BBB /* MSColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSColors.swift; sourceTree = "<group>"; };
 		EF1F6C76275A4AF100DA0BBB /* MSFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFonts.swift; sourceTree = "<group>"; };
 		EF3578BD2763588A00DA443F /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		EF3578C12763A15000DA443F /* NewSubViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSubViewModel.swift; sourceTree = "<group>"; };
 		EF3D8D5B275F9FC100D8B6A4 /* EditSubController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSubController.swift; sourceTree = "<group>"; };
 		EF70E4ED27567CEA0011AB06 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF70E4EF27567D270011AB06 /* Pods_mysubs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_mysubs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -284,6 +286,7 @@
 			isa = PBXGroup;
 			children = (
 				EF9072EA275E1FE8006CF678 /* NewSubController.swift */,
+				EF3578C12763A15000DA443F /* NewSubViewModel.swift */,
 			);
 			path = NewSub;
 			sourceTree = "<group>";
@@ -544,6 +547,7 @@
 				EF125B0A275780E000E6FD6B /* StorageService.swift in Sources */,
 				EF125B0827577FA900E6FD6B /* APIConfiguration.swift in Sources */,
 				EF70E4F32756868A0011AB06 /* BrandInfo.swift in Sources */,
+				EF3578C22763A15100DA443F /* NewSubViewModel.swift in Sources */,
 				EF9072ED275E37EE006CF678 /* Coordinator.swift in Sources */,
 				EF125B1227578AC600E6FD6B /* LoadImage.swift in Sources */,
 				EF1C6C2D2762454C0025E28B /* MSAppearance.swift in Sources */,

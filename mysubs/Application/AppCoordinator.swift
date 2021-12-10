@@ -25,12 +25,12 @@ class AppCoordinator: Coordinator {
     func start() {
         print("ok")
 //        startHomeFlow()
-        showNewSubScreenFor()
+        showSubScreen()
 //        window.makeKeyAndVisible()
         // logique pour decider dans quel flow on commence, où notif envoi
     }
     
-    func showNewSubScreenFor() {
+    func showSubScreen() {
         let homeVC = HomeViewController()
         let homeVCViewModel = HomeViewModel(coordinator: self)
         homeVCViewModel.viewDelegate = homeVC
@@ -43,6 +43,19 @@ class AppCoordinator: Coordinator {
         newSubVC.coordinator = self
         newSubVC.category = category
         navigationController.pushViewController(newSubVC, animated: true)
+    }
+    
+    func showDetailSubScreen(sub: String) {
+        let editSubVC = EditSubController()
+        editSubVC.coordinator = self
+        editSubVC.sub = sub
+        navigationController.pushViewController(editSubVC, animated: true)
+    }
+    
+    func showHomeScreen() {
+        let homeVc = HomeViewController()
+        homeVc.coordinator = self
+        navigationController.pushViewController(homeVc, animated: true)
     }
     
     ///toutes les methodes de navigation private, toujours appeler qch comme avec viewdidload() (dans start())

@@ -1,13 +1,12 @@
 //
-//  HomeViewModel.swift
+//  EditSubViewModel.swift
 //  mysubs
 //
 //  Created by Manon Russo on 10/12/2021.
 //
 
 import Foundation
-
-class HomeViewModel: NSObject {
+class EditSubViewModel: NSObject {
     weak var viewDelegate: HomeViewController?
     private let coordinator: AppCoordinator
     
@@ -21,14 +20,8 @@ class HomeViewModel: NSObject {
         }
     }
     
-    
-    
-    func showNewSub() {
-        coordinator.showNewSubScreenFor(category: "category")
-    }
-    
     func showDetail() {
-        coordinator.showDetailSubScreen(sub: "subs1")
+        coordinator.showDetailSubScreen(sub: "sub")
     }
     
     func fetchSubs() {

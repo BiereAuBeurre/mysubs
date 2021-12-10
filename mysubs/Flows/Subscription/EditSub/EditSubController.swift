@@ -8,7 +8,11 @@
 import UIKit
 
 class EditSubController: UIViewController {
+    
+    weak var coordinator: AppCoordinator?
+    var sub: String?
 
+    
     var logoHeader = UIImageView()
     var validateButton = UIButton()
     
@@ -19,7 +23,7 @@ class EditSubController: UIViewController {
     var nameField = UITextField()
     var commitment = UILabel()
     var commitmentField = UITextField()
-    var category = UILabel()
+    var categoryLabel = UILabel()
     var categoryField = UITextField() //A changer pour appeler liste des catégories user
     var info = UILabel()
     var infoField = UITextField()
@@ -44,11 +48,12 @@ class EditSubController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpNavBar()
+//        setUpNavBar()
         setUpView()
         activateConstraints()
         // Do any additional setup after loading the view.
     }
+    
     
     func setUpNavBar() {
         // DISPLAYING LOGO
@@ -83,7 +88,7 @@ class EditSubController: UIViewController {
     }
     
     func setUpView(){
-        view.backgroundColor = UIColor(named: "background")
+        view.backgroundColor = MSColors.background
         logoHeader.translatesAutoresizingMaskIntoConstraints = false
         logoHeader.image = UIImage(named: "ps")
         view.addSubview(logoHeader)
@@ -129,10 +134,10 @@ class EditSubController: UIViewController {
         commitmentField.text = "Annuel" // changer pour liste préconçue
         
         //MARK: Adding category field
-        leftSideStackView.addArrangedSubview(category)
-        category.translatesAutoresizingMaskIntoConstraints = false
-        category.text = "Catégorie"
-        category.textColor = UIColor(named: "maintext")
+        leftSideStackView.addArrangedSubview(categoryLabel)
+        categoryLabel.translatesAutoresizingMaskIntoConstraints = false
+        categoryLabel.text = "Catégorie"
+        categoryLabel.textColor = UIColor(named: "maintext")
         leftSideStackView.addArrangedSubview(categoryField)
         categoryField.borderStyle = .roundedRect
         categoryField.translatesAutoresizingMaskIntoConstraints = false
@@ -214,11 +219,11 @@ class EditSubController: UIViewController {
         footerStackView.addArrangedSubview(modifyButton)
         modifyButton.setTitle("Modifier", for: .normal)
         modifyButton.titleLabel!.textAlignment = .center
-        modifyButton.setTitleColor(UIColor(named: "background"), for: .normal)
+        modifyButton.setTitleColor(MSColors.background, for: .normal)
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
         footerStackView.addArrangedSubview(deleteButton)
         deleteButton.setTitle("Supprimer", for: .normal)
-        deleteButton.setTitleColor(UIColor(named: "background"), for: .normal)
+        deleteButton.setTitleColor(MSColors.background, for: .normal)
         
         
     }

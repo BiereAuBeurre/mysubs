@@ -15,13 +15,7 @@ enum State<Data> {
     case showData(Data)
 }
 
-//class AdaptableSizeButton: UIButton {
-//    override var intrinsicContentSize: CGSize {
-//        let labelSize = titleLabel?.sizeThatFits(CGSize(width: frame.size.width, height: CGFloat.greatestFiniteMagnitude)) ?? .zero
-//        let desiredButtonSize = CGSize(width: labelSize.width, height: labelSize.height)
-//        return desiredButtonSize
-//    }
-//}
+
 //créer tabbar, 1 navigationcontroller pour chaque objet 
 class HomeViewController: UIViewController, UINavigationBarDelegate {
 // TEST CODE DATA (mettre dans viewdidLoad à partir du do pour test
@@ -82,6 +76,12 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         viewModel?.fetchSubs()
     }
     
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("Category : \(category)")
+    }
+    
     func refreshWith(subs: [String]) {
         myCollectionView.reloadData()
     }
@@ -89,9 +89,14 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
 //    func addCategoryButtonAction() {
 //    }
     
-    @objc func categoryButtonAction() {
-        viewModel?.showDetail()
+    @objc func plusButtonAction() {
+        viewModel?.showNewSub()
         print("passage dans methode obj c")
+    }
+    
+    func cellTapped() {
+        viewModel?.showDetail()
+        print("passage dans methode show details")
     }
     
     //MARK: Private methods
@@ -109,26 +114,60 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     }
     
     func setUpUI() {
+        setUpNavBar()
         setUpView()
         setUpStackView()
         activateConstraints()
     }
     
+    func setUpNavBar() {
+        // DISPLAYING LOGO
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 38, height: 38))
+        imageView.contentMode = .scaleAspectFit
+        let image = UIImage(named: "subs_dark")
+        imageView.image = image
+        navigationItem.titleView = imageView
+        
+        //DISPLAYING PLUS BUTTON
+        let plusButton: UIButton = UIButton(type: .custom)
+        plusButton.setImage(UIImage(named: "plus_button"), for: .normal)
+        plusButton.addTarget(self, action: #selector(plusButtonAction), for: .touchUpInside)
+        let rightBarButtonItem:UIBarButtonItem = UIBarButtonItem(customView: plusButton)
+        let plusWidth = rightBarButtonItem.customView?.widthAnchor.constraint(equalToConstant: 24)
+        plusWidth?.isActive = true
+        let plusHeight = rightBarButtonItem.customView?.heightAnchor.constraint(equalToConstant: 24)
+        plusHeight?.isActive = true
+        rightBarButtonItem.customView = plusButton
+        self.navigationItem.rightBarButtonItem = rightBarButtonItem
+        
+        //DISPLAYING MENU BUTTON
+        let menuButton: UIButton = UIButton(type: .custom)
+        menuButton.setImage(UIImage(named: "menu_button"), for: .normal)
+        menuButton.addTarget(self, action: #selector(plusButtonAction), for: .touchUpInside)
+        let leftBarButtonItem:UIBarButtonItem = UIBarButtonItem(customView: menuButton)
+        let menuWidth = leftBarButtonItem.customView?.widthAnchor.constraint(equalToConstant: 24)
+        menuWidth?.isActive = true
+        let menuHeight = leftBarButtonItem.customView?.heightAnchor.constraint(equalToConstant: 24)
+        menuHeight?.isActive = true
+        leftBarButtonItem.customView = menuButton
+        self.navigationItem.leftBarButtonItem = leftBarButtonItem
+        }
     
     func setUpView() {
-        view.backgroundColor = UIColor(named: "background")
+        view.backgroundColor = MSColors.background
+
 //        view.isUserInteractionEnabled = true
         categoryButton.translatesAutoresizingMaskIntoConstraints = false
         categoryButton.setTitle(category.name, for: UIControl.State.normal)
         categoryButton.titleLabel?.adjustsFontForContentSizeCategory = true
         categoryButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title2)
         categoryButton.backgroundColor = UIColor(named: "reverse_bg")
-        categoryButton.setTitleColor(UIColor(named: "background"), for: UIControl.State.normal)
+        categoryButton.setTitleColor(MSColors.background, for: UIControl.State.normal)
         categoryButton.addCornerRadius()
         categoryButton.isUserInteractionEnabled = true
 //        categoryButton.
         view.addSubview(categoryButton)
-        categoryButton.addTarget(self, action: #selector(categoryButtonAction), for: .touchUpInside)
+        categoryButton.addTarget(self, action: #selector(plusButtonAction), for: .touchUpInside)
 
     }
     
@@ -142,7 +181,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         layout.scrollDirection = .vertical
         myCollectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         myCollectionView?.register(SubCell.self, forCellWithReuseIdentifier: SubCell.identifier)
-        myCollectionView?.backgroundColor = UIColor(named: "background")
+        myCollectionView?.backgroundColor = MSColors.background
         myCollectionView?.dataSource = self
         myCollectionView?.delegate = self
         myCollectionView?.translatesAutoresizingMaskIntoConstraints = false
@@ -170,7 +209,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         amountLabel.text = " 22 € "
         amountLabel.font = UIFont.preferredFont(forTextStyle: .headline)
         amountLabel.textColor = UIColor(named: "yellowgrey")
-        amountLabel.backgroundColor = UIColor(named: "background")
+        amountLabel.backgroundColor = MSColors.background
         totalAmountView.addSubview(amountLabel)
         amountLabel.layer.cornerRadius = 5
         amountLabel.textAlignment = .center
@@ -220,13 +259,14 @@ extension HomeViewController: UICollectionViewDataSource {
         let myCell = collectionView.dequeueReusableCell(withReuseIdentifier: SubCell.identifier, for: indexPath)
 //        myCell.backgroundColor = .systemBlue
 //        UIColor(named: "background")
-        print(viewModel?.subs[indexPath.row])
+        print(viewModel?.subs[indexPath.row] ?? 4)
         return myCell
     }
 }
 
 extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        cellTapped()
        print("item \(indexPath.row+1) tapped")
     }
 }
