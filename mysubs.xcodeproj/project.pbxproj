@@ -37,6 +37,7 @@
 		EF96B99E274FE1C900961F9C /* mysubsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF96B99D274FE1C900961F9C /* mysubsTests.swift */; };
 		EF96B9A8274FE1C900961F9C /* mysubsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF96B9A7274FE1C900961F9C /* mysubsUITests.swift */; };
 		EF96B9AA274FE1C900961F9C /* mysubsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF96B9A9274FE1C900961F9C /* mysubsUITestsLaunchTests.swift */; };
+		EFEF69DD276799C8005CB6C3 /* EditSubViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFEF69DC276799C8005CB6C3 /* EditSubViewModel.swift */; };
 		EFFA24DF275644E20068DFE3 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFA24DE275644E20068DFE3 /* HomeViewController.swift */; };
 		EFFA24E227566E570068DFE3 /* LogoFinderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFA24E127566E570068DFE3 /* LogoFinderService.swift */; };
 /* End PBXBuildFile section */
@@ -96,6 +97,7 @@
 		EF96B9A3274FE1C900961F9C /* mysubsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mysubsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF96B9A7274FE1C900961F9C /* mysubsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mysubsUITests.swift; sourceTree = "<group>"; };
 		EF96B9A9274FE1C900961F9C /* mysubsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mysubsUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		EFEF69DC276799C8005CB6C3 /* EditSubViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSubViewModel.swift; sourceTree = "<group>"; };
 		EFFA24DE275644E20068DFE3 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		EFFA24E127566E570068DFE3 /* LogoFinderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoFinderService.swift; sourceTree = "<group>"; };
 		FAF26DAD802A3EFEB87F6109 /* Pods_mysubs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_mysubs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -268,6 +270,7 @@
 			isa = PBXGroup;
 			children = (
 				EF3D8D5B275F9FC100D8B6A4 /* EditSubController.swift */,
+				EFEF69DC276799C8005CB6C3 /* EditSubViewModel.swift */,
 			);
 			path = EditSub;
 			sourceTree = "<group>";
@@ -544,6 +547,7 @@
 				EF125B0C2757820400E6FD6B /* SubInfo.swift in Sources */,
 				EF1F6C73275A484C00DA0BBB /* MSImages.swift in Sources */,
 				EF96B984274FE1C700961F9C /* AppDelegate.swift in Sources */,
+				EFEF69DD276799C8005CB6C3 /* EditSubViewModel.swift in Sources */,
 				EF125B0A275780E000E6FD6B /* StorageService.swift in Sources */,
 				EF125B0827577FA900E6FD6B /* APIConfiguration.swift in Sources */,
 				EF70E4F32756868A0011AB06 /* BrandInfo.swift in Sources */,

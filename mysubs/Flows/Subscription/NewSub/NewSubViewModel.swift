@@ -8,11 +8,13 @@
 import Foundation
 
 class NewSubViewModel: NSObject {
-    weak var viewDelegate: HomeViewController?
+    weak var viewDelegate: NewSubController?
     private let coordinator: AppCoordinator
-    
-    init(coordinator: AppCoordinator) {
+    private let category: String
+
+    init(coordinator: AppCoordinator, category: String) {
         self.coordinator = coordinator
+        self.category = category
     }
     
     var subs: [String] = [] {
@@ -20,10 +22,11 @@ class NewSubViewModel: NSObject {
             viewDelegate?.refreshWith(subs: subs)
         }
     }
-    
+
     
     
     func showHomeVC() {
-        coordinator.showHomeScreen()
+        coordinator.goBack()
+
     }
 }

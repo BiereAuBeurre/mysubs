@@ -8,11 +8,9 @@
 import UIKit
 
 class NewSubController: UIViewController, UINavigationBarDelegate {
-//    var navBar: UINavigationBar!
-//    let navBarAppearance = UINavigationBarAppearance()
+    let navBarAppearance = UINavigationBarAppearance()
     var newSubLabel = UILabel()
     var titleView = UIView()
-    var addButton = UIButton()
     var separatorLine = UIView()
     //MARK: LeftSideStackView properties
     var leftSideStackView = UIStackView()
@@ -41,21 +39,27 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     
     var viewModel: NewSubViewModel?
     
-    weak var coordinator: AppCoordinator?
-    var category: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpNavBar()
         setUpView()
         activateConstraints()
 
-        // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("Category : \(category ?? "Missing")")
+//        print("Category : \(viewModel.categ ?? "Missing")")
+    }
+    
+    @objc func addButtonAction(){
+        viewModel?.showHomeVC()
+        print("test")
+    }
+    
+    func refreshWith(subs: [String]) {
+//        myCollectionView.reloadData()
+        print("refresh with isread")
     }
     
     func setUpNavBar() {
@@ -67,13 +71,6 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         navigationItem.titleView = imageView
         
         //DISPLAYING ADD SUB BUTTON
-        
-//        let addSubButton = UIButton()
-//        addSubButton.addTarget(self, action: #selector(addButtonAction), for: .touchUpInside)
-//        let rightbarbutttonitem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action:  #selector(addButtonAction))
-//        self.navigationItem.rightBarButtonItem = rightbarbutttonitem
-//
-        
         let addSubButton: UIButton = UIButton(type: .custom)
         addSubButton.setTitle("Ajouter", for: .normal)
         addSubButton.addTarget(self, action: #selector(addButtonAction), for: .touchUpInside)
@@ -81,15 +78,9 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         rightBarButtonItem.customView = addSubButton
         self.navigationItem.rightBarButtonItem = rightBarButtonItem
     }
-    
-    @objc func addButtonAction(){
-        viewModel?.showHomeVC()
-        print("test")
-    }
-    
 
     func setUpView() {
-        
+        setUpNavBar()
         // MARK: SETTING TITLE
         view.backgroundColor = MSColors.background
         newSubLabel.text = "Nouvel abonnement"
@@ -97,16 +88,14 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         newSubLabel.textColor = UIColor(named: "maintext")
         newSubLabel.translatesAutoresizingMaskIntoConstraints = false
         titleView.translatesAutoresizingMaskIntoConstraints = false
-        addButton.translatesAutoresizingMaskIntoConstraints = false
-        addButton.setTitle("Ajouter", for: .normal)
-        addButton.titleLabel?.adjustsFontForContentSizeCategory = true
-        addButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3)
-        addButton.setTitleColor(UIColor(named: "maintext"), for: UIControl.State.normal)
+    
         view.addSubview(titleView)
         view.addSubview(logo)
         view.addSubview(suggestedLogo)
         titleView.addSubview(newSubLabel)
-        titleView.addSubview(addButton)
+        
+//        addButton.addTarget(self, action: #selector(addButtonAction), for: .touchUpInside)
+        
         // MARK: SEPARATOR LINE VIEW
         separatorLine.translatesAutoresizingMaskIntoConstraints = false
         separatorLine.backgroundColor = UIColor(named: "yellowgrey")
@@ -222,11 +211,6 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
             newSubLabel.leadingAnchor.constraint(equalTo: titleView.leadingAnchor, constant: 0),
 //            newSubLabel.trailingAnchor.constraint(equalTo: addButton.leadingAnchor, constant: 16),
             newSubLabel.heightAnchor.constraint(equalToConstant: 20),
-            
-            addButton.topAnchor.constraint(equalTo: titleView.topAnchor, constant: 0),
-            addButton.trailingAnchor.constraint(equalTo: titleView.trailingAnchor, constant: -0),
-            addButton.heightAnchor.constraint(equalToConstant: 20),
-            
             separatorLine.heightAnchor.constraint(equalToConstant: 1),
             separatorLine.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: 8),
             separatorLine.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),

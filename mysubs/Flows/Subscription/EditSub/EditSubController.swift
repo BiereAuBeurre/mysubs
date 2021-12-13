@@ -14,7 +14,6 @@ class EditSubController: UIViewController {
 
     
     var logoHeader = UIImageView()
-    var validateButton = UIButton()
     
     //MARK: LeftSideStackView properties
     var leftSideStackView = UIStackView()
@@ -46,14 +45,20 @@ class EditSubController: UIViewController {
     var modifyButton = UIButton()
     var deleteButton = UIButton()
     
+    var viewModel: EditSubViewModel?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setUpNavBar()
+        setUpNavBar()
         setUpView()
         activateConstraints()
         // Do any additional setup after loading the view.
     }
     
+    @objc func doneEditingAction() {
+        viewModel?.showHomeVC()
+    }
     
     func setUpNavBar() {
         // DISPLAYING LOGO
@@ -74,17 +79,13 @@ class EditSubController: UIViewController {
             currHeight?.isActive = true
         navigationItem.leftBarButtonItem = menuBarItem
         
-        //DISPLAYING Plus BUTTON
-        let plusButton = UIButton(type: .custom)
-           plusButton.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
-           plusButton.setImage(UIImage(named:"plus_button"), for: .normal)
-        let plusBarItem = UIBarButtonItem(customView: plusButton)
-        let plusWidth = plusBarItem.customView?.widthAnchor.constraint(equalToConstant: 24)
-            plusWidth?.isActive = true
-            let plusHeight = plusBarItem.customView?.heightAnchor.constraint(equalToConstant: 24)
-            plusHeight?.isActive = true
-        
-        navigationItem.rightBarButtonItem = plusBarItem
+        //DISPLAYING DONE BUTTON
+        let doneButton: UIButton = UIButton(type: .custom)
+        doneButton.setTitle("Terminer", for: .normal)
+        doneButton.addTarget(self, action: #selector(doneEditingAction), for: .touchUpInside)
+        let rightBarButtonItem:UIBarButtonItem = UIBarButtonItem(customView: doneButton)
+        rightBarButtonItem.customView = doneButton
+        self.navigationItem.rightBarButtonItem = rightBarButtonItem
     }
     
     func setUpView(){
@@ -92,10 +93,6 @@ class EditSubController: UIViewController {
         logoHeader.translatesAutoresizingMaskIntoConstraints = false
         logoHeader.image = UIImage(named: "ps")
         view.addSubview(logoHeader)
-        validateButton.translatesAutoresizingMaskIntoConstraints = false
-        validateButton.setTitle("Valider", for: .normal)
-        validateButton.setTitleColor(UIColor(named: "maintext"), for: .normal)
-        view.addSubview(validateButton)
         
         // MARK: FORMVIEW
         formView.translatesAutoresizingMaskIntoConstraints = false
@@ -234,8 +231,6 @@ class EditSubController: UIViewController {
         logoHeader.widthAnchor.constraint(equalToConstant: 50),
         logoHeader.heightAnchor.constraint(equalToConstant: 50),
         logoHeader.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
-        validateButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-        validateButton.centerYAnchor.constraint(equalTo: logoHeader.centerYAnchor, constant: 0),
         formView.topAnchor.constraint(equalTo: logoHeader.bottomAnchor, constant: 16),
         formView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
         formView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),

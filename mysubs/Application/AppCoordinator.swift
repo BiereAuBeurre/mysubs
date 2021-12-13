@@ -38,24 +38,34 @@ class AppCoordinator: Coordinator {
         navigationController.pushViewController(homeVC, animated: false)
     }
     
-    func showNewSubScreenFor(category: String) {
+    func showNewSubScreenFor(category: String)/*changer pour enum*/ {
         let newSubVC = NewSubController()
-        newSubVC.coordinator = self
-        newSubVC.category = category
+        let newSubVCViewModel = NewSubViewModel(coordinator: self, category: category)
+    
+        newSubVCViewModel.viewDelegate = newSubVC
+        newSubVC.viewModel = newSubVCViewModel
+//        newSubVCViewModel.category = category
         navigationController.pushViewController(newSubVC, animated: true)
     }
     
     func showDetailSubScreen(sub: String) {
         let editSubVC = EditSubController()
-        editSubVC.coordinator = self
-        editSubVC.sub = sub
+        let editSubViewModel = EditSubViewModel(coordinator: self)
+        editSubViewModel.viewDelegate = editSubVC
+        editSubVC.viewModel = editSubViewModel
+        editSubViewModel.viewDelegate = editSubVC
+//        editSubVC.coordinator = self
+//        editSubVC.sub = sub
         navigationController.pushViewController(editSubVC, animated: true)
     }
     
-    func showHomeScreen() {
-        let homeVc = HomeViewController()
-        homeVc.coordinator = self
-        navigationController.pushViewController(homeVc, animated: true)
+    func goBack() {
+//        let homeVc = HomeViewController()
+//        homeVc.coordinator = self
+//        navigationController.popToViewController(, animated: <#T##Bool#>)
+//        navigationController.viewControllers for each
+        navigationController.popToRootViewController(animated: true)
+//        navigationController.pushViewController(homeVc, animated: true)
     }
     
     ///toutes les methodes de navigation private, toujours appeler qch comme avec viewdidload() (dans start())
