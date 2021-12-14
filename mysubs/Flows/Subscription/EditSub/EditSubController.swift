@@ -47,6 +47,7 @@ class EditSubController: UIViewController {
     
     var viewModel: EditSubViewModel?
     
+    var subInfo = Subscription(category: "ciné", commitment: "mensuel", extraInfo: "test", name: "NETFLIX", paymentRecurrency: "mensuel", price: 9.99, reminder: "2j avant", suggestedLogo: "rien")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,7 +58,7 @@ class EditSubController: UIViewController {
     }
     
     @objc func doneEditingAction() {
-        viewModel?.showHomeVC()
+        viewModel?.goBack()
     }
     
     func setUpNavBar() {
@@ -114,9 +115,9 @@ class EditSubController: UIViewController {
         leftSideStackView.addArrangedSubview(name)
         name.translatesAutoresizingMaskIntoConstraints = false
         name.text = "Nom"
-        name.textColor = UIColor(named: "maintext")
+        name.textColor = MSColors.maintext
         leftSideStackView.addArrangedSubview(nameField)
-        nameField.text = "Netflix"
+        nameField.text = subInfo.name
         nameField.borderStyle = .roundedRect
         nameField.translatesAutoresizingMaskIntoConstraints = false
         
@@ -124,31 +125,31 @@ class EditSubController: UIViewController {
         leftSideStackView.addArrangedSubview(commitment)
         commitment.translatesAutoresizingMaskIntoConstraints = false
         commitment.text = "Engagement"
-        commitment.textColor = UIColor(named: "maintext")
+        commitment.textColor = MSColors.maintext
         leftSideStackView.addArrangedSubview(commitmentField)
         commitmentField.borderStyle = .roundedRect
         commitmentField.translatesAutoresizingMaskIntoConstraints = false
-        commitmentField.text = "Annuel" // changer pour liste préconçue
+        commitmentField.text = subInfo.commitment // changer pour liste préconçue
         
         //MARK: Adding category field
         leftSideStackView.addArrangedSubview(categoryLabel)
         categoryLabel.translatesAutoresizingMaskIntoConstraints = false
         categoryLabel.text = "Catégorie"
-        categoryLabel.textColor = UIColor(named: "maintext")
+        categoryLabel.textColor = MSColors.maintext
         leftSideStackView.addArrangedSubview(categoryField)
         categoryField.borderStyle = .roundedRect
         categoryField.translatesAutoresizingMaskIntoConstraints = false
-        commitmentField.text = "Loisirs" // changer pour liste préconçue
+        categoryField.text = subInfo.category // changer pour liste préconçue
         
         //MARK: Adding info field
         leftSideStackView.addArrangedSubview(info)
         info.translatesAutoresizingMaskIntoConstraints = false
         info.text = "INFOS"
-        info.textColor = UIColor(named: "maintext")
+        info.textColor = MSColors.maintext
         leftSideStackView.addArrangedSubview(infoField)
         infoField.borderStyle = .roundedRect
         infoField.translatesAutoresizingMaskIntoConstraints = false
-        infoField.text = "Période d'essai"
+        infoField.text = subInfo.extraInfo
         
         formView.addArrangedSubview(leftSideStackView)
         
@@ -165,7 +166,7 @@ class EditSubController: UIViewController {
         price.translatesAutoresizingMaskIntoConstraints = false
         price.text = "Prix"
         rightSideStackView.addArrangedSubview(priceField)
-        priceField.text = "9,99 €"
+        priceField.text = "\(subInfo.price) €"
         priceField.borderStyle = .roundedRect
         priceField.translatesAutoresizingMaskIntoConstraints = false
         
@@ -174,7 +175,7 @@ class EditSubController: UIViewController {
         reminder.translatesAutoresizingMaskIntoConstraints = false
         reminder.text = "Rappel"
         rightSideStackView.addArrangedSubview(reminderField)
-        reminderField.text = "2j avant"
+        reminderField.text = subInfo.reminder
         reminderField.borderStyle = .roundedRect
         reminderField.translatesAutoresizingMaskIntoConstraints = false
         
@@ -183,7 +184,7 @@ class EditSubController: UIViewController {
         recurrency.translatesAutoresizingMaskIntoConstraints = false
         recurrency.text = "Récurrence"
         rightSideStackView.addArrangedSubview(recurrencyField)
-        recurrencyField.text = "Mensuelle"
+        recurrencyField.text = subInfo.paymentRecurrency
         recurrencyField.borderStyle = .roundedRect
         recurrencyField.translatesAutoresizingMaskIntoConstraints = false
         

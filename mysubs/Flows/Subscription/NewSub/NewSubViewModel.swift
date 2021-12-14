@@ -25,7 +25,7 @@ class NewSubViewModel: NSObject {
 
     
     
-    func showHomeVC() {
+    func goBack() {
         coordinator.goBack()
 
     }

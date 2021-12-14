@@ -12,11 +12,12 @@ class SubCell: UICollectionViewCell {
     
     private var subNameLabel = UILabel()
     private var logo = UIImageView()
-    private var stackView = UIStackView()
-    
+    private var priceLabel = UILabel()
+    var subscriptionTest = Subscription(category: "ciné", commitment: "mensuel", extraInfo: "test", name: "SUBTEST", paymentRecurrency: "mensuel", price: 9.99, reminder: "2j avant", suggestedLogo: "rien")
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.backgroundColor = .systemPink//UIColor(named: "background")
+        refreshSubData()
         setup()
     }
     
@@ -24,44 +25,48 @@ class SubCell: UICollectionViewCell {
         fatalError("error")
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        subNameLabel.frame = CGRect(x: 0, y: 0, width: contentView.frame.size.width, height: contentView.frame.size.height)
-        
+    var subscriptions: Subscription? {
+        didSet {
+            refreshSubData()
+        }
     }
+    private var homeVC = HomeViewController()
+    
+//    override func layoutSubviews() {
+//        super.layoutSubviews()
+//        subNameLabel.frame = CGRect(x: 0, y: 0, width: contentView.frame.size.width, height: contentView.frame.size.height)
+//    }
+    
+    //Setting values in cells
+    func refreshSubData() {
+        subNameLabel.text = subscriptionTest.name
+    }
+    
     func setup() {
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        stackView.spacing = 8
-        stackView.alignment = .fill
+        priceLabel.translatesAutoresizingMaskIntoConstraints = false
+        priceLabel.text = "\(subscriptionTest.price) €"
+        priceLabel.textColor = MSColors.maintext
+        
         subNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        subNameLabel.text = "Photoshop"
+//        subNameLabel.text = subInfo.name
         subNameLabel.textColor = .systemYellow
         subNameLabel.tintColor = .systemPink
         logo.translatesAutoresizingMaskIntoConstraints = false
         logo.image = UIImage(named: "ps")
-        stackView.addArrangedSubview(logo)
-        stackView.addArrangedSubview(subNameLabel)
-        addSubview(stackView)
+        addSubview(priceLabel)
+        addSubview(logo)
+        addSubview(subNameLabel)
 
         // MARK: - Constraints
         NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
-            stackView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
-            logo.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: 0),
-            logo.topAnchor.constraint(equalTo: stackView.topAnchor, constant: 0),
-            logo.bottomAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 0),
+            logo.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
             logo.widthAnchor.constraint(equalToConstant: 34),
-//
-//            subNameLabel.leadingAnchor.constraint(equalTo: logo.trailingAnchor, constant: 16),
-//            subNameLabel.topAnchor.constraint(equalTo: stackView.topAnchor, constant: 0),
-//            subNameLabel.bottomAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 0)
-//            subNameLabel.trailingAnchor.constraint(equalTo: logo.trailingAnchor, constant: 16),
-//            subNameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 8),
-//            subNameLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 8),
-//            subNameLabel.widthAnchor.constraint(equalToConstant: 100),
+            logo.heightAnchor.constraint(equalToConstant: 34),
+            logo.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0),
+            subNameLabel.leadingAnchor.constraint(equalTo: logo.trailingAnchor, constant: 16),
+            subNameLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0),
+            priceLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0),
+            priceLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
         ])
         
     }

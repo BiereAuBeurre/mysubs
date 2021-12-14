@@ -15,7 +15,7 @@ class EditSubViewModel: NSObject {
         self.coordinator = coordinator
     }
     
-    func showHomeVC() {
+    func goBack() {
         coordinator.goBack()
     }
     

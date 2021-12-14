@@ -10,7 +10,7 @@ import UIKit
 enum MSColors {
 //    static let background = #colorLiteral(red: 0.1325160861, green: 0.1609178782, blue: 0.1995640397, alpha: 1)
     static let background = UIColor(named: "background")
-
+    static let maintext = UIColor(named: "maintext")
 //    static let background = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     
     

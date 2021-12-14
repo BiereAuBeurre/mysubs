@@ -53,7 +53,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     }
     
     @objc func addButtonAction(){
-        viewModel?.showHomeVC()
+        viewModel?.goBack()
         print("test")
     }
     
@@ -85,7 +85,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         view.backgroundColor = MSColors.background
         newSubLabel.text = "Nouvel abonnement"
         newSubLabel.font = UIFont.preferredFont(forTextStyle: .title2)
-        newSubLabel.textColor = UIColor(named: "maintext")
+        newSubLabel.textColor = MSColors.maintext
         newSubLabel.translatesAutoresizingMaskIntoConstraints = false
         titleView.translatesAutoresizingMaskIntoConstraints = false
     
@@ -122,7 +122,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         leftSideStackView.addArrangedSubview(name)
         name.translatesAutoresizingMaskIntoConstraints = false
         name.text = "Nom"
-        name.textColor = UIColor(named: "maintext")
+        name.textColor = MSColors.maintext
         leftSideStackView.addArrangedSubview(nameField)
         nameField.text = "Netflix"
         nameField.borderStyle = .roundedRect
@@ -132,7 +132,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         leftSideStackView.addArrangedSubview(commitment)
         commitment.translatesAutoresizingMaskIntoConstraints = false
         commitment.text = "Engagement"
-        commitment.textColor = UIColor(named: "maintext")
+        commitment.textColor = MSColors.maintext
         leftSideStackView.addArrangedSubview(commitmentField)
         commitmentField.borderStyle = .roundedRect
         commitmentField.translatesAutoresizingMaskIntoConstraints = false
@@ -142,7 +142,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         leftSideStackView.addArrangedSubview(categoryLabel)
         categoryLabel.translatesAutoresizingMaskIntoConstraints = false
         categoryLabel.text = "Catégorie"
-        categoryLabel.textColor = UIColor(named: "maintext")
+        categoryLabel.textColor = MSColors.maintext
         leftSideStackView.addArrangedSubview(categoryField)
         categoryField.borderStyle = .roundedRect
         categoryField.translatesAutoresizingMaskIntoConstraints = false
@@ -152,7 +152,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         leftSideStackView.addArrangedSubview(info)
         info.translatesAutoresizingMaskIntoConstraints = false
         info.text = "INFOS"
-        info.textColor = UIColor(named: "maintext")
+        info.textColor = MSColors.maintext
         leftSideStackView.addArrangedSubview(infoField)
         infoField.borderStyle = .roundedRect
         infoField.translatesAutoresizingMaskIntoConstraints = false

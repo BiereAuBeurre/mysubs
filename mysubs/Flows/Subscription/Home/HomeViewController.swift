@@ -19,16 +19,8 @@ enum State<Data> {
 //créer tabbar, 1 navigationcontroller pour chaque objet 
 class HomeViewController: UIViewController, UINavigationBarDelegate {
 // TEST CODE DATA (mettre dans viewdidLoad à partir du do pour test
-//    var subInfo = SubInfo(category: "ciné", commitment: "mensuel", extraInfo: "test", name: "NETFLIX", paymentRecurrency: "mensuel", price: 9.99, reminder: "2j avant", suggestedLogo: "rien")
-//    do {
-//        try storageService.saveSubs(subInfo)
-//    }
-//    catch { print(error)}
-//
-//    do {
-//        try storageService.deleteSubs(subInfo)
-//    }
-//    catch { print(error)}
+   
+   
     
     var category = CategoryInfo(name: " Ajouter une catégorie ")
     
@@ -47,9 +39,11 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     private let activityIndicator = UIActivityIndicatorView(style: .large)
     // MARK: Properties
     var storageService = StorageService()
-    var subscriptions: [SubInfo] = []
+    var subInfo = Subscription(category: "ciné", commitment: "mensuel", extraInfo: "test", name: "SUBTEST", paymentRecurrency: "mensuel", price: 9.99, reminder: "2j avant", suggestedLogo: "rien")
     
-    var viewState: State<[SubInfo]> = .empty {
+    var subscriptions: [Subscription] = []
+    
+    var viewState: State<[Subscription]> = .empty {
         didSet {
             resetState()
             switch viewState {
@@ -65,7 +59,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
             case .showData(let subscriptions):
                 print("thats datas")
                 self.subscriptions = subscriptions
-                //collectionView.reloadData() (equivalent)?
+                myCollectionView.reloadData() //(equivalent)?
             }
         }
     }
@@ -74,6 +68,18 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         super.viewDidLoad()
         setUpUI()
         viewModel?.fetchSubs()
+        
+        do {
+            try storageService.saveSubs(subInfo)
+
+        }
+        catch { print(error)}
+        fetchSubFromDataBase()
+
+//        do {
+//            try storageService.deleteSubs(subInfo)
+//        }
+//        catch { print(error)}
     }
     
     
@@ -82,6 +88,36 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         print("Category : \(category)")
     }
     
+    func fetchSubFromDataBase() {
+        do { subscriptions = try storageService.loadSubs()
+            if subscriptions.isEmpty {
+                viewState = .empty
+            } else {
+                viewState = .showData(subscriptions)
+                print(subscriptions)
+            }
+        } catch { print("error: \(error) can't load data") }
+        
+    }
+    private func fetchLogo() {
+//        guard isAllLoaded == false else { return }
+//        viewState = .loading
+//        recipeService.fetchRecipes(for: ingredients) { [weak self] result in
+//            guard let self = self else { return }
+//            DispatchQueue.main.async {
+//                switch result {
+//                case .success(let recipesInfo) where recipesInfo.recipes.isEmpty :
+//                    /// If the request works but does not find any recipes.
+//                    self.viewState = .empty
+//                case .success(let recipesInfo):
+//                    self.viewState = .showData(recipesInfo.recipes)
+//                case .failure(let error):
+//                    print("Erreur : \(error.localizedDescription)")
+//                    self.showAlert("Error", "Can't load recipes. Please try again.")
+//                }
+//            }
+//        }
+    }
     func refreshWith(subs: [String]) {
         myCollectionView.reloadData()
     }
@@ -105,7 +141,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         //collectionView.isHidden = true
     }
     
-    private func deleteSub(sub: SubInfo) {
+    private func deleteSub(sub: Subscription) {
         do {
             try storageService.deleteSubs(sub)
             //fetchSubs()
@@ -214,11 +250,6 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         amountLabel.layer.cornerRadius = 5
         amountLabel.textAlignment = .center
         amountLabel.layer.masksToBounds = true
-        
-//        amountLabel.layer.shadowColor = UIColor.black.cgColor
-//        amountLabel.layer.shadowRadius = 3.0
-//        amountLabel.layer.shadowOpacity = 1.0
-//        amountLabel.layer.shadowOffset = CGSize(width: 4, height: 4)
     }
     
     func activateConstraints() {
@@ -251,6 +282,8 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
 }
 
 extension HomeViewController: UICollectionViewDataSource {
+    
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel?.subs.count ?? 0
     }

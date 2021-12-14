@@ -48,20 +48,20 @@ class StorageService {
     }
     
     //MARK: Subscription methods
-    func loadSubs() throws -> [SubInfo] {
+    func loadSubs() throws -> [Subscription] {
         /// CoreData request, return a subscriptionEntity object that is convert into SubInfo as soon as it's loaded.
         
         let fetchRequest: NSFetchRequest<SubscriptionEntity> = SubscriptionEntity.fetchRequest()
         let subscriptionEntities: [SubscriptionEntity]
         do { subscriptionEntities = try viewContext.fetch(fetchRequest) }
         catch { throw error }
-        let subs = subscriptionEntities.map { (subscriptionEntity) -> SubInfo in
-            return SubInfo(from: subscriptionEntity)
+        let subs = subscriptionEntities.map { (subscriptionEntity) -> Subscription in
+            return Subscription(from: subscriptionEntity)
         }
         return subs
     }
     
-    func saveSubs(_ subInfo: SubInfo) throws {
+    func saveSubs(_ subInfo: Subscription) throws {
         let subscriptionEntity = SubscriptionEntity(context: viewContext)
         subscriptionEntity.category = subInfo.category
         subscriptionEntity.commitment = subInfo.commitment
@@ -74,7 +74,7 @@ class StorageService {
         print(subscriptionEntity)
     }
     
-    func deleteSubs(_ subInfo: SubInfo) throws {
+    func deleteSubs(_ subInfo: Subscription) throws {
         let fetchRequest: NSFetchRequest<SubscriptionEntity> = SubscriptionEntity.fetchRequest()
         let predicate = NSPredicate(format: "name == %@", subInfo.name)
         fetchRequest.predicate = predicate
