@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SubInfo: Decodable {
+struct Subscription: Decodable {
     let category: String
     let commitment: String
     let extraInfo: String
@@ -18,7 +18,7 @@ struct SubInfo: Decodable {
     let suggestedLogo: String
 }
 
-extension SubInfo {
+extension Subscription {
     init(from subscriptionEntity: SubscriptionEntity) {
         self.category = subscriptionEntity.category ?? ""
         self.commitment = subscriptionEntity.commitment ?? ""
