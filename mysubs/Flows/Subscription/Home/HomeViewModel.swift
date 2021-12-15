@@ -15,9 +15,9 @@ class HomeViewModel: NSObject {
         self.coordinator = coordinator
     }
     
-    var subs: [String] = [] {
+    var subscriptions: [Subscription] = [] {
         didSet {
-            viewDelegate?.refreshWith(subs: subs)
+            viewDelegate?.refreshWith(subscriptions: subscriptions)
         }
     }
     
@@ -35,7 +35,7 @@ class HomeViewModel: NSObject {
         // appel reseau
         // response
         // subs appel reseau = subs
-        subs = ["subs1", "subs2", "subs3"]
+        subscriptions = []
     }
     
 }

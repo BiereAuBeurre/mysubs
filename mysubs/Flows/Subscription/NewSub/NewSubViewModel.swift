@@ -11,22 +11,23 @@ class NewSubViewModel: NSObject {
     weak var viewDelegate: NewSubController?
     private let coordinator: AppCoordinator
     private let category: String
+    var newSubVC = NewSubController()
+    var homeVC = HomeViewController()
 
     init(coordinator: AppCoordinator, category: String) {
         self.coordinator = coordinator
         self.category = category
     }
     
-    var subs: [String] = [] {
+    var subscriptions: [String] = [] {
         didSet {
-            viewDelegate?.refreshWith(subs: subs)
+            viewDelegate?.refreshWith(subscriptions: newSubVC.subscriptions)
         }
     }
 
     
-    
     func goBack() {
-        coordinator.goBack()
-
+        coordinator.goBack(subscriptions: viewDelegate!.subscriptions)
+//        homeVC.subscriptions  = viewDelegate?.subscriptions ?? nil
     }
 }

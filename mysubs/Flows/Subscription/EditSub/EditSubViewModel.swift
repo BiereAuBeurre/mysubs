@@ -16,7 +16,7 @@ class EditSubViewModel: NSObject {
     }
     
     func goBack() {
-        coordinator.goBack()
+//        coordinator.goBack(subscriptions: viewDelegate.subs)
     }
     
 }

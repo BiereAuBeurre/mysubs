@@ -39,10 +39,10 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     private let activityIndicator = UIActivityIndicatorView(style: .large)
     // MARK: Properties
     var storageService = StorageService()
-    var subInfo = Subscription(category: "ciné", commitment: "mensuel", extraInfo: "test", name: "SUBTEST", paymentRecurrency: "mensuel", price: 9.99, reminder: "2j avant", suggestedLogo: "rien")
-    
+//    var subscription1 = Subscription(category: "ciné", commitment: "mensuel", extraInfo: "test", name: "SUBTEST", paymentRecurrency: "mensuel", price: 9.99, reminder: "2j avant", suggestedLogo: "rien")
+//    var subscription2 = Subscription(category: "alimentation", commitment: "mensuel", extraInfo: "test", name: "SUBTEST2", paymentRecurrency: "mensuel", price: 4.49, reminder: "1 smeaine avant", suggestedLogo: "rien")
+    var newSubVC = NewSubController()
     var subscriptions: [Subscription] = []
-    
     var viewState: State<[Subscription]> = .empty {
         didSet {
             resetState()
@@ -67,10 +67,12 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
+//        subscriptions = newSubVC.subscriptions
         viewModel?.fetchSubs()
         
+        
         do {
-            try storageService.saveSubs(subInfo)
+            try storageService.saveSubs(subscriptions.first ?? Subscription(category: "ciné", commitment: "mensuel", extraInfo: "test", name: "SUBTEST", paymentRecurrency: "mensuel", price: 9.99, reminder: "2j avant", suggestedLogo: "rien"))
 
         }
         catch { print(error)}
@@ -86,6 +88,13 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("Category : \(category)")
+        
+        do { subscriptions = try storageService.loadSubs()
+                viewState = .showData(subscriptions)
+            print("voici les abonnements dans homeVC :")
+            print(subscriptions)
+        } catch { print("erreur : \(error)"); showAlert("Can't load data", "Something wen wrong, please try again later.") }
+        
     }
     
     func fetchSubFromDataBase() {
@@ -118,7 +127,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
 //            }
 //        }
     }
-    func refreshWith(subs: [String]) {
+    func refreshWith(subscriptions: [Subscription]) {
         myCollectionView.reloadData()
     }
     
@@ -242,7 +251,12 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         
         amountLabel.translatesAutoresizingMaskIntoConstraints = false
         amountLabel.adjustsFontForContentSizeCategory = true
-        amountLabel.text = " 22 € "
+        
+//        for sub in subscriptions {
+//            amountLabel.text = "\(sub.price)"
+//        }
+        amountLabel.text = "\(String(describing: subscriptions.first?.name)) €"
+        
         amountLabel.font = UIFont.preferredFont(forTextStyle: .headline)
         amountLabel.textColor = UIColor(named: "yellowgrey")
         amountLabel.backgroundColor = MSColors.background
@@ -285,14 +299,21 @@ extension HomeViewController: UICollectionViewDataSource {
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel?.subs.count ?? 0
+//        return viewModel?.subssciptions.count ?? 0
+        return subscriptions.count
+
     }
     
+    
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let myCell = collectionView.dequeueReusableCell(withReuseIdentifier: SubCell.identifier, for: indexPath)
+        let myCell = myCollectionView.dequeueReusableCell(withReuseIdentifier: SubCell.identifier, for: indexPath) as! SubCell
 //        myCell.backgroundColor = .systemBlue
 //        UIColor(named: "background")
-        print(viewModel?.subs[indexPath.row] ?? 4)
+//        print(viewModel?.subscriptions[indexPath.row] ?? 1)
+//        myCell.subscriptions = subscriptions
+        
+        myCell.subscription = subscriptions[indexPath.row]
         return myCell
     }
 }

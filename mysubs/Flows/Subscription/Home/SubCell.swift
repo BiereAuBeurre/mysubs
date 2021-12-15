@@ -13,10 +13,18 @@ class SubCell: UICollectionViewCell {
     private var subNameLabel = UILabel()
     private var logo = UIImageView()
     private var priceLabel = UILabel()
+    
     var subscriptionTest = Subscription(category: "ciné", commitment: "mensuel", extraInfo: "test", name: "SUBTEST", paymentRecurrency: "mensuel", price: 9.99, reminder: "2j avant", suggestedLogo: "rien")
+    var subscription: Subscription? {
+        didSet {
+            refreshSubData()
+        }
+    }
+    private var homeVC = HomeViewController()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .systemPink//UIColor(named: "background")
+        contentView.backgroundColor = .systemPink
         refreshSubData()
         setup()
     }
@@ -24,13 +32,7 @@ class SubCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("error")
     }
-    
-    var subscriptions: Subscription? {
-        didSet {
-            refreshSubData()
-        }
-    }
-    private var homeVC = HomeViewController()
+
     
 //    override func layoutSubviews() {
 //        super.layoutSubviews()
@@ -39,18 +41,22 @@ class SubCell: UICollectionViewCell {
     
     //Setting values in cells
     func refreshSubData() {
-        subNameLabel.text = subscriptionTest.name
+        subNameLabel.text = subscription?.name
+        priceLabel.text = "\(subscription?.price ?? 0) €"
     }
     
     func setup() {
         priceLabel.translatesAutoresizingMaskIntoConstraints = false
-        priceLabel.text = "\(subscriptionTest.price) €"
+//        priceLabel.text = "\(subscriptionTest.price) €"
         priceLabel.textColor = MSColors.maintext
         
         subNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        subNameLabel.text = subscription?.name
+        priceLabel.text = "\(String(describing: subscription?.price))"
+
 //        subNameLabel.text = subInfo.name
-        subNameLabel.textColor = .systemYellow
-        subNameLabel.tintColor = .systemPink
+        subNameLabel.textColor = .black
+//        subNameLabel.tintColor = .systemPink
         logo.translatesAutoresizingMaskIntoConstraints = false
         logo.image = UIImage(named: "ps")
         addSubview(priceLabel)

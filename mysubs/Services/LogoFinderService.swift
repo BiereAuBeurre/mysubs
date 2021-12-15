@@ -5,7 +5,7 @@
 //  Created by Manon Russo on 30/11/2021.
 //
 import Foundation
-import SystemConfiguration
+//import SystemConfiguration
 
 class LogoFinderService {
     let httpHeader = "\(APIConfiguration.apiKey)"

@@ -8,14 +8,14 @@
 import Foundation
 
 struct Subscription: Decodable {
-    let category: String
-    let commitment: String
-    let extraInfo: String
+    let category: String?
+    let commitment: String?
+    let extraInfo: String?
     let name: String
-    let paymentRecurrency: String
+    let paymentRecurrency: String?
     let price: Float
-    let reminder: String
-    let suggestedLogo: String
+    let reminder: String?
+    let suggestedLogo: String?
 }
 
 extension Subscription {

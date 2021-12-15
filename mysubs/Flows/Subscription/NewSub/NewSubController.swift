@@ -38,7 +38,10 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     var logo = UIImageView()
     
     var viewModel: NewSubViewModel?
-    
+    var subscriptions: [Subscription] = []
+    var storageService = StorageService()
+
+//    var subscription1 = Subscription(category: "ciné", commitment: "mensuel", extraInfo: "test", name: "netflix", paymentRecurrency: "mensuel", price: 9.99, reminder: "2j avant", suggestedLogo: "rien")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,13 +56,30 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     }
     
     @objc func addButtonAction(){
+        //checking minimum field to fill are
+        guard nameField.text != "",
+              priceField.text != "" else { return showAlert("Champs manquants", "Merci de renseigner au moins les deux champs obligatoires : \n - nom \n - prix") }
+        /// Unwrapping nameField.text.
+        guard let name = nameField.text else { return }
+//              let price = Float(priceField.text ?? "0")
+        var subTest = Subscription(category: nil, commitment: nil, extraInfo: nil, name: name, paymentRecurrency: nil, price: 99, reminder: nil, suggestedLogo: nil)
+        subscriptions.append(subTest)
+        
+        do {
+            try storageService.saveSubs(subTest)
+
+        }
+        catch { print(error)}
+        
         viewModel?.goBack()
-        print("test")
+        print("voici les abonnements dans editVC :")
+        print(subscriptions)
     }
     
-    func refreshWith(subs: [String]) {
+    func refreshWith(subscriptions: [Subscription]) {
 //        myCollectionView.reloadData()
-        print("refresh with isread")
+        
+        print("refresh with is read")
     }
     
     func setUpNavBar() {

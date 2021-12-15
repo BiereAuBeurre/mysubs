@@ -59,13 +59,20 @@ class AppCoordinator: Coordinator {
         navigationController.pushViewController(editSubVC, animated: true)
     }
     
-    func goBack() {
+    func goBack(subscriptions: [Subscription]) {
+        
+        let homeVC = HomeViewController()
+        let homeVCViewModel = HomeViewModel(coordinator: self)
+        homeVCViewModel.viewDelegate = homeVC
+        homeVC.viewModel = homeVCViewModel
+        homeVC.subscriptions = subscriptions
 //        let homeVc = HomeViewController()
 //        homeVc.coordinator = self
-//        navigationController.popToViewController(, animated: <#T##Bool#>)
+
 //        navigationController.viewControllers for each
         navigationController.popToRootViewController(animated: true)
-//        navigationController.pushViewController(homeVc, animated: true)
+        
+//        navigationController.pushViewController(homeVC, animated: true)
     }
     
     ///toutes les methodes de navigation private, toujours appeler qch comme avec viewdidload() (dans start())
