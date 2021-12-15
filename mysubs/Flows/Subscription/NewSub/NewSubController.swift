@@ -53,7 +53,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
 //        print("Category : \(viewModel.categ ?? "Missing")")
     }
     
-    @objc func addButtonAction(){
+    @objc func addButtonAction() {
         //checking minimum field to fill are
         guard nameField.text != "",
               priceField.text != "" else { return showAlert("Champs manquants", "Merci de renseigner au moins les deux champs obligatoires : \n - nom \n - prix") }
@@ -248,8 +248,6 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
 ,
             logo.widthAnchor.constraint(equalToConstant: 100),
             logo.heightAnchor.constraint(equalToConstant: 100)
-            
-            
             ])
     }
 }

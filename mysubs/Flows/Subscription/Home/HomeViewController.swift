@@ -49,51 +49,55 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
                 activityIndicator.startAnimating()
                 print("loading...")
             case .empty:
-                //diplsayEmptyView()
+//                displayEmptyView()
                 print("empty!")
             case .error:
                 showAlert("Erreur", "Il semble y avoir un problème, merci de réessayer")
                 print("error")
             case .showData(let subscriptions):
                 print("thats datas")
-                self.subscriptions = subscriptions
-                myCollectionView.reloadData() //(equivalent)?
+                myCollectionView.isHidden = false
+                activityIndicator.stopAnimating()
+//                self.subscriptions = subscriptions
+                self.viewModel?.subscriptions = subscriptions
+
+                myCollectionView.reloadData()
             }
         }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-        viewModel?.fetchSubs()
+//        viewModel?.fetchSubs()
+        do {
+            // Allowed to reload those subs when re-launching app since they're now saved
+            for subs in subscriptions {
+            try storageService.saveSubs(subs)
+            }
+        }
+        catch { print(error)}
         
-        
-//        do {
-//            try storageService.saveSubs(subscriptions.first ?? nil)
-//
-//        }
-//        catch { print(error)}
-        fetchSubFromDataBase()
-
-//        do {
-//            try storageService.deleteSubs(subInfo)
-//        }
-//        catch { print(error)}
+//        fetchSubFromDataBase()
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("Category : \(category)")
-        
-        do { subscriptions = try storageService.loadSubs()
-                viewState = .showData(subscriptions)
-            print("voici les abonnements dans homeVC :")
-            print(subscriptions)
-        } catch { print("erreur : \(error)"); showAlert("Can't load data", "Something wen wrong, please try again later.") }
-//        setUpUI()
+//        print("Category : \(category)")
+        fetchSubFromDataBase()
         setUpTotalAmountView()
-
+    }
+    
+    
+    func displayEmptyView() {
+        let emptyView = UITextView.init(frame: myCollectionView.frame)
+        emptyView.text = "\n\n\n\n\nAppuyez sur le + en haut pour commencer !"
+        emptyView.isEditable = false
+        emptyView.textAlignment = .center
+        emptyView.font = MSFonts.title1
+        emptyView.translatesAutoresizingMaskIntoConstraints = true
+        myCollectionView.insertSubview(emptyView, at: 0)
     }
     
     func fetchSubFromDataBase() {
@@ -102,7 +106,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
                 viewState = .empty
             } else {
                 viewState = .showData(subscriptions)
-                print(subscriptions)
+                print("abonnement print dans le fetchsub : \(subscriptions)")
             }
         } catch { print("error: \(error) can't load data") }
 
@@ -145,7 +149,8 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     
     //MARK: Private methods
     private func resetState() {
-        activityIndicator.stopAnimating()
+//        activityIndicator.stopAnimating()
+        viewState = .loading
         //collectionView.isHidden = true
     }
     
@@ -304,22 +309,21 @@ extension HomeViewController: UICollectionViewDataSource {
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return viewModel?.subssciptions.count ?? 0
-        return subscriptions.count
+        return viewModel?.subscriptions.count ?? 0
+//        return subscriptions.count
 
     }
     
     
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let myCell = myCollectionView.dequeueReusableCell(withReuseIdentifier: SubCell.identifier, for: indexPath) as! SubCell
+        let collectionViewCell = myCollectionView.dequeueReusableCell(withReuseIdentifier: SubCell.identifier, for: indexPath) as! SubCell
 //        myCell.backgroundColor = .systemBlue
 //        UIColor(named: "background")
 //        print(viewModel?.subscriptions[indexPath.row] ?? 1)
 //        myCell.subscriptions = subscriptions
         
-        myCell.subscription = subscriptions[indexPath.row]
-        return myCell
+        collectionViewCell.subscription = subscriptions[indexPath.row]
+        return collectionViewCell
     }
 }
 

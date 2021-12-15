@@ -27,7 +27,7 @@ class NewSubViewModel: NSObject {
 
     
     func goBack() {
-        coordinator.goBack(subscriptions: viewDelegate!.subscriptions)
+        coordinator.goBack()
 //        homeVC.subscriptions  = viewDelegate?.subscriptions ?? nil
     }
 }

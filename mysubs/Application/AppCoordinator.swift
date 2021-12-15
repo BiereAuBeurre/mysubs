@@ -59,13 +59,13 @@ class AppCoordinator: Coordinator {
         navigationController.pushViewController(editSubVC, animated: true)
     }
     
-    func goBack(subscriptions: [Subscription]) {
+    func goBack() {
         
-        let homeVC = HomeViewController()
-        let homeVCViewModel = HomeViewModel(coordinator: self)
-        homeVCViewModel.viewDelegate = homeVC
-        homeVC.viewModel = homeVCViewModel
-        homeVC.subscriptions = subscriptions
+//        let homeVC = HomeViewController()
+//        let homeVCViewModel = HomeViewModel(coordinator: self)
+//        homeVCViewModel.viewDelegate = homeVC
+//        homeVC.viewModel = homeVCViewModel
+//        homeVC.subscriptions = subscriptions
 //        let homeVc = HomeViewController()
 //        homeVc.coordinator = self
 
