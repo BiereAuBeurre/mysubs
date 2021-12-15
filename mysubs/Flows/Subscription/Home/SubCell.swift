@@ -51,8 +51,10 @@ class SubCell: UICollectionViewCell {
         priceLabel.textColor = MSColors.maintext
         
         subNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        subNameLabel.text = subscription?.name
-        priceLabel.text = "\(String(describing: subscription?.price))"
+//        subNameLabel.text = subscription?.name
+//        priceLabel.text = "\(subscription?.price ?? 0) €"
+
+//        priceLabel.text = "\(String(describing: subscription?.price))"
 
 //        subNameLabel.text = subInfo.name
         subNameLabel.textColor = .black

@@ -39,9 +39,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     private let activityIndicator = UIActivityIndicatorView(style: .large)
     // MARK: Properties
     var storageService = StorageService()
-//    var subscription1 = Subscription(category: "ciné", commitment: "mensuel", extraInfo: "test", name: "SUBTEST", paymentRecurrency: "mensuel", price: 9.99, reminder: "2j avant", suggestedLogo: "rien")
-//    var subscription2 = Subscription(category: "alimentation", commitment: "mensuel", extraInfo: "test", name: "SUBTEST2", paymentRecurrency: "mensuel", price: 4.49, reminder: "1 smeaine avant", suggestedLogo: "rien")
-    var newSubVC = NewSubController()
+//    var newSubVC = NewSubController()
     var subscriptions: [Subscription] = []
     var viewState: State<[Subscription]> = .empty {
         didSet {
@@ -67,15 +65,14 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-//        subscriptions = newSubVC.subscriptions
         viewModel?.fetchSubs()
         
         
-        do {
-            try storageService.saveSubs(subscriptions.first ?? Subscription(category: "ciné", commitment: "mensuel", extraInfo: "test", name: "SUBTEST", paymentRecurrency: "mensuel", price: 9.99, reminder: "2j avant", suggestedLogo: "rien"))
-
-        }
-        catch { print(error)}
+//        do {
+//            try storageService.saveSubs(subscriptions.first ?? nil)
+//
+//        }
+//        catch { print(error)}
         fetchSubFromDataBase()
 
 //        do {
@@ -94,7 +91,9 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
             print("voici les abonnements dans homeVC :")
             print(subscriptions)
         } catch { print("erreur : \(error)"); showAlert("Can't load data", "Something wen wrong, please try again later.") }
-        
+//        setUpUI()
+        setUpTotalAmountView()
+
     }
     
     func fetchSubFromDataBase() {
@@ -106,7 +105,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
                 print(subscriptions)
             }
         } catch { print("error: \(error) can't load data") }
-        
+
     }
     private func fetchLogo() {
 //        guard isAllLoaded == false else { return }
@@ -252,10 +251,16 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         amountLabel.translatesAutoresizingMaskIntoConstraints = false
         amountLabel.adjustsFontForContentSizeCategory = true
         
-//        for sub in subscriptions {
-//            amountLabel.text = "\(sub.price)"
-//        }
-        amountLabel.text = "\(String(describing: subscriptions.first?.name)) €"
+        var totalPrice: Float = 0
+        
+        for sub in subscriptions {
+            totalPrice += sub.price
+            print("voici les prix \(sub.price)")
+            amountLabel.text = "\(totalPrice) €"
+        }
+        
+    
+//        amountLabel.text = "\(subCell.subscriptions.first.price) €"
         
         amountLabel.font = UIFont.preferredFont(forTextStyle: .headline)
         amountLabel.textColor = UIColor(named: "yellowgrey")

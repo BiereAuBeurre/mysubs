@@ -40,8 +40,6 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     var viewModel: NewSubViewModel?
     var subscriptions: [Subscription] = []
     var storageService = StorageService()
-
-//    var subscription1 = Subscription(category: "ciné", commitment: "mensuel", extraInfo: "test", name: "netflix", paymentRecurrency: "mensuel", price: 9.99, reminder: "2j avant", suggestedLogo: "rien")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,8 +59,9 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
               priceField.text != "" else { return showAlert("Champs manquants", "Merci de renseigner au moins les deux champs obligatoires : \n - nom \n - prix") }
         /// Unwrapping nameField.text.
         guard let name = nameField.text else { return }
-//              let price = Float(priceField.text ?? "0")
-        var subTest = Subscription(category: nil, commitment: nil, extraInfo: nil, name: name, paymentRecurrency: nil, price: 99, reminder: nil, suggestedLogo: nil)
+        guard let price = priceField.text else { return }
+        let price2 = Float(price)!
+        var subTest = Subscription(category: nil, commitment: nil, extraInfo: nil, name: name, paymentRecurrency: nil, price: price2, reminder: nil, suggestedLogo: nil)
         subscriptions.append(subTest)
         
         do {
@@ -191,7 +190,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         price.translatesAutoresizingMaskIntoConstraints = false
         price.text = "Prix"
         rightSideStackView.addArrangedSubview(priceField)
-        priceField.text = "9,99 €"
+        priceField.text = ""
         priceField.borderStyle = .roundedRect
         priceField.translatesAutoresizingMaskIntoConstraints = false
         
