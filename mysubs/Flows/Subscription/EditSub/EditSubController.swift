@@ -10,7 +10,7 @@ import UIKit
 class EditSubController: UIViewController {
     
     weak var coordinator: AppCoordinator?
-    var sub: String?
+//    var sub: String?
 
     
     var logoHeader = UIImageView()
@@ -44,20 +44,30 @@ class EditSubController: UIViewController {
     var footerStackView = UIStackView()
     var modifyButton = UIButton()
     var deleteButton = UIButton()
-    
     var viewModel: EditSubViewModel?
-    
-    var subInfo = Subscription(category: "ciné", commitment: "mensuel", extraInfo: "test", name: "NETFLIX", paymentRecurrency: "mensuel", price: 9.99, reminder: "2j avant", suggestedLogo: "rien")
-    
+    var storageService = StorageService()
+//    var subInfo = Subscription(category: "ciné", commitment: "mensuel", extraInfo: "test", name: "NETFLIX", paymentRecurrency: "mensuel", price: 9.99, reminder: "2j avant", suggestedLogo: "rien")
+    var sub: Subscription = Subscription(category: "", commitment: "", extraInfo: "", name: "", paymentRecurrency: "", price: 9.99, reminder: "", suggestedLogo: "")
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpNavBar()
         setUpView()
         activateConstraints()
+
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.viewModel?.subscription = sub
+
+    }
+    
     @objc func doneEditingAction() {
+//        do {
+//            try storageService.saveSubs(sub)
+//        } catch { print("error") }
         viewModel?.goBack()
     }
     
@@ -89,6 +99,11 @@ class EditSubController: UIViewController {
         self.navigationItem.rightBarButtonItem = rightBarButtonItem
     }
     
+    func refreshWith(subscription: Subscription) {
+        nameField.text = sub.name
+//        myCollectionView.reloadData()
+    }
+    
     func setUpView(){
         view.backgroundColor = MSColors.background
         logoHeader.translatesAutoresizingMaskIntoConstraints = false
@@ -117,7 +132,8 @@ class EditSubController: UIViewController {
         name.text = "Nom"
         name.textColor = MSColors.maintext
         leftSideStackView.addArrangedSubview(nameField)
-        nameField.text = subInfo.name
+        nameField.text = /*sub.name */ self.viewModel?.subscription?.name
+        print(self.viewModel?.subscription?.name)
         nameField.borderStyle = .roundedRect
         nameField.translatesAutoresizingMaskIntoConstraints = false
         
@@ -129,7 +145,7 @@ class EditSubController: UIViewController {
         leftSideStackView.addArrangedSubview(commitmentField)
         commitmentField.borderStyle = .roundedRect
         commitmentField.translatesAutoresizingMaskIntoConstraints = false
-        commitmentField.text = subInfo.commitment // changer pour liste préconçue
+        commitmentField.text = ""//subInfo.commitment // changer pour liste préconçue
         
         //MARK: Adding category field
         leftSideStackView.addArrangedSubview(categoryLabel)
@@ -139,7 +155,7 @@ class EditSubController: UIViewController {
         leftSideStackView.addArrangedSubview(categoryField)
         categoryField.borderStyle = .roundedRect
         categoryField.translatesAutoresizingMaskIntoConstraints = false
-        categoryField.text = subInfo.category // changer pour liste préconçue
+        categoryField.text = ""//subInfo.category // changer pour liste préconçue
         
         //MARK: Adding info field
         leftSideStackView.addArrangedSubview(info)
@@ -149,7 +165,7 @@ class EditSubController: UIViewController {
         leftSideStackView.addArrangedSubview(infoField)
         infoField.borderStyle = .roundedRect
         infoField.translatesAutoresizingMaskIntoConstraints = false
-        infoField.text = subInfo.extraInfo
+        infoField.text = ""//subInfo.extraInfo
         
         formView.addArrangedSubview(leftSideStackView)
         
@@ -166,7 +182,7 @@ class EditSubController: UIViewController {
         price.translatesAutoresizingMaskIntoConstraints = false
         price.text = "Prix"
         rightSideStackView.addArrangedSubview(priceField)
-        priceField.text = "\(subInfo.price) €"
+        priceField.text = ""//\(subInfo.price) €"
         priceField.borderStyle = .roundedRect
         priceField.translatesAutoresizingMaskIntoConstraints = false
         
@@ -175,7 +191,7 @@ class EditSubController: UIViewController {
         reminder.translatesAutoresizingMaskIntoConstraints = false
         reminder.text = "Rappel"
         rightSideStackView.addArrangedSubview(reminderField)
-        reminderField.text = subInfo.reminder
+        reminderField.text = ""//subInfo.reminder
         reminderField.borderStyle = .roundedRect
         reminderField.translatesAutoresizingMaskIntoConstraints = false
         
@@ -184,7 +200,7 @@ class EditSubController: UIViewController {
         recurrency.translatesAutoresizingMaskIntoConstraints = false
         recurrency.text = "Récurrence"
         rightSideStackView.addArrangedSubview(recurrencyField)
-        recurrencyField.text = subInfo.paymentRecurrency
+        recurrencyField.text = ""//subInfo.paymentRecurrency
         recurrencyField.borderStyle = .roundedRect
         recurrencyField.translatesAutoresizingMaskIntoConstraints = false
         
@@ -193,8 +209,8 @@ class EditSubController: UIViewController {
     //MARK: Adding logo suggestion
         suggestedLogo.translatesAutoresizingMaskIntoConstraints = false
         logo.translatesAutoresizingMaskIntoConstraints = false
-        suggestedLogo.text = "Logo suggéré"
-        logo.image = UIImage(named: "ps")
+        suggestedLogo.text = ""//Logo suggéré"
+        logo.image = nil//UIImage(named: "ps")
         
         
     //MARK: FOOTER BUTTONS

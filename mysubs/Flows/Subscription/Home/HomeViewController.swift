@@ -15,13 +15,7 @@ enum State<Data> {
     case showData(Data)
 }
 
-
-//créer tabbar, 1 navigationcontroller pour chaque objet 
 class HomeViewController: UIViewController, UINavigationBarDelegate {
-// TEST CODE DATA (mettre dans viewdidLoad à partir du do pour test
-   
-   
-    
     var category = CategoryInfo(name: " Ajouter une catégorie ")
     
     var viewModel : HomeViewModel?
@@ -43,25 +37,26 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     var subscriptions: [Subscription] = []
     var viewState: State<[Subscription]> = .empty {
         didSet {
-            resetState()
+//            resetState()
             switch viewState {
             case .loading:
                 activityIndicator.startAnimating()
                 print("loading...")
             case .empty:
-//                displayEmptyView()
+                myCollectionView.isHidden = true
+
+                displayEmptyView()
                 print("empty!")
             case .error:
                 showAlert("Erreur", "Il semble y avoir un problème, merci de réessayer")
                 print("error")
             case .showData(let subscriptions):
                 print("thats datas")
-                myCollectionView.isHidden = false
                 activityIndicator.stopAnimating()
 //                self.subscriptions = subscriptions
                 self.viewModel?.subscriptions = subscriptions
-
                 myCollectionView.reloadData()
+                myCollectionView.isHidden = false
             }
         }
     }
@@ -69,15 +64,14 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-//        viewModel?.fetchSubs()
+        viewModel?.fetchSubs()
         do {
             // Allowed to reload those subs when re-launching app since they're now saved
             for subs in subscriptions {
             try storageService.saveSubs(subs)
             }
         }
-        catch { print(error)}
-        
+        catch { print("error") }
 //        fetchSubFromDataBase()
     }
     
@@ -134,24 +128,22 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         myCollectionView.reloadData()
     }
     
-//    func addCategoryButtonAction() {
-//    }
     
     @objc func plusButtonAction() {
         viewModel?.showNewSub()
         print("passage dans methode obj c")
     }
     
-    func cellTapped() {
-        viewModel?.showDetail()
+    func cellTapped(sub: Subscription) {
+        viewModel?.showDetail(sub: sub)
         print("passage dans methode show details")
     }
     
-    //MARK: Private methods
+//    MARK: Private methods
     private func resetState() {
-//        activityIndicator.stopAnimating()
+        activityIndicator.stopAnimating()
         viewState = .loading
-        //collectionView.isHidden = true
+        myCollectionView.isHidden = true
     }
     
     private func deleteSub(sub: Subscription) {
@@ -305,6 +297,8 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     }
 }
 
+
+
 extension HomeViewController: UICollectionViewDataSource {
     
     
@@ -329,7 +323,8 @@ extension HomeViewController: UICollectionViewDataSource {
 
 extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        cellTapped()
+        guard let selectedSub = viewModel?.subscriptions[indexPath.row] else { return }
+        cellTapped(sub: selectedSub)
        print("item \(indexPath.row+1) tapped")
     }
 }

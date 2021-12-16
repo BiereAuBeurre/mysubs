@@ -27,8 +27,8 @@ class HomeViewModel: NSObject {
         coordinator.showNewSubScreenFor(category: "category")
     }
     
-    func showDetail() {
-        coordinator.showDetailSubScreen(sub: "subs1")
+    func showDetail(sub: Subscription) {
+        coordinator.showDetailSubScreen(sub: sub)
     }
     
     func fetchSubs() {

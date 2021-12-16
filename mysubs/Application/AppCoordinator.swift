@@ -48,14 +48,12 @@ class AppCoordinator: Coordinator {
         navigationController.pushViewController(newSubVC, animated: true)
     }
     
-    func showDetailSubScreen(sub: String) {
+    func showDetailSubScreen(sub: Subscription) {
         let editSubVC = EditSubController()
         let editSubViewModel = EditSubViewModel(coordinator: self)
         editSubViewModel.viewDelegate = editSubVC
         editSubVC.viewModel = editSubViewModel
-        editSubViewModel.viewDelegate = editSubVC
-//        editSubVC.coordinator = self
-//        editSubVC.sub = sub
+        editSubVC.sub = sub
         navigationController.pushViewController(editSubVC, animated: true)
     }
     
@@ -65,7 +63,7 @@ class AppCoordinator: Coordinator {
 //        let homeVCViewModel = HomeViewModel(coordinator: self)
 //        homeVCViewModel.viewDelegate = homeVC
 //        homeVC.viewModel = homeVCViewModel
-//        homeVC.subscriptions = subscriptions
+//        homeVC.subscriptions = homeVCViewModel.subscriptions
 //        let homeVc = HomeViewController()
 //        homeVc.coordinator = self
 

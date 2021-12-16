@@ -22,12 +22,14 @@ class NewSubViewModel: NSObject {
     var subscriptions: [String] = [] {
         didSet {
             viewDelegate?.refreshWith(subscriptions: newSubVC.subscriptions)
+//            viewDelegate?.refreshWith(subscriptions: viewDelegate!.subscriptions)
+
         }
     }
 
     
     func goBack() {
         coordinator.goBack()
-//        homeVC.subscriptions  = viewDelegate?.subscriptions ?? nil
+//        homeVC.subscriptions  = viewDelegate!.subscriptions 
     }
 }
