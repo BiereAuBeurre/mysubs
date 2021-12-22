@@ -21,7 +21,7 @@ class HomeViewModel: NSObject {
         }
     }
     
-    
+    var categorys: [Category] = []
     
     func showNewSub() {
         coordinator.showNewSubScreenFor(category: "category")

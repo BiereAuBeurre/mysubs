@@ -15,36 +15,47 @@ class StorageService {
     }
     
     //MARK: Category Methods
-    func loadCategory() throws -> [CategoryInfo] {
+//    func loadCategory() throws -> [Category] {
         /// CoreData request, return a subscriptionEntity object that is convert into SubInfo as soon as it's loaded.
-        let fetchRequest: NSFetchRequest<CategoryEntity> = CategoryEntity.fetchRequest()
-        let categoryEntities: [CategoryEntity]
-        do { categoryEntities = try viewContext.fetch(fetchRequest) }
-        catch { throw error }
-        let category = categoryEntities.map { (categoryEntity) -> CategoryInfo in
-            return CategoryInfo(from: categoryEntity)
+//        let fetchRequest: NSFetchRequest<CategoryEntity> = CategoryEntity.fetchRequest()
+//        let categoryEntities: [CategoryEntity]
+//        do { categoryEntities = try viewContext.fetch(fetchRequest) }
+//        catch { throw error }
+//        let category = categoryEntities.map { (categoryEntity) -> CategoryInfo in
+//            return CategoryInfo(from: categoryEntity)
+//        }
+//        return category
+//    }
+    
+    func saveCategory(category: String) throws {
+        // on peut tout enlever (parametres aussi), juste garder has changed
+        let entity = NSEntityDescription.entity(forEntityName: "Category", in: viewContext)!
+        let category = NSManagedObject(entity: entity, insertInto: viewContext)
+        category.setValue(category, forKey: "name")
+        if viewContext.hasChanges {
+            do { try viewContext.save() }
+            catch { throw error }
         }
-        return category
     }
     
-    func saveCategory(_ categoryInfo: CategoryInfo) throws {
-        let categoryEntity = CategoryEntity(context: viewContext)
-        categoryEntity.name = categoryInfo.name
-        print(categoryEntity)
-    }
+//    func saveCategory(_ categoryInfo: CategoryInfo) throws {
+//        let categoryEntity = CategoryEntity(context: viewContext)
+//        categoryEntity.name = categoryInfo.name
+//        print(categoryEntity)
+//    }
     
-    func deleteCategory(_ categoryInfo: CategoryInfo) throws {
-        let fetchRequest: NSFetchRequest<CategoryEntity> = CategoryEntity.fetchRequest()
-        let predicate = NSPredicate(format: "name == %@", categoryInfo.name)
-        fetchRequest.predicate = predicate
-        let categoriesEntities: [ CategoryEntity]
-        do { categoriesEntities = try viewContext.fetch(fetchRequest)
-            categoriesEntities.forEach { (categoryEntity) in
-                viewContext.delete(categoryEntity) }
-            /// Save once recipe is deleted.
-            try viewContext.save() }
-        catch { throw error }
-        print(categoriesEntities)
+    func deleteCategory(_ category: NSManagedObject) throws {
+//        let fetchRequest: NSFetchRequest<CategoryEntity> = CategoryEntity.fetchRequest()
+//        let predicate = NSPredicate(format: "name == %@", categoryInfo.name)
+//        fetchRequest.predicate = predicate
+//        let categoriesEntities: [ CategoryEntity]
+//        do { categoriesEntities = try viewContext.fetch(fetchRequest)
+//            categoriesEntities.forEach { (categoryEntity) in
+//                viewContext.delete(categoryEntity) }
+//            /// Save once recipe is deleted.
+//            try viewContext.save() }
+//        catch { throw error }
+//        print(categoriesEntities)
     }
 
     //MARK: Subscription methods

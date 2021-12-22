@@ -16,7 +16,7 @@ enum State<Data> {
 }
 
 class HomeViewController: UIViewController, UINavigationBarDelegate {
-    var category = CategoryInfo(name: " Ajouter une catégorie ")
+//    var category = CategoryInfo(name: " Ajouter une catégorie ")
     
     var viewModel : HomeViewModel?
     weak var coordinator: AppCoordinator?
@@ -75,22 +75,37 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         setUpTotalAmountView()
     }
     
+    @objc func addNewCategory() {
+        let alert = UIAlertController(title: "Nouvelle category", message: "Ajoutez votre nouvelle category", preferredStyle: .alert)
+        let saveAction = UIAlertAction(title: "Ajouter", style: .default) { [unowned self] action in
+            guard let textField = alert.textFields?.first,
+                  let categoryToSave = textField.text else { return }
+            do {
+                try storageService.saveCategory(category: categoryToSave)
+            } catch { error }
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alert.addTextField()
+        alert.addAction(saveAction)
+        alert.addAction(cancelAction)
+
+        present(alert, animated: true)
+    }
     
     func displayEmptyView() {
         let emptyView = UITextView.init(frame: view.frame)
-        emptyView.text = "\n\n\n\n\nAppuyez sur le + en haut pour commencer !"
+        emptyView.text = "\n\n\nAppuyez sur le + en haut pour commencer !"
         emptyView.isEditable = false
         emptyView.textAlignment = .center
-        emptyView.font = MSFonts.title1
+        emptyView.font = MSFonts.title2
         emptyView.translatesAutoresizingMaskIntoConstraints = true
         stackView.addArrangedSubview(emptyView)
         amountLabel.text = " - €"
-//        myCollectionView.insertSubview(emptyView, at: 0)
     }
     
     func fetchSubFromDataBase() {
         do { viewModel?.subscriptions = try storageService.viewContext.fetch(Subscription.fetchRequest())
-            if viewModel!.subscriptions.isEmpty {
+            if viewModel?.subscriptions == [] {
                 viewState = .empty
             } else {
                 viewState = .showData(viewModel?.subscriptions ?? [])
@@ -172,7 +187,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     func setUpView() {
         view.backgroundColor = MSColors.background
         categoryButton.translatesAutoresizingMaskIntoConstraints = false
-        categoryButton.setTitle(category.name, for: UIControl.State.normal)
+        categoryButton.setTitle("test category", for: UIControl.State.normal)
         categoryButton.titleLabel?.adjustsFontForContentSizeCategory = true
         categoryButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title2)
         categoryButton.backgroundColor = UIColor(named: "reverse_bg")
@@ -180,8 +195,8 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         categoryButton.addCornerRadius()
         categoryButton.isUserInteractionEnabled = true
         view.addSubview(categoryButton)
-        categoryButton.addTarget(self, action: #selector(deleteAll), for: .touchUpInside)
-
+//        categoryButton.addTarget(self, action: #selector(deleteAll), for: .touchUpInside)
+        categoryButton.addTarget(self, action: #selector(addNewCategory), for: .touchUpInside)
     }
     
     @objc func deleteAll() {

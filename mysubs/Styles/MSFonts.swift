@@ -9,4 +9,5 @@ import UIKit
 
 enum MSFonts {
     static let title1 = UIFont.preferredFont(forTextStyle: .title1)
+    static let title2 = UIFont.preferredFont(forTextStyle: .title2)
 }

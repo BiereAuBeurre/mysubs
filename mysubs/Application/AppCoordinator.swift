@@ -35,6 +35,7 @@ class AppCoordinator: Coordinator {
         let homeVCViewModel = HomeViewModel(coordinator: self)
         homeVCViewModel.viewDelegate = homeVC
         homeVC.viewModel = homeVCViewModel
+//        homeVC.category = category
         navigationController.pushViewController(homeVC, animated: false)
     }
     
