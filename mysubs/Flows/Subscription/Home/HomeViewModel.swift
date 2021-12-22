@@ -32,6 +32,7 @@ class HomeViewModel: NSObject {
     }
     
     func fetchSubs() {
+        
         // appel reseau
         // response
         // subs appel reseau = subs

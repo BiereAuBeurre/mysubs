@@ -6,23 +6,21 @@
 //
 
 import Foundation
+import CoreData
 
 class NewSubViewModel: NSObject {
     weak var viewDelegate: NewSubController?
     private let coordinator: AppCoordinator
     private let category: String
-    var newSubVC = NewSubController()
-    var homeVC = HomeViewController()
 
     init(coordinator: AppCoordinator, category: String) {
         self.coordinator = coordinator
         self.category = category
     }
     
-    var subscriptions: [String] = [] {
+    var subscriptions: [NSManagedObject] = [] {
         didSet {
-            viewDelegate?.refreshWith(subscriptions: newSubVC.subscriptions)
-//            viewDelegate?.refreshWith(subscriptions: viewDelegate!.subscriptions)
+            // viewDelegate?.refreshWith(subscriptions: viewDelegate!.subscriptions)
 
         }
     }
@@ -30,6 +28,6 @@ class NewSubViewModel: NSObject {
     
     func goBack() {
         coordinator.goBack()
-//        homeVC.subscriptions  = viewDelegate!.subscriptions 
+        // homeVC.subscriptions  = viewDelegate!.subscriptions
     }
 }

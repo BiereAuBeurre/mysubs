@@ -3,7 +3,7 @@
     <entity name="CategoryEntity" representedClassName="CategoryEntity" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String"/>
     </entity>
-    <entity name="SubscriptionEntity" representedClassName="SubscriptionEntity" syncable="YES" codeGenerationType="class">
+    <entity name="Subscription" representedClassName="Subscription" syncable="YES" codeGenerationType="class">
         <attribute name="category" optional="YES" attributeType="String"/>
         <attribute name="commitment" optional="YES" attributeType="String"/>
         <attribute name="extraInfo" optional="YES" attributeType="String"/>
@@ -14,7 +14,7 @@
         <attribute name="suggestedLogo" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="SubscriptionEntity" positionX="-63" positionY="-18" width="128" height="149"/>
         <element name="CategoryEntity" positionX="-36" positionY="72" width="128" height="44"/>
+        <element name="Subscription" positionX="-63" positionY="-18" width="128" height="149"/>
     </elements>
 </model>

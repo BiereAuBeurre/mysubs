@@ -14,7 +14,7 @@ class SubCell: UICollectionViewCell {
     private var logo = UIImageView()
     private var priceLabel = UILabel()
     
-    var subscriptionTest = Subscription(category: "ciné", commitment: "mensuel", extraInfo: "test", name: "SUBTEST", paymentRecurrency: "mensuel", price: 9.99, reminder: "2j avant", suggestedLogo: "rien")
+//    var subscriptionTest = Subscription(category: "ciné", commitment: "mensuel", extraInfo: "test", name: "SUBTEST", paymentRecurrency: "mensuel", price: 9.99, reminder: "2j avant", suggestedLogo: "rien")
     var subscription: Subscription? {
         didSet {
             refreshSubData()

@@ -33,8 +33,6 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     private let activityIndicator = UIActivityIndicatorView(style: .large)
     // MARK: Properties
     var storageService = StorageService()
-//    var newSubVC = NewSubController()
-    var subscriptions: [Subscription] = []
     var viewState: State<[Subscription]> = .empty {
         didSet {
 //            resetState()
@@ -45,7 +43,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
             case .empty:
                 myCollectionView.isHidden = true
 
-                displayEmptyView()
+//                displayEmptyView()
                 print("empty!")
             case .error:
                 showAlert("Erreur", "Il semble y avoir un problème, merci de réessayer")
@@ -53,7 +51,6 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
             case .showData(let subscriptions):
                 print("thats datas")
                 activityIndicator.stopAnimating()
-//                self.subscriptions = subscriptions
                 self.viewModel?.subscriptions = subscriptions
                 myCollectionView.reloadData()
                 myCollectionView.isHidden = false
@@ -65,14 +62,6 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         super.viewDidLoad()
         setUpUI()
         viewModel?.fetchSubs()
-        do {
-            // Allowed to reload those subs when re-launching app since they're now saved
-            for subs in subscriptions {
-            try storageService.saveSubs(subs)
-            }
-        }
-        catch { print("error") }
-//        fetchSubFromDataBase()
     }
     
     
@@ -86,7 +75,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     
     func displayEmptyView() {
         let emptyView = UITextView.init(frame: myCollectionView.frame)
-        emptyView.text = "\n\n\n\n\nAppuyez sur le + en haut pour commencer !"
+        emptyView.text = "\nAppuyez sur le + en haut pour commencer !"
         emptyView.isEditable = false
         emptyView.textAlignment = .center
         emptyView.font = MSFonts.title1
@@ -95,39 +84,20 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     }
     
     func fetchSubFromDataBase() {
-        do { subscriptions = try storageService.loadSubs()
-            if subscriptions.isEmpty {
+        do { viewModel?.subscriptions = try storageService.viewContext.fetch(Subscription.fetchRequest())
+            if viewModel!.subscriptions.isEmpty {
                 viewState = .empty
             } else {
-                viewState = .showData(subscriptions)
-                print("abonnement print dans le fetchsub : \(subscriptions)")
+                viewState = .showData(viewModel?.subscriptions ?? [])
+                print("\nabonnement print dans le fetchsub (càd dans viewDidLoad du HOMEVC):\n\n\(String(describing: viewModel?.subscriptions))")
             }
         } catch { print("error: \(error) can't load data") }
 
     }
-    private func fetchLogo() {
-//        guard isAllLoaded == false else { return }
-//        viewState = .loading
-//        recipeService.fetchRecipes(for: ingredients) { [weak self] result in
-//            guard let self = self else { return }
-//            DispatchQueue.main.async {
-//                switch result {
-//                case .success(let recipesInfo) where recipesInfo.recipes.isEmpty :
-//                    /// If the request works but does not find any recipes.
-//                    self.viewState = .empty
-//                case .success(let recipesInfo):
-//                    self.viewState = .showData(recipesInfo.recipes)
-//                case .failure(let error):
-//                    print("Erreur : \(error.localizedDescription)")
-//                    self.showAlert("Error", "Can't load recipes. Please try again.")
-//                }
-//            }
-//        }
-    }
+   
     func refreshWith(subscriptions: [Subscription]) {
         myCollectionView.reloadData()
     }
-    
     
     @objc func plusButtonAction() {
         viewModel?.showNewSub()
@@ -196,8 +166,6 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     
     func setUpView() {
         view.backgroundColor = MSColors.background
-
-//        view.isUserInteractionEnabled = true
         categoryButton.translatesAutoresizingMaskIntoConstraints = false
         categoryButton.setTitle(category.name, for: UIControl.State.normal)
         categoryButton.titleLabel?.adjustsFontForContentSizeCategory = true
@@ -206,7 +174,6 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         categoryButton.setTitleColor(MSColors.background, for: UIControl.State.normal)
         categoryButton.addCornerRadius()
         categoryButton.isUserInteractionEnabled = true
-//        categoryButton.
         view.addSubview(categoryButton)
         categoryButton.addTarget(self, action: #selector(plusButtonAction), for: .touchUpInside)
 
@@ -248,17 +215,13 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         amountLabel.translatesAutoresizingMaskIntoConstraints = false
         amountLabel.adjustsFontForContentSizeCategory = true
         
+        //MARK: calculating total amount fir displayed subs
         var totalPrice: Float = 0
-        
-        for sub in subscriptions {
+        for sub in viewModel!.subscriptions {
             totalPrice += sub.price
             print("voici les prix \(sub.price)")
             amountLabel.text = "\(totalPrice) €"
         }
-        
-    
-//        amountLabel.text = "\(subCell.subscriptions.first.price) €"
-        
         amountLabel.font = UIFont.preferredFont(forTextStyle: .headline)
         amountLabel.textColor = UIColor(named: "yellowgrey")
         amountLabel.backgroundColor = MSColors.background
@@ -295,28 +258,26 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
             amountLabel.heightAnchor.constraint(equalToConstant: 30),
             ])
     }
+    
+    @objc func handleSwipes(_ sender: UISwipeGestureRecognizer) {
+        if sender.direction == .left {
+            print("swipe left")
+        }
+    }
 }
-
-
 
 extension HomeViewController: UICollectionViewDataSource {
     
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel?.subscriptions.count ?? 0
-//        return subscriptions.count
-
     }
-    
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let collectionViewCell = myCollectionView.dequeueReusableCell(withReuseIdentifier: SubCell.identifier, for: indexPath) as! SubCell
-//        myCell.backgroundColor = .systemBlue
-//        UIColor(named: "background")
-//        print(viewModel?.subscriptions[indexPath.row] ?? 1)
-//        myCell.subscriptions = subscriptions
-        
-        collectionViewCell.subscription = subscriptions[indexPath.row]
+        let leftSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
+        leftSwipe.direction = .left
+        collectionViewCell.addGestureRecognizer(leftSwipe)
+        collectionViewCell.subscription = viewModel?.subscriptions[indexPath.row]
         return collectionViewCell
     }
 }

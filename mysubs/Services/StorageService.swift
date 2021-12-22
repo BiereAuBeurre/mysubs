@@ -46,45 +46,57 @@ class StorageService {
         catch { throw error }
         print(categoriesEntities)
     }
-    
+
     //MARK: Subscription methods
-    func loadSubs() throws -> [Subscription] {
+//    func loadSubs() throws -> [Subscription] {
         /// CoreData request, return a subscriptionEntity object that is convert into SubInfo as soon as it's loaded.
+//        let fetchRequest: NSFetchRequest<Subscription> = Subscription.fetchRequest()
+//        let subscriptions: [Subscription]
+//        do { subscriptions = try viewContext.fetch(fetchRequest) }
+//            return subscriptions }
+//        do { subscriptions = try viewContext.fetch(fetchRequest) }
+//        catch { throw error }
+//        let loadedsub = subscriptions.map {  (subscriptions) -> Subscription in
+//            return Subscription(from: subscriptions)
+//        }
+        //enlever le do au dessus
+//        let subs = subscriptions.map { (subscription) -> Subscription in
         
-        let fetchRequest: NSFetchRequest<SubscriptionEntity> = SubscriptionEntity.fetchRequest()
-        let subscriptionEntities: [SubscriptionEntity]
-        do { subscriptionEntities = try viewContext.fetch(fetchRequest) }
-        catch { throw error }
-        let subs = subscriptionEntities.map { (subscriptionEntity) -> Subscription in
-            return Subscription(from: subscriptionEntity)
+//    }
+//    func loadsubs() {
+//        do {
+//            viewModel?.subscriptions = try viewContext.fetch(Subscription.fetchRequest())
+//        } catch { error }
+//    }
+    
+    func saveSubs(name: String, price: Float) throws {
+        // on peut tout enlever (parametres aussi), juste garder has changed
+        let entity = NSEntityDescription.entity(forEntityName: "Subscription", in: viewContext)!
+        let subscription = NSManagedObject(entity: entity, insertInto: viewContext)
+        subscription.setValue(name, forKey: "name")
+        subscription.setValue(price, forKey: "price")
+        if viewContext.hasChanges {
+            do { try viewContext.save() }
+            catch { throw error }
         }
-        return subs
     }
     
-    func saveSubs(_ subInfo: Subscription) throws {
-        let subscriptionEntity = SubscriptionEntity(context: viewContext)
-        subscriptionEntity.category = subInfo.category
-        subscriptionEntity.commitment = subInfo.commitment
-        subscriptionEntity.extraInfo = subInfo.extraInfo
-        subscriptionEntity.name = subInfo.name
-        subscriptionEntity.paymentRecurrency = subInfo.paymentRecurrency
-        subscriptionEntity.price = subInfo.price
-        subscriptionEntity.reminder = subInfo.reminder
-        subscriptionEntity.suggestedLogo = subInfo.suggestedLogo
-        print(subscriptionEntity)
-    }
-    
-    func deleteSubs(_ subInfo: Subscription) throws {
-        let fetchRequest: NSFetchRequest<SubscriptionEntity> = SubscriptionEntity.fetchRequest()
-        let predicate = NSPredicate(format: "name == %@", subInfo.name)
-        fetchRequest.predicate = predicate
-        let subscriptionEntities: [ SubscriptionEntity]
-        do { subscriptionEntities = try viewContext.fetch(fetchRequest)
-            subscriptionEntities.forEach { (subscriptionEntity) in
-                viewContext.delete(subscriptionEntity) }
-            /// Save once recipe is deleted.
-            try viewContext.save() }
-        catch { throw error }
-        print(subscriptionEntities)
+    func deleteSubs(_ object: NSManagedObject) throws {
+        //on lui passe un nsmanaged object au lieu du sub, faire juste viewcontext.delete
+        do {
+        viewContext.delete(object)
+        try viewContext.save()
+        } catch { throw error }
+//        let fetchRequest: NSFetchRequest<Subscription> = Subscription.fetchRequest()
+//        let predicate = NSPredicate(format: "name == %@", subInfo.name)
+//        fetchRequest.predicate = predicate
+//        let subscriptions: [ Subscription]
+//        do { subscriptions = try viewContext.fetch(fetchRequest)
+//            subscriptions.forEach { (subscription) in
+//                viewContext.delete(subscription) }
+//            /// Save once recipe is deleted.
+//            try viewContext.save() }
+//        catch { throw error }
+//        print(subscriptionEntities)
     }
 }

@@ -47,8 +47,8 @@ class EditSubController: UIViewController {
     var viewModel: EditSubViewModel?
     var storageService = StorageService()
 //    var subInfo = Subscription(category: "ciné", commitment: "mensuel", extraInfo: "test", name: "NETFLIX", paymentRecurrency: "mensuel", price: 9.99, reminder: "2j avant", suggestedLogo: "rien")
-    var sub: Subscription = Subscription(category: "", commitment: "", extraInfo: "", name: "", paymentRecurrency: "", price: 9.99, reminder: "", suggestedLogo: "")
-
+//    var sub: Subscription = Subscription(category: "", commitment: "", extraInfo: "", name: "", paymentRecurrency: "", price: 9.99, reminder: "", suggestedLogo: "")
+    var sub: Subscription = Subscription()
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpNavBar()
@@ -65,10 +65,30 @@ class EditSubController: UIViewController {
     }
     
     @objc func doneEditingAction() {
-//        do {
-//            try storageService.saveSubs(sub)
-//        } catch { print("error") }
+        saveEditedSub()
         viewModel?.goBack()
+    }
+    
+    
+    func saveEditedSub() {
+        // Pour remplacer le sub selectionné par les nouveaux champs ??
+//        do {
+//            try storageService.deleteSubs(sub)
+//            print("sub supprimé \(sub)")
+//        }
+//        catch { print("save edtied sub error when deleting old sub : \(error.localizedDescription)") }
+        guard let name = nameField.text,
+              let price = Float(priceField.text!) else {return }
+//        sub.name = name
+//        sub.price = price
+    
+        sub.setValue(name, forKey: "name")
+        sub.setValue(price, forKey: "price")
+//        do {
+//            try storageService.saveSubs(name: name, price: price)
+//            print("sub supprimé remplacé pour \(sub)")
+//        }
+//        catch { print("save edtied sub error : \(error.localizedDescription)") }
     }
     
     func setUpNavBar() {
@@ -80,16 +100,16 @@ class EditSubController: UIViewController {
         navigationItem.titleView = imageView
         
         //DISPLAYING SETTINGS BUTTON
-        let menuButton = UIButton(type: .custom)
-           menuButton.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
-           menuButton.setImage(UIImage(named:"menu_button"), for: .normal)
-        let menuBarItem = UIBarButtonItem(customView: menuButton)
-        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 24)
-            currWidth?.isActive = true
-            let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 24)
-            currHeight?.isActive = true
-        navigationItem.leftBarButtonItem = menuBarItem
-        
+//        let menuButton = UIButton(type: .custom)
+//           menuButton.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
+//           menuButton.setImage(UIImage(named:"menu_button"), for: .normal)
+//        let menuBarItem = UIBarButtonItem(customView: menuButton)
+//        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 24)
+//            currWidth?.isActive = true
+//            let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 24)
+//            currHeight?.isActive = true
+//        navigationItem.leftBarButtonItem = menuBarItem
+        navigationItem.leftBarButtonItem?.tintColor = MSColors.background
         //DISPLAYING DONE BUTTON
         let doneButton: UIButton = UIButton(type: .custom)
         doneButton.setTitle("Terminer", for: .normal)
@@ -100,7 +120,8 @@ class EditSubController: UIViewController {
     }
     
     func refreshWith(subscription: Subscription) {
-        nameField.text = sub.name
+//        nameField.text = sub.name
+        print("sub.name est : \(sub.name)")
 //        myCollectionView.reloadData()
     }
     
@@ -132,8 +153,8 @@ class EditSubController: UIViewController {
         name.text = "Nom"
         name.textColor = MSColors.maintext
         leftSideStackView.addArrangedSubview(nameField)
-        nameField.text = /*sub.name */ self.viewModel?.subscription?.name
-        print(self.viewModel?.subscription?.name)
+        nameField.text = sub.name //self.viewModel?.subscription?.name
+//        print("viewmodel.sub.name :\(self.viewModel?.subscription?.name)")
         nameField.borderStyle = .roundedRect
         nameField.translatesAutoresizingMaskIntoConstraints = false
         
@@ -155,7 +176,7 @@ class EditSubController: UIViewController {
         leftSideStackView.addArrangedSubview(categoryField)
         categoryField.borderStyle = .roundedRect
         categoryField.translatesAutoresizingMaskIntoConstraints = false
-        categoryField.text = ""//subInfo.category // changer pour liste préconçue
+        categoryField.text = sub.reminder//""//subInfo.category // changer pour liste préconçue
         
         //MARK: Adding info field
         leftSideStackView.addArrangedSubview(info)
@@ -182,7 +203,7 @@ class EditSubController: UIViewController {
         price.translatesAutoresizingMaskIntoConstraints = false
         price.text = "Prix"
         rightSideStackView.addArrangedSubview(priceField)
-        priceField.text = ""//\(subInfo.price) €"
+        priceField.text = "\(sub.price)"//\(subInfo.price) €"
         priceField.borderStyle = .roundedRect
         priceField.translatesAutoresizingMaskIntoConstraints = false
         

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class NewSubController: UIViewController, UINavigationBarDelegate {
     let navBarAppearance = UINavigationBarAppearance()
@@ -38,7 +39,9 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     var logo = UIImageView()
     
     var viewModel: NewSubViewModel?
-    var subscriptions: [Subscription] = []
+//    var subscriptions: [Subscription] = []
+//    var subscriptions: [NSManagedObject] = []
+
     var storageService = StorageService()
     
     override func viewDidLoad() {
@@ -60,19 +63,19 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         /// Unwrapping nameField.text.
         guard let name = nameField.text else { return }
         guard let price = priceField.text else { return }
-        let price2 = Float(price)!
-        var subTest = Subscription(category: nil, commitment: nil, extraInfo: nil, name: name, paymentRecurrency: nil, price: price2, reminder: nil, suggestedLogo: nil)
-        subscriptions.append(subTest)
+//        let price2 = Float(price)!
+//        var subTest = Subscription(category: nil, commitment: nil, extraInfo: nil, name: name, paymentRecurrency: nil, price: price2, reminder: nil, suggestedLogo: nil)
+//        subscriptions.append()
         
         do {
-            try storageService.saveSubs(subTest)
-
+            try storageService.saveSubs(name: name, price: Float(price) ?? 0)
+//            print("dans add button action, ajouté à \(subscriptions)")
         }
         catch { print(error)}
         
         viewModel?.goBack()
         print("voici les abonnements dans editVC :")
-        print(subscriptions)
+//        print(subscriptions)
     }
     
     func refreshWith(subscriptions: [Subscription]) {
