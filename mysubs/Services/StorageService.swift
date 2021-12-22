@@ -87,16 +87,5 @@ class StorageService {
         viewContext.delete(object)
         try viewContext.save()
         } catch { throw error }
-//        let fetchRequest: NSFetchRequest<Subscription> = Subscription.fetchRequest()
-//        let predicate = NSPredicate(format: "name == %@", subInfo.name)
-//        fetchRequest.predicate = predicate
-//        let subscriptions: [ Subscription]
-//        do { subscriptions = try viewContext.fetch(fetchRequest)
-//            subscriptions.forEach { (subscription) in
-//                viewContext.delete(subscription) }
-//            /// Save once recipe is deleted.
-//            try viewContext.save() }
-//        catch { throw error }
-//        print(subscriptionEntities)
     }
 }

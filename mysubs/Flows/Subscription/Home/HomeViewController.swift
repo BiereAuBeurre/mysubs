@@ -42,8 +42,8 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
                 print("loading...")
             case .empty:
                 myCollectionView.isHidden = true
-
-//                displayEmptyView()
+                displayEmptyView()
+                myCollectionView.reloadData()
                 print("empty!")
             case .error:
                 showAlert("Erreur", "Il semble y avoir un problème, merci de réessayer")
@@ -51,9 +51,9 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
             case .showData(let subscriptions):
                 print("thats datas")
                 activityIndicator.stopAnimating()
+                myCollectionView.isHidden = false
                 self.viewModel?.subscriptions = subscriptions
                 myCollectionView.reloadData()
-                myCollectionView.isHidden = false
             }
         }
     }
@@ -62,25 +62,30 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         super.viewDidLoad()
         setUpUI()
         viewModel?.fetchSubs()
+        fetchSubFromDataBase()
+
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 //        print("Category : \(category)")
+        setUpUI()
         fetchSubFromDataBase()
         setUpTotalAmountView()
     }
     
     
     func displayEmptyView() {
-        let emptyView = UITextView.init(frame: myCollectionView.frame)
-        emptyView.text = "\nAppuyez sur le + en haut pour commencer !"
+        let emptyView = UITextView.init(frame: view.frame)
+        emptyView.text = "\n\n\n\n\nAppuyez sur le + en haut pour commencer !"
         emptyView.isEditable = false
         emptyView.textAlignment = .center
         emptyView.font = MSFonts.title1
         emptyView.translatesAutoresizingMaskIntoConstraints = true
-        myCollectionView.insertSubview(emptyView, at: 0)
+        stackView.addArrangedSubview(emptyView)
+        amountLabel.text = " - €"
+//        myCollectionView.insertSubview(emptyView, at: 0)
     }
     
     func fetchSubFromDataBase() {
@@ -101,7 +106,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     
     @objc func plusButtonAction() {
         viewModel?.showNewSub()
-        print("passage dans methode obj c")
+        print("passage dans methode plusButtonAction (homeVC)")
     }
     
     func cellTapped(sub: Subscription) {
@@ -175,8 +180,17 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         categoryButton.addCornerRadius()
         categoryButton.isUserInteractionEnabled = true
         view.addSubview(categoryButton)
-        categoryButton.addTarget(self, action: #selector(plusButtonAction), for: .touchUpInside)
+        categoryButton.addTarget(self, action: #selector(deleteAll), for: .touchUpInside)
 
+    }
+    
+    @objc func deleteAll() {
+        for sub in viewModel!.subscriptions {
+            do {
+                try storageService.deleteSubs(sub)
+            } catch { error }
+        }
+        fetchSubFromDataBase()
     }
     
     func setUpStackView() {

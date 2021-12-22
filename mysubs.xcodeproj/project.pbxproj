@@ -10,7 +10,6 @@
 		EF1168D62750035F00274911 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF1168D52750035F00274911 /* Main.storyboard */; };
 		EF125B0827577FA900E6FD6B /* APIConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF125B0727577FA900E6FD6B /* APIConfiguration.swift */; };
 		EF125B0A275780E000E6FD6B /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF125B09275780E000E6FD6B /* StorageService.swift */; };
-		EF125B0C2757820400E6FD6B /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF125B0B2757820400E6FD6B /* Subscription.swift */; };
 		EF125B1227578AC600E6FD6B /* LoadImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF125B1127578AC600E6FD6B /* LoadImage.swift */; };
 		EF125B152757962500E6FD6B /* ShowAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF125B142757962500E6FD6B /* ShowAlert.swift */; };
 		EF125B192757C11000E6FD6B /* AddCornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF125B182757C11000E6FD6B /* AddCornerRadius.swift */; };
@@ -65,7 +64,6 @@
 		EF1168D52750035F00274911 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		EF125B0727577FA900E6FD6B /* APIConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConfiguration.swift; sourceTree = "<group>"; };
 		EF125B09275780E000E6FD6B /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
-		EF125B0B2757820400E6FD6B /* Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
 		EF125B1127578AC600E6FD6B /* LoadImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadImage.swift; sourceTree = "<group>"; };
 		EF125B142757962500E6FD6B /* ShowAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowAlert.swift; sourceTree = "<group>"; };
 		EF125B182757C11000E6FD6B /* AddCornerRadius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCornerRadius.swift; sourceTree = "<group>"; };
@@ -277,7 +275,6 @@
 			isa = PBXGroup;
 			children = (
 				EF70E4F22756868A0011AB06 /* BrandInfo.swift */,
-				EF125B0B2757820400E6FD6B /* Subscription.swift */,
 				EF125B1A2757C82D00E6FD6B /* CategoryInfo.swift */,
 			);
 			path = Models;
@@ -542,7 +539,6 @@
 				EFFA24E227566E570068DFE3 /* LogoFinderService.swift in Sources */,
 				EF125B192757C11000E6FD6B /* AddCornerRadius.swift in Sources */,
 				EF9072EF275E3951006CF678 /* AppCoordinator.swift in Sources */,
-				EF125B0C2757820400E6FD6B /* Subscription.swift in Sources */,
 				EF1F6C73275A484C00DA0BBB /* MSImages.swift in Sources */,
 				EF96B984274FE1C700961F9C /* AppDelegate.swift in Sources */,
 				EFEF69DD276799C8005CB6C3 /* EditSubViewModel.swift in Sources */,

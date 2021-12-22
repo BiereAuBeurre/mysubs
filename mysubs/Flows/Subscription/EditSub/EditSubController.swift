@@ -10,9 +10,6 @@ import UIKit
 class EditSubController: UIViewController {
     
     weak var coordinator: AppCoordinator?
-//    var sub: String?
-
-    
     var logoHeader = UIImageView()
     
     //MARK: LeftSideStackView properties
@@ -46,8 +43,7 @@ class EditSubController: UIViewController {
     var deleteButton = UIButton()
     var viewModel: EditSubViewModel?
     var storageService = StorageService()
-//    var subInfo = Subscription(category: "ciné", commitment: "mensuel", extraInfo: "test", name: "NETFLIX", paymentRecurrency: "mensuel", price: 9.99, reminder: "2j avant", suggestedLogo: "rien")
-//    var sub: Subscription = Subscription(category: "", commitment: "", extraInfo: "", name: "", paymentRecurrency: "", price: 9.99, reminder: "", suggestedLogo: "")
+
     var sub: Subscription = Subscription()
     override func viewDidLoad() {
         super.viewDidLoad()
