@@ -67,24 +67,10 @@ class EditSubController: UIViewController {
     
     
     func saveEditedSub() {
-        // Pour remplacer le sub selectionné par les nouveaux champs ??
-//        do {
-//            try storageService.deleteSubs(sub)
-//            print("sub supprimé \(sub)")
-//        }
-//        catch { print("save edtied sub error when deleting old sub : \(error.localizedDescription)") }
         guard let name = nameField.text,
               let price = Float(priceField.text!) else {return }
-//        sub.name = name
-//        sub.price = price
-    
         sub.setValue(name, forKey: "name")
         sub.setValue(price, forKey: "price")
-//        do {
-//            try storageService.saveSubs(name: name, price: price)
-//            print("sub supprimé remplacé pour \(sub)")
-//        }
-//        catch { print("save edtied sub error : \(error.localizedDescription)") }
     }
     
     func setUpNavBar() {

@@ -39,8 +39,6 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     var logo = UIImageView()
     
     var viewModel: NewSubViewModel?
-//    var subscriptions: [Subscription] = []
-//    var subscriptions: [NSManagedObject] = []
 
     var storageService = StorageService()
     
@@ -57,25 +55,12 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     }
     
     @objc func addButtonAction() {
-        //checking minimum field to fill are
-        guard nameField.text != "",
-              priceField.text != "" else { return showAlert("Champs manquants", "Merci de renseigner au moins les deux champs obligatoires : \n - nom \n - prix") }
-        /// Unwrapping nameField.text.
-        guard let name = nameField.text else { return }
-        guard let price = priceField.text else { return }
-//        let price2 = Float(price)!
-//        var subTest = Subscription(category: nil, commitment: nil, extraInfo: nil, name: name, paymentRecurrency: nil, price: price2, reminder: nil, suggestedLogo: nil)
-//        subscriptions.append()
-        
-        do {
-            try storageService.saveSubs(name: name, price: Float(price) ?? 0)
-//            print("dans add button action, ajouté à \(subscriptions)")
-        }
-        catch { print(error)}
-        
-        viewModel?.goBack()
-        print("voici les abonnements dans editVC :")
-//        print(subscriptions)
+        viewModel?.saveSub()
+        print("dans add button action, ajouté à \(String(describing: viewModel?.subscriptions))")
+    }
+    
+    @objc func nameFieldTextDidChange(textField: UITextField) {
+        viewModel?.name = textField.text
     }
     
     func refreshWith(subscriptions: [Subscription]) {
@@ -146,9 +131,10 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         name.text = "Nom"
         name.textColor = MSColors.maintext
         leftSideStackView.addArrangedSubview(nameField)
-        nameField.text = "Netflix"
+        nameField.text = ""
         nameField.borderStyle = .roundedRect
         nameField.translatesAutoresizingMaskIntoConstraints = false
+        nameField.addTarget(self, action: #selector(nameFieldTextDidChange), for: .editingChanged)
         
         //MARK: Adding commitment field
         leftSideStackView.addArrangedSubview(commitment)
@@ -252,5 +238,11 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
             logo.widthAnchor.constraint(equalToConstant: 100),
             logo.heightAnchor.constraint(equalToConstant: 100)
             ])
+    }
+}
+
+extension NewSubController {
+    func canSaveStatusDidChange(canSave: Bool) {
+        self.navigationItem.rightBarButtonItem?.isEnabled = canSave
     }
 }

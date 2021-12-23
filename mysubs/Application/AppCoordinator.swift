@@ -11,10 +11,12 @@ import UIKit
 class AppCoordinator: Coordinator {
     var navigationController: UINavigationController
 //    let window: UIWindow
-        //déclarer ts les service ici, coreDataService...
+        //déclarer ts les service ici, coreDataService..
+    private let storageService: StorageService
 
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
+        self.storageService = StorageService()
     }
     
 //    init(window: UIWindow) {
@@ -32,7 +34,7 @@ class AppCoordinator: Coordinator {
     
     func showSubScreen() {
         let homeVC = HomeViewController()
-        let homeVCViewModel = HomeViewModel(coordinator: self)
+        let homeVCViewModel = HomeViewModel(coordinator: self, storageService: storageService)
         homeVCViewModel.viewDelegate = homeVC
         homeVC.viewModel = homeVCViewModel
 //        homeVC.category = category
@@ -41,7 +43,7 @@ class AppCoordinator: Coordinator {
     
     func showNewSubScreenFor(category: String)/*changer pour enum*/ {
         let newSubVC = NewSubController()
-        let newSubVCViewModel = NewSubViewModel(coordinator: self, category: category)
+        let newSubVCViewModel = NewSubViewModel(coordinator: self, category: category, storageService: storageService)
     
         newSubVCViewModel.viewDelegate = newSubVC
         newSubVC.viewModel = newSubVCViewModel

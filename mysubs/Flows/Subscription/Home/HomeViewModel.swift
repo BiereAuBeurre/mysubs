@@ -6,13 +6,15 @@
 //
 
 import Foundation
+import CoreData
 
 class HomeViewModel: NSObject {
     weak var viewDelegate: HomeViewController?
     private let coordinator: AppCoordinator
-    
-    init(coordinator: AppCoordinator) {
+    let storageService: StorageService
+    init(coordinator: AppCoordinator, storageService: StorageService) {
         self.coordinator = coordinator
+        self.storageService =  storageService
     }
     
     var subscriptions: [Subscription] = [] {
@@ -21,7 +23,21 @@ class HomeViewModel: NSObject {
         }
     }
     
-    var categorys: [Category] = []
+    var categorys: [SubCategory] = [] {
+        didSet {
+//            viewDelegate?.refreshWith2(categorys: categorys)
+        }
+    }
+    
+    func fetchSubscription() {
+        print("fetching sub from viewmodel's method")
+        do {
+            subscriptions = try storageService.viewContext.fetch(Subscription.fetchRequest())
+        }
+        catch {
+            print (error)
+        }
+    }
     
     func showNewSub() {
         coordinator.showNewSubScreenFor(category: "category")

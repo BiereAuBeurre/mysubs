@@ -6,21 +6,20 @@
 //
 
 import UIKit
+import CoreData
 
 // MARK: Enums
 enum State<Data> {
     case loading
     case empty
     case error
-    case showData(Data)
+    case showData
 }
 
 class HomeViewController: UIViewController, UINavigationBarDelegate {
-//    var category = CategoryInfo(name: " Ajouter une catégorie ")
-    
     var viewModel : HomeViewModel?
     weak var coordinator: AppCoordinator?
-    
+    var categorys: [SubCategory] = []
     
     // MARK: UI Properties
     var subsView = UIView()
@@ -32,10 +31,9 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     var categoryButton = UIButton()//AdaptableSizeButton()
     private let activityIndicator = UIActivityIndicatorView(style: .large)
     // MARK: Properties
-    var storageService = StorageService()
     var viewState: State<[Subscription]> = .empty {
         didSet {
-//            resetState()
+            // resetState()
             switch viewState {
             case .loading:
                 activityIndicator.startAnimating()
@@ -43,93 +41,103 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
             case .empty:
                 myCollectionView.isHidden = true
                 displayEmptyView()
-                myCollectionView.reloadData()
+//                myCollectionView.reloadData()
                 print("empty!")
             case .error:
                 showAlert("Erreur", "Il semble y avoir un problème, merci de réessayer")
                 print("error")
-            case .showData(let subscriptions):
+            case .showData:
                 print("thats datas")
                 activityIndicator.stopAnimating()
                 myCollectionView.isHidden = false
-                self.viewModel?.subscriptions = subscriptions
+                //                self.viewModel?.subscriptions = subscriptions
                 myCollectionView.reloadData()
             }
         }
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-        viewModel?.fetchSubs()
-        fetchSubFromDataBase()
-
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        print("Category : \(category)")
+        print("voici les categories \(categorys)")
+        self.viewModel?.categorys = categorys
+        viewModel?.fetchSubscription()
+        if viewModel?.subscriptions.isEmpty == true {
+            viewState = .empty
+        } else {
+        viewState = .showData
+        }
         setUpUI()
-        fetchSubFromDataBase()
         setUpTotalAmountView()
     }
     
-    @objc func addNewCategory() {
-        let alert = UIAlertController(title: "Nouvelle category", message: "Ajoutez votre nouvelle category", preferredStyle: .alert)
-        let saveAction = UIAlertAction(title: "Ajouter", style: .default) { [unowned self] action in
-            guard let textField = alert.textFields?.first,
-                  let categoryToSave = textField.text else { return }
-            do {
-                try storageService.saveCategory(category: categoryToSave)
-            } catch { error }
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        alert.addTextField()
-        alert.addAction(saveAction)
-        alert.addAction(cancelAction)
-
-        present(alert, animated: true)
-    }
-    
-    func displayEmptyView() {
-        let emptyView = UITextView.init(frame: view.frame)
-        emptyView.text = "\n\n\nAppuyez sur le + en haut pour commencer !"
-        emptyView.isEditable = false
-        emptyView.textAlignment = .center
-        emptyView.font = MSFonts.title2
-        emptyView.translatesAutoresizingMaskIntoConstraints = true
-        stackView.addArrangedSubview(emptyView)
-        amountLabel.text = " - €"
-    }
-    
-    func fetchSubFromDataBase() {
-        do { viewModel?.subscriptions = try storageService.viewContext.fetch(Subscription.fetchRequest())
-            if viewModel?.subscriptions == [] {
-                viewState = .empty
-            } else {
-                viewState = .showData(viewModel?.subscriptions ?? [])
-                print("\nabonnement print dans le fetchsub (càd dans viewDidLoad du HOMEVC):\n\n\(String(describing: viewModel?.subscriptions))")
-            }
-        } catch { print("error: \(error) can't load data") }
-
-    }
-   
-    func refreshWith(subscriptions: [Subscription]) {
-        myCollectionView.reloadData()
-    }
-    
+    //MARK: OBJ C METHODS
     @objc func plusButtonAction() {
         viewModel?.showNewSub()
         print("passage dans methode plusButtonAction (homeVC)")
     }
     
-    func cellTapped(sub: Subscription) {
+    @objc func deleteAll() {
+        for sub in viewModel!.subscriptions {
+            do {
+                try viewModel?.storageService.deleteSubs(sub)
+                viewModel?.fetchSubscription()
+                amountLabel.text = "- €"
+                viewState = .empty
+            } catch { print(error) }
+        }
+    }
+    
+    @objc func handleSwipes(_ sender: UISwipeGestureRecognizer) {
+        if sender.direction == .left {
+            print("swipe left")
+        }
+    }
+    
+    @objc func addNewCategory() {
+        //        let alert = UIAlertController(title: "Nouvelle category", message: "Ajoutez votre nouvelle category", preferredStyle: .alert)
+        //        let saveAction = UIAlertAction(title: "Ajouter", style: .default) { [unowned self] action in
+        //            guard let textField = alert.textFields?.first,
+        //                  let categoryToSave = textField.text else { return }
+        //
+        //            do {
+        //                try storageService.saveCategory(name: categoryToSave)
+        //            } catch { print(error) }
+        //        }
+        //        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        //        alert.addTextField()
+        //        alert.addAction(saveAction)
+        //        alert.addAction(cancelAction)
+        //
+        //        present(alert, animated: true)
+    }
+    
+    //MARK: PRIVATE METHODS
+    private func displayEmptyView() {
+        let emptyView = UITextView.init(frame: view.frame)
+        emptyView.text = "\n\n\nAppuyez sur le + en haut pour commencer !"
+        emptyView.isEditable = false
+        emptyView.textAlignment = .center
+        emptyView.font = MSFonts.title2
+        emptyView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.addArrangedSubview(emptyView)
+        amountLabel.text = " - €"
+    }
+    
+    private func setUpViewState() {
+
+    }
+    
+    private func cellTapped(sub: Subscription) {
         viewModel?.showDetail(sub: sub)
         print("passage dans methode show details")
     }
     
-//    MARK: Private methods
     private func resetState() {
         activityIndicator.stopAnimating()
         viewState = .loading
@@ -138,12 +146,62 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     
     private func deleteSub(sub: Subscription) {
         do {
-            try storageService.deleteSubs(sub)
-            //fetchSubs()
+            try viewModel?.storageService.deleteSubs(sub)
+            
         }
         catch { print (error); self.showAlert("Erreur", "Suppression impossible. Merci de réessayer plus tard") }
     }
     
+    private func refreshWith2(categorys: [SubCategory]) {
+        //        var catname = viewModel?.categorys.first?.name
+        //        categoryButton.setTitle(catname, for: .normal)
+    }
+}
+
+//MARK: SET UP COLLECTION VIEW
+extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewModel?.subscriptions.count ?? 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let collectionViewCell = myCollectionView.dequeueReusableCell(withReuseIdentifier: SubCell.identifier, for: indexPath) as! SubCell
+        let leftSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
+        leftSwipe.direction = .left
+        collectionViewCell.addGestureRecognizer(leftSwipe)
+        collectionViewCell.subscription = viewModel?.subscriptions[indexPath.row]
+        return collectionViewCell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let selectedSub = viewModel?.subscriptions[indexPath.row] else { return }
+        cellTapped(sub: selectedSub)
+        print("item \(indexPath.row+1) tapped")
+    }
+}
+
+extension HomeViewController {
+    
+    func refreshWith(subscriptions: [Subscription]) {
+        myCollectionView.reloadData()
+    }
+    
+    func didFinishLoadingSubscriptions() {
+        myCollectionView.reloadData()
+    }
+    
+    func didFinishLoadingSubscriptions2() {
+        if viewModel?.subscriptions.isEmpty == true {
+            viewState = .empty
+        } else {
+            viewState = .showData
+        }
+    }
+    
+}
+//MARK: UI SET UP
+extension HomeViewController {
     func setUpUI() {
         setUpNavBar()
         setUpView()
@@ -182,12 +240,12 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         menuHeight?.isActive = true
         leftBarButtonItem.customView = menuButton
         self.navigationItem.leftBarButtonItem = leftBarButtonItem
-        }
+    }
     
     func setUpView() {
         view.backgroundColor = MSColors.background
         categoryButton.translatesAutoresizingMaskIntoConstraints = false
-        categoryButton.setTitle("test category", for: UIControl.State.normal)
+        categoryButton.setTitle("test", for: UIControl.State.normal)
         categoryButton.titleLabel?.adjustsFontForContentSizeCategory = true
         categoryButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title2)
         categoryButton.backgroundColor = UIColor(named: "reverse_bg")
@@ -195,23 +253,14 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         categoryButton.addCornerRadius()
         categoryButton.isUserInteractionEnabled = true
         view.addSubview(categoryButton)
-//        categoryButton.addTarget(self, action: #selector(deleteAll), for: .touchUpInside)
-        categoryButton.addTarget(self, action: #selector(addNewCategory), for: .touchUpInside)
-    }
-    
-    @objc func deleteAll() {
-        for sub in viewModel!.subscriptions {
-            do {
-                try storageService.deleteSubs(sub)
-            } catch { error }
-        }
-        fetchSubFromDataBase()
+        categoryButton.addTarget(self, action: #selector(deleteAll), for: .touchUpInside)
+        //        categoryButton.addTarget(self, action: #selector(addNewCategory), for: .touchUpInside)
     }
     
     func setUpStackView() {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-
+        
         //MARK: Collection View
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: self.view.frame.width - 16, height: 60)
@@ -233,7 +282,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         totalAmountView.translatesAutoresizingMaskIntoConstraints = false
         totalAmountView.backgroundColor = .systemBackground
         stackView.addArrangedSubview(totalAmountView)
-
+        
         totalAmountLabel.translatesAutoresizingMaskIntoConstraints = false
         totalAmountLabel.adjustsFontForContentSizeCategory = true
         totalAmountLabel.text = "Coût total"
@@ -243,14 +292,19 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         
         amountLabel.translatesAutoresizingMaskIntoConstraints = false
         amountLabel.adjustsFontForContentSizeCategory = true
-        
-        //MARK: calculating total amount fir displayed subs
-        var totalPrice: Float = 0
-        for sub in viewModel!.subscriptions {
-            totalPrice += sub.price
-            print("voici les prix \(sub.price)")
-            amountLabel.text = "\(totalPrice) €"
+        if viewModel?.subscriptions.isEmpty == true {
+            amountLabel.text = "- €"
+        } else {
+            var totalPrice: Float = 0
+            for sub in viewModel!.subscriptions {
+                totalPrice += sub.price
+                print("voici les prix \(sub.price)")
+                amountLabel.text = "\(totalPrice) €"
+            }
         }
+        
+        //MARK: calculating total amount for displayed subs
+        
         amountLabel.font = UIFont.preferredFont(forTextStyle: .headline)
         amountLabel.textColor = UIColor(named: "yellowgrey")
         amountLabel.backgroundColor = MSColors.background
@@ -265,7 +319,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
             categoryButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             categoryButton.heightAnchor.constraint(equalToConstant: 50),
             categoryButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
-
+            
             categoryButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             categoryButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
@@ -273,7 +327,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
             stackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 0),
             stackView.trailingAnchor.constraint(equalToSystemSpacingAfter: view.trailingAnchor, multiplier: 0),
             stackView.topAnchor.constraint(equalTo: categoryButton.bottomAnchor, constant: 16),
-
+            
             totalAmountView.leadingAnchor.constraint(equalToSystemSpacingAfter: stackView.leadingAnchor, multiplier: 0),
             totalAmountView.trailingAnchor.constraint(equalToSystemSpacingAfter: stackView.trailingAnchor, multiplier: 0),
             totalAmountView.bottomAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 0),
@@ -285,36 +339,6 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
             amountLabel.centerYAnchor.constraint(equalTo: totalAmountView.centerYAnchor, constant: 0),
             amountLabel.widthAnchor.constraint(equalToConstant: 90),
             amountLabel.heightAnchor.constraint(equalToConstant: 30),
-            ])
-    }
-    
-    @objc func handleSwipes(_ sender: UISwipeGestureRecognizer) {
-        if sender.direction == .left {
-            print("swipe left")
-        }
-    }
-}
-
-extension HomeViewController: UICollectionViewDataSource {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel?.subscriptions.count ?? 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let collectionViewCell = myCollectionView.dequeueReusableCell(withReuseIdentifier: SubCell.identifier, for: indexPath) as! SubCell
-        let leftSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
-        leftSwipe.direction = .left
-        collectionViewCell.addGestureRecognizer(leftSwipe)
-        collectionViewCell.subscription = viewModel?.subscriptions[indexPath.row]
-        return collectionViewCell
-    }
-}
-
-extension HomeViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let selectedSub = viewModel?.subscriptions[indexPath.row] else { return }
-        cellTapped(sub: selectedSub)
-       print("item \(indexPath.row+1) tapped")
+        ])
     }
 }

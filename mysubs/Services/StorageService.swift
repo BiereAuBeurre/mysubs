@@ -27,22 +27,16 @@ class StorageService {
 //        return category
 //    }
     
-    func saveCategory(category: String) throws {
+    func saveCategory(name: String) throws {
         // on peut tout enlever (parametres aussi), juste garder has changed
-        let entity = NSEntityDescription.entity(forEntityName: "Category", in: viewContext)!
+        let entity = NSEntityDescription.entity(forEntityName: "SubCategory", in: viewContext)!
         let category = NSManagedObject(entity: entity, insertInto: viewContext)
-        category.setValue(category, forKey: "name")
+        category.setValue(name, forKey: "name")
         if viewContext.hasChanges {
             do { try viewContext.save() }
             catch { throw error }
         }
     }
-    
-//    func saveCategory(_ categoryInfo: CategoryInfo) throws {
-//        let categoryEntity = CategoryEntity(context: viewContext)
-//        categoryEntity.name = categoryInfo.name
-//        print(categoryEntity)
-//    }
     
     func deleteCategory(_ category: NSManagedObject) throws {
 //        let fetchRequest: NSFetchRequest<CategoryEntity> = CategoryEntity.fetchRequest()
@@ -80,15 +74,10 @@ class StorageService {
 //        } catch { error }
 //    }
     
-    func saveSubs(name: String, price: Float) throws {
-        // on peut tout enlever (parametres aussi), juste garder has changed
-        let entity = NSEntityDescription.entity(forEntityName: "Subscription", in: viewContext)!
-        let subscription = NSManagedObject(entity: entity, insertInto: viewContext)
-        subscription.setValue(name, forKey: "name")
-        subscription.setValue(price, forKey: "price")
+    func save()  {
         if viewContext.hasChanges {
             do { try viewContext.save() }
-            catch { throw error }
+            catch { print(error) }
         }
     }
     
