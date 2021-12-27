@@ -25,9 +25,12 @@ class HomeViewModel: NSObject {
     
     var categorys: [SubCategory] = [] {
         didSet {
-//            viewDelegate?.refreshWith2(categorys: categorys)
+//            categoryName
+            viewDelegate?.refreshWith2(categorys: categorys)
         }
     }
+    
+
     
     func fetchSubscription() {
         print("fetching sub from viewmodel's method")
@@ -39,6 +42,22 @@ class HomeViewModel: NSObject {
         }
     }
     
+    func fetchCategories() {
+        do {
+        categorys = try storageService.viewContext.fetch(SubCategory.fetchRequest())
+        } catch {
+            print(error)
+        }
+    }
+    
+    func addNewCategory(_ categoryToSave: String) {
+        let newCategory = SubCategory(context: storageService.viewContext)
+//        categoryName = categoryToSave
+        newCategory.name = categoryToSave
+        storageService.save()
+    }
+    
+    
     func showNewSub() {
         coordinator.showNewSubScreenFor(category: "category")
     }
@@ -47,12 +66,11 @@ class HomeViewModel: NSObject {
         coordinator.showDetailSubScreen(sub: sub)
     }
     
-    func fetchSubs() {
-        
+//    func fetchSubs() {
         // appel reseau
         // response
         // subs appel reseau = subs
-        subscriptions = []
-    }
+//        subscriptions = []
+//    }
     
 }

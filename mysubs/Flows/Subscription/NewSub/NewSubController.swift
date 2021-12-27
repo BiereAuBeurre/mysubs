@@ -55,12 +55,18 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     }
     
     @objc func addButtonAction() {
+        if viewModel?.name == nil {
+            showAlert("Champ manquant", "ajouter au moins un nom")
+            return
+        } else {
         viewModel?.saveSub()
         print("dans add button action, ajouté à \(String(describing: viewModel?.subscriptions))")
+        }
     }
     
     @objc func nameFieldTextDidChange(textField: UITextField) {
         viewModel?.name = textField.text
+
     }
     
     func refreshWith(subscriptions: [Subscription]) {

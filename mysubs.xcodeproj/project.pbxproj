@@ -36,6 +36,7 @@
 		EF96B99E274FE1C900961F9C /* mysubsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF96B99D274FE1C900961F9C /* mysubsTests.swift */; };
 		EF96B9A8274FE1C900961F9C /* mysubsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF96B9A7274FE1C900961F9C /* mysubsUITests.swift */; };
 		EF96B9AA274FE1C900961F9C /* mysubsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF96B9A9274FE1C900961F9C /* mysubsUITestsLaunchTests.swift */; };
+		EFCB8EBA2779FC8A009BC47D /* CategoriesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCB8EB92779FC8A009BC47D /* CategoriesCell.swift */; };
 		EFEF69DD276799C8005CB6C3 /* EditSubViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFEF69DC276799C8005CB6C3 /* EditSubViewModel.swift */; };
 		EFFA24DF275644E20068DFE3 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFA24DE275644E20068DFE3 /* HomeViewController.swift */; };
 		EFFA24E227566E570068DFE3 /* LogoFinderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFA24E127566E570068DFE3 /* LogoFinderService.swift */; };
@@ -94,6 +95,7 @@
 		EF96B9A3274FE1C900961F9C /* mysubsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mysubsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF96B9A7274FE1C900961F9C /* mysubsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mysubsUITests.swift; sourceTree = "<group>"; };
 		EF96B9A9274FE1C900961F9C /* mysubsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mysubsUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		EFCB8EB92779FC8A009BC47D /* CategoriesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesCell.swift; sourceTree = "<group>"; };
 		EFEF69DC276799C8005CB6C3 /* EditSubViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSubViewModel.swift; sourceTree = "<group>"; };
 		EFFA24DE275644E20068DFE3 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		EFFA24E127566E570068DFE3 /* LogoFinderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoFinderService.swift; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 				EFFA24DE275644E20068DFE3 /* HomeViewController.swift */,
 				EF1F6C6A2759125E00DA0BBB /* SubCell.swift */,
 				EF3578BD2763588A00DA443F /* HomeViewModel.swift */,
+				EFCB8EB92779FC8A009BC47D /* CategoriesCell.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -544,6 +547,7 @@
 				EFEF69DD276799C8005CB6C3 /* EditSubViewModel.swift in Sources */,
 				EF125B0A275780E000E6FD6B /* StorageService.swift in Sources */,
 				EF125B0827577FA900E6FD6B /* APIConfiguration.swift in Sources */,
+				EFCB8EBA2779FC8A009BC47D /* CategoriesCell.swift in Sources */,
 				EF70E4F32756868A0011AB06 /* BrandInfo.swift in Sources */,
 				EF3578C22763A15100DA443F /* NewSubViewModel.swift in Sources */,
 				EF9072ED275E37EE006CF678 /* Coordinator.swift in Sources */,

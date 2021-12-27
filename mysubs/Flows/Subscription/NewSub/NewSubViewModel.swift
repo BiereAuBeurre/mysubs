@@ -12,24 +12,24 @@ class NewSubViewModel: NSObject {
     weak var viewDelegate: NewSubController?
     private let coordinator: AppCoordinator
     private let storageService: StorageService
-    private let category: String
+//    private let category: String
 
     init(coordinator: AppCoordinator, category: String, storageService: StorageService) {
         self.coordinator = coordinator
-        self.category = category
+//        self.category = category
         self.storageService = storageService
     }
     
     var name: String? {
         didSet {
             guard oldValue != name else { return }
-            viewDelegate?.canSaveStatusDidChange(canSave: canSaveSub)
+//            viewDelegate?.canSaveStatusDidChange(canSave: canSaveSub)
         }
     }
     
     var canSaveSub: Bool {
         if name?.isEmpty == true {
-        viewDelegate?.showAlert("Champ manquant", "ajouter au moins un nom")
+//        viewDelegate?.showAlert("Champ manquant", "ajouter au moins un nom")
         return false
         } else {
             return true
