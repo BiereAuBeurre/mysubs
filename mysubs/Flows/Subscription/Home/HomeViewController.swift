@@ -62,28 +62,17 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-        
-      
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("voici les categories \(categorys)")
-//        self.viewModel?.categorys = categorys
         viewModel?.fetchCategories()
-        
         viewModel?.fetchSubscription()
-        //viewModel.computeTotal()
-        //setUpUI()
-      //  setUpTotalAmountView()
+        setUpTotalAmountView()
+        viewModel?.computeTotal()
     }
-    
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(animated)
-//        viewModel?.fetchSubscription()
-//        viewModel?.fetchCategories()
-//    }
     
     //MARK: OBJ C METHODS
     @objc func plusButtonAction() {
@@ -91,33 +80,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         print("passage dans methode plusButtonAction (homeVC)")
     }
     
-    @objc func categoryNamefieldTextDidChange(textField: UITextField){
-//        if viewModel?.categoryName == nil {
-//                    showAlert("Champ manquant", "ajouter au moins un nom")
-//                    return
-//                } else {
-//                viewModel?.addNewCategory()
-//                    print(viewModel?.categorys ?? "marche pas category")
-//                }
-//        let alert = UIAlertController(title: "Nouvelle categorie", message: "Ajoutez votre nouvelle categorie", preferredStyle: .alert)
-//        let saveAction = UIAlertAction(title: "Ajouter", style: .default) { [unowned self] action in
-//            guard let textField = alert.textFields?.first,
-//                  let categoryToSave = textField.text else { return }
-//
-//            viewModel?.addNewCategory()
-//
-//            viewModel?.categoryName = categoryToSave
-//            print(viewModel?.categoryName ?? "marche pas save category name")
-//        }
-//
-//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-//        alert.addTextField()
-//        alert.addAction(saveAction)
-//        alert.addAction(cancelAction)
-//
-//        present(alert, animated: true)
-        
-    }
+    @objc func categoryNamefieldTextDidChange(textField: UITextField) {}
     
     @objc func deleteAll() {
         for sub in viewModel!.subscriptions {
@@ -136,13 +99,13 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         }
     }
     @objc func addNewCategory() {
+        // Displaying the alert window
         let alert = UIAlertController(title: "Nouvelle categorie", message: "Ajoutez votre nouvelle categorie", preferredStyle: .alert)
         let saveAction = UIAlertAction(title: "Ajouter", style: .default) { [unowned self] action in
             guard let textField = alert.textFields?.first,
                   let categoryToSave = textField.text else { return }
-            
+            // Saving the new category into the viewModel
             viewModel?.addNewCategory(categoryToSave)
-//            viewModel?.categoryName = categoryToSave
             print("voici la cateory name ajoutée :\(categoryToSave)")
         }
         
@@ -166,9 +129,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         amountLabel.text = " - €"
     }
     
-    private func setUpViewState() {
-
-    }
+    private func setUpViewState() {}
     
     private func cellTapped(sub: Subscription) {
         viewModel?.showDetail(sub: sub)
@@ -184,7 +145,6 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     private func deleteSub(sub: Subscription) {
         do {
             try viewModel?.storageService.deleteSubs(sub)
-            
         }
         catch { print (error); self.showAlert("Erreur", "Suppression impossible. Merci de réessayer plus tard") }
     }
@@ -233,7 +193,7 @@ extension HomeViewController {
     }
     
     func didComputetotalAmount() {
-        //monLabel.text = viewModel.TotalAmount
+        amountLabel.text = viewModel?.totalAmount
     }
     
     
@@ -259,7 +219,7 @@ extension HomeViewController {
     func setUpUI() {
         setUpNavBar()
         configureCategoriesStackView()
-        setUpStackView()
+        setUpSubStackView()
         activateConstraints()
     }
     
@@ -330,7 +290,7 @@ extension HomeViewController {
     }
     
     
-    func setUpStackView() {
+    func setUpSubStackView() {
         subListStackView.translatesAutoresizingMaskIntoConstraints = false
         subListStackView.axis = .vertical
         
@@ -365,16 +325,17 @@ extension HomeViewController {
         
         amountLabel.translatesAutoresizingMaskIntoConstraints = false
         amountLabel.adjustsFontForContentSizeCategory = true
-        if viewModel?.subscriptions.isEmpty == true {
-            amountLabel.text = "- €"
-        } else {
-            var totalPrice: Float = 0
-            for sub in viewModel!.subscriptions {
-                totalPrice += sub.price
-                print("voici les prix \(sub.price)")
-                amountLabel.text = "\(totalPrice) €"
-            }
-        }
+
+//        if viewModel?.subscriptions.isEmpty == true {
+//            amountLabel.text = "- €"
+//        } else {
+//            var totalPrice: Float = 0
+//            for sub in viewModel!.subscriptions {
+//                totalPrice += sub.price
+//                print("voici les prix \(sub.price)")
+//                amountLabel.text = "\(totalPrice) €"
+//            }
+//        }
         
         //MARK: calculating total amount for displayed subs
         amountLabel.font = UIFont.preferredFont(forTextStyle: .headline)

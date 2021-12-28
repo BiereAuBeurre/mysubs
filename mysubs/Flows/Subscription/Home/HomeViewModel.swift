@@ -30,7 +30,11 @@ class HomeViewModel: NSObject {
         }
     }
     
-
+    var totalAmount: String = "" {
+        didSet {
+            viewDelegate?.didComputetotalAmount()
+        }
+    }
     
     func fetchSubscription() {
         print("fetching sub from viewmodel's method")
@@ -47,6 +51,23 @@ class HomeViewModel: NSObject {
         categorys = try storageService.viewContext.fetch(SubCategory.fetchRequest())
         } catch {
             print(error)
+        }
+    }
+    
+    func computeTotal() {
+        if subscriptions.isEmpty == true {
+
+            viewDelegate?.amountLabel.text = "1 €"
+        } else {
+            var totalPrice: Float = 0
+            for sub in subscriptions {
+                totalPrice += sub.price
+                print("voici les prix \(sub.price)")
+                //                amountLabel.text = "\(totalPrice) €"
+                totalAmount = viewDelegate?.amountLabel.text ?? "0$"
+                totalAmount = "\(totalPrice) €"
+                print(totalPrice)
+            }
         }
     }
     
