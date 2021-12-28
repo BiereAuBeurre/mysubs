@@ -13,7 +13,6 @@
 		EF125B1227578AC600E6FD6B /* LoadImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF125B1127578AC600E6FD6B /* LoadImage.swift */; };
 		EF125B152757962500E6FD6B /* ShowAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF125B142757962500E6FD6B /* ShowAlert.swift */; };
 		EF125B192757C11000E6FD6B /* AddCornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF125B182757C11000E6FD6B /* AddCornerRadius.swift */; };
-		EF125B1B2757C82D00E6FD6B /* CategoryInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF125B1A2757C82D00E6FD6B /* CategoryInfo.swift */; };
 		EF1C6C2D2762454C0025E28B /* MSAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1C6C2C2762454C0025E28B /* MSAppearance.swift */; };
 		EF1F6C6B2759125E00DA0BBB /* SubCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1F6C6A2759125E00DA0BBB /* SubCell.swift */; };
 		EF1F6C6F275A464900DA0BBB /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1F6C6E275A464900DA0BBB /* Strings.swift */; };
@@ -23,6 +22,7 @@
 		EF3578BE2763588B00DA443F /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3578BD2763588A00DA443F /* HomeViewModel.swift */; };
 		EF3578C22763A15100DA443F /* NewSubViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3578C12763A15000DA443F /* NewSubViewModel.swift */; };
 		EF3D8D5C275F9FC100D8B6A4 /* EditSubController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3D8D5B275F9FC100D8B6A4 /* EditSubController.swift */; };
+		EF4BEC4E277B6D500022BFBD /* ReminderModalController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4BEC4D277B6D500022BFBD /* ReminderModalController.swift */; };
 		EF70E4F027567D270011AB06 /* Pods_mysubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF70E4EF27567D270011AB06 /* Pods_mysubs.framework */; };
 		EF70E4F32756868A0011AB06 /* BrandInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70E4F22756868A0011AB06 /* BrandInfo.swift */; };
 		EF9072EB275E1FE8006CF678 /* NewSubController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9072EA275E1FE8006CF678 /* NewSubController.swift */; };
@@ -68,7 +68,6 @@
 		EF125B1127578AC600E6FD6B /* LoadImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadImage.swift; sourceTree = "<group>"; };
 		EF125B142757962500E6FD6B /* ShowAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowAlert.swift; sourceTree = "<group>"; };
 		EF125B182757C11000E6FD6B /* AddCornerRadius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCornerRadius.swift; sourceTree = "<group>"; };
-		EF125B1A2757C82D00E6FD6B /* CategoryInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryInfo.swift; sourceTree = "<group>"; };
 		EF1C6C2C2762454C0025E28B /* MSAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAppearance.swift; sourceTree = "<group>"; };
 		EF1F6C6A2759125E00DA0BBB /* SubCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubCell.swift; sourceTree = "<group>"; };
 		EF1F6C6E275A464900DA0BBB /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
@@ -78,6 +77,7 @@
 		EF3578BD2763588A00DA443F /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		EF3578C12763A15000DA443F /* NewSubViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSubViewModel.swift; sourceTree = "<group>"; };
 		EF3D8D5B275F9FC100D8B6A4 /* EditSubController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSubController.swift; sourceTree = "<group>"; };
+		EF4BEC4D277B6D500022BFBD /* ReminderModalController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderModalController.swift; sourceTree = "<group>"; };
 		EF70E4EF27567D270011AB06 /* Pods_mysubs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_mysubs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF70E4F22756868A0011AB06 /* BrandInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandInfo.swift; sourceTree = "<group>"; };
 		EF9072EA275E1FE8006CF678 /* NewSubController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSubController.swift; sourceTree = "<group>"; };
@@ -270,6 +270,7 @@
 			children = (
 				EF3D8D5B275F9FC100D8B6A4 /* EditSubController.swift */,
 				EFEF69DC276799C8005CB6C3 /* EditSubViewModel.swift */,
+				EF4BEC4D277B6D500022BFBD /* ReminderModalController.swift */,
 			);
 			path = EditSub;
 			sourceTree = "<group>";
@@ -278,7 +279,6 @@
 			isa = PBXGroup;
 			children = (
 				EF70E4F22756868A0011AB06 /* BrandInfo.swift */,
-				EF125B1A2757C82D00E6FD6B /* CategoryInfo.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -539,6 +539,7 @@
 				EF3D8D5C275F9FC100D8B6A4 /* EditSubController.swift in Sources */,
 				EF1F6C6B2759125E00DA0BBB /* SubCell.swift in Sources */,
 				EF1F6C6F275A464900DA0BBB /* Strings.swift in Sources */,
+				EF4BEC4E277B6D500022BFBD /* ReminderModalController.swift in Sources */,
 				EFFA24E227566E570068DFE3 /* LogoFinderService.swift in Sources */,
 				EF125B192757C11000E6FD6B /* AddCornerRadius.swift in Sources */,
 				EF9072EF275E3951006CF678 /* AppCoordinator.swift in Sources */,
@@ -558,7 +559,6 @@
 				EF3578BE2763588B00DA443F /* HomeViewModel.swift in Sources */,
 				EF96B98E274FE1C700961F9C /* mysubs.xcdatamodeld in Sources */,
 				EF96B986274FE1C700961F9C /* SceneDelegate.swift in Sources */,
-				EF125B1B2757C82D00E6FD6B /* CategoryInfo.swift in Sources */,
 				EF1F6C77275A4AF100DA0BBB /* MSFonts.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

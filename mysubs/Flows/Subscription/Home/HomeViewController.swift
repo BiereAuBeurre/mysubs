@@ -19,7 +19,6 @@ enum State<Data> {
 class HomeViewController: UIViewController, UINavigationBarDelegate {
     var viewModel : HomeViewModel?
     weak var coordinator: AppCoordinator?
-    var categorys: [SubCategory] = []
     
     // MARK: UI Properties
     var subsView = UIView()
@@ -44,7 +43,6 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
             case .empty:
                 subCollectionView.isHidden = true
                 displayEmptyView()
-//                myCollectionView.reloadData()
                 print("empty!")
             case .error:
                 showAlert("Erreur", "Il semble y avoir un problème, merci de réessayer")
@@ -64,12 +62,11 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         setUpUI()
     }
     
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("voici les categories \(categorys)")
         viewModel?.fetchCategories()
         viewModel?.fetchSubscription()
+//        viewModel?.storageService.loadsubs()
         setUpTotalAmountView()
         viewModel?.computeTotal()
     }
@@ -85,7 +82,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     @objc func deleteAll() {
         for sub in viewModel!.subscriptions {
             do {
-                try viewModel?.storageService.deleteSubs(sub)
+                try viewModel?.storageService.delete(sub)
                 viewModel?.fetchSubscription()
                 amountLabel.text = "- €"
                 viewState = .empty
@@ -108,12 +105,10 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
             viewModel?.addNewCategory(categoryToSave)
             print("voici la cateory name ajoutée :\(categoryToSave)")
         }
-        
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         alert.addTextField()
         alert.addAction(saveAction)
         alert.addAction(cancelAction)
-        
         present(alert, animated: true)
     }
     
@@ -144,7 +139,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     
     private func deleteSub(sub: Subscription) {
         do {
-            try viewModel?.storageService.deleteSubs(sub)
+            try viewModel?.storageService.delete(sub)
         }
         catch { print (error); self.showAlert("Erreur", "Suppression impossible. Merci de réessayer plus tard") }
     }
@@ -196,13 +191,8 @@ extension HomeViewController {
         amountLabel.text = viewModel?.totalAmount
     }
     
-    
      func refreshWith2(categorys: [SubCategory]) {
          viewState = .showData
-    }
-    
-    func didFinishLoadingSubscriptions() {
-       // subCollectionView.reloadData()
     }
     
     func didFinishLoadingSubscriptions2() {
@@ -221,6 +211,7 @@ extension HomeViewController {
         configureCategoriesStackView()
         setUpSubStackView()
         activateConstraints()
+        view.backgroundColor = MSColors.background
     }
     
     func setUpNavBar() {
@@ -274,17 +265,18 @@ extension HomeViewController {
     }
     
     func configureCategoriesCollectionView() {
-        view.backgroundColor = MSColors.background
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: view.frame.size.width/5, height: view.frame.size.width/13.5)
         layout.scrollDirection = .horizontal
         categoryCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        categoryCollectionView.backgroundColor = MSColors.background
+
         categoryCollectionView.register(CategoriesCell.self, forCellWithReuseIdentifier: CategoriesCell.identifier)
-        categoryCollectionView?.dataSource = self
-        categoryCollectionView?.delegate = self
-        categoryCollectionView?.translatesAutoresizingMaskIntoConstraints = false
+        categoryCollectionView.dataSource = self
+        categoryCollectionView.delegate = self
+        categoryCollectionView.translatesAutoresizingMaskIntoConstraints = false
         categoryCollectionView.isScrollEnabled = true
-        categoryCollectionView?.isUserInteractionEnabled = true
+        categoryCollectionView.isUserInteractionEnabled = true
         categoryCollectionView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height/6.5)
         categoriesStackView.addArrangedSubview(categoryCollectionView)
     }
@@ -299,13 +291,13 @@ extension HomeViewController {
         layout.itemSize = CGSize(width: self.view.frame.width - 16, height: 60)
         layout.scrollDirection = .vertical
         subCollectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
-        subCollectionView?.register(SubCell.self, forCellWithReuseIdentifier: SubCell.identifier)
-        subCollectionView?.backgroundColor = MSColors.background
-        subCollectionView?.dataSource = self
-        subCollectionView?.delegate = self
-        subCollectionView?.translatesAutoresizingMaskIntoConstraints = false
-        subCollectionView?.isScrollEnabled = true
-        subCollectionView?.isUserInteractionEnabled = true
+        subCollectionView.register(SubCell.self, forCellWithReuseIdentifier: SubCell.identifier)
+        subCollectionView.backgroundColor = MSColors.background
+        subCollectionView.dataSource = self
+        subCollectionView.delegate = self
+        subCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        subCollectionView.isScrollEnabled = true
+        subCollectionView.isUserInteractionEnabled = true
         subListStackView.addArrangedSubview(subCollectionView ?? UICollectionView())
         setUpTotalAmountView()
         view.addSubview(subListStackView)
@@ -325,17 +317,6 @@ extension HomeViewController {
         
         amountLabel.translatesAutoresizingMaskIntoConstraints = false
         amountLabel.adjustsFontForContentSizeCategory = true
-
-//        if viewModel?.subscriptions.isEmpty == true {
-//            amountLabel.text = "- €"
-//        } else {
-//            var totalPrice: Float = 0
-//            for sub in viewModel!.subscriptions {
-//                totalPrice += sub.price
-//                print("voici les prix \(sub.price)")
-//                amountLabel.text = "\(totalPrice) €"
-//            }
-//        }
         
         //MARK: calculating total amount for displayed subs
         amountLabel.font = UIFont.preferredFont(forTextStyle: .headline)
@@ -358,7 +339,7 @@ extension HomeViewController {
             subListStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -16),
             subListStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 0),
             subListStackView.trailingAnchor.constraint(equalToSystemSpacingAfter: view.trailingAnchor, multiplier: 0),
-            subListStackView.topAnchor.constraint(equalTo: categoriesStackView.bottomAnchor, constant: 16),
+            subListStackView.topAnchor.constraint(equalTo: categoriesStackView.bottomAnchor, constant: 8),
             
             totalAmountView.leadingAnchor.constraint(equalToSystemSpacingAfter: subListStackView.leadingAnchor, multiplier: 0),
             totalAmountView.trailingAnchor.constraint(equalToSystemSpacingAfter: subListStackView.trailingAnchor, multiplier: 0),

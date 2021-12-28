@@ -25,7 +25,6 @@ class HomeViewModel: NSObject {
     
     var categorys: [SubCategory] = [] {
         didSet {
-//            categoryName
             viewDelegate?.refreshWith2(categorys: categorys)
         }
     }
@@ -37,18 +36,17 @@ class HomeViewModel: NSObject {
     }
     
     func fetchSubscription() {
-        print("fetching sub from viewmodel's method")
         do {
-            subscriptions = try storageService.viewContext.fetch(Subscription.fetchRequest())
+            subscriptions = try storageService.loadsubs()
         }
         catch {
-            print (error)
+            print(error)
         }
     }
     
     func fetchCategories() {
         do {
-        categorys = try storageService.viewContext.fetch(SubCategory.fetchRequest())
+        categorys = try storageService.loadCategory()
         } catch {
             print(error)
         }
@@ -56,24 +54,19 @@ class HomeViewModel: NSObject {
     
     func computeTotal() {
         if subscriptions.isEmpty == true {
-
-            viewDelegate?.amountLabel.text = "1 €"
+            viewDelegate?.amountLabel.text = "- €"
         } else {
             var totalPrice: Float = 0
             for sub in subscriptions {
                 totalPrice += sub.price
-                print("voici les prix \(sub.price)")
-                //                amountLabel.text = "\(totalPrice) €"
-                totalAmount = viewDelegate?.amountLabel.text ?? "0$"
+                totalAmount = viewDelegate?.amountLabel.text ?? "- €"
                 totalAmount = "\(totalPrice) €"
-                print(totalPrice)
             }
         }
     }
     
     func addNewCategory(_ categoryToSave: String) {
         let newCategory = SubCategory(context: storageService.viewContext)
-//        categoryName = categoryToSave
         newCategory.name = categoryToSave
         storageService.save()
     }

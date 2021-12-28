@@ -29,7 +29,7 @@ class EditSubController: UIViewController {
     var price = UILabel()
     var priceField = UITextField()
     var reminder = UILabel()
-    var reminderField = UITextField()
+    var reminderField = UITextField()//UIPickerView()
     var recurrency = UILabel()
     var recurrencyField = UITextField()
 
@@ -65,6 +65,10 @@ class EditSubController: UIViewController {
         viewModel?.goBack()
     }
     
+    @objc func didSelectReminderField() {
+        print("reminder field has been selected")
+        viewModel?.openReminderModal()
+    }
     
     func saveEditedSub() {
         guard let name = nameField.text,
@@ -82,15 +86,6 @@ class EditSubController: UIViewController {
         navigationItem.titleView = imageView
         
         //DISPLAYING SETTINGS BUTTON
-//        let menuButton = UIButton(type: .custom)
-//           menuButton.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
-//           menuButton.setImage(UIImage(named:"menu_button"), for: .normal)
-//        let menuBarItem = UIBarButtonItem(customView: menuButton)
-//        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 24)
-//            currWidth?.isActive = true
-//            let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 24)
-//            currHeight?.isActive = true
-//        navigationItem.leftBarButtonItem = menuBarItem
         navigationItem.leftBarButtonItem?.tintColor = MSColors.background
         //DISPLAYING DONE BUTTON
         let doneButton: UIButton = UIButton(type: .custom)
@@ -103,7 +98,7 @@ class EditSubController: UIViewController {
     
     func refreshWith(subscription: Subscription) {
 //        nameField.text = sub.name
-        print("sub.name est : \(sub.name)")
+        print("sub.name est : \(String(describing: sub.name))")
 //        myCollectionView.reloadData()
     }
     
@@ -185,7 +180,7 @@ class EditSubController: UIViewController {
         price.translatesAutoresizingMaskIntoConstraints = false
         price.text = "Prix"
         rightSideStackView.addArrangedSubview(priceField)
-        priceField.text = "\(sub.price)"//\(subInfo.price) €"
+        priceField.text = "\(sub.price)"
         priceField.borderStyle = .roundedRect
         priceField.translatesAutoresizingMaskIntoConstraints = false
         
@@ -193,11 +188,20 @@ class EditSubController: UIViewController {
         rightSideStackView.addArrangedSubview(reminder)
         reminder.translatesAutoresizingMaskIntoConstraints = false
         reminder.text = "Rappel"
+//        rightSideStackView.addArrangedSubview(reminderField)
+//        reminderField.numberOfComponents = 3
+//        reminderField.numberOfRows(inComponent: 10)
+        let overlay = UIButton()
+        overlay.addTarget(self, action: #selector(didSelectReminderField), for: .touchUpInside)
+        overlay.sizeToFit()
+        reminderField.leftView = overlay
+        reminderField.leftViewMode = .always
         rightSideStackView.addArrangedSubview(reminderField)
+
         reminderField.text = ""//subInfo.reminder
         reminderField.borderStyle = .roundedRect
         reminderField.translatesAutoresizingMaskIntoConstraints = false
-        
+        reminderField.allowsEditingTextAttributes = false
         //MARK: Adding recurrency field
         rightSideStackView.addArrangedSubview(recurrency)
         recurrency.translatesAutoresizingMaskIntoConstraints = false
@@ -223,8 +227,6 @@ class EditSubController: UIViewController {
         footerStackView.distribution = .fillEqually
         footerStackView.contentMode = .scaleToFill
         footerStackView.spacing = 16
-//        footerStackView.layer.borderWidth = 2
-//        footerStackView.layer.borderColor = #colorLiteral(red: 0.2237218916, green: 0.2467257082, blue: 0.2812070549, alpha: 1)
         modifyButton.backgroundColor = UIColor(named: "reverse_bg")
         modifyButton.addCornerRadius()
         deleteButton.backgroundColor = UIColor(named: "reverse_bg")

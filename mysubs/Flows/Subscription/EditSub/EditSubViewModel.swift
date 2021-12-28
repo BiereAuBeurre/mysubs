@@ -21,6 +21,9 @@ class EditSubViewModel: NSObject {
         }
     }
     
+    func openReminderModal() {
+        coordinator.openReminderModal()
+    }
     func goBack() {
         coordinator.goBack()
     }

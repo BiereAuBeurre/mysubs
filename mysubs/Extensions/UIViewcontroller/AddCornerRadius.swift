@@ -13,3 +13,10 @@ extension UIButton {
         self.layer.cornerRadius = 5
     }
 }
+
+extension UICollectionViewCell {
+    func addCornerRadius() {
+        self.layer.masksToBounds = true
+        self.layer.cornerRadius = 10
+    }
+}

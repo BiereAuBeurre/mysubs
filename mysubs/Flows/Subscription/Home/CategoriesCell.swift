@@ -18,18 +18,16 @@ class CategoriesCell: UICollectionViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-       // label.text = "loisirs"
         return label
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .systemPink
-//        contentView.layer.borderColor = (MSColors.background as! CGColor)
-        contentView.layer.borderWidth = 1
+        contentView.backgroundColor = .yellow
+//        contentView.layer.borderWidth = 1
         titleLabel.textColor = MSColors.maintext
         titleLabel.textAlignment = .center
-        //Addcornerradius()
+        addCornerRadius()
         contentView.addSubview(titleLabel)
     }
     
