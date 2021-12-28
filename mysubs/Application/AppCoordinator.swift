@@ -54,10 +54,10 @@ class AppCoordinator: Coordinator {
     
     func openReminderModal() {
         let reminderModalVC = ReminderModalController()
-        reminderModalVC.modalPresentationStyle = .automatic
-
+        // Modal displaying settings
+        reminderModalVC.modalPresentationStyle = .popover
         reminderModalVC.modalTransitionStyle = .coverVertical
-//        navigationController.pushViewController(reminderModalVC, animated: true)
+        // To display as modal
         navigationController.present(reminderModalVC, animated: true, completion: nil)
     }
     func goBack() {
