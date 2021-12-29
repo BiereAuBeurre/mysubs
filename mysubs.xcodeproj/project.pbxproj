@@ -23,6 +23,7 @@
 		EF3578C22763A15100DA443F /* NewSubViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3578C12763A15000DA443F /* NewSubViewModel.swift */; };
 		EF3D8D5C275F9FC100D8B6A4 /* EditSubController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3D8D5B275F9FC100D8B6A4 /* EditSubController.swift */; };
 		EF4BEC4E277B6D500022BFBD /* ReminderModalController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4BEC4D277B6D500022BFBD /* ReminderModalController.swift */; };
+		EF702850277C6AC100A90A54 /* InputFormTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70284F277C6AC100A90A54 /* InputFormTextField.swift */; };
 		EF70E4F027567D270011AB06 /* Pods_mysubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF70E4EF27567D270011AB06 /* Pods_mysubs.framework */; };
 		EF70E4F32756868A0011AB06 /* BrandInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70E4F22756868A0011AB06 /* BrandInfo.swift */; };
 		EF9072EB275E1FE8006CF678 /* NewSubController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9072EA275E1FE8006CF678 /* NewSubController.swift */; };
@@ -78,6 +79,7 @@
 		EF3578C12763A15000DA443F /* NewSubViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSubViewModel.swift; sourceTree = "<group>"; };
 		EF3D8D5B275F9FC100D8B6A4 /* EditSubController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSubController.swift; sourceTree = "<group>"; };
 		EF4BEC4D277B6D500022BFBD /* ReminderModalController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderModalController.swift; sourceTree = "<group>"; };
+		EF70284F277C6AC100A90A54 /* InputFormTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputFormTextField.swift; sourceTree = "<group>"; };
 		EF70E4EF27567D270011AB06 /* Pods_mysubs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_mysubs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF70E4F22756868A0011AB06 /* BrandInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandInfo.swift; sourceTree = "<group>"; };
 		EF9072EA275E1FE8006CF678 /* NewSubController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSubController.swift; sourceTree = "<group>"; };
@@ -258,8 +260,8 @@
 			isa = PBXGroup;
 			children = (
 				EFFA24DE275644E20068DFE3 /* HomeViewController.swift */,
-				EF1F6C6A2759125E00DA0BBB /* SubCell.swift */,
 				EF3578BD2763588A00DA443F /* HomeViewModel.swift */,
+				EF1F6C6A2759125E00DA0BBB /* SubCell.swift */,
 				EFCB8EB92779FC8A009BC47D /* CategoriesCell.swift */,
 			);
 			path = Home;
@@ -268,9 +270,10 @@
 		EF3D8D5A275F9F7800D8B6A4 /* EditSub */ = {
 			isa = PBXGroup;
 			children = (
-				EF3D8D5B275F9FC100D8B6A4 /* EditSubController.swift */,
-				EFEF69DC276799C8005CB6C3 /* EditSubViewModel.swift */,
 				EF4BEC4D277B6D500022BFBD /* ReminderModalController.swift */,
+				EF3D8D5B275F9FC100D8B6A4 /* EditSubController.swift */,
+				EF70284F277C6AC100A90A54 /* InputFormTextField.swift */,
+				EFEF69DC276799C8005CB6C3 /* EditSubViewModel.swift */,
 			);
 			path = EditSub;
 			sourceTree = "<group>";
@@ -558,6 +561,7 @@
 				EF125B152757962500E6FD6B /* ShowAlert.swift in Sources */,
 				EF3578BE2763588B00DA443F /* HomeViewModel.swift in Sources */,
 				EF96B98E274FE1C700961F9C /* mysubs.xcdatamodeld in Sources */,
+				EF702850277C6AC100A90A54 /* InputFormTextField.swift in Sources */,
 				EF96B986274FE1C700961F9C /* SceneDelegate.swift in Sources */,
 				EF1F6C77275A4AF100DA0BBB /* MSFonts.swift in Sources */,
 			);

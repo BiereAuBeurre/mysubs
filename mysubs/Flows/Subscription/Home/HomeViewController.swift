@@ -104,6 +104,8 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
             // Saving the new category into the viewModel
             viewModel?.addNewCategory(categoryToSave)
             print("voici la cateory name ajoutée :\(categoryToSave)")
+            viewModel?.fetchCategories()
+            categoryCollectionView.reloadData()
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         alert.addTextField()

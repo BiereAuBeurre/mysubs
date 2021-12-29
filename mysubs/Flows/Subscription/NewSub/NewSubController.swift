@@ -106,9 +106,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         view.addSubview(logo)
         view.addSubview(suggestedLogo)
         titleView.addSubview(newSubLabel)
-        
-//        addButton.addTarget(self, action: #selector(addButtonAction), for: .touchUpInside)
-        
+                
         // MARK: SEPARATOR LINE VIEW
         separatorLine.translatesAutoresizingMaskIntoConstraints = false
         separatorLine.backgroundColor = UIColor(named: "yellowgrey")
@@ -223,7 +221,6 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
             
             newSubLabel.topAnchor.constraint(equalTo: titleView.topAnchor, constant: 0),
             newSubLabel.leadingAnchor.constraint(equalTo: titleView.leadingAnchor, constant: 0),
-//            newSubLabel.trailingAnchor.constraint(equalTo: addButton.leadingAnchor, constant: 16),
             newSubLabel.heightAnchor.constraint(equalToConstant: 20),
             separatorLine.heightAnchor.constraint(equalToConstant: 1),
             separatorLine.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: 8),
@@ -239,8 +236,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
             suggestedLogo.topAnchor.constraint(equalTo: formView.bottomAnchor, constant: 16),
             suggestedLogo.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             logo.topAnchor.constraint(equalTo: suggestedLogo.bottomAnchor, constant: 8),
-            logo.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
-,
+            logo.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             logo.widthAnchor.constraint(equalToConstant: 100),
             logo.heightAnchor.constraint(equalToConstant: 100)
             ])

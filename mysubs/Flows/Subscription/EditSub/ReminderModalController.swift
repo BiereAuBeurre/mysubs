@@ -10,10 +10,13 @@ import UIKit
 
 class ReminderModalController: UIViewController {
     var numberPicker = UIPickerView()
+    var viewModel: EditSubViewModel?
+    var categorys: [SubCategory] = []
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        self.viewModel?.categorys = categorys
+        print("dans viewwillAPPEAR : categorys seul -> \(categorys) \n viewmodel.categorys -> \(viewModel?.categorys)")
     }
     
     override func viewDidLoad() {
@@ -40,18 +43,33 @@ class ReminderModalController: UIViewController {
     }
 }
     //MARK: PICKER VIEW PROTOCOL and SET UP
+ 
 extension ReminderModalController: UIPickerViewDataSource, UIPickerViewDelegate {
-func numberOfComponents(in pickerView: UIPickerView) -> Int {
-    3
-}
-
-func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-//    2
-    let min = 1
-    let max = 30
-    var pickerData = [Int]()
-    pickerData = Array(stride(from: min, to: max + 1, by: 1))
-    return pickerData.count
-}
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        let pickerDataSource = categorys
+        return pickerDataSource[row].name
+//        if component == 0 {
+//            return "First \(row)"
+//        } else {
+//            return "Second \(row)"
+//        }
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        //    2
+        //    let min = 1
+        //    let max = 30
+        //    var pickerData = [Int]()
+        //    pickerData = Array(stride(from: min, to: max + 1, by: 1))
+        //    return pickerData.count
+        print("category.count : \(categorys.count)")
+        return categorys.count
+    }
     
 }
+

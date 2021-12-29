@@ -43,23 +43,27 @@ class AppCoordinator: Coordinator {
         navigationController.pushViewController(newSubVC, animated: true)
     }
     
-    func showDetailSubScreen(sub: Subscription) {
+    func showDetailSubScreen(sub: Subscription, categorys: [SubCategory]) {
         let editSubVC = EditSubController()
         let editSubViewModel = EditSubViewModel(coordinator: self)
         editSubViewModel.viewDelegate = editSubVC
         editSubVC.viewModel = editSubViewModel
+        editSubVC.categorys = categorys
+        print("dans coordinator \(categorys)")
         editSubVC.sub = sub
         navigationController.pushViewController(editSubVC, animated: true)
     }
     
-    func openReminderModal() {
+    func openReminderModal(categorys: [SubCategory]) {
         let reminderModalVC = ReminderModalController()
         // Modal displaying settings
         reminderModalVC.modalPresentationStyle = .popover
         reminderModalVC.modalTransitionStyle = .coverVertical
+        reminderModalVC.categorys = categorys
         // To display as modal
         navigationController.present(reminderModalVC, animated: true, completion: nil)
     }
+    
     func goBack() {
         navigationController.popToRootViewController(animated: true)
     }

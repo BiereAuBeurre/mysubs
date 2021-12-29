@@ -10,53 +10,53 @@ import UIKit
 class EditSubController: UIViewController {
     
     weak var coordinator: AppCoordinator?
+    //MARK: LOGO PROPERTY
+
     var logoHeader = UIImageView()
     
     //MARK: LeftSideStackView properties
     var leftSideStackView = UIStackView()
     var formView = UIStackView()
-    var name = UILabel()
-    var nameField = UITextField()
-    var commitment = UILabel()
-    var commitmentField = UITextField()
-    var categoryLabel = UILabel()
-    var categoryField = UITextField() //A changer pour appeler liste des catégories user
-    var info = UILabel()
-    var infoField = UITextField()
+    var name = InputFormTextField()
+    var commitment = InputFormTextField()
+    var category = InputFormTextField()
+    var info = InputFormTextField()
     
     //MARK: RightSideStackView properties
     var rightSideStackView = UIStackView()
-    var price = UILabel()
-    var priceField = UITextField()
-    var reminder = UILabel()
-    var reminderField = UITextField()//UIPickerView()
-    var recurrency = UILabel()
-    var recurrencyField = UITextField()
+    var price = InputFormTextField()
+    var reminder = InputFormTextField()
+    var recurrency = InputFormTextField()
 
-    //MARK: LOGO PROPERTY
     var suggestedLogo = UILabel()
-    var logo = UIImageView()
+//    var logo = UIImageView()
     
-    //MARK: FOOTER BUTTON PROPERTY
+    //MARK: FOOTER BUTTON PROPERTIES
     var footerStackView = UIStackView()
     var modifyButton = UIButton()
     var deleteButton = UIButton()
     var viewModel: EditSubViewModel?
     var storageService = StorageService()
 
+    
     var sub: Subscription = Subscription()
+    var categorys: [SubCategory] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpNavBar()
         setUpView()
         activateConstraints()
-
-        // Do any additional setup after loading the view.
+        configureFormTextField()
+        print("view model.categorys: \(self.viewModel?.categorys)")
+        print("categorys only \(categorys)")
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.viewModel?.subscription = sub
+        self.viewModel?.categorys = categorys
+    
 
     }
     
@@ -67,14 +67,25 @@ class EditSubController: UIViewController {
     
     @objc func didSelectReminderField() {
         print("reminder field has been selected")
-        viewModel?.openReminderModal()
+        viewModel?.openReminderModal(categorys: categorys)
     }
     
     func saveEditedSub() {
-        guard let name = nameField.text,
-              let price = Float(priceField.text!) else {return }
+        guard let name = name.textField.text,
+              let price = Float(price.textField.text ?? "0")
+        else { return }
         sub.setValue(name, forKey: "name")
         sub.setValue(price, forKey: "price")
+    }
+    
+    func configureFormTextField() {
+        commitment.configureView()
+        name.configureView()
+        category.configureView()
+        info.configureView()
+        price.configureView()
+        reminder.configureView()
+        recurrency.configureView()
     }
     
     func setUpNavBar() {
@@ -111,114 +122,105 @@ class EditSubController: UIViewController {
         // MARK: FORMVIEW
         formView.translatesAutoresizingMaskIntoConstraints = false
         formView.axis = .horizontal
-        formView.alignment = .top
+//        formView.alignment = .top
         formView.spacing = 8
-        formView.distribution = .fillEqually
+        formView.distribution = .fillProportionally
         view.addSubview(formView)
         
     //MARK: LEFTSIDE STACKVIEW
+        leftSideStackView.backgroundColor = .blue
+        rightSideStackView.backgroundColor = .yellow
+        
         leftSideStackView.translatesAutoresizingMaskIntoConstraints = false
         leftSideStackView.contentMode = .scaleToFill
         leftSideStackView.axis = .vertical
-        leftSideStackView.alignment = .fill
-        leftSideStackView.distribution = .fillEqually
+//        leftSideStackView.alignment = .fill
+        leftSideStackView.distribution = .fillProportionally
         leftSideStackView.spacing = 8
-        
         //MARK: Adding name field
         leftSideStackView.addArrangedSubview(name)
         name.translatesAutoresizingMaskIntoConstraints = false
-        name.text = "Nom"
-        name.textColor = MSColors.maintext
-        leftSideStackView.addArrangedSubview(nameField)
-        nameField.text = sub.name //self.viewModel?.subscription?.name
-//        print("viewmodel.sub.name :\(self.viewModel?.subscription?.name)")
-        nameField.borderStyle = .roundedRect
-        nameField.translatesAutoresizingMaskIntoConstraints = false
+        name.label.text = "Nom"
+        name.label.textColor = MSColors.maintext
+        name.textField.text = sub.name //viewModel?.subscription?.name
+        print("viewmodel.sub.name :\(String(describing: sub.name))")
+        name.textField.borderStyle = .roundedRect
         
         //MARK: Adding commitment field
         leftSideStackView.addArrangedSubview(commitment)
         commitment.translatesAutoresizingMaskIntoConstraints = false
-        commitment.text = "Engagement"
-        commitment.textColor = MSColors.maintext
-        leftSideStackView.addArrangedSubview(commitmentField)
-        commitmentField.borderStyle = .roundedRect
-        commitmentField.translatesAutoresizingMaskIntoConstraints = false
-        commitmentField.text = ""//subInfo.commitment // changer pour liste préconçue
-        
+        commitment.label.text = "Engagement"
+        commitment.textField.text = "Mensuel"
+        commitment.label.textColor = MSColors.maintext
+        commitment.textField.borderStyle = .roundedRect
         //MARK: Adding category field
-        leftSideStackView.addArrangedSubview(categoryLabel)
-        categoryLabel.translatesAutoresizingMaskIntoConstraints = false
-        categoryLabel.text = "Catégorie"
-        categoryLabel.textColor = MSColors.maintext
-        leftSideStackView.addArrangedSubview(categoryField)
-        categoryField.borderStyle = .roundedRect
-        categoryField.translatesAutoresizingMaskIntoConstraints = false
-        categoryField.text = sub.reminder//""//subInfo.category // changer pour liste préconçue
+        leftSideStackView.addArrangedSubview(category)
+        category.translatesAutoresizingMaskIntoConstraints = false
+        category.label.text = "Catégorie"
+        category.label.textColor = MSColors.maintext
+        category.textField.borderStyle = .roundedRect
+        category.textField.translatesAutoresizingMaskIntoConstraints = false
+        category.textField.text = sub.reminder//""//subInfo.category // changer pour liste préconçue
         
         //MARK: Adding info field
         leftSideStackView.addArrangedSubview(info)
         info.translatesAutoresizingMaskIntoConstraints = false
-        info.text = "INFOS"
-        info.textColor = MSColors.maintext
-        leftSideStackView.addArrangedSubview(infoField)
-        infoField.borderStyle = .roundedRect
-        infoField.translatesAutoresizingMaskIntoConstraints = false
-        infoField.text = ""//subInfo.extraInfo
-        
+        info.label.text = "INFOS"
+        info.label.textColor = MSColors.maintext
+        info.textField.borderStyle = .roundedRect
+        info.textField.translatesAutoresizingMaskIntoConstraints = false
+        info.textField.text = ""//subInfo.extraInfo
+
         formView.addArrangedSubview(leftSideStackView)
         
     //MARK: RIGHTSIDE STACKVIEW
         rightSideStackView.translatesAutoresizingMaskIntoConstraints = false
         rightSideStackView.contentMode = .scaleToFill
         rightSideStackView.axis = .vertical
-        rightSideStackView.alignment = .fill
-        rightSideStackView.distribution = .fillEqually
+//        rightSideStackView.alignment = .fill
+        rightSideStackView.distribution = .fillProportionally
         rightSideStackView.spacing = 8
         
         //MARK: Adding price field
         rightSideStackView.addArrangedSubview(price)
         price.translatesAutoresizingMaskIntoConstraints = false
-        price.text = "Prix"
-        rightSideStackView.addArrangedSubview(priceField)
-        priceField.text = "\(sub.price)"
-        priceField.borderStyle = .roundedRect
-        priceField.translatesAutoresizingMaskIntoConstraints = false
+        price.label.text = "Prix"
+        price.textField.text = "\(sub.price)" //"\(viewModel?.subscription.price)"
+        price.textField.borderStyle = .roundedRect
+        price.textField.translatesAutoresizingMaskIntoConstraints = false
         
         //MARK: Adding reminder field
         rightSideStackView.addArrangedSubview(reminder)
         reminder.translatesAutoresizingMaskIntoConstraints = false
-        reminder.text = "Rappel"
-//        rightSideStackView.addArrangedSubview(reminderField)
-//        reminderField.numberOfComponents = 3
-//        reminderField.numberOfRows(inComponent: 10)
+        reminder.label.text = "Rappel"
         let overlay = UIButton()
         overlay.addTarget(self, action: #selector(didSelectReminderField), for: .touchUpInside)
         overlay.sizeToFit()
-        reminderField.leftView = overlay
-        reminderField.leftViewMode = .always
-        rightSideStackView.addArrangedSubview(reminderField)
-
-        reminderField.text = ""//subInfo.reminder
-        reminderField.borderStyle = .roundedRect
-        reminderField.translatesAutoresizingMaskIntoConstraints = false
-        reminderField.allowsEditingTextAttributes = false
+        reminder.textField.leftView = overlay
+        reminder.textField.leftViewMode = .always
+//        reminder.textField.leftView.addTarget(self, action: #selector(didSelectReminderField), for: .touchUpInside)
+        reminder.backgroundColor = .cyan
+        reminder.textField.leftViewMode = .always
+        reminder.textField.text = ""//subInfo.reminder
+        reminder.textField.borderStyle = .roundedRect
+        reminder.textField.translatesAutoresizingMaskIntoConstraints = false
+        reminder.textField.allowsEditingTextAttributes = false
         //MARK: Adding recurrency field
         rightSideStackView.addArrangedSubview(recurrency)
+        recurrency.backgroundColor = .green
         recurrency.translatesAutoresizingMaskIntoConstraints = false
-        recurrency.text = "Récurrence"
-        rightSideStackView.addArrangedSubview(recurrencyField)
-        recurrencyField.text = ""//subInfo.paymentRecurrency
-        recurrencyField.borderStyle = .roundedRect
-        recurrencyField.translatesAutoresizingMaskIntoConstraints = false
-        
+        recurrency.label.text = "Récurrence"
+        recurrency.textField.text = ""//subInfo.paymentRecurrency
+        recurrency.textField.borderStyle = .roundedRect
+        recurrency.textField.translatesAutoresizingMaskIntoConstraints = false
+
         formView.addArrangedSubview(rightSideStackView)
 
     //MARK: Adding logo suggestion
-        suggestedLogo.translatesAutoresizingMaskIntoConstraints = false
-        logo.translatesAutoresizingMaskIntoConstraints = false
-        suggestedLogo.text = ""//Logo suggéré"
-        logo.image = nil//UIImage(named: "ps")
-        
+//        suggestedLogo.translatesAutoresizingMaskIntoConstraints = false
+//        logo.translatesAutoresizingMaskIntoConstraints = false
+//        suggestedLogo.text = ""//Logo suggéré"
+//        logo.image = nil//UIImage(named: "ps")
         
     //MARK: FOOTER BUTTONS
         footerStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -256,7 +258,7 @@ class EditSubController: UIViewController {
         formView.topAnchor.constraint(equalTo: logoHeader.bottomAnchor, constant: 16),
         formView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
         formView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-        formView.heightAnchor.constraint(equalToConstant: 350),
+        formView.heightAnchor.constraint(equalToConstant: 300),
         footerStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -24),
         footerStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
         footerStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
