@@ -16,7 +16,6 @@ class ReminderModalController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.viewModel?.categorys = categorys
-        print("dans viewwillAPPEAR : categorys seul -> \(categorys) \n viewmodel.categorys -> \(viewModel?.categorys)")
     }
     
     override func viewDidLoad() {
@@ -26,12 +25,9 @@ class ReminderModalController: UIViewController {
     
     func setUpBasicUI() {
         view.backgroundColor = MSColors.background
-
         numberPicker.delegate = self
         numberPicker.dataSource = self
         numberPicker.translatesAutoresizingMaskIntoConstraints = false
-        
-
         view.addSubview(numberPicker)
         
         NSLayoutConstraint.activate([
@@ -61,7 +57,6 @@ extension ReminderModalController: UIPickerViewDataSource, UIPickerViewDelegate 
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        //    2
         //    let min = 1
         //    let max = 30
         //    var pickerData = [Int]()

@@ -11,7 +11,6 @@ class EditSubController: UIViewController {
     
     weak var coordinator: AppCoordinator?
     //MARK: LOGO PROPERTY
-
     var logoHeader = UIImageView()
     
     //MARK: LeftSideStackView properties
@@ -27,9 +26,7 @@ class EditSubController: UIViewController {
     var price = InputFormTextField()
     var reminder = InputFormTextField()
     var recurrency = InputFormTextField()
-
     var suggestedLogo = UILabel()
-//    var logo = UIImageView()
     
     //MARK: FOOTER BUTTON PROPERTIES
     var footerStackView = UIStackView()
@@ -48,7 +45,8 @@ class EditSubController: UIViewController {
         setUpView()
         activateConstraints()
         configureFormTextField()
-        print("view model.categorys: \(self.viewModel?.categorys)")
+        self.category.textField.delegate = self
+        print("view model.categorys: \(String(describing: self.viewModel?.categorys))")
         print("categorys only \(categorys)")
     }
     
@@ -60,6 +58,7 @@ class EditSubController: UIViewController {
 
     }
     
+    //MARK: OJBC METHODS
     @objc func doneEditingAction() {
         saveEditedSub()
         viewModel?.goBack()
@@ -78,7 +77,8 @@ class EditSubController: UIViewController {
         sub.setValue(price, forKey: "price")
     }
     
-    func configureFormTextField() {
+    //MARK: Private METHODS
+    private func configureFormTextField() {
         commitment.configureView()
         name.configureView()
         category.configureView()
@@ -88,7 +88,7 @@ class EditSubController: UIViewController {
         recurrency.configureView()
     }
     
-    func setUpNavBar() {
+    private func setUpNavBar() {
         // DISPLAYING LOGO
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 38, height: 38))
         imageView.contentMode = .scaleAspectFit
@@ -107,13 +107,12 @@ class EditSubController: UIViewController {
         self.navigationItem.rightBarButtonItem = rightBarButtonItem
     }
     
-    func refreshWith(subscription: Subscription) {
+    private func refreshWith(subscription: Subscription) {
 //        nameField.text = sub.name
         print("sub.name est : \(String(describing: sub.name))")
-//        myCollectionView.reloadData()
     }
     
-    func setUpView(){
+    private func setUpView() {
         view.backgroundColor = MSColors.background
         logoHeader.translatesAutoresizingMaskIntoConstraints = false
         logoHeader.image = UIImage(named: "ps")
@@ -160,8 +159,16 @@ class EditSubController: UIViewController {
         category.label.textColor = MSColors.maintext
         category.textField.borderStyle = .roundedRect
         category.textField.translatesAutoresizingMaskIntoConstraints = false
-        category.textField.text = sub.reminder//""//subInfo.category // changer pour liste préconçue
-        
+        //FIXME: plutôt utiliser addtarget comme commenté ? Ne fonctionne pas donc bouton rajouté sur textfield pour le moment 
+        let overlay = UIButton()
+        overlay.addTarget(self, action: #selector(didSelectReminderField), for: .touchUpInside)
+        //        reminder.textField.leftView.addTarget(self, action: #selector(didSelectReminderField), for: .touchUpInside)
+        overlay.sizeToFit()
+        category.textField.leftView = overlay
+        category.textField.leftViewMode = .always
+        //FIXME: display the associated cateogry of the selected subscription (currently displaying the first one of the array)
+        category.textField.text = categorys.first?.name//""//subInfo.category // changer pour liste préconçue
+//        category.textField.placeholder = categorys.first?.name
         //MARK: Adding info field
         leftSideStackView.addArrangedSubview(info)
         info.translatesAutoresizingMaskIntoConstraints = false
@@ -193,12 +200,6 @@ class EditSubController: UIViewController {
         rightSideStackView.addArrangedSubview(reminder)
         reminder.translatesAutoresizingMaskIntoConstraints = false
         reminder.label.text = "Rappel"
-        let overlay = UIButton()
-        overlay.addTarget(self, action: #selector(didSelectReminderField), for: .touchUpInside)
-        overlay.sizeToFit()
-        reminder.textField.leftView = overlay
-        reminder.textField.leftViewMode = .always
-//        reminder.textField.leftView.addTarget(self, action: #selector(didSelectReminderField), for: .touchUpInside)
         reminder.backgroundColor = .cyan
         reminder.textField.leftViewMode = .always
         reminder.textField.text = ""//subInfo.reminder
@@ -213,15 +214,8 @@ class EditSubController: UIViewController {
         recurrency.textField.text = ""//subInfo.paymentRecurrency
         recurrency.textField.borderStyle = .roundedRect
         recurrency.textField.translatesAutoresizingMaskIntoConstraints = false
-
         formView.addArrangedSubview(rightSideStackView)
 
-    //MARK: Adding logo suggestion
-//        suggestedLogo.translatesAutoresizingMaskIntoConstraints = false
-//        logo.translatesAutoresizingMaskIntoConstraints = false
-//        suggestedLogo.text = ""//Logo suggéré"
-//        logo.image = nil//UIImage(named: "ps")
-        
     //MARK: FOOTER BUTTONS
         footerStackView.translatesAutoresizingMaskIntoConstraints = false
         footerStackView.axis = .horizontal
@@ -245,8 +239,6 @@ class EditSubController: UIViewController {
         footerStackView.addArrangedSubview(deleteButton)
         deleteButton.setTitle("Supprimer", for: .normal)
         deleteButton.setTitleColor(MSColors.background, for: .normal)
-        
-        
     }
     
     func activateConstraints() {
@@ -265,4 +257,19 @@ class EditSubController: UIViewController {
         footerStackView.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
+}
+
+// MARK: Protocol from UITextFieldDelegate
+
+extension EditSubController: UITextFieldDelegate {
+    
+    //MARK: making uneditable fields with pickerView
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if textField == category.textField {
+          // code which you want to execute when the user touch myTextField
+            print("can't edit here")
+       }
+       return false
+    }
+    
 }
