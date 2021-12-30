@@ -8,14 +8,14 @@
 import Foundation
 import UIKit
 
-class ReminderModalController: UIViewController {
+class CommitmentModalController: UIViewController {
     var numberPicker = UIPickerView()
     var viewModel: EditSubViewModel?
-    var categorys: [SubCategory] = []
+//    var categorys: [SubCategory] = []
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.viewModel?.categorys = categorys
+//        self.viewModel?.categorys = categorys
     }
     
     override func viewDidLoad() {
@@ -40,31 +40,42 @@ class ReminderModalController: UIViewController {
 }
     //MARK: PICKER VIEW PROTOCOL and SET UP
  
-extension ReminderModalController: UIPickerViewDataSource, UIPickerViewDelegate {
+extension CommitmentModalController: UIPickerViewDataSource, UIPickerViewDelegate {
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        let pickerDataSource = categorys
-        return pickerDataSource[row].name
-//        if component == 0 {
-//            return "First \(row)"
-//        } else {
-//            return "Second \(row)"
-//        }
+        if component == 0 {
+            if row != 0  {
+                let min = 0
+                let max = 30
+//                var pickerData = [Int]()
+                let pickerData = Array(stride(from: min, to: max + 1, by: 1))
+                return ("\(pickerData[row])")
+            } else {
+                return "Pour toujours"
+            }
+        } else {
+            let pickerData = ["", "Jour(s)","Semaine(s)", "Mois", "Années"]
+            return pickerData[row]
+        }
+        //        if component == 0 {
+        //            return "\(row)"
+        //        } else {
+        //            return "Second / \(row)"
+        //        }
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        1
+        2
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        //    let min = 1
-        //    let max = 30
-        //    var pickerData = [Int]()
-        //    pickerData = Array(stride(from: min, to: max + 1, by: 1))
-        //    return pickerData.count
-        print("category.count : \(categorys.count)")
-        return categorys.count
+        if component == 0 {
+//            let min = 1 let max = 30 var pickerData = [Int]() pickerData = Array(stride(from: min, to: max + 1, by: 1))
+            return 31//pickerData.count
+        } else {
+            return 5
+        }
+        
     }
-    
-}
 
+}

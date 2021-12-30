@@ -14,7 +14,7 @@ class NewSubViewModel: NSObject {
     private let storageService: StorageService
 //    private let category: String
 
-    init(coordinator: AppCoordinator, category: String, storageService: StorageService) {
+    init(coordinator: AppCoordinator,/*, category: String, */storageService: StorageService) {
         self.coordinator = coordinator
 //        self.category = category
         self.storageService = storageService

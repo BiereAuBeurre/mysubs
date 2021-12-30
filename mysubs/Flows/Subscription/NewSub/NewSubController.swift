@@ -44,9 +44,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpView()
-        activateConstraints()
-
+        setUpUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -54,28 +52,44 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
 //        print("Category : \(viewModel.categ ?? "Missing")")
     }
     
+    //MARK: -OBJC METHODs
     @objc func addButtonAction() {
         if viewModel?.name == nil {
             showAlert("Champ manquant", "ajouter au moins un nom")
             return
         } else {
-        viewModel?.saveSub()
-        print("dans add button action, ajouté à \(String(describing: viewModel?.subscriptions))")
+            viewModel?.saveSub()
+            print("dans add button action, ajouté à \(String(describing: viewModel?.subscriptions))")
         }
     }
     
     @objc func nameFieldTextDidChange(textField: UITextField) {
         viewModel?.name = textField.text
-
     }
-    
-    func refreshWith(subscriptions: [Subscription]) {
-//        myCollectionView.reloadData()
-        
+    //MARK: - PRIVATES METHODS
+    private func refreshWith(subscriptions: [Subscription]) {
+        // myCollectionView.reloadData()
         print("refresh with is read")
     }
     
-    func setUpNavBar() {
+}
+
+extension NewSubController {
+    func canSaveStatusDidChange(canSave: Bool) {
+        self.navigationItem.rightBarButtonItem?.isEnabled = canSave
+    }
+}
+
+// MARK: - SET UP ALL UI
+extension NewSubController {
+    
+    private func setUpUI() {
+        setUpNavBar()
+        setUpView()
+        activateConstraints()
+    }
+    
+    private func setUpNavBar() {
         // DISPLAYING LOGO
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 38, height: 38))
         imageView.contentMode = .scaleAspectFit
@@ -92,8 +106,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         self.navigationItem.rightBarButtonItem = rightBarButtonItem
     }
 
-    func setUpView() {
-        setUpNavBar()
+    private func setUpView() {
         // MARK: SETTING TITLE
         view.backgroundColor = MSColors.background
         newSubLabel.text = "Nouvel abonnement"
@@ -240,11 +253,5 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
             logo.widthAnchor.constraint(equalToConstant: 100),
             logo.heightAnchor.constraint(equalToConstant: 100)
             ])
-    }
-}
-
-extension NewSubController {
-    func canSaveStatusDidChange(canSave: Bool) {
-        self.navigationItem.rightBarButtonItem?.isEnabled = canSave
     }
 }

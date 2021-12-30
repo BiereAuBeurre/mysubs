@@ -10,10 +10,10 @@ import UIKit
 class EditSubController: UIViewController {
     
     weak var coordinator: AppCoordinator?
-    //MARK: LOGO PROPERTY
+    //MARK: -LOGO PROPERTY
     var logoHeader = UIImageView()
     
-    //MARK: LeftSideStackView properties
+    //MARK: -LeftSideStackView properties
     var leftSideStackView = UIStackView()
     var formView = UIStackView()
     var name = InputFormTextField()
@@ -21,44 +21,37 @@ class EditSubController: UIViewController {
     var category = InputFormTextField()
     var info = InputFormTextField()
     
-    //MARK: RightSideStackView properties
+    //MARK: -RightSideStackView properties
     var rightSideStackView = UIStackView()
     var price = InputFormTextField()
     var reminder = InputFormTextField()
     var recurrency = InputFormTextField()
     var suggestedLogo = UILabel()
     
-    //MARK: FOOTER BUTTON PROPERTIES
+    //MARK: -FOOTER BUTTON PROPERTIES
     var footerStackView = UIStackView()
     var modifyButton = UIButton()
     var deleteButton = UIButton()
     var viewModel: EditSubViewModel?
     var storageService = StorageService()
-
-    
+    //FIXME: MEMORY PROPERTIES from viewmodel values (to delete??)
     var sub: Subscription = Subscription()
     var categorys: [SubCategory] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpNavBar()
-        setUpView()
-        activateConstraints()
-        configureFormTextField()
+        setUpUI()
         self.category.textField.delegate = self
-        print("view model.categorys: \(String(describing: self.viewModel?.categorys))")
-        print("categorys only \(categorys)")
+        print("categorys in editVC are \(categorys)")
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.viewModel?.subscription = sub
         self.viewModel?.categorys = categorys
-    
-
     }
     
-    //MARK: OJBC METHODS
+    //MARK: -OJBC METHODS
     @objc func doneEditingAction() {
         saveEditedSub()
         viewModel?.goBack()
@@ -69,7 +62,9 @@ class EditSubController: UIViewController {
         viewModel?.openReminderModal(categorys: categorys)
     }
     
-    func saveEditedSub() {
+    
+    //MARK: -Private METHODS
+    private func saveEditedSub() {
         guard let name = name.textField.text,
               let price = Float(price.textField.text ?? "0")
         else { return }
@@ -77,7 +72,38 @@ class EditSubController: UIViewController {
         sub.setValue(price, forKey: "price")
     }
     
-    //MARK: Private METHODS
+    private func refreshWith(subscription: Subscription) {
+//        nameField.text = sub.name
+        print("sub.name est : \(String(describing: sub.name))")
+    }
+   
+}
+
+// MARK: -Protocol from UITextFieldDelegate
+
+extension EditSubController: UITextFieldDelegate {
+    
+    //MARK: making uneditable fields with pickerView
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if textField == commitment.textField {
+          // code which you want to execute when the user touch myTextField
+            print("can't edit here")
+       }
+       return false
+    }
+    
+}
+
+// MARK: -SETTING UP ALL UI
+extension EditSubController {
+    
+    private func setUpUI() {
+        setUpNavBar()
+        setUpView()
+//        activateConstraints()
+        configureFormTextField()
+    }
+    
     private func configureFormTextField() {
         commitment.configureView()
         name.configureView()
@@ -89,16 +115,13 @@ class EditSubController: UIViewController {
     }
     
     private func setUpNavBar() {
-        // DISPLAYING LOGO
+        // MARK: DISPLAYING LOGO
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 38, height: 38))
         imageView.contentMode = .scaleAspectFit
         let image = UIImage(named: "subs_dark")
         imageView.image = image
         navigationItem.titleView = imageView
-        
-        //DISPLAYING SETTINGS BUTTON
-        navigationItem.leftBarButtonItem?.tintColor = MSColors.background
-        //DISPLAYING DONE BUTTON
+        //MARK: DISPLAYING DONE BUTTON
         let doneButton: UIButton = UIButton(type: .custom)
         doneButton.setTitle("Terminer", for: .normal)
         doneButton.addTarget(self, action: #selector(doneEditingAction), for: .touchUpInside)
@@ -107,12 +130,15 @@ class EditSubController: UIViewController {
         self.navigationItem.rightBarButtonItem = rightBarButtonItem
     }
     
-    private func refreshWith(subscription: Subscription) {
-//        nameField.text = sub.name
-        print("sub.name est : \(String(describing: sub.name))")
-    }
-    
     private func setUpView() {
+        commitment.configureView()
+        name.configureView()
+        category.configureView()
+        info.configureView()
+        price.configureView()
+        reminder.configureView()
+        recurrency.configureView()
+        
         view.backgroundColor = MSColors.background
         logoHeader.translatesAutoresizingMaskIntoConstraints = false
         logoHeader.image = UIImage(named: "ps")
@@ -126,14 +152,14 @@ class EditSubController: UIViewController {
         formView.distribution = .fillProportionally
         view.addSubview(formView)
         
-    //MARK: LEFTSIDE STACKVIEW
-        leftSideStackView.backgroundColor = .blue
-        rightSideStackView.backgroundColor = .yellow
+        //MARK: LEFTSIDE STACKVIEW
+//        leftSideStackView.backgroundColor = .blue
+//        rightSideStackView.backgroundColor = .yellow
         
         leftSideStackView.translatesAutoresizingMaskIntoConstraints = false
         leftSideStackView.contentMode = .scaleToFill
         leftSideStackView.axis = .vertical
-//        leftSideStackView.alignment = .fill
+        leftSideStackView.alignment = .fill
         leftSideStackView.distribution = .fillProportionally
         leftSideStackView.spacing = 8
         //MARK: Adding name field
@@ -149,25 +175,27 @@ class EditSubController: UIViewController {
         leftSideStackView.addArrangedSubview(commitment)
         commitment.translatesAutoresizingMaskIntoConstraints = false
         commitment.label.text = "Engagement"
-        commitment.textField.text = "Mensuel"
         commitment.label.textColor = MSColors.maintext
         commitment.textField.borderStyle = .roundedRect
         //MARK: Adding category field
-        leftSideStackView.addArrangedSubview(category)
-        category.translatesAutoresizingMaskIntoConstraints = false
-        category.label.text = "Catégorie"
-        category.label.textColor = MSColors.maintext
-        category.textField.borderStyle = .roundedRect
-        category.textField.translatesAutoresizingMaskIntoConstraints = false
-        //FIXME: plutôt utiliser addtarget comme commenté ? Ne fonctionne pas donc bouton rajouté sur textfield pour le moment 
+//        leftSideStackView.addArrangedSubview(category)
+//        category.translatesAutoresizingMaskIntoConstraints = false
+//        category.label.text = "Catégorie"
+//        category.label.textColor = MSColors.maintext
+//        category.textField.borderStyle = .roundedRect
+//        category.textField.translatesAutoresizingMaskIntoConstraints = false
+        //FIXME: plutôt utiliser addtarget comme commenté ? Ne fonctionne pas donc bouton rajouté sur textfield pour le moment
         let overlay = UIButton()
         overlay.addTarget(self, action: #selector(didSelectReminderField), for: .touchUpInside)
-        //        reminder.textField.leftView.addTarget(self, action: #selector(didSelectReminderField), for: .touchUpInside)
+//         commitment.textField.addTarget(self, action: #selector(didSelectReminderField), for: .touchUpInside)
         overlay.sizeToFit()
-        category.textField.leftView = overlay
-        category.textField.leftViewMode = .always
+        commitment.textField.leftView = overlay
+        commitment.textField.leftViewMode = .always
+        commitment.textField.text = "Mensuel"
+
+//        category.textField.addTarget(self, action: #selector(didSelectReminderField), for: .touchUpInside)
         //FIXME: display the associated cateogry of the selected subscription (currently displaying the first one of the array)
-        category.textField.text = categorys.first?.name//""//subInfo.category // changer pour liste préconçue
+//        category.textField.text = categorys.first?.name//""//subInfo.category // changer pour liste préconçue
 //        category.textField.placeholder = categorys.first?.name
         //MARK: Adding info field
         leftSideStackView.addArrangedSubview(info)
@@ -182,9 +210,10 @@ class EditSubController: UIViewController {
         
     //MARK: RIGHTSIDE STACKVIEW
         rightSideStackView.translatesAutoresizingMaskIntoConstraints = false
+        //FIXME: Afficher cellule aligner avec leftStackView
         rightSideStackView.contentMode = .scaleToFill
         rightSideStackView.axis = .vertical
-//        rightSideStackView.alignment = .fill
+        rightSideStackView.alignment = .fill
         rightSideStackView.distribution = .fillProportionally
         rightSideStackView.spacing = 8
         
@@ -192,7 +221,7 @@ class EditSubController: UIViewController {
         rightSideStackView.addArrangedSubview(price)
         price.translatesAutoresizingMaskIntoConstraints = false
         price.label.text = "Prix"
-        price.textField.text = "\(sub.price)" //"\(viewModel?.subscription.price)"
+        price.textField.text = "\(sub.price)"
         price.textField.borderStyle = .roundedRect
         price.textField.translatesAutoresizingMaskIntoConstraints = false
         
@@ -200,7 +229,7 @@ class EditSubController: UIViewController {
         rightSideStackView.addArrangedSubview(reminder)
         reminder.translatesAutoresizingMaskIntoConstraints = false
         reminder.label.text = "Rappel"
-        reminder.backgroundColor = .cyan
+//        reminder.backgroundColor = .cyan
         reminder.textField.leftViewMode = .always
         reminder.textField.text = ""//subInfo.reminder
         reminder.textField.borderStyle = .roundedRect
@@ -208,7 +237,7 @@ class EditSubController: UIViewController {
         reminder.textField.allowsEditingTextAttributes = false
         //MARK: Adding recurrency field
         rightSideStackView.addArrangedSubview(recurrency)
-        recurrency.backgroundColor = .green
+//        recurrency.backgroundColor = .green
         recurrency.translatesAutoresizingMaskIntoConstraints = false
         recurrency.label.text = "Récurrence"
         recurrency.textField.text = ""//subInfo.paymentRecurrency
@@ -239,14 +268,12 @@ class EditSubController: UIViewController {
         footerStackView.addArrangedSubview(deleteButton)
         deleteButton.setTitle("Supprimer", for: .normal)
         deleteButton.setTitleColor(MSColors.background, for: .normal)
-    }
-    
-    func activateConstraints() {
+   
         NSLayoutConstraint.activate([
         logoHeader.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
         logoHeader.widthAnchor.constraint(equalToConstant: 50),
         logoHeader.heightAnchor.constraint(equalToConstant: 50),
-        logoHeader.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+        logoHeader.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
         formView.topAnchor.constraint(equalTo: logoHeader.bottomAnchor, constant: 16),
         formView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
         formView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
@@ -257,19 +284,4 @@ class EditSubController: UIViewController {
         footerStackView.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
-}
-
-// MARK: Protocol from UITextFieldDelegate
-
-extension EditSubController: UITextFieldDelegate {
-    
-    //MARK: making uneditable fields with pickerView
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        if textField == category.textField {
-          // code which you want to execute when the user touch myTextField
-            print("can't edit here")
-       }
-       return false
-    }
-    
 }

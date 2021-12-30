@@ -20,19 +20,20 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     var viewModel : HomeViewModel?
     weak var coordinator: AppCoordinator?
     
-    // MARK: UI Properties
+    // MARK: -UI Properties
     var subsView = UIView()
     var totalAmountView = UIView()
     var totalAmountLabel = UILabel()
     var amountLabel = UILabel()
     var subListStackView = UIStackView()
-    var categoriesStackView = UIStackView()
+//    var categoriesStackView = UIStackView()
     var subCollectionView: UICollectionView! //= UICollectionView()
     var categoryButton = UIButton()//AdaptableSizeButton()
-    var categoryCollectionView: UICollectionView!
-    var addCategoryButton = UIButton()
+//    var categoryCollectionView: UICollectionView!
+//    var addCategoryButton = UIButton()
     private let activityIndicator = UIActivityIndicatorView(style: .large)
-    // MARK: Properties
+    
+    // MARK: -Properties
     var viewState: State<[Subscription]> = .empty {
         didSet {
             // resetState()
@@ -52,7 +53,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
                 activityIndicator.stopAnimating()
                 subCollectionView.isHidden = false
                 subCollectionView.reloadData()
-                categoryCollectionView.reloadData()
+//                categoryCollectionView.reloadData()
             }
         }
     }
@@ -64,14 +65,14 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel?.fetchCategories()
+//        viewModel?.fetchCategories()
         viewModel?.fetchSubscription()
 //        viewModel?.storageService.loadsubs()
         setUpTotalAmountView()
         viewModel?.computeTotal()
     }
     
-    //MARK: OBJ C METHODS
+    //MARK: -OBJ C METHODS
     @objc func plusButtonAction() {
         viewModel?.showNewSub()
         print("passage dans methode plusButtonAction (homeVC)")
@@ -95,26 +96,26 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
             print("swipe left")
         }
     }
-    @objc func addNewCategory() {
-        // Displaying the alert window
-        let alert = UIAlertController(title: "Nouvelle categorie", message: "Ajoutez votre nouvelle categorie", preferredStyle: .alert)
-        let saveAction = UIAlertAction(title: "Ajouter", style: .default) { [unowned self] action in
-            guard let textField = alert.textFields?.first,
-                  let categoryToSave = textField.text else { return }
-            // Saving the new category into the viewModel
-            viewModel?.addNewCategory(categoryToSave)
-            print("voici la cateory name ajoutée :\(categoryToSave)")
-            viewModel?.fetchCategories()
-            categoryCollectionView.reloadData()
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        alert.addTextField()
-        alert.addAction(saveAction)
-        alert.addAction(cancelAction)
-        present(alert, animated: true)
-    }
+//    @objc func addNewCategory() {
+//        // Displaying the alert window
+//        let alert = UIAlertController(title: "Nouvelle categorie", message: "Ajoutez votre nouvelle categorie", preferredStyle: .alert)
+//        let saveAction = UIAlertAction(title: "Ajouter", style: .default) { [unowned self] action in
+//            guard let textField = alert.textFields?.first,
+//                  let categoryToSave = textField.text else { return }
+//            // Saving the new category into the viewModel
+//            viewModel?.addNewCategory(categoryToSave)
+//            print("voici la cateory name ajoutée :\(categoryToSave)")
+//            viewModel?.fetchCategories()
+//            categoryCollectionView.reloadData()
+//        }
+//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+//        alert.addTextField()
+//        alert.addAction(saveAction)
+//        alert.addAction(cancelAction)
+//        present(alert, animated: true)
+//    }
     
-    //MARK: PRIVATE METHODS
+    //MARK: -PRIVATE METHODS
     private func displayEmptyView() {
         let emptyView = UITextView.init(frame: view.frame)
         emptyView.text = "\n\n\nAppuyez sur le + en haut pour commencer !"
@@ -148,30 +149,30 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
   
 }
 
-//MARK: SET UP COLLECTION VIEWs
+//MARK: -SET UP COLLECTION VIEWS
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == self.subCollectionView {
+//        if collectionView == self.subCollectionView {
             return viewModel?.subscriptions.count ?? 1
-        } else {
-            return viewModel?.categorys.count ?? 1
-        }
+//        } else {
+//            return viewModel?.categorys.count ?? 1
+//        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView == self.subCollectionView {
+//        if collectionView == self.subCollectionView {
             let subCell = subCollectionView.dequeueReusableCell(withReuseIdentifier: SubCell.identifier, for: indexPath) as! SubCell
             let leftSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
             leftSwipe.direction = .left
             subCell.addGestureRecognizer(leftSwipe)
             subCell.subscription = viewModel?.subscriptions[indexPath.row]
             return subCell
-        } else {
-            let categoryCell = categoryCollectionView.dequeueReusableCell(withReuseIdentifier: CategoriesCell.identifier, for: indexPath) as! CategoriesCell
-            categoryCell.category = viewModel?.categorys[indexPath.row]
-            return categoryCell
-        }
+//        } else {
+//            let categoryCell = categoryCollectionView.dequeueReusableCell(withReuseIdentifier: CategoriesCell.identifier, for: indexPath) as! CategoriesCell
+//            categoryCell.category = viewModel?.categorys[indexPath.row]
+//            return categoryCell
+//        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -183,6 +184,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
 }
 
+//MARK: -REFRESHING DATAS
 extension HomeViewController {
     
     func refreshWith(subscriptions: [Subscription]) {
@@ -206,11 +208,11 @@ extension HomeViewController {
     }
     
 }
-//MARK: UI SET UP
+//MARK: -UI SET UP
 extension HomeViewController {
     func setUpUI() {
         setUpNavBar()
-        configureCategoriesStackView()
+//        configureCategoriesStackView()
         setUpSubStackView()
         activateConstraints()
         view.backgroundColor = MSColors.background
@@ -249,39 +251,39 @@ extension HomeViewController {
         self.navigationItem.leftBarButtonItem = leftBarButtonItem
     }
     
-    func configureCategoriesStackView() {
-        categoriesStackView.translatesAutoresizingMaskIntoConstraints = false
-        categoriesStackView.backgroundColor = MSColors.background
-        categoriesStackView.spacing = 5.5
-        view.addSubview(categoriesStackView)
-        configureAddCategoryButton()
-        configureCategoriesCollectionView()
-    }
+//    func configureCategoriesStackView() {
+//        categoriesStackView.translatesAutoresizingMaskIntoConstraints = false
+//        categoriesStackView.backgroundColor = MSColors.background
+//        categoriesStackView.spacing = 5.5
+//        view.addSubview(categoriesStackView)
+//        configureAddCategoryButton()
+//        configureCategoriesCollectionView()
+//    }
     
-    func configureAddCategoryButton() {
-        addCategoryButton.translatesAutoresizingMaskIntoConstraints = false
-        addCategoryButton.setImage(UIImage(systemName: "plus.circle.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 38, weight: .light, scale: .small)), for: .normal)
-        addCategoryButton.tintColor = MSColors.maintext
-        addCategoryButton.addTarget(self, action: #selector(addNewCategory), for: .touchUpInside)
-        categoriesStackView.addArrangedSubview(addCategoryButton)
-    }
+//    func configureAddCategoryButton() {
+//        addCategoryButton.translatesAutoresizingMaskIntoConstraints = false
+//        addCategoryButton.setImage(UIImage(systemName: "plus.circle.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 38, weight: .light, scale: .small)), for: .normal)
+//        addCategoryButton.tintColor = MSColors.maintext
+//        addCategoryButton.addTarget(self, action: #selector(addNewCategory), for: .touchUpInside)
+//        categoriesStackView.addArrangedSubview(addCategoryButton)
+//    }
     
-    func configureCategoriesCollectionView() {
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: view.frame.size.width/5, height: view.frame.size.width/13.5)
-        layout.scrollDirection = .horizontal
-        categoryCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        categoryCollectionView.backgroundColor = MSColors.background
-
-        categoryCollectionView.register(CategoriesCell.self, forCellWithReuseIdentifier: CategoriesCell.identifier)
-        categoryCollectionView.dataSource = self
-        categoryCollectionView.delegate = self
-        categoryCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        categoryCollectionView.isScrollEnabled = true
-        categoryCollectionView.isUserInteractionEnabled = true
-        categoryCollectionView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height/6.5)
-        categoriesStackView.addArrangedSubview(categoryCollectionView)
-    }
+//    func configureCategoriesCollectionView() {
+//        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+//        layout.itemSize = CGSize(width: view.frame.size.width/5, height: view.frame.size.width/13.5)
+//        layout.scrollDirection = .horizontal
+//        categoryCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+//        categoryCollectionView.backgroundColor = MSColors.background
+//
+//        categoryCollectionView.register(CategoriesCell.self, forCellWithReuseIdentifier: CategoriesCell.identifier)
+//        categoryCollectionView.dataSource = self
+//        categoryCollectionView.delegate = self
+//        categoryCollectionView.translatesAutoresizingMaskIntoConstraints = false
+//        categoryCollectionView.isScrollEnabled = true
+//        categoryCollectionView.isUserInteractionEnabled = true
+//        categoryCollectionView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height/6.5)
+//        categoriesStackView.addArrangedSubview(categoryCollectionView)
+//    }
     
     
     func setUpSubStackView() {
@@ -333,19 +335,19 @@ extension HomeViewController {
     func activateConstraints() {
         NSLayoutConstraint.activate([
 
-            categoriesStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            categoriesStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
-            categoriesStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            categoriesStackView.heightAnchor.constraint(equalToConstant: 60),
+//            categoriesStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+//            categoriesStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+//            categoriesStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+//            categoriesStackView.heightAnchor.constraint(equalToConstant: 60),
             
-            subListStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -16),
+            subListStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
             subListStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 0),
             subListStackView.trailingAnchor.constraint(equalToSystemSpacingAfter: view.trailingAnchor, multiplier: 0),
-            subListStackView.topAnchor.constraint(equalTo: categoriesStackView.bottomAnchor, constant: 8),
+            subListStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
             
             totalAmountView.leadingAnchor.constraint(equalToSystemSpacingAfter: subListStackView.leadingAnchor, multiplier: 0),
             totalAmountView.trailingAnchor.constraint(equalToSystemSpacingAfter: subListStackView.trailingAnchor, multiplier: 0),
-            totalAmountView.bottomAnchor.constraint(equalTo: subListStackView.bottomAnchor, constant: 0),
+            totalAmountView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
             totalAmountView.heightAnchor.constraint(equalToConstant: 50),
             totalAmountLabel.leadingAnchor.constraint(equalTo: totalAmountView.leadingAnchor, constant: 32),
             totalAmountLabel.centerYAnchor.constraint(equalTo: totalAmountView.centerYAnchor, constant: 0),

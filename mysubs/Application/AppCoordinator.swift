@@ -36,7 +36,7 @@ class AppCoordinator: Coordinator {
     
     func showNewSubScreenFor(category: String)/*changer pour enum*/ {
         let newSubVC = NewSubController()
-        let newSubVCViewModel = NewSubViewModel(coordinator: self, category: category, storageService: storageService)
+        let newSubVCViewModel = NewSubViewModel(coordinator: self/*, category: category*/, storageService: storageService)
         newSubVCViewModel.viewDelegate = newSubVC
         newSubVC.viewModel = newSubVCViewModel
 //        newSubVCViewModel.category = category
@@ -48,20 +48,20 @@ class AppCoordinator: Coordinator {
         let editSubViewModel = EditSubViewModel(coordinator: self)
         editSubViewModel.viewDelegate = editSubVC
         editSubVC.viewModel = editSubViewModel
-        editSubVC.categorys = categorys
-        print("dans coordinator \(categorys)")
+//        editSubVC.categorys = categorys
+//        print("dans coordinator \(categorys)")
         editSubVC.sub = sub
         navigationController.pushViewController(editSubVC, animated: true)
     }
     
     func openReminderModal(categorys: [SubCategory]) {
-        let reminderModalVC = ReminderModalController()
+        let commitmentModalVC = CommitmentModalController()
         // Modal displaying settings
-        reminderModalVC.modalPresentationStyle = .popover
-        reminderModalVC.modalTransitionStyle = .coverVertical
-        reminderModalVC.categorys = categorys
+        commitmentModalVC.modalPresentationStyle = .popover
+        commitmentModalVC.modalTransitionStyle = .coverVertical
+//        reminderModalVC.categorys = categorys
         // To display as modal
-        navigationController.present(reminderModalVC, animated: true, completion: nil)
+        navigationController.present(commitmentModalVC, animated: true, completion: nil)
     }
     
     func goBack() {
