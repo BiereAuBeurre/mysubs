@@ -54,16 +54,10 @@ class AppCoordinator: Coordinator {
         navigationController.pushViewController(editSubVC, animated: true)
     }
     
-    func openReminderModal(categorys: [SubCategory]) {
-        let commitmentModalVC = CommitmentModalController()
-        // Modal displaying settings
-        commitmentModalVC.modalPresentationStyle = .popover
-        commitmentModalVC.modalTransitionStyle = .coverVertical
-//        reminderModalVC.categorys = categorys
-        // To display as modal
-        navigationController.present(commitmentModalVC, animated: true, completion: nil)
-    }
-    
+//    func openReminderModal() {
+//        navigationController.present(commitmentModalVC, animated: true, completion: nil)
+//    }
+     
     func goBack() {
         navigationController.popToRootViewController(animated: true)
     }

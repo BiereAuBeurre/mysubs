@@ -340,7 +340,6 @@ extension HomeViewController {
 //            categoriesStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
 //            categoriesStackView.heightAnchor.constraint(equalToConstant: 60),
             
-            subListStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
             subListStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 0),
             subListStackView.trailingAnchor.constraint(equalToSystemSpacingAfter: view.trailingAnchor, multiplier: 0),
             subListStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),

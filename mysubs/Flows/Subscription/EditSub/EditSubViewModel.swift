@@ -25,11 +25,12 @@ class EditSubViewModel: NSObject {
         didSet {}
     }
     
-    func openReminderModal(categorys: [SubCategory]) {
-        coordinator.openReminderModal(categorys: categorys)
-    }
+
     func goBack() {
         coordinator.goBack()
     }
     
+    //    func openReminderModal(categorys: [SubCategory]) {
+    //        coordinator.openReminderModal(categorys: categorys)
+    //    }
 }

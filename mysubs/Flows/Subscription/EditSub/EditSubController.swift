@@ -38,11 +38,19 @@ class EditSubController: UIViewController {
     var sub: Subscription = Subscription()
     var categorys: [SubCategory] = []
     
+    var pickerView = UIPickerView()
+    
+    let component1 = Array(stride(from: 0, to: 30 + 1, by: 1))
+    let component2 = ["", "Jour(s)","Semaine(s)", "Mois", "Années"]
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
         self.category.textField.delegate = self
         print("categorys in editVC are \(categorys)")
+        pickerView.dataSource = self
+        pickerView.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -57,10 +65,10 @@ class EditSubController: UIViewController {
         viewModel?.goBack()
     }
     
-    @objc func didSelectReminderField() {
-        print("reminder field has been selected")
-        viewModel?.openReminderModal(categorys: categorys)
-    }
+//    @objc func didSelectCommitmentField() {
+//        print("Commitment field has been selected")
+//        viewModel?.openReminderModal(categorys: categorys)
+//    }
     
     
     //MARK: -Private METHODS
@@ -77,6 +85,58 @@ class EditSubController: UIViewController {
         print("sub.name est : \(String(describing: sub.name))")
     }
    
+}
+
+//MARK: - PICKERVIEWSETTINGS
+extension EditSubController: UIPickerViewDataSource, UIPickerViewDelegate {
+   
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if component == 0 {
+            if row != 0  {
+                return ("\(component1[row])")
+            } else {
+                return "Pour toujours"
+            }
+        } else {
+            return component2[row]
+        }
+        //        if component == 0 {
+        //            return "\(row)"
+        //        } else {
+        //            return "Second / \(row)"
+        //        }
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        2
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if component == 0 {
+//            let min = 1 let max = 30 var pickerData = [Int]() pickerData = Array(stride(from: min, to: max + 1, by: 1))
+            return component1.count//31//pickerData.count
+        } else {
+            return component2.count
+        }
+        
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+//        if component == 0 {
+//            commitment.textField.text = "\(component1[row])"
+//        } else  {
+//            commitment.textField.text! = "\(component1[row]) \(component2[row])"
+//        }
+//        commitment.textField.resignFirstResponder()
+//        commitment.textField.text = "\(component1[row]) \(component2[row])"
+        if component == 0 {
+            pickerView.reloadComponent(1)
+        }
+        let string0 = component1[pickerView.selectedRow(inComponent: 0)]
+        let string1 = component2[pickerView.selectedRow(inComponent: 1)]
+        commitment.textField.text = "\(string0) \(string1)"
+    }
+
 }
 
 // MARK: -Protocol from UITextFieldDelegate
@@ -101,17 +161,6 @@ extension EditSubController {
         setUpNavBar()
         setUpView()
 //        activateConstraints()
-        configureFormTextField()
-    }
-    
-    private func configureFormTextField() {
-        commitment.configureView()
-        name.configureView()
-        category.configureView()
-        info.configureView()
-        price.configureView()
-        reminder.configureView()
-        recurrency.configureView()
     }
     
     private func setUpNavBar() {
@@ -147,9 +196,9 @@ extension EditSubController {
         // MARK: FORMVIEW
         formView.translatesAutoresizingMaskIntoConstraints = false
         formView.axis = .horizontal
-//        formView.alignment = .top
+        formView.alignment = .fill
         formView.spacing = 8
-        formView.distribution = .fillProportionally
+        formView.distribution = .fillEqually
         view.addSubview(formView)
         
         //MARK: LEFTSIDE STACKVIEW
@@ -157,10 +206,10 @@ extension EditSubController {
 //        rightSideStackView.backgroundColor = .yellow
         
         leftSideStackView.translatesAutoresizingMaskIntoConstraints = false
-        leftSideStackView.contentMode = .scaleToFill
+        leftSideStackView.contentMode = .top
         leftSideStackView.axis = .vertical
         leftSideStackView.alignment = .fill
-        leftSideStackView.distribution = .fillProportionally
+        leftSideStackView.distribution = .fillEqually
         leftSideStackView.spacing = 8
         //MARK: Adding name field
         leftSideStackView.addArrangedSubview(name)
@@ -177,6 +226,7 @@ extension EditSubController {
         commitment.label.text = "Engagement"
         commitment.label.textColor = MSColors.maintext
         commitment.textField.borderStyle = .roundedRect
+        commitment.textField.inputView = pickerView
         //MARK: Adding category field
 //        leftSideStackView.addArrangedSubview(category)
 //        category.translatesAutoresizingMaskIntoConstraints = false
@@ -185,13 +235,13 @@ extension EditSubController {
 //        category.textField.borderStyle = .roundedRect
 //        category.textField.translatesAutoresizingMaskIntoConstraints = false
         //FIXME: plutôt utiliser addtarget comme commenté ? Ne fonctionne pas donc bouton rajouté sur textfield pour le moment
-        let overlay = UIButton()
-        overlay.addTarget(self, action: #selector(didSelectReminderField), for: .touchUpInside)
+//        let overlay = UIButton()
+//        overlay.addTarget(self, action: #selector(didSelectCommitmentField), for: .touchUpInside)
 //         commitment.textField.addTarget(self, action: #selector(didSelectReminderField), for: .touchUpInside)
-        overlay.sizeToFit()
-        commitment.textField.leftView = overlay
-        commitment.textField.leftViewMode = .always
-        commitment.textField.text = "Mensuel"
+//        overlay.sizeToFit()
+//        commitment.textField.leftView = overlay
+//        commitment.textField.leftViewMode = .always
+//        commitment.textField.text = "Mensuel"
 
 //        category.textField.addTarget(self, action: #selector(didSelectReminderField), for: .touchUpInside)
         //FIXME: display the associated cateogry of the selected subscription (currently displaying the first one of the array)
@@ -214,7 +264,7 @@ extension EditSubController {
         rightSideStackView.contentMode = .scaleToFill
         rightSideStackView.axis = .vertical
         rightSideStackView.alignment = .fill
-        rightSideStackView.distribution = .fillProportionally
+        rightSideStackView.distribution = .fillEqually
         rightSideStackView.spacing = 8
         
         //MARK: Adding price field
@@ -252,33 +302,35 @@ extension EditSubController {
         footerStackView.distribution = .fillEqually
         footerStackView.contentMode = .scaleToFill
         footerStackView.spacing = 16
-        modifyButton.backgroundColor = UIColor(named: "reverse_bg")
-        modifyButton.addCornerRadius()
-        deleteButton.backgroundColor = UIColor(named: "reverse_bg")
+//        modifyButton.backgroundColor = UIColor(named: "reverse_bg")
+//        modifyButton.addCornerRadius()
+//        deleteButton.backgroundColor = UIColor(named: "reverse_bg")
         deleteButton.addCornerRadius()
         view.addSubview(footerStackView)
-        modifyButton.translatesAutoresizingMaskIntoConstraints = false
+//        modifyButton.translatesAutoresizingMaskIntoConstraints = false
         
         deleteButton.titleLabel?.textAlignment = .center
         footerStackView.addArrangedSubview(modifyButton)
-        modifyButton.setTitle("Modifier", for: .normal)
-        modifyButton.titleLabel!.textAlignment = .center
-        modifyButton.setTitleColor(MSColors.background, for: .normal)
+//        modifyButton.setTitle("Modifier", for: .normal)
+//        modifyButton.titleLabel!.textAlignment = .center
+//        modifyButton.titleLabel!.textColor = UIColor(named: "reverse_bg")
+//
+//        modifyButton.setTitleColor(MSColors.maintext, for: .normal)
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
         footerStackView.addArrangedSubview(deleteButton)
         deleteButton.setTitle("Supprimer", for: .normal)
-        deleteButton.setTitleColor(MSColors.background, for: .normal)
+        deleteButton.setTitleColor(MSColors.maintext, for: .normal)
    
         NSLayoutConstraint.activate([
         logoHeader.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-        logoHeader.widthAnchor.constraint(equalToConstant: 50),
-        logoHeader.heightAnchor.constraint(equalToConstant: 50),
-        logoHeader.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
-        formView.topAnchor.constraint(equalTo: logoHeader.bottomAnchor, constant: 16),
+        logoHeader.widthAnchor.constraint(equalToConstant: 100),
+        logoHeader.heightAnchor.constraint(equalToConstant: 100),
+        logoHeader.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
+        formView.topAnchor.constraint(equalTo: logoHeader.bottomAnchor, constant: 40),
         formView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
         formView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-        formView.heightAnchor.constraint(equalToConstant: 300),
-        footerStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -24),
+        formView.heightAnchor.constraint(equalToConstant: 250),
+        footerStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80),
         footerStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
         footerStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
         footerStackView.heightAnchor.constraint(equalToConstant: 40)

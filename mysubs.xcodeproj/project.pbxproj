@@ -22,7 +22,6 @@
 		EF3578BE2763588B00DA443F /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3578BD2763588A00DA443F /* HomeViewModel.swift */; };
 		EF3578C22763A15100DA443F /* NewSubViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3578C12763A15000DA443F /* NewSubViewModel.swift */; };
 		EF3D8D5C275F9FC100D8B6A4 /* EditSubController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3D8D5B275F9FC100D8B6A4 /* EditSubController.swift */; };
-		EF4BEC4E277B6D500022BFBD /* CommitmentModalController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4BEC4D277B6D500022BFBD /* CommitmentModalController.swift */; };
 		EF702850277C6AC100A90A54 /* InputFormTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70284F277C6AC100A90A54 /* InputFormTextField.swift */; };
 		EF70E4F027567D270011AB06 /* Pods_mysubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF70E4EF27567D270011AB06 /* Pods_mysubs.framework */; };
 		EF70E4F32756868A0011AB06 /* BrandInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70E4F22756868A0011AB06 /* BrandInfo.swift */; };
@@ -78,7 +77,6 @@
 		EF3578BD2763588A00DA443F /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		EF3578C12763A15000DA443F /* NewSubViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSubViewModel.swift; sourceTree = "<group>"; };
 		EF3D8D5B275F9FC100D8B6A4 /* EditSubController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSubController.swift; sourceTree = "<group>"; };
-		EF4BEC4D277B6D500022BFBD /* CommitmentModalController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommitmentModalController.swift; sourceTree = "<group>"; };
 		EF70284F277C6AC100A90A54 /* InputFormTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputFormTextField.swift; sourceTree = "<group>"; };
 		EF70E4EF27567D270011AB06 /* Pods_mysubs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_mysubs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF70E4F22756868A0011AB06 /* BrandInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandInfo.swift; sourceTree = "<group>"; };
@@ -270,7 +268,6 @@
 		EF3D8D5A275F9F7800D8B6A4 /* EditSub */ = {
 			isa = PBXGroup;
 			children = (
-				EF4BEC4D277B6D500022BFBD /* CommitmentModalController.swift */,
 				EF3D8D5B275F9FC100D8B6A4 /* EditSubController.swift */,
 				EF70284F277C6AC100A90A54 /* InputFormTextField.swift */,
 				EFEF69DC276799C8005CB6C3 /* EditSubViewModel.swift */,
@@ -542,7 +539,6 @@
 				EF3D8D5C275F9FC100D8B6A4 /* EditSubController.swift in Sources */,
 				EF1F6C6B2759125E00DA0BBB /* SubCell.swift in Sources */,
 				EF1F6C6F275A464900DA0BBB /* Strings.swift in Sources */,
-				EF4BEC4E277B6D500022BFBD /* CommitmentModalController.swift in Sources */,
 				EFFA24E227566E570068DFE3 /* LogoFinderService.swift in Sources */,
 				EF125B192757C11000E6FD6B /* AddCornerRadius.swift in Sources */,
 				EF9072EF275E3951006CF678 /* AppCoordinator.swift in Sources */,

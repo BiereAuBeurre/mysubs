@@ -9,7 +9,6 @@ import UIKit
 import CoreData
 
 class NewSubController: UIViewController, UINavigationBarDelegate {
-    let navBarAppearance = UINavigationBarAppearance()
     var newSubLabel = UILabel()
     var titleView = UIView()
     var separatorLine = UIView()
