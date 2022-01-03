@@ -26,15 +26,19 @@ class EditSubViewModel: NSObject {
         didSet {}
     }
     
-    func delete () {
+    func delete() {
         do {
-        try storageService.delete(subscription!)
+            try storageService.delete(subscription!)
         }
         catch {
             print(error)
-    }
+        }
     }
 
+    func save() {
+        storageService.save()
+    }
+    
     func goBack() {
         coordinator.goBack()
     }

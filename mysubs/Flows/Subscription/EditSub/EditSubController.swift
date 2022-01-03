@@ -38,36 +38,40 @@ class EditSubController: UIViewController {
     var sub: Subscription = Subscription()
     var categorys: [SubCategory] = []
     
-    var pickerView = UIPickerView()
-    
+    var commitmentPickerView = UIPickerView()
+    var reminderPickerView = UIPickerView()
     let component1 = Array(stride(from: 0, to: 30 + 1, by: 1))
     let component2 = ["", "Jour(s)","Semaine(s)", "Mois", "Année(s)"]
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-        self.category.textField.delegate = self
-        print("categorys in editVC are \(categorys)")
-        pickerView.dataSource = self
-        pickerView.delegate = self
+        self.commitment.textField.delegate = self
+        commitmentPickerView.translatesAutoresizingMaskIntoConstraints = false
+        reminder.translatesAutoresizingMaskIntoConstraints = false
+        commitmentPickerView.dataSource = self
+        commitmentPickerView.delegate = self
+        reminderPickerView.dataSource = self
+        reminderPickerView.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.viewModel?.subscription = sub
-        self.viewModel?.categorys = categorys
+//        self.viewModel?.categorys = categorys
     }
     
     //MARK: -OJBC METHODS
     
     @objc func deleteSub() {
+//        showAlert("Attention vous allez supprimer votre abonnement", "Confirmez vous la suppression de l'abonnement \(String(describing: sub.name)) ?")
         viewModel?.delete()
         viewModel?.goBack()
     }
     
     @objc func doneEditingAction() {
         saveEditedSub()
+        viewModel?.save()
         viewModel?.goBack()
     }
     
@@ -75,10 +79,12 @@ class EditSubController: UIViewController {
     private func saveEditedSub() {
         guard let name = name.textField.text,
               let price = Float(price.textField.text ?? "0"),
-              let commitment = commitment.textField.text else { return }
+              let commitment = commitment.textField.text,
+              let reminder = reminder.textField.text else { return }
         sub.setValue(name, forKey: "name")
         sub.setValue(price, forKey: "price")
         sub.setValue(commitment, forKey: "commitment")
+        sub.setValue(reminder, forKey: "reminder")
     }
     
     private func refreshWith(subscription: Subscription) {
@@ -92,55 +98,85 @@ class EditSubController: UIViewController {
 extension EditSubController: UIPickerViewDataSource, UIPickerViewDelegate {
    
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if component == 0 {
-            if row != 0  {
-                return ("\(component1[row])")
+        if pickerView == commitmentPickerView {
+            if component == 0 {
+                if row != 0  {
+                    return ("\(component1[row])")
+                } else {
+                    return "Pour toujours"
+                }
             } else {
-                return "Pour toujours"
+                return component2[row]
             }
         } else {
-            return component2[row]
+            if component == 0 {
+                return ("\(component1[row])")
+            } else if component == 1 {
+                return component2[row]
+            } else {
+                return "avant"
+            }
         }
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        2
+        if pickerView == commitmentPickerView {
+            return 2
+        } else {
+            return 3
+        }
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if component == 0 {
-//            let min = 1 let max = 30 var pickerData = [Int]() pickerData = Array(stride(from: min, to: max + 1, by: 1))
-            return component1.count//31//pickerData.count
+        if pickerView == commitmentPickerView {
+            if component == 0 {
+                //let min = 1 let max = 30 var pickerData = [Int]() pickerData = Array(stride(from: min, to: max + 1, by: 1))
+                return component1.count//31//pickerData.count
+            } else {
+                return component2.count
+            }
         } else {
-            return component2.count
+            if component == 0 {
+                return component1.count
+            } else if component == 1 {
+                return component2.count
+            } else {
+                return 1
+            }
         }
-        
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if component == 0 {
             pickerView.reloadComponent(1)
         }
-        let string0 = component1[pickerView.selectedRow(inComponent: 0)]
-        let string1 = component2[pickerView.selectedRow(inComponent: 1)]
-        commitment.textField.text = "\(string0) \(string1)"
+        
+        if pickerView == commitmentPickerView {
+            let string0 = component1[pickerView.selectedRow(inComponent: 0)]
+            let string1 = component2[pickerView.selectedRow(inComponent: 1)]
+            commitment.textField.text = "\(string0) \(string1)"
+        }
+        else {
+            let string0 = component1[pickerView.selectedRow(inComponent: 0)]
+            let string1 = component2[pickerView.selectedRow(inComponent: 1)]
+            let string2 = "avant"
+            reminder.textField.text = "\(string0) \(string1) \(string2)"
+        }
     }
-
 }
-
 // MARK: -Protocol from UITextFieldDelegate
 
 extension EditSubController: UITextFieldDelegate {
     
     //MARK: making uneditable fields with pickerView
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        if textField == commitment.textField {
-          // code which you want to execute when the user touch myTextField
-            print("can't edit here")
-       }
-       return false
-    }
-    
+//    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+//        if textField == commitment.textField {
+//          // code which you want to execute when the user touch myTextField
+//            print("can't edit here")
+//       }
+//       return false
+//    }
+
 }
 
 // MARK: -SETTING UP ALL UI
@@ -212,7 +248,7 @@ extension EditSubController {
         commitment.label.textColor = MSColors.maintext
         commitment.textField.text = sub.commitment
         commitment.textField.borderStyle = .roundedRect
-        commitment.textField.inputView = pickerView
+        commitment.textField.inputView = commitmentPickerView
         //MARK: Adding category field
 //        leftSideStackView.addArrangedSubview(category)
 //        category.translatesAutoresizingMaskIntoConstraints = false
@@ -259,10 +295,11 @@ extension EditSubController {
         reminder.label.text = "Rappel"
 //        reminder.backgroundColor = .cyan
         reminder.textField.leftViewMode = .always
-        reminder.textField.text = ""//subInfo.reminder
+        reminder.textField.inputView = reminderPickerView//subInfo.reminder
         reminder.textField.borderStyle = .roundedRect
         reminder.textField.translatesAutoresizingMaskIntoConstraints = false
         reminder.textField.allowsEditingTextAttributes = false
+        reminder.textField.text = sub.reminder
         //MARK: Adding recurrency field
         rightSideStackView.addArrangedSubview(recurrency)
 //        recurrency.backgroundColor = .green
