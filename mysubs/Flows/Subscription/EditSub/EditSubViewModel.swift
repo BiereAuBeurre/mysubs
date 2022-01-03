@@ -10,9 +10,10 @@ import Foundation
 class EditSubViewModel: NSObject {
     weak var viewDelegate: EditSubController?
     private let coordinator: AppCoordinator
-    
-    init(coordinator: AppCoordinator) {
+    let storageService: StorageService
+    init(coordinator: AppCoordinator, storageService: StorageService) {
         self.coordinator = coordinator
+        self.storageService = storageService
     }
     
     var subscription: Subscription? {
@@ -25,6 +26,14 @@ class EditSubViewModel: NSObject {
         didSet {}
     }
     
+    func delete () {
+        do {
+        try storageService.delete(subscription!)
+        }
+        catch {
+            print(error)
+    }
+    }
 
     func goBack() {
         coordinator.goBack()

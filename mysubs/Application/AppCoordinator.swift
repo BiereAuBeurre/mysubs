@@ -45,7 +45,7 @@ class AppCoordinator: Coordinator {
     
     func showDetailSubScreen(sub: Subscription, categorys: [SubCategory]) {
         let editSubVC = EditSubController()
-        let editSubViewModel = EditSubViewModel(coordinator: self)
+        let editSubViewModel = EditSubViewModel(coordinator: self, storageService: storageService)
         editSubViewModel.viewDelegate = editSubVC
         editSubVC.viewModel = editSubViewModel
 //        editSubVC.categorys = categorys
