@@ -37,12 +37,12 @@ class InputFormTextField: UIControl {
 extension InputFormTextField: UITextFieldDelegate {
     
     //MARK: making uneditable fields with pickerView
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        if textField == self.textField {
-          // code which you want to execute when the user touch myTextField
-            print("can't edit here")
-       }
-       return false
-    }
+//    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+//        if textField == self.textField {
+//          // code which you want to execute when the user touch myTextField
+//            print("can't edit here")
+//       }
+//       return false
+//    }
     
 }

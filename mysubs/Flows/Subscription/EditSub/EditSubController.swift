@@ -43,13 +43,6 @@ class EditSubController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-        self.commitment.textField.delegate = self
-        recurrencyPickerView.translatesAutoresizingMaskIntoConstraints = false
-        reminder.translatesAutoresizingMaskIntoConstraints = false
-        recurrencyPickerView.dataSource = self
-        recurrencyPickerView.delegate = self
-        reminderPickerView.dataSource = self
-        reminderPickerView.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -59,7 +52,6 @@ class EditSubController: UIViewController {
     }
     
     //MARK: -OJBC METHODS
-
     @objc func cancelPressed() {
         commitment.textField.resignFirstResponder()
     }
@@ -79,7 +71,7 @@ class EditSubController: UIViewController {
     }
     
     //MARK: -Private METHODS
-    func deletingAlert() {
+    private func deletingAlert() {
         let alert = UIAlertController(title: "Suppression de l'abonnement", message: "Êtes-vous sur de vouloir supprimer l'abonnement : \(sub.name ?? "")", preferredStyle: .alert)
         let deleteAction = UIAlertAction(title: "Confirmer", style: .default) { [unowned self] action in
             viewModel?.delete()
@@ -97,34 +89,17 @@ class EditSubController: UIViewController {
     }
     
     func formatteDate() -> String {
-        //MARK: -Setting up datepicker
+        //MARK: Setting up date format to return
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale.init(identifier: "fr_FR")
         dateFormatter.dateFormat = "dd MMM yyyy"
         let selectedDate = dateFormatter.string(from: paymentDatePicker.date)
         return selectedDate
     }
-    
-    private func addInputViewDatePicker() {
-        //MARK: DatePicker settings
-        paymentDatePicker.datePickerMode = .date
-        paymentDatePicker.preferredDatePickerStyle = .wheels
-        paymentDatePicker.translatesAutoresizingMaskIntoConstraints = false
-        paymentDatePicker.locale = Locale.init(identifier: "fr_FR")
-        commitment.textField.inputView = paymentDatePicker
-        let screenWidth = UIScreen.main.bounds.width
-        //MARK: ToolBar settings
-        let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 44))
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let cancelBarButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelPressed))
-        let doneBarButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(didEditDate))
-        toolBar.setItems([cancelBarButton, flexibleSpace, doneBarButton], animated: false)
-        commitment.textField.inputAccessoryView = toolBar
-     }
-   
 }
 
-//MARK: - PICKERVIEWSETTINGS
+
+//MARK: - PICKERVIEW SETTINGS
 extension EditSubController: UIPickerViewDataSource, UIPickerViewDelegate {
    
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
@@ -137,7 +112,8 @@ extension EditSubController: UIPickerViewDataSource, UIPickerViewDelegate {
         } else {
             if component == 0 {
                 return ("\(componentNumber[row])")
-            } else if component == 1 {
+            }
+            else if component == 1 {
                 return componentDayMonthYear[row]
             } else {
                 return "avant"
@@ -192,7 +168,7 @@ extension EditSubController: UIPickerViewDataSource, UIPickerViewDelegate {
 // MARK: -Protocol from UITextFieldDelegate
 
 extension EditSubController: UITextFieldDelegate {
-    
+    //FIXME: 
     //MARK: making uneditable fields with pickerView
 //    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
 //        if textField == commitment.textField {
@@ -210,6 +186,15 @@ extension EditSubController {
     private func setUpUI() {
         setUpNavBar()
         setUpView()
+        recurrencyPickerView.translatesAutoresizingMaskIntoConstraints = false
+        reminder.translatesAutoresizingMaskIntoConstraints = false
+        recurrencyPickerView.dataSource = self
+        recurrencyPickerView.delegate = self
+        reminderPickerView.dataSource = self
+        reminderPickerView.delegate = self
+        //FIXME: fonctionne plus, pour supprimer bar texte sur textfield
+        self.commitment.textField.delegate = self
+
     }
     
     private func setUpNavBar() {
@@ -228,7 +213,25 @@ extension EditSubController {
         self.navigationItem.rightBarButtonItem = rightBarButtonItem
     }
     
+    private func addInputViewDatePicker() {
+        //MARK: DatePicker settings
+        paymentDatePicker.datePickerMode = .date
+        paymentDatePicker.preferredDatePickerStyle = .wheels
+        paymentDatePicker.translatesAutoresizingMaskIntoConstraints = false
+        paymentDatePicker.locale = Locale.init(identifier: "fr_FR")
+//        commitment.textField.inputView = paymentDatePicker
+        let screenWidth = UIScreen.main.bounds.width
+        //MARK: ToolBar settings
+        let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 44))
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let cancelBarButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelPressed))
+        let doneBarButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(didEditDate))
+        toolBar.setItems([cancelBarButton, flexibleSpace, doneBarButton], animated: false)
+        commitment.textField.inputAccessoryView = toolBar
+     }
+    
     private func setUpView() {
+        
         commitment.configureView()
         name.configureView()
         category.configureView()
@@ -236,6 +239,8 @@ extension EditSubController {
         price.configureView()
         reminder.configureView()
         recurrency.configureView()
+        //MARK: DatePicker SetUp
+        addInputViewDatePicker()
         
         view.backgroundColor = MSColors.background
         logoHeader.translatesAutoresizingMaskIntoConstraints = false
@@ -250,7 +255,7 @@ extension EditSubController {
         formView.distribution = .fillEqually
         view.addSubview(formView)
         
-        //MARK: LEFTSIDE STACKVIEW
+    //MARK: LEFTSIDE STACKVIEW
         leftSideStackView.translatesAutoresizingMaskIntoConstraints = false
         leftSideStackView.contentMode = .top
         leftSideStackView.axis = .vertical
@@ -273,21 +278,6 @@ extension EditSubController {
         commitment.label.textColor = MSColors.maintext
         commitment.textField.text = "\(sub.commitment ?? "")"
         commitment.textField.borderStyle = .roundedRect
-        //MARK: DatePicker SetUp
-        addInputViewDatePicker()
-        
-        //MARK: Adding category field
-//        leftSideStackView.addArrangedSubview(category)
-//        category.translatesAutoresizingMaskIntoConstraints = false
-//        category.label.text = "Catégorie"
-//        category.label.textColor = MSColors.maintext
-//        category.textField.borderStyle = .roundedRect
-//        category.textField.translatesAutoresizingMaskIntoConstraints = false
-        //FIXME: plutôt utiliser addtarget comme commenté ? Ne fonctionne pas donc bouton rajouté sur textfield pour le moment
-//        category.textField.addTarget(self, action: #selector(didSelectReminderField), for: .touchUpInside)
-        //FIXME: display the associated cateogry of the selected subscription (currently displaying the first one of the array)
-//        category.textField.text = categorys.first?.name//""//subInfo.category // changer pour liste préconçue
-//        category.textField.placeholder = categorys.first?.name
         //MARK: Adding info field
         leftSideStackView.addArrangedSubview(info)
         info.translatesAutoresizingMaskIntoConstraints = false
@@ -295,13 +285,11 @@ extension EditSubController {
         info.label.textColor = MSColors.maintext
         info.textField.borderStyle = .roundedRect
         info.textField.translatesAutoresizingMaskIntoConstraints = false
-        info.textField.text = ""//subInfo.extraInfo
-
+        info.textField.text = sub.extraInfo ?? ""
         formView.addArrangedSubview(leftSideStackView)
         
     //MARK: RIGHTSIDE STACKVIEW
         rightSideStackView.translatesAutoresizingMaskIntoConstraints = false
-        //FIXME: Afficher cellule aligner avec leftStackView
         rightSideStackView.contentMode = .scaleToFill
         rightSideStackView.axis = .vertical
         rightSideStackView.alignment = .fill
@@ -321,7 +309,7 @@ extension EditSubController {
         reminder.translatesAutoresizingMaskIntoConstraints = false
         reminder.label.text = "Rappel"
         reminder.textField.leftViewMode = .always
-        reminder.textField.inputView = reminderPickerView//subInfo.reminder
+        reminder.textField.inputView = reminderPickerView
         reminder.textField.borderStyle = .roundedRect
         reminder.textField.translatesAutoresizingMaskIntoConstraints = false
         reminder.textField.allowsEditingTextAttributes = false
@@ -330,14 +318,13 @@ extension EditSubController {
         rightSideStackView.addArrangedSubview(recurrency)
         recurrency.translatesAutoresizingMaskIntoConstraints = false
         recurrency.label.text = "Cycle"
-        recurrency.textField.text = "\(sub.paymentRecurrency ?? "")"//subInfo.paymentRecurrency
+        recurrency.textField.text = "\(sub.paymentRecurrency ?? "")"
         recurrency.textField.inputView = recurrencyPickerView
         recurrency.textField.borderStyle = .roundedRect
         recurrency.textField.translatesAutoresizingMaskIntoConstraints = false
         formView.addArrangedSubview(rightSideStackView)
 
-    //MARK: FOOTER BUTTONS
-        deleteButton.addCornerRadius()
+    //MARK: DELETE BUTTON
         view.addSubview(deleteButton)
         deleteButton.titleLabel?.textAlignment = .center
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
@@ -364,3 +351,21 @@ extension EditSubController {
         ])
     }
 }
+
+
+
+
+
+
+//MARK: Adding category field
+//        leftSideStackView.addArrangedSubview(category)
+//        category.translatesAutoresizingMaskIntoConstraints = false
+//        category.label.text = "Catégorie"
+//        category.label.textColor = MSColors.maintext
+//        category.textField.borderStyle = .roundedRect
+//        category.textField.translatesAutoresizingMaskIntoConstraints = false
+//FIXME: plutôt utiliser addtarget comme commenté ? Ne fonctionne pas donc bouton rajouté sur textfield pour le moment
+//        category.textField.addTarget(self, action: #selector(didSelectReminderField), for: .touchUpInside)
+//FIXME: display the associated cateogry of the selected subscription (currently displaying the first one of the array)
+//        category.textField.text = categorys.first?.name//""//subInfo.category // changer pour liste préconçue
+//        category.textField.placeholder = categorys.first?.name

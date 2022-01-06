@@ -43,34 +43,25 @@ class EditSubViewModel: NSObject {
         // Attributing value from the view delegate
         guard let name = viewDelegate?.name.textField.text,
               let price = Float(viewDelegate?.price.textField.text ?? "0"),
-              let paymentRecurrency = viewDelegate?.formatteDate(),//viewDelegate?.recurrency.textField.text,
+              let paymentRecurrency = viewDelegate?.formatteDate(),
               let reminder = viewDelegate?.reminder.textField.text else { return }
         
         //Checking if the value has change, if it does, its saved (for each values)
-        if name != subscription?.name {
-            subscription?.setValue(name, forKey: "name")
-            print("name has been modified")
-        }
-        
         if price != subscription?.price {
             subscription?.setValue(price, forKey: "price")
             print("price has been modified")
         }
-        
-        if paymentRecurrency != subscription?.commitment {
-            subscription?.setValue(viewDelegate?.formatteDate(), forKey: "commitment")
-            print("payment recurrency has been modified")
-        } else { print("no changes for the price") }
-        
-        if reminder != subscription?.reminder {
-            subscription?.setValue(reminder, forKey: "reminder")
-        }
-        
-        if reminder != subscription?.reminder {
-            subscription?.setValue(reminder, forKey: "reminder")
-            print("reminder has been modified")
-        }
+        saveIfEdited(name, subscription?.name, "name")
+        saveIfEdited(paymentRecurrency, subscription?.commitment, "commitment")
+        saveIfEdited(reminder, subscription?.reminder, "reminder")
         save()
+    }
+    
+    func saveIfEdited(_ value1: String, _ value2: String?, _ value3: String) {
+        if value1 != value2 ?? "" {
+            subscription?.setValue(value1, forKey: value3 )
+            print("\(value1) field has been modified")
+        }
     }
     
     func goBack() {

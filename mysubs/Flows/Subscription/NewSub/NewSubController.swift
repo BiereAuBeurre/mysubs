@@ -20,7 +20,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     var commitment = UILabel()
     var commitmentField = UITextField()
     var categoryLabel = UILabel()
-    var categoryField = UITextField() //A changer pour appeler liste des catégories user
+//    var categoryField = UITextField() //A changer pour appeler liste des catégories user
     var info = UILabel()
     var infoField = UITextField()
     
@@ -54,7 +54,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     //MARK: -OBJC METHODs
     @objc func addButtonAction() {
         if viewModel?.name == nil {
-            showAlert("Champ manquant", "ajouter au moins un nom")
+            showAlert("Champs manquants", "Merci d'ajouter au moins un nom et un prix")
             return
         } else {
             viewModel?.saveSub()
@@ -196,7 +196,6 @@ extension NewSubController {
         priceField.text = ""
         priceField.borderStyle = .roundedRect
         priceField.translatesAutoresizingMaskIntoConstraints = false
-        
         //MARK: Adding reminder field
         rightSideStackView.addArrangedSubview(reminder)
         reminder.translatesAutoresizingMaskIntoConstraints = false

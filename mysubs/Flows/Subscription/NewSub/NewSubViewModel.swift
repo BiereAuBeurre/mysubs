@@ -20,6 +20,12 @@ class NewSubViewModel: NSObject {
         self.storageService = storageService
     }
     
+    var price: Float? {
+        didSet {
+            guard oldValue != price else { return } 
+        }
+    }
+    
     var name: String? {
         didSet {
             guard oldValue != name else { return }
