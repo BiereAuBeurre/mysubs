@@ -85,7 +85,6 @@ extension NewSubController {
     private func setUpUI() {
         setUpNavBar()
         setUpView()
-        activateConstraints()
     }
     
     private func setUpNavBar() {
@@ -160,17 +159,16 @@ extension NewSubController {
         leftSideStackView.addArrangedSubview(commitmentField)
         commitmentField.borderStyle = .roundedRect
         commitmentField.translatesAutoresizingMaskIntoConstraints = false
-        commitmentField.text = "Annuel" // changer pour liste préconçue
+        commitmentField.text = "" // changer pour liste préconçue
         
         //MARK: Adding category field
-        leftSideStackView.addArrangedSubview(categoryLabel)
-        categoryLabel.translatesAutoresizingMaskIntoConstraints = false
-        categoryLabel.text = "Catégorie"
-        categoryLabel.textColor = MSColors.maintext
-        leftSideStackView.addArrangedSubview(categoryField)
-        categoryField.borderStyle = .roundedRect
-        categoryField.translatesAutoresizingMaskIntoConstraints = false
-        commitmentField.text = "Loisirs" // changer pour liste préconçue
+//        leftSideStackView.addArrangedSubview(categoryLabel)
+//        categoryLabel.translatesAutoresizingMaskIntoConstraints = false
+//        categoryLabel.text = "Catégorie"
+//        categoryLabel.textColor = MSColors.maintext
+//        leftSideStackView.addArrangedSubview(categoryField)
+//        categoryField.borderStyle = .roundedRect
+//        categoryField.translatesAutoresizingMaskIntoConstraints = false
         
         //MARK: Adding info field
         leftSideStackView.addArrangedSubview(info)
@@ -180,7 +178,7 @@ extension NewSubController {
         leftSideStackView.addArrangedSubview(infoField)
         infoField.borderStyle = .roundedRect
         infoField.translatesAutoresizingMaskIntoConstraints = false
-        infoField.text = "Période d'essai"
+        infoField.text = ""
         
     //MARK: RIGHTSIDE STACKVIEW
         rightSideStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -204,7 +202,7 @@ extension NewSubController {
         reminder.translatesAutoresizingMaskIntoConstraints = false
         reminder.text = "Rappel"
         rightSideStackView.addArrangedSubview(reminderField)
-        reminderField.text = "2j avant"
+        reminderField.text = ""
         reminderField.borderStyle = .roundedRect
         reminderField.translatesAutoresizingMaskIntoConstraints = false
         
@@ -213,7 +211,7 @@ extension NewSubController {
         recurrency.translatesAutoresizingMaskIntoConstraints = false
         recurrency.text = "Récurrence"
         rightSideStackView.addArrangedSubview(recurrencyField)
-        recurrencyField.text = "Mensuelle"
+        recurrencyField.text = ""
         recurrencyField.borderStyle = .roundedRect
         recurrencyField.translatesAutoresizingMaskIntoConstraints = false
         
@@ -221,10 +219,10 @@ extension NewSubController {
         suggestedLogo.translatesAutoresizingMaskIntoConstraints = false
         logo.translatesAutoresizingMaskIntoConstraints = false
         suggestedLogo.text = "Logo suggéré"
-        logo.image = UIImage(named: "ps")
-    }
-    
-    func activateConstraints() {
+//        logo.image = UIImage(named: "ps")
+        logo.backgroundColor = MSColors.maintext
+        logo.addCornerRadius()
+ 
         NSLayoutConstraint.activate([
             titleView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
             titleView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
@@ -243,7 +241,7 @@ extension NewSubController {
             formView.topAnchor.constraint(equalTo: separatorLine.bottomAnchor, constant: 16),
             formView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             formView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            formView.heightAnchor.constraint(equalToConstant: 350),
+            formView.heightAnchor.constraint(equalToConstant: 250),
             
             suggestedLogo.topAnchor.constraint(equalTo: formView.bottomAnchor, constant: 16),
             suggestedLogo.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),

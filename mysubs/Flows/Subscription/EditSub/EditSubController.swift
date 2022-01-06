@@ -34,25 +34,28 @@ class EditSubController: UIViewController {
     var deleteButton = UIButton()
     var viewModel: EditSubViewModel?
     var storageService = StorageService()
-    //FIXME: MEMORY PROPERTIES from viewmodel values (to delete??)
+    //FIXME: deleteing sub and calling viewModel?.sub instead ?
     var sub: Subscription = Subscription()
     var categorys: [SubCategory] = []
     
-    var commitmentPickerView = UIPickerView()
+    var recurrencyPickerView = UIPickerView()
     var reminderPickerView = UIPickerView()
-    let component1 = Array(stride(from: 0, to: 30 + 1, by: 1))
-    let component2 = ["", "Jour(s)","Semaine(s)", "Mois", "Année(s)"]
+    var paymentDatePicker = UIDatePicker()
+    let componentNumber = Array(stride(from: 0, to: 30 + 1, by: 1))
+    let componentDayMonthYear = ["", "jour(s)","semaine(s)", "mois", "année(s)"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
         self.commitment.textField.delegate = self
-        commitmentPickerView.translatesAutoresizingMaskIntoConstraints = false
+        recurrencyPickerView.translatesAutoresizingMaskIntoConstraints = false
         reminder.translatesAutoresizingMaskIntoConstraints = false
-        commitmentPickerView.dataSource = self
-        commitmentPickerView.delegate = self
+        recurrencyPickerView.dataSource = self
+        recurrencyPickerView.delegate = self
         reminderPickerView.dataSource = self
         reminderPickerView.delegate = self
+//        addInputViewDatePicker()
+        paymentDatePicker.locale = Locale.init(identifier: "fr_FR")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -62,6 +65,19 @@ class EditSubController: UIViewController {
     }
     
     //MARK: -OJBC METHODS
+
+    @objc func cancelPressed() {
+        commitment.textField.resignFirstResponder()
+    }
+    
+    @objc func didEditDate() {
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "dd MMM yyyy"
+//        paymentDatePicker.locale = Locale.init(identifier: "fr_FR")
+//        let selectedDate = dateFormatter.string(from: paymentDatePicker.date)
+        commitment.textField.text = formatteDate()
+        commitment.textField.resignFirstResponder()
+    }
     
     @objc func deleteSub() {
 //        showAlert("Attention vous allez supprimer votre abonnement", "Confirmez vous la suppression de l'abonnement \(String(describing: sub.name)) ?")
@@ -79,18 +95,56 @@ class EditSubController: UIViewController {
     private func saveEditedSub() {
         guard let name = name.textField.text,
               let price = Float(price.textField.text ?? "0"),
-              let commitment = commitment.textField.text,
+              let paymentRecurrency = recurrency.textField.text,
               let reminder = reminder.textField.text else { return }
+        
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd MMM yyyy"
+        let selectedDate = dateFormatter.string(from: paymentDatePicker.date)
+        print("selected date :\(selectedDate)")
+        
+        let commitment = "\(selectedDate)"
+
+//        print(paymentDatePicker.date)
         sub.setValue(name, forKey: "name")
         sub.setValue(price, forKey: "price")
         sub.setValue(commitment, forKey: "commitment")
         sub.setValue(reminder, forKey: "reminder")
+        sub.setValue(paymentRecurrency, forKey: "paymentRecurrency")
     }
     
     private func refreshWith(subscription: Subscription) {
 //        nameField.text = sub.name
         print("sub.name est : \(String(describing: sub.name))")
     }
+    
+    private func formatteDate() -> String {
+        //MARK: -Setting un de datepicker to return good value in textfield and update when is changed by user
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd MMM yyyy"
+        paymentDatePicker.locale = Locale.init(identifier: "fr_FR")
+        let selectedDate = dateFormatter.string(from: paymentDatePicker.date)
+        return selectedDate
+    }
+    
+    private func addInputViewDatePicker() {
+        //MARK: DatePicker settings
+        paymentDatePicker.datePickerMode = .date
+        paymentDatePicker.preferredDatePickerStyle = .wheels
+        paymentDatePicker.translatesAutoresizingMaskIntoConstraints = false
+        paymentDatePicker.locale = Locale.init(identifier: "fr_FR")
+        commitment.textField.inputView = paymentDatePicker
+        let screenWidth = UIScreen.main.bounds.width
+        //MARK: ToolBar settings
+        let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 44))
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let cancelBarButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelPressed))
+        let doneBarButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(didEditDate))
+        toolBar.setItems([cancelBarButton, flexibleSpace, doneBarButton], animated: false)
+        commitment.textField.inputAccessoryView = toolBar
+     }
    
 }
 
@@ -98,21 +152,17 @@ class EditSubController: UIViewController {
 extension EditSubController: UIPickerViewDataSource, UIPickerViewDelegate {
    
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if pickerView == commitmentPickerView {
+        if pickerView == recurrencyPickerView {
             if component == 0 {
-                if row != 0  {
-                    return ("\(component1[row])")
-                } else {
-                    return "Pour toujours"
-                }
+                return ("\(componentNumber[row])")
             } else {
-                return component2[row]
+                return componentDayMonthYear[row]
             }
         } else {
             if component == 0 {
-                return ("\(component1[row])")
+                return ("\(componentNumber[row])")
             } else if component == 1 {
-                return component2[row]
+                return componentDayMonthYear[row]
             } else {
                 return "avant"
             }
@@ -120,7 +170,7 @@ extension EditSubController: UIPickerViewDataSource, UIPickerViewDelegate {
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        if pickerView == commitmentPickerView {
+        if pickerView == recurrencyPickerView {
             return 2
         } else {
             return 3
@@ -128,18 +178,18 @@ extension EditSubController: UIPickerViewDataSource, UIPickerViewDelegate {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if pickerView == commitmentPickerView {
+        if pickerView == recurrencyPickerView {
             if component == 0 {
                 //let min = 1 let max = 30 var pickerData = [Int]() pickerData = Array(stride(from: min, to: max + 1, by: 1))
-                return component1.count//31//pickerData.count
+                return componentNumber.count//31//pickerData.count
             } else {
-                return component2.count
+                return componentDayMonthYear.count
             }
         } else {
             if component == 0 {
-                return component1.count
+                return componentNumber.count
             } else if component == 1 {
-                return component2.count
+                return componentDayMonthYear.count
             } else {
                 return 1
             }
@@ -151,14 +201,14 @@ extension EditSubController: UIPickerViewDataSource, UIPickerViewDelegate {
             pickerView.reloadComponent(1)
         }
         
-        if pickerView == commitmentPickerView {
-            let string0 = component1[pickerView.selectedRow(inComponent: 0)]
-            let string1 = component2[pickerView.selectedRow(inComponent: 1)]
-            commitment.textField.text = "\(string0) \(string1)"
+        if pickerView == recurrencyPickerView {
+            let string0 = componentNumber[pickerView.selectedRow(inComponent: 0)]
+            let string1 = componentDayMonthYear[pickerView.selectedRow(inComponent: 1)]
+            recurrency.textField.text = "\(string0) \(string1)"
         }
         else {
-            let string0 = component1[pickerView.selectedRow(inComponent: 0)]
-            let string1 = component2[pickerView.selectedRow(inComponent: 1)]
+            let string0 = componentNumber[pickerView.selectedRow(inComponent: 0)]
+            let string1 = componentDayMonthYear[pickerView.selectedRow(inComponent: 1)]
             let string2 = "avant"
             reminder.textField.text = "\(string0) \(string1) \(string2)"
         }
@@ -244,11 +294,20 @@ extension EditSubController {
         //MARK: Adding commitment field
         leftSideStackView.addArrangedSubview(commitment)
         commitment.translatesAutoresizingMaskIntoConstraints = false
-        commitment.label.text = "Engagement"
+        commitment.label.text = "Dernier paiement"
         commitment.label.textColor = MSColors.maintext
-        commitment.textField.text = sub.commitment
+        commitment.textField.text = "\(sub.commitment ?? "") "//"\(selectedDate)"
         commitment.textField.borderStyle = .roundedRect
-        commitment.textField.inputView = commitmentPickerView
+        
+        //MARK: DatePicker SetUp
+        addInputViewDatePicker()
+//        paymentDatePicker.datePickerMode = .date
+//        paymentDatePicker.preferredDatePickerStyle = .wheels
+//        paymentDatePicker.translatesAutoresizingMaskIntoConstraints = false
+//        paymentDatePicker.locale = Locale.init(identifier: "fr_FR")
+        
+//        paymentDatePicker.addTarget(self, action: #selector(didEditDate), for: .allEditingEvents)
+        
         //MARK: Adding category field
 //        leftSideStackView.addArrangedSubview(category)
 //        category.translatesAutoresizingMaskIntoConstraints = false
@@ -304,36 +363,25 @@ extension EditSubController {
         rightSideStackView.addArrangedSubview(recurrency)
 //        recurrency.backgroundColor = .green
         recurrency.translatesAutoresizingMaskIntoConstraints = false
-        recurrency.label.text = "Récurrence paiement"
-        recurrency.textField.text = ""//subInfo.paymentRecurrency
+        recurrency.label.text = "Cycle"
+        recurrency.textField.text = "\(sub.paymentRecurrency ?? "")"//subInfo.paymentRecurrency
+        recurrency.textField.inputView = recurrencyPickerView
         recurrency.textField.borderStyle = .roundedRect
         recurrency.textField.translatesAutoresizingMaskIntoConstraints = false
         formView.addArrangedSubview(rightSideStackView)
 
     //MARK: FOOTER BUTTONS
-        footerStackView.translatesAutoresizingMaskIntoConstraints = false
-        footerStackView.axis = .horizontal
-        footerStackView.alignment = .fill
-        footerStackView.distribution = .fillEqually
-        footerStackView.contentMode = .scaleToFill
-        footerStackView.spacing = 16
-//        modifyButton.backgroundColor = UIColor(named: "reverse_bg")
-//        modifyButton.addCornerRadius()
-//        deleteButton.backgroundColor = UIColor(named: "reverse_bg")
         deleteButton.addCornerRadius()
-        view.addSubview(footerStackView)
-//        modifyButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(deleteButton)
         
         deleteButton.titleLabel?.textAlignment = .center
-        footerStackView.addArrangedSubview(modifyButton)
-//        modifyButton.setTitle("Modifier", for: .normal)
-//        modifyButton.titleLabel!.textAlignment = .center
-//        modifyButton.titleLabel!.textColor = UIColor(named: "reverse_bg")
-//
-//        modifyButton.setTitleColor(MSColors.maintext, for: .normal)
+//        footerStackView.addArrangedSubview(modifyButton)
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
-        footerStackView.addArrangedSubview(deleteButton)
-        deleteButton.setTitle("Supprimer", for: .normal)
+//        footerStackView.addArrangedSubview(deleteButton)
+        deleteButton.setTitle(" Supprimer l'abonnement", for: .normal)
+        deleteButton.setImage(UIImage(systemName: "trash"), for: .normal)
+        deleteButton.tintColor = MSColors.maintext
+        deleteButton.titleLabel?.font = MSFonts.title2
         deleteButton.setTitleColor(MSColors.maintext, for: .normal)
         deleteButton.addTarget(self, action: #selector(deleteSub), for: .touchUpInside)
    
@@ -346,10 +394,10 @@ extension EditSubController {
         formView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
         formView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
         formView.heightAnchor.constraint(equalToConstant: 250),
-        footerStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80),
-        footerStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-        footerStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-        footerStackView.heightAnchor.constraint(equalToConstant: 40)
+        deleteButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80),
+        deleteButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+        deleteButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+        deleteButton.heightAnchor.constraint(equalToConstant: 40),
         ])
     }
 }

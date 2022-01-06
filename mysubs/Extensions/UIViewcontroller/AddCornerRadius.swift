@@ -20,3 +20,10 @@ extension UICollectionViewCell {
         self.layer.cornerRadius = 10
     }
 }
+
+extension UIImageView {
+    func addCornerRadius() {
+        self.layer.masksToBounds = true
+        self.layer.cornerRadius = 10
+    }
+}

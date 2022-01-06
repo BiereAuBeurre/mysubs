@@ -167,6 +167,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             leftSwipe.direction = .left
             subCell.addGestureRecognizer(leftSwipe)
             subCell.subscription = viewModel?.subscriptions[indexPath.row]
+        subCell.addCornerRadius()
             return subCell
 //        } else {
 //            let categoryCell = categoryCollectionView.dequeueReusableCell(withReuseIdentifier: CategoriesCell.identifier, for: indexPath) as! CategoriesCell
