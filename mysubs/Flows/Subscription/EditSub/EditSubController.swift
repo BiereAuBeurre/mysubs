@@ -8,11 +8,9 @@
 import UIKit
 
 class EditSubController: UIViewController {
-    
     weak var coordinator: AppCoordinator?
     //MARK: -LOGO PROPERTY
     var logoHeader = UIImageView()
-    
     //MARK: -LeftSideStackView properties
     var leftSideStackView = UIStackView()
     var formView = UIStackView()
@@ -20,14 +18,12 @@ class EditSubController: UIViewController {
     var commitment = InputFormTextField()
     var category = InputFormTextField()
     var info = InputFormTextField()
-    
     //MARK: -RightSideStackView properties
     var rightSideStackView = UIStackView()
     var price = InputFormTextField()
     var reminder = InputFormTextField()
     var recurrency = InputFormTextField()
     var suggestedLogo = UILabel()
-    
     //MARK: -FOOTER BUTTON PROPERTIES
     var footerStackView = UIStackView()
     var modifyButton = UIButton()
@@ -36,13 +32,13 @@ class EditSubController: UIViewController {
     var storageService = StorageService()
     //FIXME: deleteing sub and calling viewModel?.sub instead ?
     var sub: Subscription = Subscription()
-    var categorys: [SubCategory] = []
+//    var categorys: [SubCategory] = []
     
     var recurrencyPickerView = UIPickerView()
     var reminderPickerView = UIPickerView()
     var paymentDatePicker = UIDatePicker()
-    let componentNumber = Array(stride(from: 0, to: 30 + 1, by: 1))
-    let componentDayMonthYear = ["", "jour(s)","semaine(s)", "mois", "année(s)"]
+    let componentNumber = Array(stride(from: 1, to: 30 + 1, by: 1))
+    let componentDayMonthYear = ["jour(s)","semaine(s)", "mois", "année(s)"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,8 +50,6 @@ class EditSubController: UIViewController {
         recurrencyPickerView.delegate = self
         reminderPickerView.dataSource = self
         reminderPickerView.delegate = self
-//        addInputViewDatePicker()
-        paymentDatePicker.locale = Locale.init(identifier: "fr_FR")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -71,47 +65,30 @@ class EditSubController: UIViewController {
     }
     
     @objc func didEditDate() {
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "dd MMM yyyy"
-//        paymentDatePicker.locale = Locale.init(identifier: "fr_FR")
-//        let selectedDate = dateFormatter.string(from: paymentDatePicker.date)
         commitment.textField.text = formatteDate()
         commitment.textField.resignFirstResponder()
     }
     
     @objc func deleteSub() {
-//        showAlert("Attention vous allez supprimer votre abonnement", "Confirmez vous la suppression de l'abonnement \(String(describing: sub.name)) ?")
-        viewModel?.delete()
-        viewModel?.goBack()
+        deletingAlert()
     }
     
     @objc func doneEditingAction() {
-        saveEditedSub()
-        viewModel?.save()
+        viewModel?.saveEditedSub()
         viewModel?.goBack()
     }
     
     //MARK: -Private METHODS
-    private func saveEditedSub() {
-        guard let name = name.textField.text,
-              let price = Float(price.textField.text ?? "0"),
-              let paymentRecurrency = recurrency.textField.text,
-              let reminder = reminder.textField.text else { return }
-        
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd MMM yyyy"
-        let selectedDate = dateFormatter.string(from: paymentDatePicker.date)
-        print("selected date :\(selectedDate)")
-        
-        let commitment = "\(selectedDate)"
-
-//        print(paymentDatePicker.date)
-        sub.setValue(name, forKey: "name")
-        sub.setValue(price, forKey: "price")
-        sub.setValue(commitment, forKey: "commitment")
-        sub.setValue(reminder, forKey: "reminder")
-        sub.setValue(paymentRecurrency, forKey: "paymentRecurrency")
+    func deletingAlert() {
+        let alert = UIAlertController(title: "Suppression de l'abonnement", message: "Êtes-vous sur de vouloir supprimer l'abonnement : \(sub.name ?? "")", preferredStyle: .alert)
+        let deleteAction = UIAlertAction(title: "Confirmer", style: .default) { [unowned self] action in
+            viewModel?.delete()
+            viewModel?.goBack()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true)
     }
     
     private func refreshWith(subscription: Subscription) {
@@ -119,12 +96,11 @@ class EditSubController: UIViewController {
         print("sub.name est : \(String(describing: sub.name))")
     }
     
-    private func formatteDate() -> String {
-        //MARK: -Setting un de datepicker to return good value in textfield and update when is changed by user
-
+    func formatteDate() -> String {
+        //MARK: -Setting up datepicker
         let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale.init(identifier: "fr_FR")
         dateFormatter.dateFormat = "dd MMM yyyy"
-        paymentDatePicker.locale = Locale.init(identifier: "fr_FR")
         let selectedDate = dateFormatter.string(from: paymentDatePicker.date)
         return selectedDate
     }
@@ -180,8 +156,7 @@ extension EditSubController: UIPickerViewDataSource, UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if pickerView == recurrencyPickerView {
             if component == 0 {
-                //let min = 1 let max = 30 var pickerData = [Int]() pickerData = Array(stride(from: min, to: max + 1, by: 1))
-                return componentNumber.count//31//pickerData.count
+                return componentNumber.count
             } else {
                 return componentDayMonthYear.count
             }
@@ -296,17 +271,10 @@ extension EditSubController {
         commitment.translatesAutoresizingMaskIntoConstraints = false
         commitment.label.text = "Dernier paiement"
         commitment.label.textColor = MSColors.maintext
-        commitment.textField.text = "\(sub.commitment ?? "") "//"\(selectedDate)"
+        commitment.textField.text = "\(sub.commitment ?? "")"
         commitment.textField.borderStyle = .roundedRect
-        
         //MARK: DatePicker SetUp
         addInputViewDatePicker()
-//        paymentDatePicker.datePickerMode = .date
-//        paymentDatePicker.preferredDatePickerStyle = .wheels
-//        paymentDatePicker.translatesAutoresizingMaskIntoConstraints = false
-//        paymentDatePicker.locale = Locale.init(identifier: "fr_FR")
-        
-//        paymentDatePicker.addTarget(self, action: #selector(didEditDate), for: .allEditingEvents)
         
         //MARK: Adding category field
 //        leftSideStackView.addArrangedSubview(category)
@@ -352,7 +320,6 @@ extension EditSubController {
         rightSideStackView.addArrangedSubview(reminder)
         reminder.translatesAutoresizingMaskIntoConstraints = false
         reminder.label.text = "Rappel"
-//        reminder.backgroundColor = .cyan
         reminder.textField.leftViewMode = .always
         reminder.textField.inputView = reminderPickerView//subInfo.reminder
         reminder.textField.borderStyle = .roundedRect
@@ -361,7 +328,6 @@ extension EditSubController {
         reminder.textField.text = sub.reminder
         //MARK: Adding recurrency field
         rightSideStackView.addArrangedSubview(recurrency)
-//        recurrency.backgroundColor = .green
         recurrency.translatesAutoresizingMaskIntoConstraints = false
         recurrency.label.text = "Cycle"
         recurrency.textField.text = "\(sub.paymentRecurrency ?? "")"//subInfo.paymentRecurrency
@@ -373,12 +339,9 @@ extension EditSubController {
     //MARK: FOOTER BUTTONS
         deleteButton.addCornerRadius()
         view.addSubview(deleteButton)
-        
         deleteButton.titleLabel?.textAlignment = .center
-//        footerStackView.addArrangedSubview(modifyButton)
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
-//        footerStackView.addArrangedSubview(deleteButton)
-        deleteButton.setTitle(" Supprimer l'abonnement", for: .normal)
+        deleteButton.setTitle(" Supprimer", for: .normal)
         deleteButton.setImage(UIImage(systemName: "trash"), for: .normal)
         deleteButton.tintColor = MSColors.maintext
         deleteButton.titleLabel?.font = MSFonts.title2
