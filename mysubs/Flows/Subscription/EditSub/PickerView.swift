@@ -7,14 +7,15 @@
 
 import UIKit
 
-class CustomPickerView: UIPickerView {
+class TextFieldWithPickerView : UIView, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    var valueToget = ""
+    var reminder = InputFormTextField()
+    var recurrency = InputFormTextField()
     var recurrencyPickerView = UIPickerView()
     var reminderPickerView = UIPickerView()
-    var paymentDatePicker = UIDatePicker()
     let componentNumber = Array(stride(from: 1, to: 30 + 1, by: 1))
     let componentDayMonthYear = ["jour(s)","semaine(s)", "mois", "année(s)"]
+    
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if pickerView == recurrencyPickerView {
             if component == 0 {
@@ -33,6 +34,7 @@ class CustomPickerView: UIPickerView {
             }
         }
     }
+
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         if pickerView == recurrencyPickerView {
             return 2
@@ -40,7 +42,7 @@ class CustomPickerView: UIPickerView {
             return 3
         }
     }
-    
+
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if pickerView == recurrencyPickerView {
             if component == 0 {
@@ -58,7 +60,7 @@ class CustomPickerView: UIPickerView {
             }
         }
     }
-    
+
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if component == 0 {
             pickerView.reloadComponent(1)
@@ -67,14 +69,14 @@ class CustomPickerView: UIPickerView {
         if pickerView == recurrencyPickerView {
             let string0 = componentNumber[pickerView.selectedRow(inComponent: 0)]
             let string1 = componentDayMonthYear[pickerView.selectedRow(inComponent: 1)]
-//            recurrency.textField.text = "\(string0) \(string1)"
+            recurrency.textField.text = "\(string0) \(string1)"
         }
         else {
             let string0 = componentNumber[pickerView.selectedRow(inComponent: 0)]
             let string1 = componentDayMonthYear[pickerView.selectedRow(inComponent: 1)]
             let string2 = "avant"
-            valueToget = "\(string0) \(string1)"
-//            reminder.textField.text = "\(string0) \(string1) \(string2)"
+            reminder.textField.text = "\(string0) \(string1) \(string2)"
         }
     }
+    
 }
