@@ -7,31 +7,89 @@
 
 import UIKit
 
-class InputFormTextField: UIControl, UIPickerViewDelegate, UIPickerViewDataSource {
+//class REminderPicjerView: UIPickerViewDataSource {
+//
+//}
+
+
+class InputFormTextField: UIControl/*, UIPickerViewDelegate, UIPickerViewDataSource */{
+    
+    var textFieldInputView: UIView? {
+        didSet {
+            textField.inputView = inputView
+        }
+    }
+    
+    var fieldTitle: String? {
+        didSet {
+            label.text = fieldTitle
+        }
+    }
+    
+    var text: String? {
+        didSet {
+            textField.text = text
+        }
+    }
+    
+   
     var logoHeader = UIImageView()
     
     var stackView = UIStackView()
     var label = UILabel()
-    var textField = UITextField()
     
-    var reminderPickerView = UIPickerView()
-    var recurrencyPickerView = UIPickerView()
-    let componentNumber = Array(stride(from: 1, to: 30 + 1, by: 1))
-    let componentDayMonthYear = ["jour(s)","semaine(s)", "mois", "année(s)"]
+    let textField = UITextField()
     
-    func setUpPickerView() {
-        
-        recurrencyPickerView.dataSource = self
-        recurrencyPickerView.delegate = self
-        reminderPickerView.dataSource = self
-        reminderPickerView.delegate = self
-        
-        if label.text == "Rappel" {
-        textField.inputView = reminderPickerView
-        } else {
-            textField.inputView = recurrencyPickerView
+    var paymentDatePicker = UIDatePicker()
+    //MARK: SETTING UP DATE PICKER
+    @objc func cancelPressed() {
+        textField.resignFirstResponder()
+    }
+    
+    @objc func didEditDate() {
+        textField.text = formatteDate()
+        textField.resignFirstResponder()
+    }
+    
+    func formatteDate() -> String {
+        //MARK: Setting up date format to return
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale.init(identifier: "fr_FR")
+        dateFormatter.dateFormat = "dd MMM yyyy"
+        let selectedDate = dateFormatter.string(from: paymentDatePicker.date)
+        return selectedDate
+    }
+    
+    var shouldBehaveAsButton = false {
+        didSet {
+            guard shouldBehaveAsButton else { return }
+            stackView.isUserInteractionEnabled = false
+            textField.isUserInteractionEnabled = false
+            //textField.removeTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
         }
     }
+    
+    func addInputViewDatePicker() {
+        //MARK: DatePicker settings
+        paymentDatePicker.datePickerMode = .date
+//        paymentDatePicker.preferredDatePickerStyle = .wheels
+        paymentDatePicker.translatesAutoresizingMaskIntoConstraints = false
+        paymentDatePicker.locale = Locale.init(identifier: "fr_FR")
+        if label.text == "Dernier paiement" {
+        textField.inputView = paymentDatePicker
+           
+        }
+        let screenWidth = UIScreen.main.bounds.width
+        //MARK: ToolBar settings
+        let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 44))
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let cancelBarButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelPressed))
+        let doneBarButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(didEditDate))
+        toolBar.setItems([cancelBarButton, flexibleSpace, doneBarButton], animated: false)
+        if label.text == "Dernier paiement" {
+        textField.inputAccessoryView = toolBar
+        }
+     }
     
     func configureView() {
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -43,6 +101,9 @@ class InputFormTextField: UIControl, UIPickerViewDelegate, UIPickerViewDataSourc
         stackView.axis = .vertical
         stackView.alignment = .fill
         stackView.spacing = 8
+        textField.borderStyle = .roundedRect
+        label.textColor = MSColors.maintext
+        
 
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
@@ -51,75 +112,11 @@ class InputFormTextField: UIControl, UIPickerViewDelegate, UIPickerViewDataSourc
             textField.heightAnchor.constraint(equalToConstant: 35)
         ])
     }
-    
-   
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if pickerView == recurrencyPickerView {
-            if component == 0 {
-                return ("\(componentNumber[row])")
-            } else {
-                return componentDayMonthYear[row]
-            }
-        } else {
-            if component == 0 {
-                return ("\(componentNumber[row])")
-            }
-            else if component == 1 {
-                return componentDayMonthYear[row]
-            } else {
-                return "avant"
-            }
-        }
-    }
-
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        if pickerView == recurrencyPickerView {
-            return 2
-        } else {
-            return 3
-        }
-    }
-
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if pickerView == recurrencyPickerView {
-            if component == 0 {
-                return componentNumber.count
-            } else {
-                return componentDayMonthYear.count
-            }
-        } else {
-            if component == 0 {
-                return componentNumber.count
-            } else if component == 1 {
-                return componentDayMonthYear.count
-            } else {
-                return 1
-            }
-        }
-    }
-
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if component == 0 {
-            pickerView.reloadComponent(1)
-        }
-
-        if pickerView == recurrencyPickerView {
-            let string0 = componentNumber[pickerView.selectedRow(inComponent: 0)]
-            let string1 = componentDayMonthYear[pickerView.selectedRow(inComponent: 1)]
-            textField.text = "\(string0) \(string1)"
-        }
-        else {
-            let string0 = componentNumber[pickerView.selectedRow(inComponent: 0)]
-            let string1 = componentDayMonthYear[pickerView.selectedRow(inComponent: 1)]
-            let string2 = "avant"
-           textField.text = "\(string0) \(string1) \(string2)"
-        }
-    }
 }
 
 
 // FIXME: making uneditable textfield from keyboard for commitment, reccurency and reminder (only from associated picker view)
-extension InputFormTextField: UITextFieldDelegate {
+//extension InputFormTextField: UITextFieldDelegate {
     
     //MARK: making uneditable fields with pickerView
 //    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
@@ -130,4 +127,4 @@ extension InputFormTextField: UITextFieldDelegate {
 //       return false
 //    }
     
-}
+//}

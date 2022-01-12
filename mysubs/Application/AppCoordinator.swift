@@ -45,12 +45,12 @@ class AppCoordinator: Coordinator {
     
     func showDetailSubScreen(sub: Subscription, categorys: [SubCategory]) {
         let editSubVC = EditSubController()
-        let editSubViewModel = EditSubViewModel(coordinator: self, storageService: storageService)
+        let editSubViewModel = EditSubViewModel(coordinator: self, storageService: storageService, subscription: sub)
         editSubViewModel.viewDelegate = editSubVC
         editSubVC.viewModel = editSubViewModel
 //        editSubVC.categorys = categorys
 //        print("dans coordinator \(categorys)")
-        editSubVC.sub = sub
+//        editSubVC.sub = sub
         navigationController.pushViewController(editSubVC, animated: true)
     }
     

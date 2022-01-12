@@ -21,7 +21,6 @@
 		EF1F6C77275A4AF100DA0BBB /* MSFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1F6C76275A4AF100DA0BBB /* MSFonts.swift */; };
 		EF3578BE2763588B00DA443F /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3578BD2763588A00DA443F /* HomeViewModel.swift */; };
 		EF3578C22763A15100DA443F /* NewSubViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3578C12763A15000DA443F /* NewSubViewModel.swift */; };
-		EF39B57727874CBF009EBBD5 /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF39B57627874CBF009EBBD5 /* PickerView.swift */; };
 		EF3D8D5C275F9FC100D8B6A4 /* EditSubController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3D8D5B275F9FC100D8B6A4 /* EditSubController.swift */; };
 		EF702850277C6AC100A90A54 /* InputFormTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70284F277C6AC100A90A54 /* InputFormTextField.swift */; };
 		EF70E4F027567D270011AB06 /* Pods_mysubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF70E4EF27567D270011AB06 /* Pods_mysubs.framework */; };
@@ -77,7 +76,6 @@
 		EF1F6C76275A4AF100DA0BBB /* MSFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFonts.swift; sourceTree = "<group>"; };
 		EF3578BD2763588A00DA443F /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		EF3578C12763A15000DA443F /* NewSubViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSubViewModel.swift; sourceTree = "<group>"; };
-		EF39B57627874CBF009EBBD5 /* PickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerView.swift; sourceTree = "<group>"; };
 		EF3D8D5B275F9FC100D8B6A4 /* EditSubController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSubController.swift; sourceTree = "<group>"; };
 		EF70284F277C6AC100A90A54 /* InputFormTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputFormTextField.swift; sourceTree = "<group>"; };
 		EF70E4EF27567D270011AB06 /* Pods_mysubs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_mysubs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -271,7 +269,6 @@
 			isa = PBXGroup;
 			children = (
 				EF3D8D5B275F9FC100D8B6A4 /* EditSubController.swift */,
-				EF39B57627874CBF009EBBD5 /* PickerView.swift */,
 				EF70284F277C6AC100A90A54 /* InputFormTextField.swift */,
 				EFEF69DC276799C8005CB6C3 /* EditSubViewModel.swift */,
 			);
@@ -557,7 +554,6 @@
 				EF125B1227578AC600E6FD6B /* LoadImage.swift in Sources */,
 				EF1C6C2D2762454C0025E28B /* MSAppearance.swift in Sources */,
 				EF1F6C75275A4A4100DA0BBB /* MSColors.swift in Sources */,
-				EF39B57727874CBF009EBBD5 /* PickerView.swift in Sources */,
 				EF125B152757962500E6FD6B /* ShowAlert.swift in Sources */,
 				EF3578BE2763588B00DA443F /* HomeViewModel.swift in Sources */,
 				EF96B98E274FE1C700961F9C /* mysubs.xcdatamodeld in Sources */,

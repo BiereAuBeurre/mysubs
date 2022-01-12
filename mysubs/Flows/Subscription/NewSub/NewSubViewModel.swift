@@ -57,8 +57,8 @@ class NewSubViewModel: NSObject {
     
     func saveSub() {
         let newSub = Subscription(context: storageService.viewContext)
-        newSub.name = viewDelegate?.nameField.text
-        let myprice = Float(viewDelegate?.priceField.text ?? "0")
+        newSub.name = viewDelegate?.name.textField.text
+        let myprice = Float(viewDelegate?.price.textField.text ?? "0")
         newSub.price = Float(myprice ?? 0)
         storageService.save()
         goBack()

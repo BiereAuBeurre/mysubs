@@ -8,6 +8,7 @@
 import UIKit
 
 class EditSubController: UIViewController {
+    
     weak var coordinator: AppCoordinator?
     //MARK: -LOGO PROPERTY
     var logoHeader = UIImageView()
@@ -15,7 +16,12 @@ class EditSubController: UIViewController {
     var leftSideStackView = UIStackView()
     var formView = UIStackView()
     var name = InputFormTextField()
-    var commitment = InputFormTextField()
+    
+//    var commitment = InputFormTextField()
+    var commitmentTitle = UILabel()
+    var commitmentDate = UIDatePicker()
+    
+    
     var category = InputFormTextField()
     var info = InputFormTextField()
     //MARK: -RightSideStackView properties
@@ -30,40 +36,39 @@ class EditSubController: UIViewController {
     var deleteButton = UIButton()
     var viewModel: EditSubViewModel?
     var storageService = StorageService()
-    //FIXME: deleting sub and calling viewModel?.sub instead ?
-    var sub: Subscription = Subscription()
-//    var categorys: [SubCategory] = []
-//    var custompickerView = CustomPickerView()
-//    var recurrencyPickerView = UIPickerView()
-//    var reminderPickerView = UIPickerView()
-    var paymentDatePicker = UIDatePicker()
-//    let componentNumber = Array(stride(from: 1, to: 30 + 1, by: 1))
-//    let componentDayMonthYear = ["jour(s)","semaine(s)", "mois", "année(s)"]
+
+    let componentNumber = Array(stride(from: 1, to: 30 + 1, by: 1))
+    let componentDayMonthYear = ["jour(s)","semaine(s)", "mois", "année(s)"]
+    let screenWidth = UIScreen.main.bounds.width - 10
+    let screenHeight = UIScreen.main.bounds.height / 2
+    
+    var selectedRow = 0
+    var reminderPickerView = UIPickerView()
+    var recurrencyPickerView = UIPickerView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-        reminder.setUpPickerView()
-        recurrency.setUpPickerView()
-//        custompickerView.setUp()
+//        reminder.setUpPickerView()
+//        commitment.addInputViewDatePicker()
+//        recurrency.setUpPickerView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.viewModel?.subscription = sub
-//        custompickerView.sub = sub
+//        self.viewModel?.subscription = sub
 //        self.viewModel?.categorys = categorys
     }
     
     //MARK: -OJBC METHODS
-    @objc func cancelPressed() {
-        commitment.textField.resignFirstResponder()
-    }
-
-    @objc func didEditDate() {
-        commitment.textField.text = formatteDate()
-        commitment.textField.resignFirstResponder()
-    }
+//    @objc func cancelPressed() {
+//        commitment.textField.resignFirstResponder()
+//    }
+//
+//    @objc func didEditDate() {
+//        commitment.textField.text = formatteDate()
+//        commitment.textField.resignFirstResponder()
+//    }
     
     @objc func deleteSub() {
         deletingAlert()
@@ -75,8 +80,18 @@ class EditSubController: UIViewController {
     }
     
     //MARK: -Private METHODS
+    
+    @objc func changeReminder() {
+        print(#function)
+        showReminderPicker()
+    }
+    
+    @objc func changeReccurency() {
+        showRecurrencyPicker()
+    }
+    
     private func deletingAlert() {
-        let alert = UIAlertController(title: "Suppression de l'abonnement", message: "Êtes-vous sur de vouloir supprimer l'abonnement : \(sub.name ?? "")", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Suppression de l'abonnement", message: "Êtes-vous sur de vouloir supprimer l'abonnement : \(viewModel?.subscription.name ?? "")", preferredStyle: .alert)
         let deleteAction = UIAlertAction(title: "Confirmer", style: .default) { [unowned self] action in
             viewModel?.delete()
             viewModel?.goBack()
@@ -89,7 +104,57 @@ class EditSubController: UIViewController {
     
     private func refreshWith(subscription: Subscription) {
 //        nameField.text = sub.name
-        print("sub.name est : \(String(describing: sub.name))")
+        print("sub.name est : \(String(describing: viewModel?.subscription.name))")
+    }
+    
+    private func showRecurrencyPicker() {
+        let vc = UIViewController()
+        vc.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
+        recurrencyPickerView = UIPickerView(frame: CGRect(x: 0, y: 0, width: screenWidth, height:screenHeight))
+        recurrencyPickerView.dataSource = self
+        recurrencyPickerView.delegate = self
+        recurrencyPickerView.selectRow(selectedRow, inComponent: 0, animated: false)
+        vc.view.addSubview(recurrencyPickerView)
+        recurrencyPickerView.centerXAnchor.constraint(equalTo: vc.view.centerXAnchor).isActive = true
+        recurrencyPickerView.centerYAnchor.constraint(equalTo: vc.view.centerYAnchor).isActive = true
+        let alert = UIAlertController(title: "Select reminder", message: "", preferredStyle: .actionSheet)
+        
+        alert.popoverPresentationController?.sourceView = recurrency
+        alert.popoverPresentationController?.sourceRect = recurrency.bounds
+        alert.setValue(vc, forKey: "contentViewController")
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (UIAlertAction) in
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Select", style: .default, handler: { (UIAlertAction) in
+            self.selectedRow = self.recurrencyPickerView.selectedRow(inComponent: 0)
+        }))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func showReminderPicker() {
+        let vc = UIViewController()
+        vc.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
+        reminderPickerView = UIPickerView(frame: CGRect(x: 0, y: 0, width: screenWidth, height:screenHeight))
+        reminderPickerView.dataSource = self
+        reminderPickerView.delegate = self
+        reminderPickerView.selectRow(selectedRow, inComponent: 0, animated: false)
+        vc.view.addSubview(reminderPickerView)
+        reminderPickerView.centerXAnchor.constraint(equalTo: vc.view.centerXAnchor).isActive = true
+        reminderPickerView.centerYAnchor.constraint(equalTo: vc.view.centerYAnchor).isActive = true
+        let alert = UIAlertController(title: "Select reminder", message: "", preferredStyle: .actionSheet)
+        
+        alert.popoverPresentationController?.sourceView = reminder
+        alert.popoverPresentationController?.sourceRect = reminder.bounds
+        alert.setValue(vc, forKey: "contentViewController")
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (UIAlertAction) in
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Select", style: .default, handler: { (UIAlertAction) in
+            self.selectedRow = self.reminderPickerView.selectedRow(inComponent: 0)
+        }))
+        
+        self.present(alert, animated: true, completion: nil)
     }
     
     func formatteDate() -> String {
@@ -97,78 +162,80 @@ class EditSubController: UIViewController {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale.init(identifier: "fr_FR")
         dateFormatter.dateFormat = "dd MMM yyyy"
-        let selectedDate = dateFormatter.string(from: paymentDatePicker.date)
+        let selectedDate = dateFormatter.string(from: commitmentDate.date)
         return selectedDate
     }
 }
 
 
 //MARK: - PICKERVIEW SETTINGS
-//extension EditSubController: UIPickerViewDataSource, UIPickerViewDelegate {
-//
-//    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-//        if pickerView == recurrencyPickerView {
-//            if component == 0 {
-//                return ("\(componentNumber[row])")
-//            } else {
-//                return componentDayMonthYear[row]
-//            }
-//        } else {
-//            if component == 0 {
-//                return ("\(componentNumber[row])")
-//            }
-//            else if component == 1 {
-//                return componentDayMonthYear[row]
-//            } else {
-//                return "avant"
-//            }
-//        }
-//    }
-//
-//    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-//        if pickerView == recurrencyPickerView {
-//            return 2
-//        } else {
-//            return 3
-//        }
-//    }
-//
-//    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-//        if pickerView == recurrencyPickerView {
-//            if component == 0 {
-//                return componentNumber.count
-//            } else {
-//                return componentDayMonthYear.count
-//            }
-//        } else {
-//            if component == 0 {
-//                return componentNumber.count
-//            } else if component == 1 {
-//                return componentDayMonthYear.count
-//            } else {
-//                return 1
-//            }
-//        }
-//    }
-//
-//    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-//        if component == 0 {
-//            pickerView.reloadComponent(1)
-//        }
-//
-//        if pickerView == recurrencyPickerView {
-//            let string0 = componentNumber[pickerView.selectedRow(inComponent: 0)]
-//            let string1 = componentDayMonthYear[pickerView.selectedRow(inComponent: 1)]
-//            recurrency.textField.text = "\(string0) \(string1)"
-//        }
-//        else {
-//            let string0 = componentNumber[pickerView.selectedRow(inComponent: 0)]
-//            let string1 = componentDayMonthYear[pickerView.selectedRow(inComponent: 1)]
-//            let string2 = "avant"
-//            reminder.textField.text = "\(string0) \(string1) \(string2)"
-//        }
-//    }
-//}
+extension EditSubController: UIPickerViewDataSource, UIPickerViewDelegate {
+    
+        func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+            if pickerView == recurrencyPickerView {
+                if component == 0 {
+                    return ("\(componentNumber[row])")
+                } else {
+                    return componentDayMonthYear[row]
+                }
+            } else {
+                if component == 0 {
+                    return ("\(componentNumber[row])")
+                }
+                else if component == 1 {
+                    return componentDayMonthYear[row]
+                } else {
+                    return "avant"
+                }
+            }
+        }
+    
+        func numberOfComponents(in pickerView: UIPickerView) -> Int {
+            if pickerView == recurrencyPickerView {
+                return 2
+            } else {
+                return 3
+            }
+        }
+    
+        func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+            if pickerView == recurrencyPickerView {
+                if component == 0 {
+                    return componentNumber.count
+                } else {
+                    return componentDayMonthYear.count
+                }
+            } else {
+                if component == 0 {
+                    return componentNumber.count
+                } else if component == 1 {
+                    return componentDayMonthYear.count
+                } else {
+                    return 1
+                }
+            }
+        }
+    
+        func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+            if component == 0 {
+                pickerView.reloadComponent(1)
+            }
+    
+            if pickerView == recurrencyPickerView {
+                let string0 = componentNumber[pickerView.selectedRow(inComponent: 0)]
+                let string1 = componentDayMonthYear[pickerView.selectedRow(inComponent: 1)]
+                recurrency.textField.text = "\(string0) \(string1)"
+            }
+            else {
+                let string0 = componentNumber[pickerView.selectedRow(inComponent: 0)]
+                let string1 = componentDayMonthYear[pickerView.selectedRow(inComponent: 1)]
+                let string2 = "avant"
+                reminder.textField.text = "\(string0) \(string1) \(string2)"
+            }
+        }
+
+}
+
 //// MARK: -Protocol from UITextFieldDelegate
 //
 //extension EditSubController: UITextFieldDelegate {
@@ -190,12 +257,6 @@ extension EditSubController {
     private func setUpUI() {
         setUpNavBar()
         setUpView()
-//        recurrencyPickerView.translatesAutoresizingMaskIntoConstraints = false
-        reminder.translatesAutoresizingMaskIntoConstraints = false
-//        recurrencyPickerView.dataSource = self
-//        recurrencyPickerView.delegate = self
-//        reminderPickerView.dataSource = self
-//        reminderPickerView.delegate = self
         //FIXME: fonctionne plus, pour supprimer bar texte sur textfield
 //        self.commitment.textField.delegate = self
     }
@@ -216,26 +277,26 @@ extension EditSubController {
         self.navigationItem.rightBarButtonItem = rightBarButtonItem
     }
     
-    private func addInputViewDatePicker() {
-        //MARK: DatePicker settings
-        paymentDatePicker.datePickerMode = .date
-        paymentDatePicker.preferredDatePickerStyle = .wheels
-        paymentDatePicker.translatesAutoresizingMaskIntoConstraints = false
-        paymentDatePicker.locale = Locale.init(identifier: "fr_FR")
-        commitment.textField.inputView = paymentDatePicker
-        let screenWidth = UIScreen.main.bounds.width
-        //MARK: ToolBar settings
-        let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 44))
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let cancelBarButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelPressed))
-        let doneBarButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(didEditDate))
-        toolBar.setItems([cancelBarButton, flexibleSpace, doneBarButton], animated: false)
-        commitment.textField.inputAccessoryView = toolBar
-     }
+//    private func addInputViewDatePicker() {
+//        //MARK: DatePicker settings
+//        paymentDatePicker.datePickerMode = .date
+//        paymentDatePicker.preferredDatePickerStyle = .wheels
+//        paymentDatePicker.translatesAutoresizingMaskIntoConstraints = false
+//        paymentDatePicker.locale = Locale.init(identifier: "fr_FR")
+//        commitment.textField.inputView = paymentDatePicker
+//        let screenWidth = UIScreen.main.bounds.width
+//        //MARK: ToolBar settings
+//        let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 44))
+//        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+//        let cancelBarButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelPressed))
+//        let doneBarButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(didEditDate))
+//        toolBar.setItems([cancelBarButton, flexibleSpace, doneBarButton], animated: false)
+//        commitment.textField.inputAccessoryView = toolBar
+//     }
     
     private func setUpView() {
         
-        commitment.configureView()
+//        commitment.configureView()
         name.configureView()
         category.configureView()
         info.configureView()
@@ -243,7 +304,7 @@ extension EditSubController {
         reminder.configureView()
         recurrency.configureView()
         //MARK: DatePicker SetUp
-        addInputViewDatePicker()
+//        addInputViewDatePicker()
         
         view.backgroundColor = MSColors.background
         logoHeader.translatesAutoresizingMaskIntoConstraints = false
@@ -267,28 +328,28 @@ extension EditSubController {
         leftSideStackView.spacing = 8
 //        //MARK: Adding name field
         leftSideStackView.addArrangedSubview(name)
-        name.translatesAutoresizingMaskIntoConstraints = false
-        name.label.text = "Nom"
-        name.label.textColor = MSColors.maintext
-        name.textField.text = sub.name //viewModel?.subscription?.name
-        print("viewmodel.sub.name :\(String(describing: sub.name))")
-        name.textField.borderStyle = .roundedRect
+        name.fieldTitle = "Nom"
+        name.text = viewModel?.subscription.name
+        print("viewmodel.sub.name :\(String(describing: viewModel?.subscription.name))")
+        // configurer la inpute view pour le name
+        name.textFieldInputView = UIView()
         
         //MARK: Adding commitment field
-        leftSideStackView.addArrangedSubview(commitment)
-        commitment.translatesAutoresizingMaskIntoConstraints = false
-        commitment.label.text = "Dernier paiement"
-        commitment.label.textColor = MSColors.maintext
-        commitment.textField.text = "\(sub.commitment ?? "")"
-        commitment.textField.borderStyle = .roundedRect
+        leftSideStackView.addArrangedSubview(commitmentTitle)
+        commitmentTitle.text = "Dernier paiement"
+        
+        commitmentDate.datePickerMode = .date
+//        paymentDatePicker.preferredDatePickerStyle = .wheels
+        commitmentDate.translatesAutoresizingMaskIntoConstraints = false
+        commitmentDate.locale = Locale.init(identifier: "fr_FR")
+        commitmentDate.date = viewModel?.subscription.commitment ?? Date.now
+//        commitmentDate.date = "\(viewModel?.subscription.commitment ?? "")"
+        
+        leftSideStackView.addArrangedSubview(commitmentDate)
         //MARK: Adding info field
         leftSideStackView.addArrangedSubview(info)
-        info.translatesAutoresizingMaskIntoConstraints = false
-        info.label.text = "INFOS"
-        info.label.textColor = MSColors.maintext
-        info.textField.borderStyle = .roundedRect
-        info.textField.translatesAutoresizingMaskIntoConstraints = false
-        info.textField.text = sub.extraInfo ?? ""
+        info.fieldTitle = "INFOS"
+        info.text = viewModel?.subscription.extraInfo ?? ""
         formView.addArrangedSubview(leftSideStackView)
         
     //MARK: RIGHTSIDE STACKVIEW
@@ -301,30 +362,23 @@ extension EditSubController {
         
         //MARK: Adding price field
         rightSideStackView.addArrangedSubview(price)
-        price.translatesAutoresizingMaskIntoConstraints = false
-        price.label.text = "Prix"
-        price.textField.text = "\(sub.price)"
-        price.textField.borderStyle = .roundedRect
-        price.textField.translatesAutoresizingMaskIntoConstraints = false
-        
+        price.fieldTitle = "Prix"
+        price.text = "\(viewModel?.subscription.price ?? 0)"
         //MARK: Adding reminder field
         rightSideStackView.addArrangedSubview(reminder)
-        reminder.translatesAutoresizingMaskIntoConstraints = false
-        reminder.label.text = "Rappel"
-        reminder.textField.leftViewMode = .always
-//        reminder.textField.inputView = reminderPickerView
-        reminder.textField.borderStyle = .roundedRect
-        reminder.textField.translatesAutoresizingMaskIntoConstraints = false
+        reminder.fieldTitle = "Rappel"
         reminder.textField.allowsEditingTextAttributes = false
-        reminder.textField.text = sub.reminder
+        reminder.text = viewModel?.subscription.reminder
+        
+        reminder.shouldBehaveAsButton = true
+        reminder.addTarget(self, action: #selector(changeReminder), for: .touchUpInside)
+        
         //MARK: Adding recurrency field
         rightSideStackView.addArrangedSubview(recurrency)
-        recurrency.translatesAutoresizingMaskIntoConstraints = false
-        recurrency.label.text = "Cycle"
-        recurrency.textField.text = "\(sub.paymentRecurrency ?? "")"
-//        recurrency.textField.inputView = recurrencyPickerView
-        recurrency.textField.borderStyle = .roundedRect
-        recurrency.textField.translatesAutoresizingMaskIntoConstraints = false
+        recurrency.fieldTitle = "Cycle"
+        recurrency.text = "\(viewModel?.subscription.paymentRecurrency ?? "")"
+        recurrency.shouldBehaveAsButton = true
+        recurrency.addTarget(self, action: #selector(changeReccurency), for: .touchUpInside)
         formView.addArrangedSubview(rightSideStackView)
 
     //MARK: DELETE BUTTON
