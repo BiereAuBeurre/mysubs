@@ -8,34 +8,39 @@
 import UIKit
 import CoreData
 
-class NewSubController: UIViewController, UINavigationBarDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
-    
+class NewSubController: UIViewController, UINavigationBarDelegate {
+
     // Pop up VC settings
     let componentNumber = Array(stride(from: 1, to: 30 + 1, by: 1))
     let componentDayMonthYear = ["jour(s)","semaine(s)", "mois", "année(s)"]
     let screenWidth = UIScreen.main.bounds.width - 10
     let screenHeight = UIScreen.main.bounds.height / 2
     var selectedRow = 0
-
+    var selectedColor = UIColor()
     var newSubLabel = UILabel()
     var titleView = UIView()
     var separatorLine = UIView()
     
     //MARK: -LeftSideStackView properties
     var leftSideStackView = UIStackView()
-//    var formView = UIStackView()
+    var formView = UIStackView()
     var name = InputFormTextField()
     var commitment = InputFormTextField()
     var category = InputFormTextField()
     var info = InputFormTextField()
     //MARK: -RightSideStackView properties
-//    var rightSideStackView = UIStackView()
+    var rightSideStackView = UIStackView()
     var price = InputFormTextField()
     var reminder = InputFormTextField()
     var recurrency = InputFormTextField()
-   
+    var commitmentTitle = UILabel()
+    var commitmentDate = UIDatePicker()
+    let commitmentStackView = UIStackView()
+    var reminderPickerView = UIPickerView()
+    var recurrencyPickerView = UIPickerView()
+    
     //MARK: LOGO PROPERTY
-    var suggestedLogo = UILabel()
+    var suggestedLogo = UIButton()//UILabel()
     var logo = UIImageView()
     
     var viewModel: NewSubViewModel?
@@ -45,9 +50,6 @@ class NewSubController: UIViewController, UINavigationBarDelegate, UIPickerViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-//        reminder.setUpPickerView()
-        commitment.addInputViewDatePicker()
-//        recurrency.setUpPickerView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -55,71 +57,46 @@ class NewSubController: UIViewController, UINavigationBarDelegate, UIPickerViewD
     }
     
     
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 3
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if component == 0 {
-            return componentNumber.count
-        } else if component == 1 {
-            return componentDayMonthYear.count
-        } else {
-            return 1
-        }
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if component == 0 {
-            pickerView.reloadComponent(1)
-        }
-        
-            let string0 = componentNumber[pickerView.selectedRow(inComponent: 0)]
-            let string1 = componentDayMonthYear[pickerView.selectedRow(inComponent: 1)]
-            let string2 = "avant"
-        reminder.textField.text = "\(string0) \(string1) \(string2)"
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        
-            if component == 0 {
-                return ("\(componentNumber[row])")
-            }
-            else if component == 1 {
-                return componentDayMonthYear[row]
-            } else {
-                return "avant"
-            }
-    }
+   
     
     //MARK: -OBJC METHODs
+    
+    @objc func changeReminder() {
+        print(#function)
+        showPicker(reminderPickerView, reminder)
+    }
+    
+    @objc func changeReccurency() {
+        showPicker(recurrencyPickerView, recurrency)
+    }
+    
     @objc func addButtonAction() {
-        if viewModel?.name == nil {
-            showAlert("Champs manquants", "Merci d'ajouter au moins un nom et un prix")
-            return
-        } else {
+//        if viewModel?.name == nil {
+//            showAlert("Champs manquants", "Merci d'ajouter au moins un nom et un prix")
+//            return
+//        } else {
+            
             viewModel?.saveSub()
             print("dans add button action, ajouté à \(String(describing: viewModel?.subscriptions))")
-        }
+//        }
     }
     
     @objc func nameFieldTextDidChange(textField: UITextField) {
         viewModel?.name = textField.text
     }
     
-    @objc
-    func textFieldDidChange(textField: UITextField) {
+    @objc func textFieldDidChange(textField: UITextField) {
         //delegate.textFieldDidCha
     }
     
-    @objc
-    func changeReminder() {
-        print(#function)
+//    @objc
+//    func changeReminder() {
+//        print(#function)
         //reminder.showPicker = true
         //pickuper.show = true
         //viewModel.changeReminder()
         
-        showReminderPicker()
+//        showReminderPicker()
         
 //        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
 //            self.info.isHidden.toggle()
@@ -128,29 +105,59 @@ class NewSubController: UIViewController, UINavigationBarDelegate, UIPickerViewD
 //            self.logo.isHidden.toggle()
 //
 //        }, completion: nil)
-    }
+//    }
     //MARK: - PRIVATES METHODS
+    @objc
+    func showColorPicker()  {
+//        var selectedColor = UIColor()
+        let colorPicker = UIColorPickerViewController()
+        colorPicker.delegate = self
+        colorPicker.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
+        colorPicker.selectedColor = self.logo.backgroundColor!
+        self.present(colorPicker, animated: true, completion: nil)
+        print("selected color is: \(selectedColor)")
+
+    }
     
-    func showReminderPicker() {
+    private func configureCommitment() {
+        commitmentStackView.addArrangedSubview(commitmentTitle)
+        commitmentStackView.addArrangedSubview(commitmentDate)
+        commitmentStackView.axis = .vertical
+        commitmentStackView.alignment = .leading
+//        commitmentStackView.spacing = 8
+        commitmentTitle.textColor = MSColors.maintext
+//        commitmentStackView.contentMode = .top
+        commitmentDate.contentMode = .top
+        commitmentStackView.translatesAutoresizingMaskIntoConstraints = false
+        commitmentTitle.translatesAutoresizingMaskIntoConstraints = false
+        commitmentDate.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            commitmentTitle.heightAnchor.constraint(equalToConstant: 35),
+        ])
+    }
+    private func showPicker(_ picker : UIPickerView, _ input: InputFormTextField) {
         let vc = UIViewController()
         vc.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
-        let pickerView = UIPickerView(frame: CGRect(x: 0, y: 0, width: screenWidth, height:screenHeight))
-        pickerView.dataSource = self
-        pickerView.delegate = self
-        pickerView.selectRow(selectedRow, inComponent: 0, animated: false)
-        vc.view.addSubview(pickerView)
-        pickerView.centerXAnchor.constraint(equalTo: vc.view.centerXAnchor).isActive = true
-        pickerView.centerYAnchor.constraint(equalTo: vc.view.centerYAnchor).isActive = true
+//        picker.frame.width = screenWidth
+//        picker.frame.height = screenHeight
+//        = UIPickerView(frame: CGRect(x: 0, y: 0, width: screenWidth, height:screenHeight))
+        picker.dataSource = self
+        picker.delegate = self
+        picker.selectRow(selectedRow, inComponent: 0, animated: false)
+        vc.view.addSubview(picker)
+        picker.centerXAnchor.constraint(equalTo: vc.view.centerXAnchor).isActive = true
+        picker.centerYAnchor.constraint(equalTo: vc.view.centerYAnchor).isActive = true
         let alert = UIAlertController(title: "Select reminder", message: "", preferredStyle: .actionSheet)
         
-        alert.popoverPresentationController?.sourceView = reminder
-        alert.popoverPresentationController?.sourceRect = reminder.bounds
+        alert.popoverPresentationController?.sourceView = input
+        alert.popoverPresentationController?.sourceRect = input.bounds
         alert.setValue(vc, forKey: "contentViewController")
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (UIAlertAction) in
         }))
         
         alert.addAction(UIAlertAction(title: "Select", style: .default, handler: { (UIAlertAction) in
-            self.selectedRow = pickerView.selectedRow(inComponent: 0)
+            self.selectedRow = picker.selectedRow(inComponent: 0)
         }))
         
         self.present(alert, animated: true, completion: nil)
@@ -159,6 +166,17 @@ class NewSubController: UIViewController, UINavigationBarDelegate, UIPickerViewD
     private func refreshWith(subscriptions: [Subscription]) {
         // myCollectionView.reloadData()
         print("refresh with is read")
+    }
+    
+}
+
+//MARK: - COLOR PICKER SETTINGS
+extension NewSubController: UIColorPickerViewControllerDelegate {
+    //  Called on every color selection done in the picker.
+    func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
+            self.logo.backgroundColor = viewController.selectedColor //UIColor(hexa)
+        // Creer extension UIColor pour initialiser avec code hexa, en string ds coreData
+        
     }
     
 }
@@ -204,90 +222,74 @@ extension NewSubController {
         recurrency.configureView()
         
         // MARK: FORMVIEW
-//        formView.translatesAutoresizingMaskIntoConstraints = false
-//        formView.axis = .horizontal
-//        formView.alignment = .fill
-//        formView.spacing = 8
-//        formView.distribution = .fillEqually
-//        view.addSubview(formView)
+        formView.translatesAutoresizingMaskIntoConstraints = false
+        formView.axis = .horizontal
+        formView.alignment = .fill
+        formView.spacing = 8
+        formView.distribution = .fillEqually
+        view.addSubview(formView)
         
     //MARK: LEFTSIDE STACKVIEW
         leftSideStackView.translatesAutoresizingMaskIntoConstraints = false
 //        leftSideStackView.contentMode = .top
         leftSideStackView.axis = .vertical
-        leftSideStackView.backgroundColor = .cyan
 //        leftSideStackView.alignment = .leading
         leftSideStackView.distribution = .fillEqually
-        leftSideStackView.spacing = 8
+//        leftSideStackView.spacing = 8
 //        //MARK: Adding name field
         leftSideStackView.addArrangedSubview(name)
-        name.translatesAutoresizingMaskIntoConstraints = false
-        name.label.text = "Nom"
-        name.label.textColor = MSColors.maintext
-        name.textField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
-        name.textField.addTarget(self, action: #selector(nameFieldTextDidChange), for: .allEditingEvents)
-        name.textField.borderStyle = .roundedRect
+        name.fieldTitle = "Nom"
+        name.text = ""
+        // configurer la inpute view pour le name
+        name.textFieldInputView = UIView()
         
         //MARK: Adding commitment field
-        leftSideStackView.addArrangedSubview(commitment)
-        commitment.translatesAutoresizingMaskIntoConstraints = false
-        commitment.label.text = "Dernier paiement"
-        commitment.label.textColor = MSColors.maintext
-//        commitment.textField.text = "\(sub.commitment ?? "")"
-        commitment.textField.borderStyle = .roundedRect
+//        leftSideStackView.addArrangedSubview(commitmentTitle)
+//        commitmentTitle.backgroundColor = .cyan
+//        commitmentDate.backgroundColor = .purple
+//        reminder.backgroundColor = .systemPink
+        commitmentTitle.text = "Dernier paiement"
+        commitmentDate.datePickerMode = .date
+        commitmentDate.translatesAutoresizingMaskIntoConstraints = false
+        configureCommitment()
+        commitmentDate.locale = Locale.init(identifier: "fr_FR")
+        commitmentDate.date = Date.now
+        leftSideStackView.addArrangedSubview(commitmentStackView)
+//        leftSideStackView.addArrangedSubview(commitmentDate)
         //MARK: Adding info field
         leftSideStackView.addArrangedSubview(info)
-        info.translatesAutoresizingMaskIntoConstraints = false
-        info.label.text = "INFOS"
-        info.label.textColor = MSColors.maintext
-        info.textField.borderStyle = .roundedRect
-        info.textField.translatesAutoresizingMaskIntoConstraints = false
-//        info.textField.text = sub.extraInfo ?? ""
-        
-        view.addSubview(leftSideStackView)
-
-//        formView.addArrangedSubview(leftSideStackView)
+        info.fieldTitle = "INFOS"
+        info.text = ""
+        formView.addArrangedSubview(leftSideStackView)
         
     //MARK: RIGHTSIDE STACKVIEW
-//        rightSideStackView.translatesAutoresizingMaskIntoConstraints = false
-//        rightSideStackView.contentMode = .scaleToFill
-//        rightSideStackView.axis = .vertical
-//        rightSideStackView.alignment = .fill
-//        rightSideStackView.distribution = .fillEqually
-//        rightSideStackView.spacing = 8
+        rightSideStackView.translatesAutoresizingMaskIntoConstraints = false
+        rightSideStackView.contentMode = .scaleToFill
+        rightSideStackView.axis = .vertical
+        rightSideStackView.alignment = .fill
+        rightSideStackView.distribution = .fillEqually
+        rightSideStackView.spacing = 8
         
         //MARK: Adding price field
-        leftSideStackView.addArrangedSubview(price)
-
-//        rightSideStackView.addArrangedSubview(price)
-        price.translatesAutoresizingMaskIntoConstraints = false
-        price.label.text = "Prix"
-//        price.textField.text = "\(sub.price)"
-        price.textField.borderStyle = .roundedRect
-        price.textField.translatesAutoresizingMaskIntoConstraints = false
-        
+        rightSideStackView.addArrangedSubview(price)
+        price.fieldTitle = "Prix"
+//        price.text = "\(viewModel?.subscription.price ?? 0)"
         //MARK: Adding reminder field
-        leftSideStackView.addArrangedSubview(reminder)
-
-//        rightSideStackView.addArrangedSubview(reminder)
-        reminder.translatesAutoresizingMaskIntoConstraints = false
-        reminder.label.text = "Rappel"
+        rightSideStackView.addArrangedSubview(reminder)
+        reminder.fieldTitle = "Rappel"
+        reminder.textField.allowsEditingTextAttributes = false
+//        reminder.text = viewModel?.subscription.reminder
         reminder.shouldBehaveAsButton = true
         reminder.addTarget(self, action: #selector(changeReminder), for: .touchUpInside)
-        reminder.textField.leftViewMode = .always
-        reminder.textField.borderStyle = .roundedRect
-        reminder.textField.translatesAutoresizingMaskIntoConstraints = false
-        reminder.textField.allowsEditingTextAttributes = false
+        
         //MARK: Adding recurrency field
+        rightSideStackView.addArrangedSubview(recurrency)
+        recurrency.fieldTitle = "Cycle"
+//        recurrency.text = "\(viewModel?.subscription.paymentRecurrency ?? "")"
+        recurrency.shouldBehaveAsButton = true
+        recurrency.addTarget(self, action: #selector(changeReccurency), for: .touchUpInside)
+        formView.addArrangedSubview(rightSideStackView)
 
-//        rightSideStackView.addArrangedSubview(recurrency)
-        recurrency.translatesAutoresizingMaskIntoConstraints = false
-        recurrency.label.text = "Cycle"
-//        recurrency.textField.inputView = recurrencyPickerView
-        recurrency.textField.borderStyle = .roundedRect
-        recurrency.textField.translatesAutoresizingMaskIntoConstraints = false
-//        formView.addArrangedSubview(rightSideStackView)
-        leftSideStackView.addArrangedSubview(recurrency)
 
         // MARK: SETTING TITLE
         view.backgroundColor = MSColors.background
@@ -310,7 +312,9 @@ extension NewSubController {
         //MARK: Adding logo suggestion
         suggestedLogo.translatesAutoresizingMaskIntoConstraints = false
         logo.translatesAutoresizingMaskIntoConstraints = false
-        suggestedLogo.text = "Logo suggéré"
+//        suggestedLogo.text = "Logo suggéré"
+        suggestedLogo.setTitle("color to pick", for: .normal)
+        suggestedLogo.addTarget(self, action: #selector(showColorPicker), for: .touchUpInside)
         logo.backgroundColor = MSColors.maintext
         logo.addCornerRadius()
  
@@ -329,25 +333,92 @@ extension NewSubController {
             separatorLine.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             separatorLine.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            suggestedLogo.topAnchor.constraint(equalTo: leftSideStackView.bottomAnchor, constant: 16),
-
 //            suggestedLogo.topAnchor.constraint(equalTo: formView.bottomAnchor, constant: 16),
+
+            suggestedLogo.topAnchor.constraint(equalTo: formView.bottomAnchor, constant: 16),
             suggestedLogo.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             logo.topAnchor.constraint(equalTo: suggestedLogo.bottomAnchor, constant: 8),
             logo.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             logo.widthAnchor.constraint(equalToConstant: 100),
             logo.heightAnchor.constraint(equalToConstant: 100),
-            leftSideStackView.topAnchor.constraint(equalTo: separatorLine.bottomAnchor, constant: 40),
-            leftSideStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            leftSideStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            leftSideStackView.heightAnchor.constraint(equalToConstant: 450),
+//            leftSideStackView.topAnchor.constraint(equalTo: separatorLine.bottomAnchor, constant: 40),
+//            leftSideStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+//            leftSideStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+//            leftSideStackView.heightAnchor.constraint(equalToConstant: 450),
             
-//            formView.topAnchor.constraint(equalTo: separatorLine.bottomAnchor, constant: 40),
-//            formView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-//            formView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-//            formView.heightAnchor.constraint(equalToConstant: 250),
+            formView.topAnchor.constraint(equalTo: separatorLine.bottomAnchor, constant: 40),
+            formView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            formView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            formView.heightAnchor.constraint(equalToConstant: 250),
             ])
     }
     
+
+}
+
+extension NewSubController: UIPickerViewDataSource, UIPickerViewDelegate {
+    
+        func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+            if pickerView == recurrencyPickerView {
+                if component == 0 {
+                    return ("\(componentNumber[row])")
+                } else {
+                    return componentDayMonthYear[row]
+                }
+            } else {
+                if component == 0 {
+                    return ("\(componentNumber[row])")
+                }
+                else if component == 1 {
+                    return componentDayMonthYear[row]
+                } else {
+                    return "avant"
+                }
+            }
+        }
+    
+        func numberOfComponents(in pickerView: UIPickerView) -> Int {
+            if pickerView == recurrencyPickerView {
+                return 2
+            } else {
+                return 3
+            }
+        }
+    
+        func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+            if pickerView == recurrencyPickerView {
+                if component == 0 {
+                    return componentNumber.count
+                } else {
+                    return componentDayMonthYear.count
+                }
+            } else {
+                if component == 0 {
+                    return componentNumber.count
+                } else if component == 1 {
+                    return componentDayMonthYear.count
+                } else {
+                    return 1
+                }
+            }
+        }
+    
+        func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+            if component == 0 {
+                pickerView.reloadComponent(1)
+            }
+    
+            if pickerView == recurrencyPickerView {
+                let string0 = componentNumber[pickerView.selectedRow(inComponent: 0)]
+                let string1 = componentDayMonthYear[pickerView.selectedRow(inComponent: 1)]
+                recurrency.textField.text = "\(string0) \(string1)"
+            }
+            else {
+                let string0 = componentNumber[pickerView.selectedRow(inComponent: 0)]
+                let string1 = componentDayMonthYear[pickerView.selectedRow(inComponent: 1)]
+                let string2 = "avant"
+                reminder.textField.text = "\(string0) \(string1) \(string2)"
+            }
+        }
 
 }

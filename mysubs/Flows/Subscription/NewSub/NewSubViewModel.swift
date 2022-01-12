@@ -60,6 +60,9 @@ class NewSubViewModel: NSObject {
         newSub.name = viewDelegate?.name.textField.text
         let myprice = Float(viewDelegate?.price.textField.text ?? "0")
         newSub.price = Float(myprice ?? 0)
+        newSub.reminder = viewDelegate?.reminder.textField.text
+        newSub.commitment = viewDelegate?.commitmentDate.date
+        newSub.paymentRecurrency = viewDelegate?.recurrency.textField.text
         storageService.save()
         goBack()
     }

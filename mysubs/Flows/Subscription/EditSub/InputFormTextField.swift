@@ -6,12 +6,6 @@
 //
 
 import UIKit
-
-//class REminderPicjerView: UIPickerViewDataSource {
-//
-//}
-
-
 class InputFormTextField: UIControl/*, UIPickerViewDelegate, UIPickerViewDataSource */{
     
     var textFieldInputView: UIView? {
@@ -20,6 +14,10 @@ class InputFormTextField: UIControl/*, UIPickerViewDelegate, UIPickerViewDataSou
         }
     }
     
+    var logoHeader = UIImageView()
+    var stackView = UIStackView()
+    var label = UILabel()
+    let textField = UITextField()
     var fieldTitle: String? {
         didSet {
             label.text = fieldTitle
@@ -32,34 +30,6 @@ class InputFormTextField: UIControl/*, UIPickerViewDelegate, UIPickerViewDataSou
         }
     }
     
-   
-    var logoHeader = UIImageView()
-    
-    var stackView = UIStackView()
-    var label = UILabel()
-    
-    let textField = UITextField()
-    
-    var paymentDatePicker = UIDatePicker()
-    //MARK: SETTING UP DATE PICKER
-    @objc func cancelPressed() {
-        textField.resignFirstResponder()
-    }
-    
-    @objc func didEditDate() {
-        textField.text = formatteDate()
-        textField.resignFirstResponder()
-    }
-    
-    func formatteDate() -> String {
-        //MARK: Setting up date format to return
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale.init(identifier: "fr_FR")
-        dateFormatter.dateFormat = "dd MMM yyyy"
-        let selectedDate = dateFormatter.string(from: paymentDatePicker.date)
-        return selectedDate
-    }
-    
     var shouldBehaveAsButton = false {
         didSet {
             guard shouldBehaveAsButton else { return }
@@ -68,28 +38,6 @@ class InputFormTextField: UIControl/*, UIPickerViewDelegate, UIPickerViewDataSou
             //textField.removeTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
         }
     }
-    
-    func addInputViewDatePicker() {
-        //MARK: DatePicker settings
-        paymentDatePicker.datePickerMode = .date
-//        paymentDatePicker.preferredDatePickerStyle = .wheels
-        paymentDatePicker.translatesAutoresizingMaskIntoConstraints = false
-        paymentDatePicker.locale = Locale.init(identifier: "fr_FR")
-        if label.text == "Dernier paiement" {
-        textField.inputView = paymentDatePicker
-           
-        }
-        let screenWidth = UIScreen.main.bounds.width
-        //MARK: ToolBar settings
-        let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 44))
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let cancelBarButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelPressed))
-        let doneBarButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(didEditDate))
-        toolBar.setItems([cancelBarButton, flexibleSpace, doneBarButton], animated: false)
-        if label.text == "Dernier paiement" {
-        textField.inputAccessoryView = toolBar
-        }
-     }
     
     func configureView() {
         label.translatesAutoresizingMaskIntoConstraints = false
