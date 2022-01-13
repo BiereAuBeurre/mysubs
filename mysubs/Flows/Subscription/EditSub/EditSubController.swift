@@ -113,9 +113,6 @@ class EditSubController: UIViewController {
     private func showPicker(_ picker : UIPickerView, _ input: InputFormTextField) {
         let vc = UIViewController()
         vc.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
-//        picker.frame.width = screenWidth
-//        picker.frame.height = screenHeight
-//        = UIPickerView(frame: CGRect(x: 0, y: 0, width: screenWidth, height:screenHeight))
         picker.dataSource = self
         picker.delegate = self
         picker.selectRow(selectedRow, inComponent: 0, animated: false)

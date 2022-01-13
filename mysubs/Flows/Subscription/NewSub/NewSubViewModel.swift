@@ -12,31 +12,36 @@ class NewSubViewModel: NSObject {
     weak var viewDelegate: NewSubController?
     private let coordinator: AppCoordinator
     private let storageService: StorageService
-//    private let category: String
 
-    init(coordinator: AppCoordinator,/*, category: String, */storageService: StorageService) {
+    init(coordinator: AppCoordinator, storageService: StorageService) {
         self.coordinator = coordinator
-//        self.category = category
         self.storageService = storageService
     }
     
-    var price: Float? {
+    var date: Date? {
         didSet {
-            guard oldValue != price else { return } 
+            guard oldValue != date else { return }
         }
     }
-    
+    //MARK: -FIXME : fonctionne quand appelé dans le VC -> @objc func addButtonAction
+    var price: Float? {
+        didSet {
+            guard oldValue != price else { return }
+            viewDelegate?.canSaveStatusDidChange(canSave: canSaveSub)
+
+        }
+    }
+    //MARK: -FIXME
     var name: String? {
         didSet {
             guard oldValue != name else { return }
-//            viewDelegate?.canSaveStatusDidChange(canSave: canSaveSub)
+            viewDelegate?.canSaveStatusDidChange(canSave: canSaveSub)
         }
     }
-    
     var canSaveSub: Bool {
-        if name?.isEmpty == true {
-//        viewDelegate?.showAlert("Champ manquant", "ajouter au moins un nom")
-        return false
+        if name?.isEmpty == true /*|| price?.isZero == true */{
+            viewDelegate?.showAlert("Champ manquant", "ajouter au moins un nom")
+            return false
         } else {
             return true
         }
@@ -57,11 +62,11 @@ class NewSubViewModel: NSObject {
     
     func saveSub() {
         let newSub = Subscription(context: storageService.viewContext)
-        newSub.name = viewDelegate?.name.textField.text
-        let myprice = Float(viewDelegate?.price.textField.text ?? "0")
-        newSub.price = Float(myprice ?? 0)
+//        newSub.name = viewDelegate?.name.textField.text
+        newSub.name = name
+        newSub.price = price ?? 0//Float(myprice ?? 0)
         newSub.reminder = viewDelegate?.reminder.textField.text
-        newSub.commitment = viewDelegate?.commitmentDate.date
+        newSub.commitment = date /*viewDelegate?.commitmentDate.date*/
         newSub.paymentRecurrency = viewDelegate?.recurrency.textField.text
         storageService.save()
         goBack()
