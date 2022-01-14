@@ -8,10 +8,6 @@ import UIKit
 import CoreData
 
 class NewSubController: UIViewController, UINavigationBarDelegate {
-    var dayComponent = DateComponents()
-    
-//    dayComponent.day = 1
-
     // Pop up VC settings
     let componentNumber = Array(stride(from: 1, to: 30 + 1, by: 1))
     let componentDayMonthYear = [Calendar.Component.day, Calendar.Component.weekOfMonth, Calendar.Component.month, Calendar.Component.year]
@@ -79,12 +75,12 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     @objc
     func addButtonAction() {
         if viewModel?.name == nil && viewModel?.price == nil {
-         showAlert("Champs manquants", "Merci d'ajouter au moins un nom et un prix")
-         return
-         } else {
-        viewModel?.saveSub()
-                }
-
+            showAlert("Champs manquants", "Merci d'ajouter au moins un nom et un prix")
+            return
+        } else {
+            viewModel?.saveSub()
+        }
+        
         print("dans add button action, ajouté à \(String(describing: viewModel?.subscriptions))")
     }
     
@@ -168,12 +164,15 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
 
             if input == recurrency {
                 input.textField.text = "\(valueNumber) \(valueType)"
+                viewModel?.recurrencyValue = valueNumber
+                viewModel?.recurrencyType = valueType
             } else {
                 input.textField.text = "\(valueNumber) \(valueType) \(string2)"
+                viewModel?.reminderValue = valueNumber
+                viewModel?.reminderType2 = valueType
             }
-            viewModel?.reminderValue = valueNumber
-//            viewModel?.reminderType = valueType
-            viewModel?.reminderType2 = valueType
+            
+            
             
         }))
         
@@ -476,7 +475,7 @@ extension NewSubController: UIPickerViewDataSource, UIPickerViewDelegate {
 ////Locale(identifier: prefLanguage)
 //        return calendar
 //    }
-//    
+//
 //     func unitTitle(_ unit: NSCalendar.Unit, value: Int = 1, locale: Locale? = nil) -> String {
 //        let emptyString = String()
 //        let date = Date()
@@ -497,7 +496,7 @@ extension NewSubController: UIPickerViewDataSource, UIPickerViewDelegate {
 //
 //        return string.replacingOccurrences(of: String(value), with: emptyString).trimmingCharacters(in: .whitespaces).capitalized
 //    }
-//    
+//
 //    // swiftlint:disable:next cyclomatic_complexity
 //    private func getComponent(from unit: NSCalendar.Unit) -> Component {
 //        let component: Component

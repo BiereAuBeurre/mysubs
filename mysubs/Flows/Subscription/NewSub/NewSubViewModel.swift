@@ -30,6 +30,18 @@ class NewSubViewModel: NSObject {
         }
     }
     
+    var recurrencyValue: Int? {
+        didSet {
+            
+        }
+    }
+    
+    var recurrencyType: Calendar.Component = .year {
+        didSet {
+            
+        }
+    }
+    
     var reminderType2: Calendar.Component = .year {
         didSet {
             
@@ -88,7 +100,8 @@ class NewSubViewModel: NSObject {
         //Essayer de recupérer une date pour setupé les notifs, marche là mais voir pour remplacer le .day par valueType (qui doit être de type Calendar.Component, pour le moment est un string)
         var newDate = date
         newDate = newDate?.adding(reminderType2, value: -(reminderValue ?? 0))
-        print("new date is : \(String(describing: newDate))")
+        newDate = newDate?.adding(recurrencyType, value: recurrencyValue ?? 500)
+        print("New date to get for notifications is : \(newDate ?? Date.now)")
 //        newDate.localized.unitTitle(reminderType2)
         //prendre date du date picker
         
@@ -96,10 +109,10 @@ class NewSubViewModel: NSObject {
         // lui faire inverse de adding avec date de rappel calculée
         
         
-        newSub.reminder = "\(reminderValue ?? 0) \(reminderType ?? "")"
-        newSub.reminder = viewDelegate?.reminder.textField.text
+        newSub.reminder = "\(reminderValue ?? 0) \(reminderType2)"
+//        newSub.reminder = viewDelegate?.reminder.textField.text
         newSub.commitment = date /*viewDelegate?.commitmentDate.date*/
-        newSub.paymentRecurrency = viewDelegate?.recurrency.textField.text
+        newSub.paymentRecurrency = "Tous les \(recurrencyValue ?? 0) \(recurrencyType)"//viewDelegate?.recurrency.textField.text
         storageService.save()
         goBack()
     }
