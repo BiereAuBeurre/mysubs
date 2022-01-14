@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import UserNotifications
 
 // MARK: Enums
 enum State<Data> {
@@ -17,6 +18,10 @@ enum State<Data> {
 }
 
 class HomeViewController: UIViewController, UINavigationBarDelegate {
+    
+    ///TEST NOTIFS
+    let userNotificationCenter = UNUserNotificationCenter.current()
+
     var viewModel : HomeViewModel?
     weak var coordinator: AppCoordinator?
     
@@ -61,6 +66,12 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
+        
+        
+        self.userNotificationCenter.delegate = self
+        self.requestNotificationAuthorization()
+        self.sendNotification()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -96,24 +107,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
             print("swipe left")
         }
     }
-//    @objc func addNewCategory() {
-//        // Displaying the alert window
-//        let alert = UIAlertController(title: "Nouvelle categorie", message: "Ajoutez votre nouvelle categorie", preferredStyle: .alert)
-//        let saveAction = UIAlertAction(title: "Ajouter", style: .default) { [unowned self] action in
-//            guard let textField = alert.textFields?.first,
-//                  let categoryToSave = textField.text else { return }
-//            // Saving the new category into the viewModel
-//            viewModel?.addNewCategory(categoryToSave)
-//            print("voici la cateory name ajoutée :\(categoryToSave)")
-//            viewModel?.fetchCategories()
-//            categoryCollectionView.reloadData()
-//        }
-//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-//        alert.addTextField()
-//        alert.addAction(saveAction)
-//        alert.addAction(cancelAction)
-//        present(alert, animated: true)
-//    }
+
     
     //MARK: -PRIVATE METHODS
     private func displayEmptyView() {
@@ -181,6 +175,56 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         guard let selectedSub = viewModel?.subscriptions[indexPath.row] else { return }
         cellTapped(sub: selectedSub)
         print("item \(indexPath.row+1) tapped")
+        }
+    }
+}
+
+//MARK: - NOTIF SETTINGS
+
+extension HomeViewController : UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        completionHandler()
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.banner, .badge, .sound])
+    }
+    
+    func sendNotification() {
+        let notificationContent = UNMutableNotificationContent()
+        notificationContent.title = "Test"
+        notificationContent.body = "Test body"
+        notificationContent.badge = NSNumber(value: 3)
+        
+        if let url = Bundle.main.url(forResource: "dune",
+                                    withExtension: "png") {
+            if let attachment = try? UNNotificationAttachment(identifier: "dune",
+                                                            url: url,
+                                                            options: nil) {
+                notificationContent.attachments = [attachment]
+            }
+        }
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5,
+                                                        repeats: false)
+        let request = UNNotificationRequest(identifier: "testNotification",
+                                            content: notificationContent,
+                                            trigger: trigger)
+        
+        userNotificationCenter.add(request) { (error) in
+            if let error = error {
+                print("Notification Error: ", error)
+            }
+        }
+    }
+
+    func requestNotificationAuthorization() {
+        let authOptions = UNAuthorizationOptions.init(arrayLiteral: .alert, .badge, .sound)
+        
+        self.userNotificationCenter.requestAuthorization(options: authOptions) { (success, error) in
+            if let error = error {
+                print("Error: ", error)
+            }
         }
     }
 }
@@ -359,3 +403,24 @@ extension HomeViewController {
         ])
     }
 }
+
+
+
+//    @objc func addNewCategory() {
+//        // Displaying the alert window
+//        let alert = UIAlertController(title: "Nouvelle categorie", message: "Ajoutez votre nouvelle categorie", preferredStyle: .alert)
+//        let saveAction = UIAlertAction(title: "Ajouter", style: .default) { [unowned self] action in
+//            guard let textField = alert.textFields?.first,
+//                  let categoryToSave = textField.text else { return }
+//            // Saving the new category into the viewModel
+//            viewModel?.addNewCategory(categoryToSave)
+//            print("voici la cateory name ajoutée :\(categoryToSave)")
+//            viewModel?.fetchCategories()
+//            categoryCollectionView.reloadData()
+//        }
+//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+//        alert.addTextField()
+//        alert.addAction(saveAction)
+//        alert.addAction(cancelAction)
+//        present(alert, animated: true)
+//    }

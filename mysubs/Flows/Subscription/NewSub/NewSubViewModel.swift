@@ -95,20 +95,10 @@ class NewSubViewModel: NSObject {
         let newSub = Subscription(context: storageService.viewContext)
         newSub.name = name
         newSub.price = price ?? 0//Float(myprice ?? 0)
-        //FIXME: Convertir ici en date  du coup ? en se basant sur la commitmentDate, ça serait par ex
-        //3 valeurs à stocker pour le rappel? 1 string pour l'affichage et valueType+valueNumber pour calcul notif en arrière
-        //Essayer de recupérer une date pour setupé les notifs, marche là mais voir pour remplacer le .day par valueType (qui doit être de type Calendar.Component, pour le moment est un string)
         var newDate = date
         newDate = newDate?.adding(reminderType2, value: -(reminderValue ?? 0))
         newDate = newDate?.adding(recurrencyType, value: recurrencyValue ?? 500)
         print("New date to get for notifications is : \(newDate ?? Date.now)")
-//        newDate.localized.unitTitle(reminderType2)
-        //prendre date du date picker
-        
-        // li faire by adding date de prochaine facturation (cycle)
-        // lui faire inverse de adding avec date de rappel calculée
-        
-        
         newSub.reminder = "\(reminderValue ?? 0) \(reminderType2)"
 //        newSub.reminder = viewDelegate?.reminder.textField.text
         newSub.commitment = date /*viewDelegate?.commitmentDate.date*/
