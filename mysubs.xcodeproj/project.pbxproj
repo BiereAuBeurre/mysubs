@@ -23,12 +23,14 @@
 		EF3578C22763A15100DA443F /* NewSubViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3578C12763A15000DA443F /* NewSubViewModel.swift */; };
 		EF3D8D5C275F9FC100D8B6A4 /* EditSubController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3D8D5B275F9FC100D8B6A4 /* EditSubController.swift */; };
 		EF6B125927903B220083E6F7 /* ToHexString.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6B125827903B220083E6F7 /* ToHexString.swift */; };
+		EF6B125B279094310083E6F7 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6B125A279094310083E6F7 /* Notifications.swift */; };
 		EF702850277C6AC100A90A54 /* InputFormTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70284F277C6AC100A90A54 /* InputFormTextField.swift */; };
 		EF70E4F027567D270011AB06 /* Pods_mysubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF70E4EF27567D270011AB06 /* Pods_mysubs.framework */; };
 		EF70E4F32756868A0011AB06 /* BrandInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70E4F22756868A0011AB06 /* BrandInfo.swift */; };
 		EF9072EB275E1FE8006CF678 /* NewSubController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9072EA275E1FE8006CF678 /* NewSubController.swift */; };
 		EF9072ED275E37EE006CF678 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9072EC275E37EE006CF678 /* Coordinator.swift */; };
 		EF9072EF275E3951006CF678 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9072EE275E3951006CF678 /* AppCoordinator.swift */; };
+		EF915C1427918AD300266DF3 /* Adding.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF915C1327918AD300266DF3 /* Adding.swift */; };
 		EF96B984274FE1C700961F9C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF96B983274FE1C700961F9C /* AppDelegate.swift */; };
 		EF96B986274FE1C700961F9C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF96B985274FE1C700961F9C /* SceneDelegate.swift */; };
 		EF96B98E274FE1C700961F9C /* mysubs.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EF96B98C274FE1C700961F9C /* mysubs.xcdatamodeld */; };
@@ -79,12 +81,14 @@
 		EF3578C12763A15000DA443F /* NewSubViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSubViewModel.swift; sourceTree = "<group>"; };
 		EF3D8D5B275F9FC100D8B6A4 /* EditSubController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSubController.swift; sourceTree = "<group>"; };
 		EF6B125827903B220083E6F7 /* ToHexString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToHexString.swift; sourceTree = "<group>"; };
+		EF6B125A279094310083E6F7 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		EF70284F277C6AC100A90A54 /* InputFormTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputFormTextField.swift; sourceTree = "<group>"; };
 		EF70E4EF27567D270011AB06 /* Pods_mysubs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_mysubs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF70E4F22756868A0011AB06 /* BrandInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandInfo.swift; sourceTree = "<group>"; };
 		EF9072EA275E1FE8006CF678 /* NewSubController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSubController.swift; sourceTree = "<group>"; };
 		EF9072EC275E37EE006CF678 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		EF9072EE275E3951006CF678 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		EF915C1327918AD300266DF3 /* Adding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Adding.swift; sourceTree = "<group>"; };
 		EF96B980274FE1C700961F9C /* mysubs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mysubs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF96B983274FE1C700961F9C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EF96B985274FE1C700961F9C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -161,6 +165,7 @@
 		EF125B0F2757887700E6FD6B /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				EF915C1227918AC700266DF3 /* Date */,
 				EF6B125727903B080083E6F7 /* UIColor */,
 				EF125B132757961900E6FD6B /* UIViewcontroller */,
 				EF125B1027578AB500E6FD6B /* UIImageView */,
@@ -298,9 +303,18 @@
 			isa = PBXGroup;
 			children = (
 				EF9072EA275E1FE8006CF678 /* NewSubController.swift */,
+				EF6B125A279094310083E6F7 /* Notifications.swift */,
 				EF3578C12763A15000DA443F /* NewSubViewModel.swift */,
 			);
 			path = NewSub;
+			sourceTree = "<group>";
+		};
+		EF915C1227918AC700266DF3 /* Date */ = {
+			isa = PBXGroup;
+			children = (
+				EF915C1327918AD300266DF3 /* Adding.swift */,
+			);
+			path = Date;
 			sourceTree = "<group>";
 		};
 		EF96B977274FE1C700961F9C = {
@@ -550,9 +564,11 @@
 				EF3D8D5C275F9FC100D8B6A4 /* EditSubController.swift in Sources */,
 				EF1F6C6B2759125E00DA0BBB /* SubCell.swift in Sources */,
 				EF6B125927903B220083E6F7 /* ToHexString.swift in Sources */,
+				EF915C1427918AD300266DF3 /* Adding.swift in Sources */,
 				EF1F6C6F275A464900DA0BBB /* Strings.swift in Sources */,
 				EFFA24E227566E570068DFE3 /* LogoFinderService.swift in Sources */,
 				EF125B192757C11000E6FD6B /* AddCornerRadius.swift in Sources */,
+				EF6B125B279094310083E6F7 /* Notifications.swift in Sources */,
 				EF9072EF275E3951006CF678 /* AppCoordinator.swift in Sources */,
 				EF1F6C73275A484C00DA0BBB /* MSImages.swift in Sources */,
 				EF96B984274FE1C700961F9C /* AppDelegate.swift in Sources */,

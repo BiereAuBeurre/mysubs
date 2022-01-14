@@ -14,7 +14,11 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
 
     // Pop up VC settings
     let componentNumber = Array(stride(from: 1, to: 30 + 1, by: 1))
-    let componentDayMonthYear = ["jour(s)", "semaine(s)", "mois", "année(s)"]
+    let componentDayMonthYear = [Calendar.Component.day, Calendar.Component.weekOfMonth, Calendar.Component.month, Calendar.Component.year]
+//    let componentDayMonthYear =  [Calendar.localized.unitTitle(.day),
+//                                  Calendar.localized.unitTitle(.weekOfMonth),
+//                                  Calendar.localized.unitTitle(.month),
+//                                  Calendar.localized.unitTitle(.year),]//["jour(s)", "semaine(s)", "mois", "année(s)"]
     let screenWidth = UIScreen.main.bounds.width - 10
     let screenHeight = UIScreen.main.bounds.height / 2
     var selectedRow = 0
@@ -46,8 +50,9 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     var logo = UIImageView()
     
     var viewModel: NewSubViewModel?
-
     var storageService = StorageService()
+    
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -103,13 +108,18 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         viewModel?.date = commitmentDate.date
     }
     
+//    @objc
+//    func reminderDidChange() {
+//        viewModel?.reminderType2 = reminderPickerView.
+//
+//    }
+    
     @objc
     func showColorPicker()  {
         let colorPicker = UIColorPickerViewController()
         colorPicker.delegate = self
         colorPicker.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
 //        colorPicker.selectedColor = self.logo.backgroundColor!
-        
         self.present(colorPicker, animated: true, completion: nil)
         print("selected color is: \(String(describing: logo.backgroundColor?.toHexString()))") //voir extension uicolor
     }
@@ -135,9 +145,6 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     private func showPicker(_ picker : UIPickerView, _ input: InputFormTextField) {
         let vc = UIViewController()
         vc.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
-//        picker.frame.width = screenWidth
-//        picker.frame.height = screenHeight
-//        = UIPickerView(frame: CGRect(x: 0, y: 0, width: screenWidth, height:screenHeight))
         picker.dataSource = self
         picker.delegate = self
         picker.selectRow(selectedRow, inComponent: 0, animated: false)
@@ -152,8 +159,22 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (UIAlertAction) in
         }))
         
-        alert.addAction(UIAlertAction(title: "Select", style: .default, handler: { (UIAlertAction) in
+        //MARK: - replace selectedRow protocol method since action happen here
+        alert.addAction(UIAlertAction(title: "Select", style: .default, handler: { [self] (UIAlertAction) in
             self.selectedRow = picker.selectedRow(inComponent: 0)
+            let valueNumber = self.componentNumber[picker.selectedRow(inComponent: 0)]
+            let valueType = self.componentDayMonthYear[picker.selectedRow(inComponent: 1)]
+            let string2 = "avant"
+
+            if input == recurrency {
+                input.textField.text = "\(valueNumber) \(valueType)"
+            } else {
+                input.textField.text = "\(valueNumber) \(valueType) \(string2)"
+            }
+            viewModel?.reminderValue = valueNumber
+//            viewModel?.reminderType = valueType
+            viewModel?.reminderType2 = valueType
+            
         }))
         
         self.present(alert, animated: true, completion: nil)
@@ -236,9 +257,12 @@ extension NewSubController {
         name.text = ""
         // configurer la inpute view pour le name
         name.textFieldInputView = UIView()
+        //MARK: - action send values to viewModel for being save as new sub values
         name.textField.addTarget(self, action: #selector(nameFieldTextDidChange), for: .editingChanged)
         price.textField.addTarget(self, action: #selector(priceFieldTextDidChange), for: .editingChanged)
-        commitmentDate.addTarget(self, action: #selectolr(dateDidChange), for: .valueChanged)
+        commitmentDate.addTarget(self, action: #selector(dateDidChange), for: .valueChanged)
+        //FIXME: pour les pickerview mettre ca dans l'action du select? ce qui serait dans sa methode objc?
+        
         //MARK: Adding commitment field
         commitmentTitle.text = "Dernier paiement"
         commitmentDate.datePickerMode = .date
@@ -338,28 +362,53 @@ extension NewSubController {
     
 
 }
+//class DateComponentsFormatter : Formatter  {
+//
+//    func formatterFrDate() -> String {
+//        let componentDayMonthYear = [Calendar.Component.day, Calendar.Component.weekOfMonth, Calendar.Component.month, Calendar.Component.year]
+//
+//
+//        let formatter = DateComponentsFormatter()
+//        //formatter.unitsStyle = .full
+//        //formatter.includesApproximationPhrase = true
+//        //formatter.includesTimeRemainingPhrase = true
+//        //                    formatter.allowedUnits = [.minute]
+//
+//        // Use the configured formatter to generate the string.
+//        let outputString = formatter.string(for: componentDayMonthYear)
+//        return outputString!
+//    } // string(from: componentDayMonthYear)
+//}
+extension Date {
 
+    func toString(format: String) -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.dateFormat = format
+        return formatter.string(from: self)
+    }
+}
 //MARK: - BOTH PICKERVIEW SETUP
 extension NewSubController: UIPickerViewDataSource, UIPickerViewDelegate {
     
-        func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-            if pickerView == recurrencyPickerView {
-                if component == 0 {
-                    return ("\(componentNumber[row])")
-                } else {
-                    return componentDayMonthYear[row]
-                }
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if pickerView == recurrencyPickerView {
+            if component == 0 {
+                return ("\(componentNumber[row])")
             } else {
-                if component == 0 {
-                    return ("\(componentNumber[row])")
-                }
-                else if component == 1 {
-                    return componentDayMonthYear[row]
-                } else {
-                    return "avant"
-                }
+                return ("\(componentDayMonthYear[row])")
+            }
+        } else {
+            if component == 0 {
+                return ("\(componentNumber[row])")
+            }
+            else if component == 1 {
+                return ("\(componentDayMonthYear[row])")//componentDayMonthYear[row]
+            } else {
+                return "avant"
             }
         }
+    }
     
         func numberOfComponents(in pickerView: UIPickerView) -> Int {
             if pickerView == recurrencyPickerView {
@@ -390,24 +439,105 @@ extension NewSubController: UIPickerViewDataSource, UIPickerViewDelegate {
         }
     
         func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-            if component == 0 {
-                pickerView.reloadComponent(1)
-            }
+//            if component == 0 {
+//                pickerView.reloadComponent(1)
+//            }
     
             if pickerView == recurrencyPickerView {
-                let string0 = componentNumber[pickerView.selectedRow(inComponent: 0)]
-                let string1 = componentDayMonthYear[pickerView.selectedRow(inComponent: 1)]
-                recurrency.textField.text = "\(string0) \(string1)"
+//                let string0 = componentNumber[pickerView.selectedRow(inComponent: 0)]
+//                let string1 = componentDayMonthYear[pickerView.selectedRow(inComponent: 1)]
+//                recurrency.textField.text = "\(string0) \(string1)"
             }
             else {
-                let string0 = componentNumber[pickerView.selectedRow(inComponent: 0)]
-                let string1 = componentDayMonthYear[pickerView.selectedRow(inComponent: 1)]
-                let string2 = "avant"
-                reminder.textField.text = "\(string0) \(string1) \(string2)"
+                let valueNumber = componentNumber[pickerView.selectedRow(inComponent: 0)]
+                let valueType = componentDayMonthYear[pickerView.selectedRow(inComponent: 1)]
+//                let string2 = "avant"
+//                reminder.textField.text = "\(valueNumber) \(valueType) \(string2)"
+                
+                viewModel?.reminderValue = valueNumber
+//                viewModel?.reminderType = valueType
+                viewModel?.reminderType2 = valueType
+
+//                let nextDate = Calendar.current.date(byAdding: .day, value: 1, to: commitmentDate.date)
+
+//                let nextDate = Calendar.current.date(byAdding: .day, value: valueNumber, to: commitmentDate.date)
+
             }
         }
 
 }
-
-
-
+//extension Calendar {
+//
+//    /// get a calendar configured with the language of the user
+//    static var localized: Calendar {
+////        let prefLanguage = Locale.preferredLanguages[0]
+//        var calendar = Calendar(identifier: .gregorian)
+//        calendar.locale = Locale.init(identifier: "fr_FR")
+////Locale(identifier: prefLanguage)
+//        return calendar
+//    }
+//    
+//     func unitTitle(_ unit: NSCalendar.Unit, value: Int = 1, locale: Locale? = nil) -> String {
+//        let emptyString = String()
+//        let date = Date()
+//        let component = getComponent(from: unit)
+//         guard let sinceUnits = self.date(byAdding: component, value: value, to: date) else {
+//            return emptyString
+//        }
+//
+//        let timeInterval = sinceUnits.timeIntervalSince(date)
+//        let formatter = DateComponentsFormatter()
+//
+//        formatter.calendar = self
+//        formatter.allowedUnits = [unit]
+//        formatter.unitsStyle = .full
+//        guard let string = formatter.string(from: timeInterval) else {
+//            return emptyString
+//        }
+//
+//        return string.replacingOccurrences(of: String(value), with: emptyString).trimmingCharacters(in: .whitespaces).capitalized
+//    }
+//    
+//    // swiftlint:disable:next cyclomatic_complexity
+//    private func getComponent(from unit: NSCalendar.Unit) -> Component {
+//        let component: Component
+//
+//        switch unit {
+//        case .era:
+//            component = .era
+//        case .year:
+//            component = .year
+//        case .month:
+//            component = .month
+//        case .day:
+//            component = .day
+//        case .hour:
+//            component = .hour
+//        case .minute:
+//            component = .minute
+//        case .second:
+//            component = .second
+//        case .weekday:
+//            component = .weekday
+//        case .weekdayOrdinal:
+//            component = .weekdayOrdinal
+//        case .quarter:
+//            component = .quarter
+//        case .weekOfMonth:
+//            component = .weekOfMonth
+//        case .weekOfYear:
+//            component = .weekOfYear
+//        case .yearForWeekOfYear:
+//            component = .yearForWeekOfYear
+//        case .nanosecond:
+//            component = .nanosecond
+//        case .calendar:
+//            component = .calendar
+//        case .timeZone:
+//            component = .timeZone
+//        default:
+//            component = .calendar
+//        }
+//        return component
+//    }
+//}

@@ -81,7 +81,7 @@ class EditSubController: UIViewController {
     }
     
     private func deletingAlert() {
-        let alert = UIAlertController(title: "Suppression de l'abonnement", message: "Êtes-vous sur de vouloir supprimer l'abonnement : \(viewModel?.subscription.name ?? "")", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Suppression de l'abonnement", message: "Êtes-vous sur de vouloir supprimer l'abonnement : \(viewModel?.subscription.name ?? "")", preferredStyle: .actionSheet)
         let deleteAction = UIAlertAction(title: "Confirmer", style: .default) { [unowned self] action in
             viewModel?.delete()
             viewModel?.goBack()
