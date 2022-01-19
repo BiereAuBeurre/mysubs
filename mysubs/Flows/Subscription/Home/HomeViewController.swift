@@ -69,6 +69,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         
         
         self.userNotificationCenter.delegate = self
+        //dans le save
         self.requestNotificationAuthorization()
         self.sendNotification()
         
@@ -194,7 +195,7 @@ extension HomeViewController : UNUserNotificationCenterDelegate {
         let notificationContent = UNMutableNotificationContent()
         notificationContent.title = "Test"
         notificationContent.body = "Test body"
-        notificationContent.badge = NSNumber(value: 3)
+        notificationContent.badge = NSNumber(value: 1)
         
         if let url = Bundle.main.url(forResource: "dune",
                                     withExtension: "png") {
@@ -204,7 +205,6 @@ extension HomeViewController : UNUserNotificationCenterDelegate {
                 notificationContent.attachments = [attachment]
             }
         }
-        
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5,
                                                         repeats: false)
         let request = UNNotificationRequest(identifier: "testNotification",

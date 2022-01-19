@@ -7,12 +7,13 @@
 
 import Foundation
 import CoreData
+import UserNotifications
 
 class NewSubViewModel: NSObject {
     weak var viewDelegate: NewSubController?
     private let coordinator: AppCoordinator
     private let storageService: StorageService
-
+    
     init(coordinator: AppCoordinator, storageService: StorageService) {
         self.coordinator = coordinator
         self.storageService = storageService
@@ -91,6 +92,37 @@ class NewSubViewModel: NSObject {
         // homeVC.subscriptions  = viewDelegate!.subscriptions
     }
     
+    private func generateNotification() {//for subscription
+        #if DEBUG
+        
+        let notificationInterval: Double = 5
+        #else
+        
+        let notificationInterval: Double = 5
+        #endif
+       // let notificationInterval: Double = 5
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: notificationInterval, repeats: false)
+        //UNUserNotificationCenter.current().
+        
+        let notificationContent = UNMutableNotificationContent()
+        notificationContent.title = name ?? "inknown"
+        notificationContent.body = "The subscvription will renewm in 1 day"
+        notificationContent.sound = UNNotificationSound.default
+        notificationContent.userInfo = ["id": "25"]
+        notificationContent.categoryIdentifier = "identifier"
+        let request = UNNotificationRequest(identifier: "42", content: notificationContent, trigger: trigger)
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("error adding notification \(error)")
+            } else {
+                print("notification added suvvces")
+            }
+        }
+        
+        
+    }
+    
     func saveSub() {
         let newSub = Subscription(context: storageService.viewContext)
         newSub.name = name
@@ -104,6 +136,7 @@ class NewSubViewModel: NSObject {
         newSub.commitment = date /*viewDelegate?.commitmentDate.date*/
         newSub.paymentRecurrency = "Tous les \(recurrencyValue ?? 0) \(recurrencyType)"//viewDelegate?.recurrency.textField.text
         storageService.save()
+        generateNotification()
         goBack()
     }
 }

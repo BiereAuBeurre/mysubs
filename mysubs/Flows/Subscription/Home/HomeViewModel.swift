@@ -44,13 +44,13 @@ class HomeViewModel: NSObject {
         }
     }
     
-    func fetchCategories() {
-        do {
-        categorys = try storageService.loadCategory()
-        } catch {
-            print(error)
-        }
-    }
+//    func fetchCategories() {
+//        do {
+//        categorys = try storageService.loadCategory()
+//        } catch {
+//            print(error)
+//        }
+//    }
     
     func computeTotal() {
         if subscriptions.isEmpty == true {

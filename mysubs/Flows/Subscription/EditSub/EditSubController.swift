@@ -39,7 +39,7 @@ class EditSubController: UIViewController {
     var storageService = StorageService()
 
     let componentNumber = Array(stride(from: 1, to: 30 + 1, by: 1))
-    let componentDayMonthYear = ["jour(s)","semaine(s)", "mois", "année(s)"]
+    let componentDayMonthYear = [Calendar.Component.day, Calendar.Component.weekOfMonth, Calendar.Component.month, Calendar.Component.year] //["jour(s)", "semaine(s)", "mois", "année(s)"]
     let screenWidth = UIScreen.main.bounds.width - 10
     let screenHeight = UIScreen.main.bounds.height / 2
     
@@ -59,6 +59,7 @@ class EditSubController: UIViewController {
     }
     
     //MARK: -OJBC METHODS
+    
     @objc func deleteSub() {
         deletingAlert()
     }
@@ -66,9 +67,46 @@ class EditSubController: UIViewController {
     @objc func doneEditingAction() {
         viewModel?.saveEditedSub()
         viewModel?.goBack()
+        
     }
     
     //MARK: -Private METHODS
+    
+    
+    @objc
+    func nameFieldTextDidChange(textField: UITextField) {
+        viewModel?.name = textField.text
+    }
+    
+    @objc
+    func priceFieldTextDidChange(textField: UITextField) {
+        viewModel?.subscription.price = Float(textField.text ?? "") ?? 0
+    }
+    
+    @objc
+    func reminderFieldDidChange() {
+        self.selectedRow = reminderPickerView.selectedRow(inComponent: 0)
+        let valueNumber = self.componentNumber[reminderPickerView.selectedRow(inComponent: 0)]
+        let valueType = self.componentDayMonthYear[reminderPickerView.selectedRow(inComponent: 1)]
+        let string2 = "avant"
+        
+        viewModel?.subscription.reminder = "\(valueNumber) \(valueType) \(string2)"
+        viewModel?.reminderValue = valueNumber
+        viewModel?.reminderType2 = valueType
+        
+//        viewModel?.subscription.reminder = reminderPickerView
+    }
+    
+    @objc
+    func textFieldDidChange(textField: UITextField) {
+        //delegate.textFieldDidCha
+    }
+    
+    @objc
+    func dateDidChange() {
+        viewModel?.subscription.commitment = commitmentDate.date
+    }
+    
     
     @objc func changeReminder() {
         print(#function)
@@ -92,7 +130,8 @@ class EditSubController: UIViewController {
         present(alert, animated: true)
     }
     
-    private func refreshWith(subscription: Subscription) {
+    func refreshWith(subscription: Subscription) {
+//        viewModel?.subscription = Subs
 //        nameField.text = sub.name
         print("sub.name est : \(String(describing: viewModel?.subscription.name))")
     }
@@ -126,11 +165,32 @@ class EditSubController: UIViewController {
         alert.setValue(vc, forKey: "contentViewController")
         alert.addAction(UIAlertAction(title: "Annuler", style: .cancel, handler: { (UIAlertAction) in
         }))
-        
-        alert.addAction(UIAlertAction(title: "Ajouter", style: .default, handler: { (UIAlertAction) in
+        //MARK: - replace selectedRow protocol method since action happen here
+        alert.addAction(UIAlertAction(title: "Select", style: .default, handler: { [self] (UIAlertAction) in
             self.selectedRow = picker.selectedRow(inComponent: 0)
-            //voir methode select row commenté
+            let valueNumber = self.componentNumber[picker.selectedRow(inComponent: 0)]
+            let valueType = self.componentDayMonthYear[picker.selectedRow(inComponent: 1)]
+            let string2 = "avant"
+
+            if input == recurrency {
+                input.textField.text = "\(valueNumber) \(valueType)"
+                viewModel?.recurrencyValue = valueNumber
+                viewModel?.recurrencyType = valueType
+                viewModel?.subscription.paymentRecurrency = "\(valueNumber) \(valueType)"
+            } else {
+                input.textField.text = "\(valueNumber) \(valueType) \(string2)"
+                viewModel?.reminderValue = valueNumber
+                viewModel?.reminderType2 = valueType
+                viewModel?.subscription.reminder = "\(valueNumber) \(valueType) \(string2)"
+            }
+            
+            
+            
         }))
+//        alert.addAction(UIAlertAction(title: "Ajouter", style: .default, handler: { (UIAlertAction) in
+//            self.selectedRow = picker.selectedRow(inComponent: 0)
+//            //voir methode select row commenté
+//        }))
         
         self.present(alert, animated: true, completion: nil)
     }
@@ -140,24 +200,24 @@ class EditSubController: UIViewController {
 //MARK: - PICKERVIEW SETTINGS
 extension EditSubController: UIPickerViewDataSource, UIPickerViewDelegate {
     
-        func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-            if pickerView == recurrencyPickerView {
-                if component == 0 {
-                    return ("\(componentNumber[row])")
-                } else {
-                    return componentDayMonthYear[row]
-                }
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if pickerView == recurrencyPickerView {
+            if component == 0 {
+                return ("\(componentNumber[row])")
             } else {
-                if component == 0 {
-                    return ("\(componentNumber[row])")
-                }
-                else if component == 1 {
-                    return componentDayMonthYear[row]
-                } else {
-                    return "avant"
-                }
+                return ("\(componentDayMonthYear[row])")
+            }
+        } else {
+            if component == 0 {
+                return ("\(componentNumber[row])")
+            }
+            else if component == 1 {
+                return ("\(componentDayMonthYear[row])")//componentDayMonthYear[row]
+            } else {
+                return "avant"
             }
         }
+    }
     
         func numberOfComponents(in pickerView: UIPickerView) -> Int {
             if pickerView == recurrencyPickerView {
@@ -294,7 +354,7 @@ extension EditSubController {
 //        //MARK: Adding name field
         leftSideStackView.addArrangedSubview(name)
         name.fieldTitle = "Nom"
-        name.text = viewModel?.subscription.name
+        name.text = viewModel?.name
         print("viewmodel.sub.name :\(String(describing: viewModel?.subscription.name))")
         // configurer la inpute view pour le name
         name.textFieldInputView = UIView()
@@ -340,7 +400,13 @@ extension EditSubController {
         recurrency.shouldBehaveAsButton = true
         recurrency.addTarget(self, action: #selector(changeReccurency), for: .touchUpInside)
         formView.addArrangedSubview(rightSideStackView)
-
+        
+        //MARK: - action send values to viewModel for being save as new sub values
+        name.textField.addTarget(self, action: #selector(nameFieldTextDidChange), for: .editingChanged)
+        price.textField.addTarget(self, action: #selector(priceFieldTextDidChange), for: .editingChanged)
+        commitmentDate.addTarget(self, action: #selector(dateDidChange), for: .valueChanged)
+        //FIXME:
+//        reminderPickerView.addTarget(self, action: #selector(reminderFieldDidChange), for: .valueChanged)
     //MARK: DELETE BUTTON
         view.addSubview(deleteButton)
         deleteButton.titleLabel?.textAlignment = .center

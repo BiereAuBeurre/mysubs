@@ -7,16 +7,26 @@
 
 import UIKit
 import CoreData
-
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         MSAppearance.setUp()
+        UNUserNotificationCenter.current().delegate = self
         return true
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        defer { completionHandler() }
+        
+        guard let userInfo = response.notification.request.content.userInfo as? [String: String] else {
+            print("error")
+            return
+        }
+        print(userInfo)
     }
 
     // MARK: UISceneSession Lifecycle
