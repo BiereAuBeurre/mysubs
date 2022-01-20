@@ -22,8 +22,7 @@ class EditSubController: UIViewController {
     var commitmentDate = UIDatePicker()
     let commitmentStackView = UIStackView()
 
-    
-    var category = InputFormTextField()
+//    var category = InputFormTextField()
     var info = InputFormTextField()
     //MARK: -RightSideStackView properties
     var rightSideStackView = UIStackView()
@@ -80,7 +79,7 @@ class EditSubController: UIViewController {
     
     @objc
     func priceFieldTextDidChange(textField: UITextField) {
-        viewModel?.subscription.price = Float(textField.text ?? "") ?? 0
+        viewModel?.price = Float(textField.text ?? "") ?? 0
     }
     
     @objc
@@ -326,7 +325,7 @@ extension EditSubController {
     
     private func setUpView() {
         name.configureView()
-        category.configureView()
+//        category.configureView()
         info.configureView()
         price.configureView()
         reminder.configureView()
@@ -384,7 +383,7 @@ extension EditSubController {
         //MARK: Adding price field
         rightSideStackView.addArrangedSubview(price)
         price.fieldTitle = "Prix"
-        price.text = "\(viewModel?.subscription.price ?? 0)"
+        price.text = "\(viewModel?.price ?? 0)"
         //MARK: Adding reminder field
         rightSideStackView.addArrangedSubview(reminder)
         reminder.fieldTitle = "Rappel"

@@ -14,6 +14,8 @@ class NewSubViewModel: NSObject {
     private let coordinator: AppCoordinator
     private let storageService: StorageService
     
+    var notificationDate = Date()
+    
     init(coordinator: AppCoordinator, storageService: StorageService) {
         self.coordinator = coordinator
         self.storageService = storageService
@@ -63,11 +65,17 @@ class NewSubViewModel: NSObject {
 
         }
     }
+    
+    var color: String? {
+        didSet {
+            guard oldValue != color else { return }
+        }
+    }
     //MARK: -FIXME
     var name: String? {
         didSet {
             guard oldValue != name else { return }
-            viewDelegate?.canSaveStatusDidChange(canSave: canSaveSub)
+//            viewDelegate?.canSaveStatusDidChange(canSave: canSaveSub)
         }
     }
     var canSaveSub: Bool {
@@ -127,16 +135,18 @@ class NewSubViewModel: NSObject {
         let newSub = Subscription(context: storageService.viewContext)
         newSub.name = name
         newSub.price = price ?? 0//Float(myprice ?? 0)
-        var newDate = date
-        newDate = newDate?.adding(reminderType2, value: -(reminderValue ?? 0))
-        newDate = newDate?.adding(recurrencyType, value: recurrencyValue ?? 500)
-        print("New date to get for notifications is : \(newDate ?? Date.now)")
+        notificationDate = date ?? Date.now
+        notificationDate = notificationDate.adding(reminderType2, value: -(reminderValue ?? 0)) ?? Date.now
+        notificationDate = notificationDate.adding(recurrencyType, value: recurrencyValue ?? 500) ?? Date.now
+        print("New date to get for notifications is : \(notificationDate)")
         newSub.reminder = "\(reminderValue ?? 0) \(reminderType2)"
 //        newSub.reminder = viewDelegate?.reminder.textField.text
-        newSub.commitment = date /*viewDelegate?.commitmentDate.date*/
+        newSub.commitment = date
+        newSub.color = color/*viewDelegate?.commitmentDate.date*/
+        print("save color is:\n newsub.color : \(newSub.color)\n color: \(color)")
         newSub.paymentRecurrency = "Tous les \(recurrencyValue ?? 0) \(recurrencyType)"//viewDelegate?.recurrency.textField.text
         storageService.save()
-        generateNotification()
+//        generateNotification()
         goBack()
     }
 }

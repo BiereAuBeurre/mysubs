@@ -13,15 +13,16 @@ class SubCell: UICollectionViewCell {
     private var subNameLabel = UILabel()
     private var logo = UIImageView()
     private var priceLabel = UILabel()
+    var colorToConvert = String()
     var subscription: Subscription? {
         didSet {
             refreshSubData()
         }
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .systemPink
+
         refreshSubData()
         setup()
     }
@@ -33,12 +34,19 @@ class SubCell: UICollectionViewCell {
     //Setting values in cells
     func refreshSubData() {
         subNameLabel.text = subscription?.name
+        contentView.backgroundColor = UIColor(hexa: subscription?.color ?? "FFB6C1")
         priceLabel.text = "\(subscription?.price ?? 0) €"
+//        colorToConvert = subscription?.color ?? "FFB6C1"
+
+//        backgroundColor = UIColor(hexa: colorToConvert)
     }
     
     func setup() {
         priceLabel.translatesAutoresizingMaskIntoConstraints = false
         priceLabel.textColor = MSColors.maintext
+//        contentView.backgroundColor =  UIColor(hex: subscription?.color ?? "FFB6C1")
+//        contentView.backgroundColor =  UIColor(hexa: colorToConvert)
+        print("bgcolor of cell is \(contentView.backgroundColor)")
         subNameLabel.translatesAutoresizingMaskIntoConstraints = false
         subNameLabel.textColor = .black
         logo.translatesAutoresizingMaskIntoConstraints = false

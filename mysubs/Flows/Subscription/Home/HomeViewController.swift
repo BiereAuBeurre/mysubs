@@ -163,6 +163,9 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             subCell.addGestureRecognizer(leftSwipe)
             subCell.subscription = viewModel?.subscriptions[indexPath.row]
         subCell.addCornerRadius()
+//        var colorLogo = viewModel?.subscriptions[indexPath.row].color
+//        subCell.backgroundColor = UIColor(hexa: colorLogo!)//colorLogo?.fromHexToRGB()
+//        print("back ground for subcell in homeVC is \(subCell.backgroundColor)")
             return subCell
 //        } else {
 //            let categoryCell = categoryCollectionView.dequeueReusableCell(withReuseIdentifier: CategoriesCell.identifier, for: indexPath) as! CategoriesCell
@@ -296,39 +299,6 @@ extension HomeViewController {
         self.navigationItem.leftBarButtonItem = leftBarButtonItem
     }
     
-//    func configureCategoriesStackView() {
-//        categoriesStackView.translatesAutoresizingMaskIntoConstraints = false
-//        categoriesStackView.backgroundColor = MSColors.background
-//        categoriesStackView.spacing = 5.5
-//        view.addSubview(categoriesStackView)
-//        configureAddCategoryButton()
-//        configureCategoriesCollectionView()
-//    }
-    
-//    func configureAddCategoryButton() {
-//        addCategoryButton.translatesAutoresizingMaskIntoConstraints = false
-//        addCategoryButton.setImage(UIImage(systemName: "plus.circle.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 38, weight: .light, scale: .small)), for: .normal)
-//        addCategoryButton.tintColor = MSColors.maintext
-//        addCategoryButton.addTarget(self, action: #selector(addNewCategory), for: .touchUpInside)
-//        categoriesStackView.addArrangedSubview(addCategoryButton)
-//    }
-    
-//    func configureCategoriesCollectionView() {
-//        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-//        layout.itemSize = CGSize(width: view.frame.size.width/5, height: view.frame.size.width/13.5)
-//        layout.scrollDirection = .horizontal
-//        categoryCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-//        categoryCollectionView.backgroundColor = MSColors.background
-//
-//        categoryCollectionView.register(CategoriesCell.self, forCellWithReuseIdentifier: CategoriesCell.identifier)
-//        categoryCollectionView.dataSource = self
-//        categoryCollectionView.delegate = self
-//        categoryCollectionView.translatesAutoresizingMaskIntoConstraints = false
-//        categoryCollectionView.isScrollEnabled = true
-//        categoryCollectionView.isUserInteractionEnabled = true
-//        categoryCollectionView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height/6.5)
-//        categoriesStackView.addArrangedSubview(categoryCollectionView)
-//    }
     
     
     func setUpSubStackView() {
@@ -379,12 +349,6 @@ extension HomeViewController {
     
     func activateConstraints() {
         NSLayoutConstraint.activate([
-
-//            categoriesStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-//            categoriesStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
-//            categoriesStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-//            categoriesStackView.heightAnchor.constraint(equalToConstant: 60),
-            
             subListStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 0),
             subListStackView.trailingAnchor.constraint(equalToSystemSpacingAfter: view.trailingAnchor, multiplier: 0),
             subListStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
@@ -423,4 +387,38 @@ extension HomeViewController {
 //        alert.addAction(saveAction)
 //        alert.addAction(cancelAction)
 //        present(alert, animated: true)
+//    }
+
+//    func configureCategoriesStackView() {
+//        categoriesStackView.translatesAutoresizingMaskIntoConstraints = false
+//        categoriesStackView.backgroundColor = MSColors.background
+//        categoriesStackView.spacing = 5.5
+//        view.addSubview(categoriesStackView)
+//        configureAddCategoryButton()
+//        configureCategoriesCollectionView()
+//    }
+    
+//    func configureAddCategoryButton() {
+//        addCategoryButton.translatesAutoresizingMaskIntoConstraints = false
+//        addCategoryButton.setImage(UIImage(systemName: "plus.circle.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 38, weight: .light, scale: .small)), for: .normal)
+//        addCategoryButton.tintColor = MSColors.maintext
+//        addCategoryButton.addTarget(self, action: #selector(addNewCategory), for: .touchUpInside)
+//        categoriesStackView.addArrangedSubview(addCategoryButton)
+//    }
+    
+//    func configureCategoriesCollectionView() {
+//        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+//        layout.itemSize = CGSize(width: view.frame.size.width/5, height: view.frame.size.width/13.5)
+//        layout.scrollDirection = .horizontal
+//        categoryCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+//        categoryCollectionView.backgroundColor = MSColors.background
+//
+//        categoryCollectionView.register(CategoriesCell.self, forCellWithReuseIdentifier: CategoriesCell.identifier)
+//        categoryCollectionView.dataSource = self
+//        categoryCollectionView.delegate = self
+//        categoryCollectionView.translatesAutoresizingMaskIntoConstraints = false
+//        categoryCollectionView.isScrollEnabled = true
+//        categoryCollectionView.isUserInteractionEnabled = true
+//        categoryCollectionView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height/6.5)
+//        categoriesStackView.addArrangedSubview(categoryCollectionView)
 //    }

@@ -5,8 +5,10 @@
     </entity>
     <entity name="Subscription" representedClassName="Subscription" syncable="YES" codeGenerationType="class">
         <attribute name="category" optional="YES" attributeType="String"/>
+        <attribute name="color" optional="YES" attributeType="String"/>
         <attribute name="commitment" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="extraInfo" optional="YES" attributeType="String"/>
+        <attribute name="icon" optional="YES" attributeType="Binary"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="paymentRecurrency" optional="YES" attributeType="String"/>
         <attribute name="price" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
@@ -15,6 +17,6 @@
     </entity>
     <elements>
         <element name="SubCategory" positionX="-36" positionY="72" width="128" height="44"/>
-        <element name="Subscription" positionX="-63" positionY="-18" width="128" height="149"/>
+        <element name="Subscription" positionX="-63" positionY="-18" width="128" height="179"/>
     </elements>
 </model>

@@ -14,7 +14,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     let screenWidth = UIScreen.main.bounds.width - 10
     let screenHeight = UIScreen.main.bounds.height / 2
     var selectedRow = 0
-    var selectedColor = UIColor()
+    var selectedColor: String = ""
     var newSubLabel = UILabel()
     var titleView = UIView()
     var separatorLine = UIView()
@@ -70,12 +70,12 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     
     @objc
     func addButtonAction() {
-        if viewModel?.name == nil && viewModel?.price == nil {
-            showAlert("Champs manquants", "Merci d'ajouter au moins un nom et un prix")
-            return
-        } else {
+//        if viewModel?.name == nil && viewModel?.price == nil {
+//            showAlert("Champs manquants", "Merci d'ajouter au moins un nom et un prix")
+//            return
+//        } else {
             viewModel?.saveSub()
-        }
+//        }
         
         print("dans add button action, ajouté à \(String(describing: viewModel?.subscriptions))")
     }
@@ -84,6 +84,11 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     func nameFieldTextDidChange(textField: UITextField) {
         viewModel?.name = textField.text
     }
+    
+//    @objc
+//    func colorDidChange() {
+//        viewModel?.color = selectedColor
+//    }
     
     @objc
     func priceFieldTextDidChange(textField: UITextField) {
@@ -112,7 +117,11 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         colorPicker.delegate = self
         colorPicker.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
         self.present(colorPicker, animated: true, completion: nil)
-        print("selected color is: \(String(describing: logo.backgroundColor?.toHexString()))") //voir extension uicolor
+        print("selected color is: \(String(describing: logo.backgroundColor?.toHexString()))")
+//        viewModel?.color = selectedColor
+//        self.selectedColor = selectedColor.toHexString()//logo.backgroundColor?.toHexString()
+        print("viewModel.color in showcolorpicker()is \(viewModel?.color)")
+        //voir extension uicolor
     }
         
 
@@ -186,7 +195,10 @@ extension NewSubController: UIColorPickerViewControllerDelegate {
     ///  Called on every color selection done in the picker.
     func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
         self.logo.backgroundColor = viewController.selectedColor
-        print("selected color in hex is: \(String(describing: logo.backgroundColor?.toHexString()))") //UIColor(hexa)
+        self.selectedColor = viewController.selectedColor.toHexString()
+        viewModel?.color = selectedColor
+
+//        print("selected color in hex is: \(String(describing: logo.backgroundColor?.toHexString()))") //UIColor(hexa)
     }
 }
 
@@ -323,6 +335,7 @@ extension NewSubController {
         suggestedLogo.translatesAutoresizingMaskIntoConstraints = false
         logo.translatesAutoresizingMaskIntoConstraints = false
         suggestedLogo.setTitle("color to pick", for: .normal)
+//        suggestedLogo.addTarget(self, action: #selector(colorDidChange), for: .valueChanged)
         suggestedLogo.addTarget(self, action: #selector(showColorPicker), for: .touchUpInside)
         logo.backgroundColor = MSColors.maintext
         logo.addCornerRadius()
