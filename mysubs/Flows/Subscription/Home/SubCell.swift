@@ -35,22 +35,21 @@ class SubCell: UICollectionViewCell {
     func refreshSubData() {
         subNameLabel.text = subscription?.name
         contentView.backgroundColor = UIColor(hexa: subscription?.color ?? "FFB6C1")
+        contentView.alpha = 0.8
         priceLabel.text = "\(subscription?.price ?? 0) €"
-//        colorToConvert = subscription?.color ?? "FFB6C1"
-
-//        backgroundColor = UIColor(hexa: colorToConvert)
+        
     }
     
     func setup() {
         priceLabel.translatesAutoresizingMaskIntoConstraints = false
         priceLabel.textColor = MSColors.maintext
-//        contentView.backgroundColor =  UIColor(hex: subscription?.color ?? "FFB6C1")
-//        contentView.backgroundColor =  UIColor(hexa: colorToConvert)
-        print("bgcolor of cell is \(contentView.backgroundColor)")
         subNameLabel.translatesAutoresizingMaskIntoConstraints = false
         subNameLabel.textColor = .black
         logo.translatesAutoresizingMaskIntoConstraints = false
-        logo.image = UIImage(named: "ps")
+        logo.image = UIImage(named: "custom.pc")
+        logo.addShadow()
+        //UIImage(named: "ps")
+        
         addSubview(priceLabel)
         addSubview(logo)
         addSubview(subNameLabel)

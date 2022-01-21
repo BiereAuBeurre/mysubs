@@ -140,11 +140,9 @@ class NewSubViewModel: NSObject {
         notificationDate = notificationDate.adding(recurrencyType, value: recurrencyValue ?? 500) ?? Date.now
         print("New date to get for notifications is : \(notificationDate)")
         newSub.reminder = "\(reminderValue ?? 0) \(reminderType2)"
-//        newSub.reminder = viewDelegate?.reminder.textField.text
         newSub.commitment = date
-        newSub.color = color/*viewDelegate?.commitmentDate.date*/
-        print("save color is:\n newsub.color : \(newSub.color)\n color: \(color)")
-        newSub.paymentRecurrency = "Tous les \(recurrencyValue ?? 0) \(recurrencyType)"//viewDelegate?.recurrency.textField.text
+        newSub.color = color
+        newSub.paymentRecurrency = "Tous les \(recurrencyValue ?? 0) \(recurrencyType)"
         storageService.save()
 //        generateNotification()
         goBack()

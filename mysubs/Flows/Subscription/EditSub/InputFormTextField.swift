@@ -54,9 +54,10 @@ class InputFormTextField: UIControl/*, UIPickerViewDelegate, UIPickerViewDataSou
         
 
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
+            stackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 8),
             stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
             stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
+//            stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8),
             textField.heightAnchor.constraint(equalToConstant: 35)
         ])
     }

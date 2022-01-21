@@ -24,7 +24,6 @@ class EditSubViewModel: NSObject {
         didSet {
             if oldValue != name {
                 print("Can Save: \(canSave ? "YES" : "NO" )")
-                // viewDelegate.canSaveStatusDidChange(canSave: canSave)..
             }
         }
     }
@@ -33,44 +32,49 @@ class EditSubViewModel: NSObject {
         didSet {
             if oldValue != price {
                 print("Can Save: \(canSave ? "YES" : "NO" )")
-                // viewDelegate.canSaveStatusDidChange(canSave: canSave)..
             }
         }
     }
-    var subscription: Subscription //{
-//        didSet {
-//            viewDelegate?.refreshWith(subscription: subscription)
-//        }
-//    }
+    var subscription: Subscription
+
     
     var date: Date? {
         didSet {
-            guard oldValue != date else { return }
-            subscription.setValue(subscription.commitment, forKey: "commitment")
+            if oldValue != date {
+                print("Can Save: \(canSave ? "YES" : "NO" )")
+            }
         }
     }
     
     var reminderValue: Int? {
         didSet {
-            
+            if oldValue != reminderValue {
+                print("Can Save: \(canSave ? "YES" : "NO" )")
+            }
         }
     }
     
     var recurrencyValue: Int? {
         didSet {
-            
+            if oldValue != recurrencyValue {
+                print("Can Save: \(canSave ? "YES" : "NO" )")
+            }
         }
     }
     
     var recurrencyType: Calendar.Component = .year {
         didSet {
-            
+            if oldValue != recurrencyType {
+                print("Can Save: \(canSave ? "YES" : "NO" )")
+            }
         }
     }
     
     var reminderType2: Calendar.Component = .year {
         didSet {
-            
+            if oldValue != reminderType2 {
+                print("Can Save: \(canSave ? "YES" : "NO" )")
+            }
         }
     }
     
@@ -80,6 +84,17 @@ class EditSubViewModel: NSObject {
             }
     }
     
+    private var isPaymentRecurrencyChanged: Bool {
+        "\(recurrencyValue ?? 0) \(recurrencyType)" != subscription.paymentRecurrency
+    }
+    
+    private var isReminderChanged: Bool {
+        "\(reminderValue ?? 0) \(reminderType2)" != subscription.reminder
+    }
+    
+    private var isDateChanged: Bool {
+        date != subscription.commitment
+    }
     
     private var isNameChanged: Bool {
         name != subscription.name
@@ -90,7 +105,7 @@ class EditSubViewModel: NSObject {
     }
     
     var canSave: Bool {
-        return isNameChanged || isPriceChanged///&& isDate ....
+        return isNameChanged || isPriceChanged || isDateChanged || isReminderChanged || isPaymentRecurrencyChanged ///&& isDate ....
     }
     
     
@@ -110,8 +125,10 @@ class EditSubViewModel: NSObject {
         print("name saved \(name ?? "")")
         subscription.name = name
         print("price saved \(price ?? 0)")
-
         subscription.price = price ?? 0
+        subscription.reminder = "\(reminderValue ?? 0) \(reminderType2)"
+        subscription.commitment = date
+        subscription.paymentRecurrency = "\(recurrencyValue ?? 0) \(recurrencyType)"
         save()
     }
     
