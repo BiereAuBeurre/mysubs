@@ -8,6 +8,7 @@
 import Foundation
 import CoreData
 import UserNotifications
+import UIKit
 
 class NewSubViewModel: NSObject {
     weak var viewDelegate: NewSubController?
@@ -15,7 +16,7 @@ class NewSubViewModel: NSObject {
     private let storageService: StorageService
     
     var notificationDate = Date()
-    
+    var icon: UIImage = UIImage(systemName: "house")!
     init(coordinator: AppCoordinator, storageService: StorageService) {
         self.coordinator = coordinator
         self.storageService = storageService

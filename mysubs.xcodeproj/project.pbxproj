@@ -22,7 +22,7 @@
 		EF3578BE2763588B00DA443F /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3578BD2763588A00DA443F /* HomeViewModel.swift */; };
 		EF3578C22763A15100DA443F /* NewSubViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3578C12763A15000DA443F /* NewSubViewModel.swift */; };
 		EF3D8D5C275F9FC100D8B6A4 /* EditSubController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3D8D5B275F9FC100D8B6A4 /* EditSubController.swift */; };
-		EF5F1956279B046200D03161 /* IconPickerCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5F1955279B046200D03161 /* IconPickerCollectionViewController.swift */; };
+		EF5F1956279B046200D03161 /* IconPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5F1955279B046200D03161 /* IconPickerViewController.swift */; };
 		EF6B125927903B220083E6F7 /* ToHexString.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6B125827903B220083E6F7 /* ToHexString.swift */; };
 		EF6B125B279094310083E6F7 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6B125A279094310083E6F7 /* Notifications.swift */; };
 		EF702850277C6AC100A90A54 /* InputFormTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70284F277C6AC100A90A54 /* InputFormTextField.swift */; };
@@ -81,7 +81,7 @@
 		EF3578BD2763588A00DA443F /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		EF3578C12763A15000DA443F /* NewSubViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSubViewModel.swift; sourceTree = "<group>"; };
 		EF3D8D5B275F9FC100D8B6A4 /* EditSubController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSubController.swift; sourceTree = "<group>"; };
-		EF5F1955279B046200D03161 /* IconPickerCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPickerCollectionViewController.swift; sourceTree = "<group>"; };
+		EF5F1955279B046200D03161 /* IconPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPickerViewController.swift; sourceTree = "<group>"; };
 		EF6B125827903B220083E6F7 /* ToHexString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToHexString.swift; sourceTree = "<group>"; };
 		EF6B125A279094310083E6F7 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		EF70284F277C6AC100A90A54 /* InputFormTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputFormTextField.swift; sourceTree = "<group>"; };
@@ -307,7 +307,7 @@
 				EF9072EA275E1FE8006CF678 /* NewSubController.swift */,
 				EF6B125A279094310083E6F7 /* Notifications.swift */,
 				EF3578C12763A15000DA443F /* NewSubViewModel.swift */,
-				EF5F1955279B046200D03161 /* IconPickerCollectionViewController.swift */,
+				EF5F1955279B046200D03161 /* IconPickerViewController.swift */,
 			);
 			path = NewSub;
 			sourceTree = "<group>";
@@ -571,7 +571,7 @@
 				EF1F6C6F275A464900DA0BBB /* Strings.swift in Sources */,
 				EFFA24E227566E570068DFE3 /* LogoFinderService.swift in Sources */,
 				EF125B192757C11000E6FD6B /* AddCornerRadius.swift in Sources */,
-				EF5F1956279B046200D03161 /* IconPickerCollectionViewController.swift in Sources */,
+				EF5F1956279B046200D03161 /* IconPickerViewController.swift in Sources */,
 				EF6B125B279094310083E6F7 /* Notifications.swift in Sources */,
 				EF9072EF275E3951006CF678 /* AppCoordinator.swift in Sources */,
 				EF1F6C73275A484C00DA0BBB /* MSImages.swift in Sources */,

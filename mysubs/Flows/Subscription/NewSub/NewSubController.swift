@@ -40,9 +40,10 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     var recurrencyPickerView = UIPickerView()
     
     //MARK: LOGO PROPERTY
+    var selectedIcon = UIImage()
     var suggestedLogo = UIButton()//UILabel()
     var logo = UIImageView()
-    
+    var iconCell = IconCell()
     var viewModel: NewSubViewModel?
     var storageService = StorageService()
 //    var iconDictionnary = ["custom.airplane.circle.fill", "custom.battery.100.bolt", "custom.bolt.car.fill", "custom.bolt.circle.fill", "custom.book.circle.fill", "custom.briefcase.fill", "custom.car.circle.fill", "custom.cart.circle.fill", "custom.creditcard.circle.fill", "custom.cross.vial", "custom.eye.circle.fill", "custom.fork.knife.circle.fill", "custom.gift.fill", "custom.graduationcap.fill", "custom.headphones.circle.fill", "custom.house.fill", "custom.ivfluid.bag", "custom.lock.fill", "custom.map.circle.fill", "custom.network", "custom.paintpalette.fill", "custom.pc", "custom.phone.fill", "custom.pills.fill", "custom.play.rectangle.fill", "custom.star.fill", "custom.suit.heart.fill", "custom.sun.haze.fill", "custom.sun.max.fill", "custom.testtube.2", "custom.tv.circle.fill", "custom.wifi.circle.fill"]
@@ -105,13 +106,20 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     @objc
     func showIconPicker() {
         let iconPicker = IconPickerViewController()
+        iconPicker.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
+        let alert = UIAlertController(title: "Select icon", message: "", preferredStyle: .actionSheet)
+        alert.setValue(iconPicker, forKey: "contentViewController")
         
+        alert.addAction(UIAlertAction(title: "Annuler", style: .cancel, handler: { (UIAlertAction) in
+        }))
         
-//        for icon in iconDictionnary {
-//            print("here icons in array \(icon)")
-//        }
-        self.present(iconPicker, animated: true, completion: nil)
-    }
+        //MARK: - replace selectedRow protocol method since action happen here
+        alert.addAction(UIAlertAction(title: "Selectionner", style: .default, handler: { [self] (UIAlertAction) in
+            iconChoosen.textField.setIcon((viewModel?.icon ?? UIImage(systemName: "house.fill"))!)
+        }))
+        self.present(alert, animated: true, completion: nil)
+                                      
+        }
     
     @objc
     func showColorPicker()  {
@@ -300,6 +308,7 @@ extension NewSubController {
         iconChoosen.fieldTitle = "Choisir une icône"
         iconChoosen.shouldBehaveAsButton = true
         iconChoosen.addTarget(self, action: #selector(showIconPicker), for: .touchUpInside)
+        iconChoosen.textField.leftViewMode = .always
         colorAndIconStackView.distribution = .fillEqually
         colorAndIconStackView.spacing = 48
         colorChoosen.textField.text = "➕"
@@ -351,6 +360,19 @@ extension NewSubController {
     }
     
 
+}
+
+extension UITextField {
+func setIcon(_ image: UIImage) {
+   let iconView = UIImageView(frame:
+                  CGRect(x: 10, y: 5, width: 20, height: 20))
+   iconView.image = image
+   let iconContainerView: UIView = UIView(frame:
+                  CGRect(x: 20, y: 0, width: 30, height: 30))
+   iconContainerView.addSubview(iconView)
+   leftView = iconContainerView
+   leftViewMode = .always
+}
 }
 
 //MARK: - BOTH PICKERVIEW SETUP
