@@ -109,18 +109,21 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     
     @objc
     func showIconPicker() {
-//        let iconPicker = UIViewController()
         iconPickerVC.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
         let alert = UIAlertController(title: "Select icon", message: "", preferredStyle: .actionSheet)
         alert.setValue(iconPickerVC, forKey: "contentViewController")
-        viewModel?.icon = iconPickerVC.icon
+//        viewModel?.icon = iconPickerVC.icon.pngData()
         print("viewModel?.icon is \(String(describing: viewModel?.icon))")
         alert.addAction(UIAlertAction(title: "Annuler", style: .cancel, handler: { (UIAlertAction) in
         }))
         
         //MARK: - replace selectedRow protocol method since action happen here
         alert.addAction(UIAlertAction(title: "Selectionner", style: .default, handler: { [self] (UIAlertAction) in
-            iconChoosen.textField.setIcon((viewModel?.icon ?? UIImage(systemName: "house"))!)
+            viewModel?.icon = iconPickerVC.icon.pngData()
+
+            iconChoosen.textField.setIcon(iconPickerVC.icon)
+
+//            iconChoosen.textField.setIcon((viewModel?.icon ?? UIImage(systemName: "house"))!)
         }))
         self.present(alert, animated: true, completion: nil)
                                       
@@ -185,9 +188,6 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
                 viewModel?.reminderValue = valueNumber
                 viewModel?.reminderType2 = valueType
             }
-            
-            
-            
         }))
         
         self.present(alert, animated: true, completion: nil)
@@ -451,34 +451,34 @@ extension NewSubController: UIPickerViewDataSource, UIPickerViewDelegate {
 
 }
 
-extension NewSubController : UICollectionViewDelegate, UICollectionViewDataSource {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == iconCollectionView {
-            return iconDictionnary.count
-        } else  {
-            return 1
-        }
-    }
-        
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView == iconCollectionView {
-            
-            let iconCell = collectionView.dequeueReusableCell(withReuseIdentifier: IconCell.identifier, for: indexPath) as! IconCell
-            iconCell.logo.image = UIImage(named: "\(iconDictionnary[indexPath.row])")
-            icon = UIImage(named: "\(iconDictionnary[indexPath.row])") ?? UIImage(systemName: "house.fill")!
-            return iconCell
-        } else { return UICollectionViewCell() }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == iconCollectionView {
-            icon = UIImage(named: "\(iconDictionnary[indexPath.row])") ?? UIImage(systemName: "house.fill")!
-            print("icon tapped \(String(describing: icon))")
-            viewModel?.icon = icon
-            print("viewModel?.icon is \(String(describing: viewModel?.icon))")
-        }
-    }
-
-}
+//extension NewSubController : UICollectionViewDelegate, UICollectionViewDataSource {
+//
+//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        if collectionView == iconCollectionView {
+//            return iconDictionnary.count
+//        } else  {
+//            return 1
+//        }
+//    }
+//
+//
+//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        if collectionView == iconCollectionView {
+//            let iconCell = collectionView.dequeueReusableCell(withReuseIdentifier: IconCell.identifier, for: indexPath) as! IconCell
+//            iconCell.logo.image = UIImage(named: "\(iconDictionnary[indexPath.row])")
+//            icon = UIImage(named: "\(iconDictionnary[indexPath.row])") ?? UIImage(systemName: "house.fill")!
+//            return iconCell
+//        } else { return UICollectionViewCell() }
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        if collectionView == iconCollectionView {
+//            icon = UIImage(named: "\(iconDictionnary[indexPath.row])") ?? UIImage(systemName: "house.fill")!
+//            print("icon tapped \(String(describing: icon))")
+//            viewModel?.icon = icon
+//
+//            print("viewModel?.icon is \(String(describing: viewModel?.icon))")
+//        }
+//    }
+//
+//}

@@ -37,6 +37,8 @@ class SubCell: UICollectionViewCell {
         contentView.backgroundColor = UIColor(hexa: subscription?.color ?? "FFB6C1")
         contentView.alpha = 0.8
         priceLabel.text = "\(subscription?.price ?? 0) €"
+        guard let icon = subscription?.icon else { return print("icon is nil") }
+        logo.image = UIImage(data: icon)
         
     }
     
@@ -47,8 +49,6 @@ class SubCell: UICollectionViewCell {
         subNameLabel.textColor = .black
         logo.translatesAutoresizingMaskIntoConstraints = false
         logo.image = UIImage(named: "custom.pc")
-        logo.addShadow()
-        //UIImage(named: "ps")
         
         addSubview(priceLabel)
         addSubview(logo)
