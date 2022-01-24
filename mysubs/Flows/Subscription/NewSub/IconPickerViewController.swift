@@ -7,53 +7,51 @@
 
 import UIKit
 import Foundation
-private let reuseIdentifier = "Cell"
 
 class IconPickerViewController: UIViewController {
-    
-    
-    var viewModel: NewSubViewModel?
-    var collectionView: UICollectionView!
+//    
+//    var viewModel: NewSubViewModel?
+    var iconCollectionView: UICollectionView!
     var iconDictionnary = ["custom.airplane.circle.fill", "custom.battery.100.bolt", "custom.bolt.car.fill", "custom.bolt.circle.fill", "custom.book.circle.fill", "custom.briefcase.fill", "custom.car.circle.fill", "custom.cart.circle.fill", "custom.creditcard.circle.fill", "custom.cross.vial", "custom.eye.circle.fill", "custom.fork.knife.circle.fill", "custom.gift.fill", "custom.graduationcap.fill", "custom.headphones.circle.fill", "custom.house.fill", "custom.ivfluid.bag", "custom.lock.fill", "custom.map.circle.fill", "custom.network", "custom.paintpalette.fill", "custom.pc", "custom.phone.fill", "custom.pills.fill", "custom.play.rectangle.fill", "custom.star.fill", "custom.suit.heart.fill", "custom.sun.haze.fill", "custom.sun.max.fill", "custom.testtube.2", "custom.tv.circle.fill", "custom.wifi.circle.fill"]
-    
-    
-    var icon: UIImage?
-    
+//    
+//    
+    var icon = UIImage()
+//    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setUpUI()
+        setUpIconPickerUI()
     }
-
-
-    func setUpUI() {
+//
+//
+    func setUpIconPickerUI() {
         view.backgroundColor = .systemBackground
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         
-        collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
-        collectionView.register(IconCell.self, forCellWithReuseIdentifier: IconCell.identifier)
-        collectionView.backgroundColor = .systemBackground
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.isScrollEnabled = true
-        collectionView.isUserInteractionEnabled = true
-        view.addSubview(collectionView ?? UICollectionView())
+        iconCollectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
+        iconCollectionView.register(IconCell.self, forCellWithReuseIdentifier: IconCell.identifier)
+        iconCollectionView.backgroundColor = .systemBackground
+        iconCollectionView.dataSource = self
+        iconCollectionView.delegate = self
+        iconCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        iconCollectionView.isScrollEnabled = true
+        iconCollectionView.isUserInteractionEnabled = true
+        view.addSubview(iconCollectionView ?? UICollectionView())
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.minimumInteritemSpacing = 4
-        layout.itemSize = CGSize(width:(self.collectionView.frame.size.width - 20)/6,height: (self.collectionView.frame.size.height)/30)
+        layout.itemSize = CGSize(width:(self.iconCollectionView.frame.size.width - 20)/6,height: (self.iconCollectionView.frame.size.height)/30)
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
-            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
-            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
+            iconCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
+            iconCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
+            iconCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
+            iconCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
-    
+//    
 }
-    // MARK: UICollectionViewDataSource
+//    // MARK: UICollectionViewDataSource
 extension IconPickerViewController : UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -69,23 +67,18 @@ extension IconPickerViewController : UICollectionViewDelegate, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         icon = UIImage(named: "\(iconDictionnary[indexPath.row])") ?? UIImage(systemName: "house.fill")!
-        print("icon tapped \(icon)")
-        viewModel?.icon = icon ?? UIImage(systemName: "house.fill")!
-        print("viewModel?.icon is \(viewModel?.icon)")
+        print("icon tapped \(String(describing: icon))")
+        
     }
 
 }
 
 class IconCell: UICollectionViewCell {
     static let identifier = "IconCell"
-    
-//    private var subNameLabel = UILabel()
      var logo = UIImageView()
-
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-
         setup()
     }
     
@@ -95,8 +88,6 @@ class IconCell: UICollectionViewCell {
     
     func setup() {
         logo.translatesAutoresizingMaskIntoConstraints = false
-//        logo.image = UIImage(named: "custom.pc")
-//        logo.addShadow()
         addSubview(logo)
 
         // MARK: - Constraints

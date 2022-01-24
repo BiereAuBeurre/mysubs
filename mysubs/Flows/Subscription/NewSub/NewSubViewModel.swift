@@ -16,7 +16,12 @@ class NewSubViewModel: NSObject {
     private let storageService: StorageService
     
     var notificationDate = Date()
-    var icon: UIImage = UIImage(systemName: "house")!
+    var icon: UIImage? {
+        didSet {
+            guard oldValue != icon else { return }
+        }
+    }
+    //= UIImage(systemName: "house")!
     init(coordinator: AppCoordinator, storageService: StorageService) {
         self.coordinator = coordinator
         self.storageService = storageService
@@ -143,6 +148,7 @@ class NewSubViewModel: NSObject {
         newSub.reminder = "\(reminderValue ?? 0) \(reminderType2)"
         newSub.commitment = date
         newSub.color = color
+        newSub.icon = (icon ?? UIImage(named: "pencil"))!.pngData()
         newSub.paymentRecurrency = "Tous les \(recurrencyValue ?? 0) \(recurrencyType)"
         storageService.save()
 //        generateNotification()

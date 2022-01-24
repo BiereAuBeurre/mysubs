@@ -46,8 +46,12 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     var iconCell = IconCell()
     var viewModel: NewSubViewModel?
     var storageService = StorageService()
-//    var iconDictionnary = ["custom.airplane.circle.fill", "custom.battery.100.bolt", "custom.bolt.car.fill", "custom.bolt.circle.fill", "custom.book.circle.fill", "custom.briefcase.fill", "custom.car.circle.fill", "custom.cart.circle.fill", "custom.creditcard.circle.fill", "custom.cross.vial", "custom.eye.circle.fill", "custom.fork.knife.circle.fill", "custom.gift.fill", "custom.graduationcap.fill", "custom.headphones.circle.fill", "custom.house.fill", "custom.ivfluid.bag", "custom.lock.fill", "custom.map.circle.fill", "custom.network", "custom.paintpalette.fill", "custom.pc", "custom.phone.fill", "custom.pills.fill", "custom.play.rectangle.fill", "custom.star.fill", "custom.suit.heart.fill", "custom.sun.haze.fill", "custom.sun.max.fill", "custom.testtube.2", "custom.tv.circle.fill", "custom.wifi.circle.fill"]
 
+    //TEST FOR ICON
+    var iconCollectionView: UICollectionView!
+    let iconDictionnary = ["custom.airplane.circle.fill", "custom.battery.100.bolt", "custom.bolt.car.fill", "custom.bolt.circle.fill", "custom.book.circle.fill", "custom.briefcase.fill", "custom.car.circle.fill", "custom.cart.circle.fill", "custom.creditcard.circle.fill", "custom.cross.vial", "custom.eye.circle.fill", "custom.fork.knife.circle.fill", "custom.gift.fill", "custom.graduationcap.fill", "custom.headphones.circle.fill", "custom.house.fill", "custom.ivfluid.bag", "custom.lock.fill", "custom.map.circle.fill", "custom.network", "custom.paintpalette.fill", "custom.pc", "custom.phone.fill", "custom.pills.fill", "custom.play.rectangle.fill", "custom.star.fill", "custom.suit.heart.fill", "custom.sun.haze.fill", "custom.sun.max.fill", "custom.testtube.2", "custom.tv.circle.fill", "custom.wifi.circle.fill"]
+    var icon = UIImage()
+    let iconPickerVC = IconPickerViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,17 +109,18 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     
     @objc
     func showIconPicker() {
-        let iconPicker = IconPickerViewController()
-        iconPicker.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
+//        let iconPicker = UIViewController()
+        iconPickerVC.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
         let alert = UIAlertController(title: "Select icon", message: "", preferredStyle: .actionSheet)
-        alert.setValue(iconPicker, forKey: "contentViewController")
-        
+        alert.setValue(iconPickerVC, forKey: "contentViewController")
+        viewModel?.icon = iconPickerVC.icon
+        print("viewModel?.icon is \(String(describing: viewModel?.icon))")
         alert.addAction(UIAlertAction(title: "Annuler", style: .cancel, handler: { (UIAlertAction) in
         }))
         
         //MARK: - replace selectedRow protocol method since action happen here
         alert.addAction(UIAlertAction(title: "Selectionner", style: .default, handler: { [self] (UIAlertAction) in
-            iconChoosen.textField.setIcon((viewModel?.icon ?? UIImage(systemName: "house.fill"))!)
+            iconChoosen.textField.setIcon((viewModel?.icon ?? UIImage(systemName: "house"))!)
         }))
         self.present(alert, animated: true, completion: nil)
                                       
@@ -199,8 +204,6 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
 extension NewSubController: UIColorPickerViewControllerDelegate {
     ///  Called on every color selection done in the picker.
     func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
-//        view.backgroundColor = viewController.selectedColor
-        
         self.colorChoosen.textField.backgroundColor = viewController.selectedColor
         self.selectedColor = viewController.selectedColor.toHexString()
         viewModel?.color = selectedColor
@@ -301,6 +304,8 @@ extension NewSubController {
         colorChoosen.fieldTitle = "Choisir une couleur"
         colorChoosen.shouldBehaveAsButton = true
         colorChoosen.addTarget(self, action: #selector(showColorPicker), for: .touchUpInside)
+        colorChoosen.textField.text = "➕"
+        colorChoosen.textField.textAlignment = .right
         colorAndIconStackView.addArrangedSubview(colorChoosen)
 
         
@@ -311,8 +316,7 @@ extension NewSubController {
         iconChoosen.textField.leftViewMode = .always
         colorAndIconStackView.distribution = .fillEqually
         colorAndIconStackView.spacing = 48
-        colorChoosen.textField.text = "➕"
-        colorChoosen.textField.textAlignment = .right
+        
         formView.addArrangedSubview(colorAndIconStackView)
 
         // MARK: SETTING TITLE
@@ -348,13 +352,9 @@ extension NewSubController {
             separatorLine.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             separatorLine.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             separatorLine.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-
-//            logo.widthAnchor.constraint(equalToConstant: 100),
-//            logo.heightAnchor.constraint(equalToConstant: 100),
             formView.topAnchor.constraint(equalTo: separatorLine.bottomAnchor, constant: 40),
             formView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             formView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-//            formView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 16)
             formView.heightAnchor.constraint(equalToConstant: 450),
             ])
     }
@@ -362,17 +362,16 @@ extension NewSubController {
 
 }
 
+//Adding icon selected to left vuew mode of textfiel
 extension UITextField {
-func setIcon(_ image: UIImage) {
-   let iconView = UIImageView(frame:
-                  CGRect(x: 10, y: 5, width: 20, height: 20))
-   iconView.image = image
-   let iconContainerView: UIView = UIView(frame:
-                  CGRect(x: 20, y: 0, width: 30, height: 30))
-   iconContainerView.addSubview(iconView)
-   leftView = iconContainerView
-   leftViewMode = .always
-}
+    func setIcon(_ image: UIImage) {
+        let iconView = UIImageView(frame: CGRect(x: 10, y: 5, width: 20, height: 20))
+        iconView.image = image
+        let iconContainerView: UIView = UIView(frame: CGRect(x: 20, y: 0, width: 30, height: 30))
+        iconContainerView.addSubview(iconView)
+        leftView = iconContainerView
+        leftViewMode = .always
+    }
 }
 
 //MARK: - BOTH PICKERVIEW SETUP
@@ -449,5 +448,37 @@ extension NewSubController: UIPickerViewDataSource, UIPickerViewDelegate {
 //
 //            }
 //        }
+
+}
+
+extension NewSubController : UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if collectionView == iconCollectionView {
+            return iconDictionnary.count
+        } else  {
+            return 1
+        }
+    }
+        
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if collectionView == iconCollectionView {
+            
+            let iconCell = collectionView.dequeueReusableCell(withReuseIdentifier: IconCell.identifier, for: indexPath) as! IconCell
+            iconCell.logo.image = UIImage(named: "\(iconDictionnary[indexPath.row])")
+            icon = UIImage(named: "\(iconDictionnary[indexPath.row])") ?? UIImage(systemName: "house.fill")!
+            return iconCell
+        } else { return UICollectionViewCell() }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == iconCollectionView {
+            icon = UIImage(named: "\(iconDictionnary[indexPath.row])") ?? UIImage(systemName: "house.fill")!
+            print("icon tapped \(String(describing: icon))")
+            viewModel?.icon = icon
+            print("viewModel?.icon is \(String(describing: viewModel?.icon))")
+        }
+    }
 
 }
