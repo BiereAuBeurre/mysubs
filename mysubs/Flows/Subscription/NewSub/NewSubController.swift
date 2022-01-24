@@ -112,8 +112,6 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         iconPickerVC.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
         let alert = UIAlertController(title: "Select icon", message: "", preferredStyle: .actionSheet)
         alert.setValue(iconPickerVC, forKey: "contentViewController")
-//        viewModel?.icon = iconPickerVC.icon.pngData()
-        print("viewModel?.icon is \(String(describing: viewModel?.icon))")
         alert.addAction(UIAlertAction(title: "Annuler", style: .cancel, handler: { (UIAlertAction) in
         }))
         
@@ -134,27 +132,14 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         let colorPicker = UIColorPickerViewController()
         colorPicker.delegate = self
         colorPicker.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
-        self.present(colorPicker, animated: true, completion: nil)
-        print("viewModel.color in showcolorpicker()is \(String(describing: viewModel?.color))")
+        colorPicker.title = "Couleurs"
+        self.present(colorPicker, animated: true) {
+            self.colorChoosen.textField.backgroundColor = colorPicker.selectedColor
+        }
     }
         
 
     //MARK: - PRIVATES METHODS
-    
-    private func configureCommitment() {
-        commitmentStackView.addArrangedSubview(commitmentTitle)
-        commitmentStackView.addArrangedSubview(commitmentDate)
-        commitmentStackView.axis = .vertical
-        commitmentStackView.alignment = .leading
-        commitmentStackView.distribution = .fillEqually
-        commitmentTitle.textColor = MSColors.maintext
-        commitmentDate.contentMode = .topLeft
-        commitmentStackView.translatesAutoresizingMaskIntoConstraints = false
-        commitmentTitle.translatesAutoresizingMaskIntoConstraints = false
-        commitmentDate.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    
     private func showPicker(_ picker : UIPickerView, _ input: InputFormTextField) {
         let vc = UIViewController()
         vc.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
@@ -165,7 +150,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         picker.centerXAnchor.constraint(equalTo: vc.view.centerXAnchor).isActive = true
         picker.centerYAnchor.constraint(equalTo: vc.view.centerYAnchor).isActive = true
         let alert = UIAlertController(title: "Select reminder", message: "", preferredStyle: .actionSheet)
-        
+    
         alert.popoverPresentationController?.sourceView = input
         alert.popoverPresentationController?.sourceRect = input.bounds
         alert.setValue(vc, forKey: "contentViewController")
@@ -191,6 +176,19 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         }))
         
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func configureCommitment() {
+        commitmentStackView.addArrangedSubview(commitmentTitle)
+        commitmentStackView.addArrangedSubview(commitmentDate)
+        commitmentStackView.axis = .vertical
+        commitmentStackView.alignment = .leading
+        commitmentStackView.distribution = .fillEqually
+        commitmentTitle.textColor = MSColors.maintext
+        commitmentDate.contentMode = .topLeft
+        commitmentStackView.translatesAutoresizingMaskIntoConstraints = false
+        commitmentTitle.translatesAutoresizingMaskIntoConstraints = false
+        commitmentDate.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private func refreshWith(subscriptions: [Subscription]) {
@@ -298,25 +296,22 @@ extension NewSubController {
         recurrency.shouldBehaveAsButton = true
         recurrency.addTarget(self, action: #selector(changeReccurency), for: .touchUpInside)
         
-        
-        colorAndIconStackView.axis = .horizontal
-        
-        colorChoosen.fieldTitle = "Choisir une couleur"
+        colorChoosen.fieldTitle = "Couleur ▼"
         colorChoosen.shouldBehaveAsButton = true
         colorChoosen.addTarget(self, action: #selector(showColorPicker), for: .touchUpInside)
         colorChoosen.textField.text = "➕"
         colorChoosen.textField.textAlignment = .right
         colorAndIconStackView.addArrangedSubview(colorChoosen)
 
-        
-        colorAndIconStackView.addArrangedSubview(iconChoosen)
-        iconChoosen.fieldTitle = "Choisir une icône"
+        iconChoosen.fieldTitle = "Icône ▼"
         iconChoosen.shouldBehaveAsButton = true
         iconChoosen.addTarget(self, action: #selector(showIconPicker), for: .touchUpInside)
         iconChoosen.textField.leftViewMode = .always
+        colorAndIconStackView.addArrangedSubview(iconChoosen)
+        
+        colorAndIconStackView.axis = .horizontal
         colorAndIconStackView.distribution = .fillEqually
         colorAndIconStackView.spacing = 48
-        
         formView.addArrangedSubview(colorAndIconStackView)
 
         // MARK: SETTING TITLE

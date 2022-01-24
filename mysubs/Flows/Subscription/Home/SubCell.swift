@@ -49,9 +49,6 @@ class SubCell: UICollectionViewCell {
         subNameLabel.textColor = .black
         logo.translatesAutoresizingMaskIntoConstraints = false
         contentView.alpha = 0.8
-
-//        logo.image = UIImage(named: "custom.pc")
-        
         addSubview(priceLabel)
         addSubview(logo)
         addSubview(subNameLabel)
@@ -67,7 +64,6 @@ class SubCell: UICollectionViewCell {
             priceLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0),
             priceLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
         ])
-        
     }
 }
 

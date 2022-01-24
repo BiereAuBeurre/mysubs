@@ -13,6 +13,7 @@
 		EF125B1227578AC600E6FD6B /* LoadImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF125B1127578AC600E6FD6B /* LoadImage.swift */; };
 		EF125B152757962500E6FD6B /* ShowAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF125B142757962500E6FD6B /* ShowAlert.swift */; };
 		EF125B192757C11000E6FD6B /* AddCornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF125B182757C11000E6FD6B /* AddCornerRadius.swift */; };
+		EF1520C9279EEFFC00E6E5AB /* IconCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1520C8279EEFFC00E6E5AB /* IconCell.swift */; };
 		EF1C6C2D2762454C0025E28B /* MSAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1C6C2C2762454C0025E28B /* MSAppearance.swift */; };
 		EF1F6C6B2759125E00DA0BBB /* SubCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1F6C6A2759125E00DA0BBB /* SubCell.swift */; };
 		EF1F6C6F275A464900DA0BBB /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1F6C6E275A464900DA0BBB /* Strings.swift */; };
@@ -72,6 +73,7 @@
 		EF125B1127578AC600E6FD6B /* LoadImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadImage.swift; sourceTree = "<group>"; };
 		EF125B142757962500E6FD6B /* ShowAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowAlert.swift; sourceTree = "<group>"; };
 		EF125B182757C11000E6FD6B /* AddCornerRadius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCornerRadius.swift; sourceTree = "<group>"; };
+		EF1520C8279EEFFC00E6E5AB /* IconCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconCell.swift; sourceTree = "<group>"; };
 		EF1C6C2C2762454C0025E28B /* MSAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAppearance.swift; sourceTree = "<group>"; };
 		EF1F6C6A2759125E00DA0BBB /* SubCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubCell.swift; sourceTree = "<group>"; };
 		EF1F6C6E275A464900DA0BBB /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
@@ -308,6 +310,7 @@
 				EF6B125A279094310083E6F7 /* Notifications.swift */,
 				EF3578C12763A15000DA443F /* NewSubViewModel.swift */,
 				EF5F1955279B046200D03161 /* IconPickerViewController.swift */,
+				EF1520C8279EEFFC00E6E5AB /* IconCell.swift */,
 			);
 			path = NewSub;
 			sourceTree = "<group>";
@@ -576,6 +579,7 @@
 				EF9072EF275E3951006CF678 /* AppCoordinator.swift in Sources */,
 				EF1F6C73275A484C00DA0BBB /* MSImages.swift in Sources */,
 				EF96B984274FE1C700961F9C /* AppDelegate.swift in Sources */,
+				EF1520C9279EEFFC00E6E5AB /* IconCell.swift in Sources */,
 				EFEF69DD276799C8005CB6C3 /* EditSubViewModel.swift in Sources */,
 				EF125B0A275780E000E6FD6B /* StorageService.swift in Sources */,
 				EF125B0827577FA900E6FD6B /* APIConfiguration.swift in Sources */,
