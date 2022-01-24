@@ -117,11 +117,17 @@ class NewSubViewModel: NSObject {
         #endif
        // let notificationInterval: Double = 5
         
+//        var dateComponents = DateComponents()
+//        dateComponents.date = //notificationDate
+//        let trigger2 = UNCalendarNotificationTrigger(dateMatching: recurrencyType, repeats: true)
+//        UNCalendarNotificationTrigger(dateMatching: newDate, repeats: true)
+        
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: notificationInterval, repeats: false)
         //UNUserNotificationCenter.current().
         
         let notificationContent = UNMutableNotificationContent()
         notificationContent.title = name ?? "inknown"
+        
         notificationContent.body = "The subscvription will renewm in 1 day"
         notificationContent.sound = UNNotificationSound.default
         notificationContent.userInfo = ["id": "25"]

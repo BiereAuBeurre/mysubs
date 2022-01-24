@@ -67,7 +67,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         self.userNotificationCenter.delegate = self
         //dans le save
         self.requestNotificationAuthorization()
-        self.sendNotification()
+//        self.sendNotification()
         
     }
     
@@ -146,13 +146,14 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            let subCell = subCollectionView.dequeueReusableCell(withReuseIdentifier: SubCell.identifier, for: indexPath) as! SubCell
-            let leftSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
-            leftSwipe.direction = .left
-            subCell.addGestureRecognizer(leftSwipe)
-            subCell.subscription = viewModel?.subscriptions[indexPath.row]
+        let subCell = subCollectionView.dequeueReusableCell(withReuseIdentifier: SubCell.identifier, for: indexPath) as! SubCell
+        subCell.subscription = viewModel?.subscriptions[indexPath.row]
         subCell.addCornerRadius()
-            return subCell
+        return subCell
+        
+        // let leftSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
+        // leftSwipe.direction = .left
+        // subCell.addGestureRecognizer(leftSwipe)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

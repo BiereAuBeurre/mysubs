@@ -22,33 +22,35 @@ class SubCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-
-        refreshSubData()
-        setup()
+        configureCell()
     }
     
     required init?(coder: NSCoder) {
-        fatalError("error")
+        super.init(coder: coder)
+        configureCell()
     }
     
-    //Setting values in cells
+    //Setting values in cells with the object value
     func refreshSubData() {
         subNameLabel.text = subscription?.name
-        contentView.backgroundColor = UIColor(hexa: subscription?.color ?? "FFB6C1")
-        contentView.alpha = 0.8
         priceLabel.text = "\(subscription?.price ?? 0) €"
-        guard let icon = subscription?.icon else { return print("icon is nil") }
-        logo.image = UIImage(data: icon)
-        
+        contentView.backgroundColor = UIColor(hexa: subscription?.color ?? "FFB6C1")
+        if let icon = subscription?.icon {
+            logo.image = UIImage(data: icon)
+        } else {
+            logo.image = UIImage(named: "custom.pc")
+        }
     }
     
-    func setup() {
+    func configureCell() {
         priceLabel.translatesAutoresizingMaskIntoConstraints = false
         priceLabel.textColor = MSColors.maintext
         subNameLabel.translatesAutoresizingMaskIntoConstraints = false
         subNameLabel.textColor = .black
         logo.translatesAutoresizingMaskIntoConstraints = false
-        logo.image = UIImage(named: "custom.pc")
+        contentView.alpha = 0.8
+
+//        logo.image = UIImage(named: "custom.pc")
         
         addSubview(priceLabel)
         addSubview(logo)

@@ -47,9 +47,9 @@ class IconPickerViewController: UIViewController {
             iconCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
-//    
+    
 }
-//    // MARK: UICollectionViewDataSource
+    // MARK: UICollectionViewDataSource
 extension IconPickerViewController : UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -66,15 +66,12 @@ extension IconPickerViewController : UICollectionViewDelegate, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         icon = UIImage(named: "\(iconDictionnary[indexPath.row])") ?? UIImage(systemName: "house.fill")!
         print("icon tapped \(String(describing: icon))")
-//        let cell = collectionView.cellForItem(at: indexPath)
-//        cell?.layer.backgroundColor = UIColor.lightGray.cgColor
-        
     }
 
 }
 
 class IconCell: UICollectionViewCell {
-    
+    // For selection effect on cell since it's selectAction which contains the action
     override var isSelected: Bool {
        didSet{
            if self.isSelected {
@@ -83,7 +80,7 @@ class IconCell: UICollectionViewCell {
                }
            }
            else {
-               UIView.animate(withDuration: 0.3) { // for animation effect
+               UIView.animate(withDuration: 0.3) { // when deselected
                    self.backgroundColor = .systemBackground
                }
            }
