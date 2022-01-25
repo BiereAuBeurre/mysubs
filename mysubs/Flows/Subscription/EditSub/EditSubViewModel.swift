@@ -27,6 +27,7 @@ class EditSubViewModel: NSObject {
         self.reminder = subscription.reminder
         self.date = subscription.commitment
         self.recurrency = subscription.paymentRecurrency// ?? "non renseigné"
+        self.icon = subscription.icon
     }
     var notificationDate = Date()
 

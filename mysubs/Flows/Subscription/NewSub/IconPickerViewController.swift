@@ -60,6 +60,7 @@ extension IconPickerViewController : UICollectionViewDelegate, UICollectionViewD
         return iconCell
     }
     
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         icon = UIImage(systemName: "\(iconDictionnary[indexPath.row])") ?? UIImage(systemName: "house.fill")!
     }

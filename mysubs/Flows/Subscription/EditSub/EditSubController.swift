@@ -84,12 +84,20 @@ class EditSubController: UIViewController {
         //MARK: - replace selectedRow protocol method since action happen here
         alert.addAction(UIAlertAction(title: "Selectionner", style: .default, handler: { [self] (UIAlertAction) in
             //Convert view model icon from data to uiimage, then displaying it
-            viewModel?.icon = iconPickerVC.icon.pngData()
-            iconHeader.setImage(iconPickerVC.icon, for: .normal) 
+//            viewModel?.icon = iconPickerVC.icon.pngData()
+            
+            if let icon = iconPickerVC.icon.pngData() {
+                iconHeader.setImage(UIImage(data: icon), for: .normal)
+                viewModel?.icon = icon
+            }
+            
+            
+//            iconHeader.setImage(iconPickerVC.icon, for: .normal)
         }))
         self.present(alert, animated: true, completion: nil)
                                       
         }
+    
     @objc
     func showColorPicker()  {
         let colorPicker = UIColorPickerViewController()
@@ -325,7 +333,7 @@ extension EditSubController {
         colorChoosen.configureView()
         view.backgroundColor = MSColors.background
         iconHeader.translatesAutoresizingMaskIntoConstraints = false
-        if let icon = viewModel?.subscription.icon {
+        if let icon = viewModel?.icon {
             iconHeader.setImage(UIImage(data: icon), for: .normal)
 //            iconHeader.image = UIImage(data: icon)
         } else {
@@ -347,7 +355,7 @@ extension EditSubController {
         formView.addArrangedSubview(name)
         name.fieldTitle = "Nom"
         name.text = viewModel?.name
-        print("viewmodel.sub.name :\(String(describing: viewModel?.subscription.name))")
+        print("viewmodel.name :\(String(describing: viewModel?.name))")
         // configurer la inpute view pour le name
         name.textFieldInputView = UIView()
         
@@ -427,7 +435,10 @@ extension EditSubController {
     }
 }
 
-
+//logo.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
+//logo.widthAnchor.constraint(equalToConstant: 34),
+//logo.heightAnchor.constraint(equalToConstant: 34),
+//logo.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0),
 
 
 
