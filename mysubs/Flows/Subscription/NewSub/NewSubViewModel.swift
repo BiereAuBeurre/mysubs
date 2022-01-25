@@ -108,30 +108,28 @@ class NewSubViewModel: NSObject {
     }
     
     private func generateNotification() {//for subscription
-        #if DEBUG
+//        #if DEBUG
+//
+//        let notificationInterval: Double = 5
+//        #else
+//
+//        let notificationInterval: Double = 5
+//        #endif
+//
+
+        let date = notificationDate.addingTimeInterval(5)
+        let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
         
-        let notificationInterval: Double = 5
-        #else
-        
-        let notificationInterval: Double = 5
-        #endif
-       // let notificationInterval: Double = 5
-        
-//        var dateComponents = DateComponents()
-//        dateComponents.date = //notificationDate
-//        let trigger2 = UNCalendarNotificationTrigger(dateMatching: recurrencyType, repeats: true)
-//        UNCalendarNotificationTrigger(dateMatching: newDate, repeats: true)
-        
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: notificationInterval, repeats: false)
         //UNUserNotificationCenter.current().
         
         let notificationContent = UNMutableNotificationContent()
-        notificationContent.title = name ?? "inknown"
-        
-        notificationContent.body = "The subscvription will renewm in 1 day"
+        notificationContent.title = name ?? "unknown name for this notif"
+        notificationContent.body = "\(dateComponents) days before payement of \(price ?? 0) €"
         notificationContent.sound = UNNotificationSound.default
         notificationContent.userInfo = ["id": "25"]
         notificationContent.categoryIdentifier = "identifier"
+        print("trigger date is", trigger.dateComponents)
         let request = UNNotificationRequest(identifier: "42", content: notificationContent, trigger: trigger)
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
@@ -140,8 +138,6 @@ class NewSubViewModel: NSObject {
                 print("notification added suvvces")
             }
         }
-        
-        
     }
     
     func saveSub() {
@@ -158,7 +154,7 @@ class NewSubViewModel: NSObject {
         newSub.icon = icon
         newSub.paymentRecurrency = "Tous les \(recurrencyValue ?? 0) \(recurrencyType)"
         storageService.save()
-//        generateNotification()
+        generateNotification()
         goBack()
     }
 }

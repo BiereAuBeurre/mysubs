@@ -62,7 +62,6 @@ extension IconPickerViewController : UICollectionViewDelegate, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         icon = UIImage(systemName: "\(iconDictionnary[indexPath.row])") ?? UIImage(systemName: "house.fill")!
-        print("icon tapped \(String(describing: icon))")
     }
 
 }

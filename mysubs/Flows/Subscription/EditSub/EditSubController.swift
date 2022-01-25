@@ -243,25 +243,6 @@ extension EditSubController: UIPickerViewDataSource, UIPickerViewDelegate {
                 }
             }
         }
-    
-//        func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-//            if component == 0 {
-//                pickerView.reloadComponent(1)
-//            }
-//
-//            if pickerView == recurrencyPickerView {
-//                let string0 = componentNumber[pickerView.selectedRow(inComponent: 0)]
-//                let string1 = componentDayMonthYear[pickerView.selectedRow(inComponent: 1)]
-//                recurrency.textField.text = "\(string0) \(string1)"
-//            }
-//            else {
-//                let string0 = componentNumber[pickerView.selectedRow(inComponent: 0)]
-//                let string1 = componentDayMonthYear[pickerView.selectedRow(inComponent: 1)]
-//                let string2 = "avant"
-//                reminder.textField.text = "\(string0) \(string1) \(string2)"
-//            }
-//        }
-
 }
 
 //// MARK: -Protocol from UITextFieldDelegate
@@ -332,7 +313,14 @@ extension EditSubController {
         recurrency.configureView()
         view.backgroundColor = MSColors.background
         logoHeader.translatesAutoresizingMaskIntoConstraints = false
-        logoHeader.image = UIImage(named: "ps")
+        
+        if let icon = viewModel?.subscription.icon {
+            logoHeader.image = UIImage(data: icon)
+        } else {
+            logoHeader.image = UIImage(named: "custom.pc")
+        }
+        
+//        logoHeader.image = viewModel?.subscription.icon //UIImage(named: "ps")
         view.addSubview(logoHeader)
         
         // MARK: FORMVIEW
@@ -419,8 +407,8 @@ extension EditSubController {
    
         NSLayoutConstraint.activate([
         logoHeader.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-        logoHeader.widthAnchor.constraint(equalToConstant: 100),
-        logoHeader.heightAnchor.constraint(equalToConstant: 100),
+        logoHeader.widthAnchor.constraint(equalToConstant: 50),
+        logoHeader.heightAnchor.constraint(equalToConstant: 50),
         logoHeader.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
         formView.topAnchor.constraint(equalTo: logoHeader.bottomAnchor, constant: 40),
         formView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),

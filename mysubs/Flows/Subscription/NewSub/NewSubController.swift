@@ -46,11 +46,6 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     var iconCell = IconCell()
     var viewModel: NewSubViewModel?
     var storageService = StorageService()
-
-    //TEST FOR ICON
-    var iconCollectionView: UICollectionView!
-    let iconDictionnary = ["custom.airplane.circle.fill", "custom.battery.100.bolt", "custom.bolt.car.fill", "custom.bolt.circle.fill", "custom.book.circle.fill", "custom.briefcase.fill", "custom.car.circle.fill", "custom.cart.circle.fill", "custom.creditcard.circle.fill", "custom.cross.vial", "custom.eye.circle.fill", "custom.fork.knife.circle.fill", "custom.gift.fill", "custom.graduationcap.fill", "custom.headphones.circle.fill", "custom.house.fill", "custom.ivfluid.bag", "custom.lock.fill", "custom.map.circle.fill", "custom.network", "custom.paintpalette.fill", "custom.pc", "custom.phone.fill", "custom.pills.fill", "custom.play.rectangle.fill", "custom.star.fill", "custom.suit.heart.fill", "custom.sun.haze.fill", "custom.sun.max.fill", "custom.testtube.2", "custom.tv.circle.fill", "custom.wifi.circle.fill"]
-    var icon = UIImage()
     let iconPickerVC = IconPickerViewController()
     
     override func viewDidLoad() {
@@ -83,8 +78,6 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
 //        } else {
             viewModel?.saveSub()
 //        }
-        
-        print("dans add button action, ajouté à \(String(describing: viewModel?.subscriptions))")
     }
     
     @objc
@@ -117,11 +110,9 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         
         //MARK: - replace selectedRow protocol method since action happen here
         alert.addAction(UIAlertAction(title: "Selectionner", style: .default, handler: { [self] (UIAlertAction) in
+            //Convert view model icon from data to uiimage, then displaying it
             viewModel?.icon = iconPickerVC.icon.pngData()
-
             iconChoosen.textField.setIcon(iconPickerVC.icon)
-
-//            iconChoosen.textField.setIcon((viewModel?.icon ?? UIImage(systemName: "house"))!)
         }))
         self.present(alert, animated: true, completion: nil)
                                       
@@ -137,7 +128,6 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
             self.colorChoosen.textField.backgroundColor = colorPicker.selectedColor
         }
     }
-        
 
     //MARK: - PRIVATES METHODS
     private func showPicker(_ picker : UIPickerView, _ input: InputFormTextField) {
@@ -416,64 +406,4 @@ extension NewSubController: UIPickerViewDataSource, UIPickerViewDelegate {
                 }
             }
         }
-    
-//        func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-////            if component == 0 {
-////                pickerView.reloadComponent(1)
-////            }
-//
-//            if pickerView == recurrencyPickerView {
-////                let string0 = componentNumber[pickerView.selectedRow(inComponent: 0)]
-////                let string1 = componentDayMonthYear[pickerView.selectedRow(inComponent: 1)]
-////                recurrency.textField.text = "\(string0) \(string1)"
-//            }
-//            else {
-//                let valueNumber = componentNumber[pickerView.selectedRow(inComponent: 0)]
-//                let valueType = componentDayMonthYear[pickerView.selectedRow(inComponent: 1)]
-////                let string2 = "avant"
-////                reminder.textField.text = "\(valueNumber) \(valueType) \(string2)"
-//
-//                viewModel?.reminderValue = valueNumber
-////                viewModel?.reminderType = valueType
-//                viewModel?.reminderType2 = valueType
-//
-////                let nextDate = Calendar.current.date(byAdding: .day, value: 1, to: commitmentDate.date)
-//
-////                let nextDate = Calendar.current.date(byAdding: .day, value: valueNumber, to: commitmentDate.date)
-//
-//            }
-//        }
-
 }
-
-//extension NewSubController : UICollectionViewDelegate, UICollectionViewDataSource {
-//
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        if collectionView == iconCollectionView {
-//            return iconDictionnary.count
-//        } else  {
-//            return 1
-//        }
-//    }
-//
-//
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        if collectionView == iconCollectionView {
-//            let iconCell = collectionView.dequeueReusableCell(withReuseIdentifier: IconCell.identifier, for: indexPath) as! IconCell
-//            iconCell.logo.image = UIImage(named: "\(iconDictionnary[indexPath.row])")
-//            icon = UIImage(named: "\(iconDictionnary[indexPath.row])") ?? UIImage(systemName: "house.fill")!
-//            return iconCell
-//        } else { return UICollectionViewCell() }
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        if collectionView == iconCollectionView {
-//            icon = UIImage(named: "\(iconDictionnary[indexPath.row])") ?? UIImage(systemName: "house.fill")!
-//            print("icon tapped \(String(describing: icon))")
-//            viewModel?.icon = icon
-//
-//            print("viewModel?.icon is \(String(describing: viewModel?.icon))")
-//        }
-//    }
-//
-//}
