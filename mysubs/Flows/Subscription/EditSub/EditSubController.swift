@@ -43,7 +43,8 @@ class EditSubController: UIViewController {
     var selectedRow = 0
     var reminderPickerView = UIPickerView()
     var recurrencyPickerView = UIPickerView()
-    
+    let iconPickerVC = IconPickerViewController()
+
     
     var colorChoosen = InputFormTextField()
     
@@ -72,6 +73,23 @@ class EditSubController: UIViewController {
         
     }
     
+    @objc
+    func showIconPicker() {
+        iconPickerVC.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
+        let alert = UIAlertController(title: "Select icon", message: "", preferredStyle: .actionSheet)
+        alert.setValue(iconPickerVC, forKey: "contentViewController")
+        alert.addAction(UIAlertAction(title: "Annuler", style: .cancel, handler: { (UIAlertAction) in
+        }))
+        
+        //MARK: - replace selectedRow protocol method since action happen here
+        alert.addAction(UIAlertAction(title: "Selectionner", style: .default, handler: { [self] (UIAlertAction) in
+            //Convert view model icon from data to uiimage, then displaying it
+            viewModel?.icon = iconPickerVC.icon.pngData()
+            iconHeader.setImage(iconPickerVC.icon, for: .normal) 
+        }))
+        self.present(alert, animated: true, completion: nil)
+                                      
+        }
     @objc
     func showColorPicker()  {
         let colorPicker = UIColorPickerViewController()
@@ -314,6 +332,7 @@ extension EditSubController {
             iconHeader.setImage(UIImage(systemName: "pc"), for: .normal)
         }
         iconHeader.imageView?.sizeToFit()
+        iconHeader.addTarget(self, action: #selector(showIconPicker), for: .touchUpInside)
         view.addSubview(iconHeader)
         
         // MARK: FORMVIEW

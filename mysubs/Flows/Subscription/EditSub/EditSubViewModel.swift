@@ -29,12 +29,9 @@ class EditSubViewModel: NSObject {
         self.recurrency = subscription.paymentRecurrency// ?? "non renseigné"
     }
     var notificationDate = Date()
-//    var recurrency: String? {
-//        didSet {
-//            recurrency = "\(recurrencyValue ?? 0) \(recurrencyType)"
-//
-//        }
-//    }
+
+    var icon: Data?
+
     var recurrency: String?
 //    {
 //        didSet {
@@ -167,11 +164,11 @@ class EditSubViewModel: NSObject {
     func saveEditedSub() {
         subscription.name = name
         subscription.price = price ?? 0
-        subscription.reminder = reminder//"\(reminderValue ?? 0) \(reminderType2)"//reminder
+        subscription.reminder = reminder
         subscription.commitment = date
-        
+        subscription.icon = icon
         subscription.color = color
-        subscription.paymentRecurrency = recurrency//"\(recurrencyValue ?? 0) \(recurrencyType)"
+        subscription.paymentRecurrency = recurrency
         save()
     }
     
