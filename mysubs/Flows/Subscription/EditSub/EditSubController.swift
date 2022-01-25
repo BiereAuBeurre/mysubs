@@ -11,21 +11,18 @@ class EditSubController: UIViewController {
     
     weak var coordinator: AppCoordinator?
     //MARK: -LOGO PROPERTY
-    var logoHeader = UIImageView()
+    var iconHeader = UIImageView()
     //MARK: -LeftSideStackView properties
-    var leftSideStackView = UIStackView()
+//    var leftSideStackView = UIStackView()
     var formView = UIStackView()
     var name = InputFormTextField()
-    
-//    var commitment = InputFormTextField()
     var commitmentTitle = UILabel()
     var commitmentDate = UIDatePicker()
     let commitmentStackView = UIStackView()
 
-//    var category = InputFormTextField()
     var info = InputFormTextField()
     //MARK: -RightSideStackView properties
-    var rightSideStackView = UIStackView()
+//    var rightSideStackView = UIStackView()
     var price = InputFormTextField()
     var reminder = InputFormTextField()
     var recurrency = InputFormTextField()
@@ -38,13 +35,17 @@ class EditSubController: UIViewController {
     var storageService = StorageService()
 
     let componentNumber = Array(stride(from: 1, to: 30 + 1, by: 1))
-    let componentDayMonthYear = [Calendar.Component.day, Calendar.Component.weekOfMonth, Calendar.Component.month, Calendar.Component.year] //["jour(s)", "semaine(s)", "mois", "année(s)"]
+    let componentDayMonthYear = [Calendar.Component.day, Calendar.Component.weekOfMonth, Calendar.Component.month, Calendar.Component.year] 
     let screenWidth = UIScreen.main.bounds.width - 10
     let screenHeight = UIScreen.main.bounds.height / 2
-    
+    var selectedColor = ""
+
     var selectedRow = 0
     var reminderPickerView = UIPickerView()
     var recurrencyPickerView = UIPickerView()
+    
+    
+    var colorChoosen = InputFormTextField()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,16 +60,28 @@ class EditSubController: UIViewController {
     
     //MARK: -OJBC METHODS
     
-    @objc func deleteSub() {
+    @objc
+    func deleteSub() {
         deletingAlert()
     }
     
-    @objc func doneEditingAction() {
+    @objc
+    func doneEditingAction() {
         viewModel?.saveEditedSub()
         viewModel?.goBack()
         
     }
     
+    @objc
+    func showColorPicker()  {
+        let colorPicker = UIColorPickerViewController()
+        colorPicker.delegate = self
+        colorPicker.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
+        colorPicker.title = "Couleurs"
+        self.present(colorPicker, animated: true) {
+            self.colorChoosen.textField.backgroundColor = colorPicker.selectedColor
+        }
+    }
     //MARK: -Private METHODS
     
     
@@ -109,7 +122,6 @@ class EditSubController: UIViewController {
     
     @objc func changeReminder() {
         print(#function)
-//        showColorPicker()
         showPicker(reminderPickerView, reminder)
     }
     
@@ -134,19 +146,6 @@ class EditSubController: UIViewController {
 //        nameField.text = sub.name
         print("sub.name est : \(String(describing: viewModel?.subscription.name))")
     }
-    
-    
-    
-//    func showColorPicker() {
-//        var selectedColor = UIColor()
-//        let colorPicker = UIColorPickerViewController()
-//        colorPicker.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
-//        selectedColor = colorPicker.selectedColor
-//
-//        self.present(colorPicker, animated: true, completion: nil)
-//        print("selected color is: \(selectedColor)")
-//
-//    }
     
     private func showPicker(_ picker : UIPickerView, _ input: InputFormTextField) {
         let vc = UIViewController()
@@ -245,29 +244,22 @@ extension EditSubController: UIPickerViewDataSource, UIPickerViewDelegate {
         }
 }
 
-//// MARK: -Protocol from UITextFieldDelegate
-//
-//extension EditSubController: UITextFieldDelegate {
-//    //FIXME:
-//    //MARK: making uneditable fields with pickerView
-////    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-////        if textField == commitment.textField {
-////          // code which you want to execute when the user touch myTextField
-////            print("can't edit here")
-////       }
-////       return false
-////    }
-//
-//}
-
+//MARK: - COLOR PICKER SETTINGS
+extension EditSubController: UIColorPickerViewControllerDelegate {
+    ///  Called on every color selection done in the picker.
+    func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
+        self.colorChoosen.textField.backgroundColor = viewController.selectedColor
+        self.selectedColor = viewController.selectedColor.toHexString()
+        viewModel?.color = selectedColor
+    }
+}
 // MARK: -SETTING UP ALL UI
 extension EditSubController {
     
     private func setUpUI() {
         setUpNavBar()
         setUpView()
-        //FIXME: fonctionne plus, pour supprimer bar texte sur textfield
-//        self.commitment.textField.delegate = self
+
     }
     
     private func configureCommitment() {
@@ -311,40 +303,36 @@ extension EditSubController {
         price.configureView()
         reminder.configureView()
         recurrency.configureView()
+        colorChoosen.configureView()
         view.backgroundColor = MSColors.background
-        logoHeader.translatesAutoresizingMaskIntoConstraints = false
-        
+        iconHeader.translatesAutoresizingMaskIntoConstraints = false
         if let icon = viewModel?.subscription.icon {
-            logoHeader.image = UIImage(data: icon)
+            iconHeader.image = UIImage(data: icon)
         } else {
-            logoHeader.image = UIImage(named: "custom.pc")
+            iconHeader.image = UIImage(named: "custom.pc")
         }
-        
-//        logoHeader.image = viewModel?.subscription.icon //UIImage(named: "ps")
-        view.addSubview(logoHeader)
+                view.addSubview(iconHeader)
         
         // MARK: FORMVIEW
         formView.translatesAutoresizingMaskIntoConstraints = false
-        formView.axis = .horizontal
+        formView.axis = .vertical
         formView.alignment = .fill
         formView.spacing = 8
         formView.distribution = .fillEqually
         view.addSubview(formView)
         
-    //MARK: LEFTSIDE STACKVIEW
-        leftSideStackView.translatesAutoresizingMaskIntoConstraints = false
-//        leftSideStackView.contentMode = .top
-        leftSideStackView.axis = .vertical
-//        leftSideStackView.alignment = .leading
-        leftSideStackView.distribution = .fillEqually
-//        leftSideStackView.spacing = 8
-//        //MARK: Adding name field
-        leftSideStackView.addArrangedSubview(name)
+        //MARK: Adding name field
+        formView.addArrangedSubview(name)
         name.fieldTitle = "Nom"
         name.text = viewModel?.name
         print("viewmodel.sub.name :\(String(describing: viewModel?.subscription.name))")
         // configurer la inpute view pour le name
         name.textFieldInputView = UIView()
+        
+        //MARK: Adding price field
+        price.fieldTitle = "Prix"
+        price.text = "\(viewModel?.price ?? 0)"
+        formView.addArrangedSubview(price)
         
         //MARK: Adding commitment field
         commitmentTitle.text = "Dernier paiement"
@@ -353,41 +341,32 @@ extension EditSubController {
         configureCommitment()
         commitmentDate.locale = Locale.init(identifier: "fr_FR")
         commitmentDate.date = viewModel?.subscription.commitment ?? Date.now
-        leftSideStackView.addArrangedSubview(commitmentStackView)
-        //MARK: Adding info field
-        leftSideStackView.addArrangedSubview(info)
-        info.fieldTitle = "INFOS"
-        info.text = viewModel?.subscription.extraInfo ?? ""
-        formView.addArrangedSubview(leftSideStackView)
-        
-    //MARK: RIGHTSIDE STACKVIEW
-        rightSideStackView.translatesAutoresizingMaskIntoConstraints = false
-        rightSideStackView.contentMode = .scaleToFill
-        rightSideStackView.axis = .vertical
-        rightSideStackView.alignment = .fill
-        rightSideStackView.distribution = .fillEqually
-        rightSideStackView.spacing = 8
-        
-        //MARK: Adding price field
-        rightSideStackView.addArrangedSubview(price)
-        price.fieldTitle = "Prix"
-        price.text = "\(viewModel?.price ?? 0)"
+        formView.addArrangedSubview(commitmentStackView)
+
+
         //MARK: Adding reminder field
-        rightSideStackView.addArrangedSubview(reminder)
         reminder.fieldTitle = "Rappel"
         reminder.textField.allowsEditingTextAttributes = false
-        reminder.text = viewModel?.subscription.reminder
+        reminder.text = "\(viewModel?.subscription.reminder ?? "1 jour") avant"
         reminder.shouldBehaveAsButton = true
         reminder.addTarget(self, action: #selector(changeReminder), for: .touchUpInside)
-        
+        formView.addArrangedSubview(reminder)
+
         //MARK: Adding recurrency field
-        rightSideStackView.addArrangedSubview(recurrency)
         recurrency.fieldTitle = "Cycle"
         recurrency.text = "\(viewModel?.subscription.paymentRecurrency ?? "cassé")"
         recurrency.shouldBehaveAsButton = true
         recurrency.addTarget(self, action: #selector(changeReccurency), for: .touchUpInside)
-        formView.addArrangedSubview(rightSideStackView)
+        formView.addArrangedSubview(recurrency)
         
+        colorChoosen.fieldTitle = "Couleur ▼"
+        colorChoosen.shouldBehaveAsButton = true
+        colorChoosen.addTarget(self, action: #selector(showColorPicker), for: .touchUpInside)
+        colorChoosen.textField.text = "➕"
+        colorChoosen.textField.backgroundColor = UIColor(hex: viewModel?.color ?? "#F7CE46")
+        colorChoosen.textField.textAlignment = .right
+        formView.addArrangedSubview(colorChoosen)
+
         //MARK: - action send values to viewModel for being save as new sub values
         name.textField.addTarget(self, action: #selector(nameFieldTextDidChange), for: .editingChanged)
         price.textField.addTarget(self, action: #selector(priceFieldTextDidChange), for: .editingChanged)
@@ -406,19 +385,18 @@ extension EditSubController {
         deleteButton.addTarget(self, action: #selector(deleteSub), for: .touchUpInside)
    
         NSLayoutConstraint.activate([
-        logoHeader.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-        logoHeader.widthAnchor.constraint(equalToConstant: 50),
-        logoHeader.heightAnchor.constraint(equalToConstant: 50),
-        logoHeader.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
-        formView.topAnchor.constraint(equalTo: logoHeader.bottomAnchor, constant: 40),
+        iconHeader.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+        iconHeader.widthAnchor.constraint(equalToConstant: 50),
+        iconHeader.heightAnchor.constraint(equalToConstant: 50),
+        iconHeader.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
+        formView.topAnchor.constraint(equalTo: iconHeader.bottomAnchor, constant: 40),
         formView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
         formView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-        formView.heightAnchor.constraint(equalToConstant: 250),
+        formView.heightAnchor.constraint(equalToConstant: 450),
         deleteButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80),
         deleteButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
         deleteButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
         deleteButton.heightAnchor.constraint(equalToConstant: 40),
-
         ])
     }
 }

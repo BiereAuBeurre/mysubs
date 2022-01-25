@@ -12,7 +12,7 @@ class IconPickerViewController: UIViewController {
     
     var iconCollectionView: UICollectionView!
     var icon = UIImage()
-    var iconDictionnary = ["airplane.circle.fill", "battery.100.bolt","music.note.list", "bolt.car.fill", "book.circle.fill", "briefcase.fill", "car.circle.fill", "cart.circle.fill", "creditcard.circle.fill", "cross.vial", "eye.circle.fill", "fork.knife.circle.fill", "gift.fill", "graduationcap.fill", "headphones.circle.fill", "house.fill", "ivfluid.bag", "lock.fill", "map.circle.fill", "network", "paintpalette.fill", "pc", "phone.fill", "pills.fill", "play.rectangle.fill", "star.fill", "suit.heart.fill", "sun.haze.fill", "sun.max.fill", "testtube.2", "tv.circle.fill", "wifi.circle.fill", "bolt.circle.fill"]
+    var iconDictionnary = ["airplane.circle.fill", "battery.100.bolt","music.note.list", "bolt.car.fill", "book.circle.fill", "briefcase.fill", "car.circle.fill", "cart.circle.fill", "bitcoinsign.circle", "creditcard.circle.fill", "cross.vial", "eye.circle.fill", "fork.knife.circle.fill", "gift.fill", "graduationcap.fill", "headphones.circle.fill", "house.fill", "ivfluid.bag", "lock.fill", "map.circle.fill", "network", "paintpalette.fill", "pc", "phone.fill", "pills.fill", "play.rectangle.fill", "star.fill", "suit.heart.fill", "sun.haze.fill", "sun.max.fill", "testtube.2", "tv.circle.fill", "wifi.circle.fill", "bolt.circle.fill"]
     
     override func viewDidLoad() {
         super.viewDidLoad()

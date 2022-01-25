@@ -18,6 +18,13 @@ class EditSubViewModel: NSObject {
         self.subscription = subscription
         self.price = subscription.price
         self.name = subscription.name
+        self.color = subscription.color
+    }
+    
+    var color: String? {
+        didSet {
+            guard oldValue != color else { return }
+        }
     }
     
     var name: String? {
@@ -100,12 +107,16 @@ class EditSubViewModel: NSObject {
         name != subscription.name
     }
     
+    private var isColorChanged: Bool {
+        color != subscription.color
+    }
+    
     private var isPriceChanged: Bool {
         price != subscription.price
     }
     
     var canSave: Bool {
-        return isNameChanged || isPriceChanged || isDateChanged || isReminderChanged || isPaymentRecurrencyChanged ///&& isDate ....
+        return isNameChanged || isPriceChanged || isDateChanged || isReminderChanged || isPaymentRecurrencyChanged || isColorChanged ///&& isDate ....
     }
     
     
@@ -122,12 +133,11 @@ class EditSubViewModel: NSObject {
     }
     
     func saveEditedSub() {
-        print("name saved \(name ?? "")")
         subscription.name = name
-        print("price saved \(price ?? 0)")
         subscription.price = price ?? 0
         subscription.reminder = "\(reminderValue ?? 0) \(reminderType2)"
         subscription.commitment = date
+        subscription.color = color
         subscription.paymentRecurrency = "\(recurrencyValue ?? 0) \(recurrencyType)"
         save()
     }

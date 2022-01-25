@@ -44,7 +44,7 @@ class SubCell: UICollectionViewCell {
     
     func configureCell() {
         priceLabel.translatesAutoresizingMaskIntoConstraints = false
-        priceLabel.textColor = MSColors.maintext
+        priceLabel.textColor = .black//MSColors.maintext
         subNameLabel.translatesAutoresizingMaskIntoConstraints = false
         subNameLabel.textColor = .black
         logo.translatesAutoresizingMaskIntoConstraints = false

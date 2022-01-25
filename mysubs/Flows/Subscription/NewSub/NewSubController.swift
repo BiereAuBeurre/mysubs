@@ -10,17 +10,16 @@ import CoreData
 class NewSubController: UIViewController, UINavigationBarDelegate {
     // Pop up VC settings
     let componentNumber = Array(stride(from: 1, to: 30 + 1, by: 1))
-    let componentDayMonthYear = [Calendar.Component.day, Calendar.Component.weekOfMonth, Calendar.Component.month, Calendar.Component.year] //["jour(s)", "semaine(s)", "mois", "année(s)"]
+    let componentDayMonthYear = [Calendar.Component.day, Calendar.Component.weekOfMonth, Calendar.Component.month, Calendar.Component.year]
     let screenWidth = UIScreen.main.bounds.width - 10
     let screenHeight = UIScreen.main.bounds.height / 2
     var selectedRow = 0
-    var selectedColor: String = ""
+    var selectedColor = ""
     var newSubLabel = UILabel()
     var titleView = UIView()
     var separatorLine = UIView()
     
     //MARK: -LeftSideStackView properties
-//    var leftSideStackView = UIStackView()
     var formView = UIStackView()
     var name = InputFormTextField()
     var commitment = InputFormTextField()

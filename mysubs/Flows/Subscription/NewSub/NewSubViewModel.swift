@@ -124,8 +124,8 @@ class NewSubViewModel: NSObject {
         //UNUserNotificationCenter.current().
         
         let notificationContent = UNMutableNotificationContent()
-        notificationContent.title = name ?? "unknown name for this notif"
-        notificationContent.body = "\(dateComponents) days before payement of \(price ?? 0) €"
+        notificationContent.title = "Abonnement \(name ?? "unknown name")"
+        notificationContent.body = "\(reminderValue ?? 1) days before payement of \(price ?? 0) €"
         notificationContent.sound = UNNotificationSound.default
         notificationContent.userInfo = ["id": "25"]
         notificationContent.categoryIdentifier = "identifier"
@@ -135,7 +135,7 @@ class NewSubViewModel: NSObject {
             if let error = error {
                 print("error adding notification \(error)")
             } else {
-                print("notification added suvvces")
+                print("notification added success")
             }
         }
     }
@@ -143,7 +143,7 @@ class NewSubViewModel: NSObject {
     func saveSub() {
         let newSub = Subscription(context: storageService.viewContext)
         newSub.name = name
-        newSub.price = price ?? 0//Float(myprice ?? 0)
+        newSub.price = price ?? 0
         notificationDate = date ?? Date.now
         notificationDate = notificationDate.adding(reminderType2, value: -(reminderValue ?? 0)) ?? Date.now
         notificationDate = notificationDate.adding(recurrencyType, value: recurrencyValue ?? 500) ?? Date.now

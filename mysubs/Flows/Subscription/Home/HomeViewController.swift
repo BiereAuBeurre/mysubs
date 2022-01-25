@@ -19,7 +19,6 @@ enum State<Data> {
 
 class HomeViewController: UIViewController, UINavigationBarDelegate {
     
-    ///TEST NOTIFS
     let userNotificationCenter = UNUserNotificationCenter.current()
 
     var viewModel : HomeViewModel?
@@ -67,7 +66,6 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         self.userNotificationCenter.delegate = self
         //dans le save
         self.requestNotificationAuthorization()
-//        self.sendNotification()
         
     }
     
@@ -312,7 +310,7 @@ extension HomeViewController {
 }
 
 
-//MARK: - NOTIF SETTINGS
+//MARK: - NOTIF AUTHORIZATION SETTINGS (move when saving sub first time)
 
 extension HomeViewController : UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
@@ -321,33 +319,6 @@ extension HomeViewController : UNUserNotificationCenterDelegate {
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.banner, .badge, .sound])
-    }
-    
-    func sendNotification() {
-        let notificationContent = UNMutableNotificationContent()
-        notificationContent.title = "Test"
-        notificationContent.body = "Test body"
-        notificationContent.badge = NSNumber(value: 1)
-        
-        if let url = Bundle.main.url(forResource: "dune",
-                                    withExtension: "png") {
-            if let attachment = try? UNNotificationAttachment(identifier: "dune",
-                                                            url: url,
-                                                            options: nil) {
-                notificationContent.attachments = [attachment]
-            }
-        }
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5,
-                                                        repeats: false)
-        let request = UNNotificationRequest(identifier: "testNotification",
-                                            content: notificationContent,
-                                            trigger: trigger)
-        
-        userNotificationCenter.add(request) { (error) in
-            if let error = error {
-                print("Notification Error: ", error)
-            }
-        }
     }
 
     func requestNotificationAuthorization() {
