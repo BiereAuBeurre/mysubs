@@ -38,7 +38,7 @@ class SubCell: UICollectionViewCell {
         if let icon = subscription?.icon {
             logo.image = UIImage(data: icon)
         } else {
-            logo.image = UIImage(named: "custom.pc")
+            logo.image = UIImage(systemName: "pc")
         }
     }
     

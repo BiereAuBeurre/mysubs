@@ -11,7 +11,7 @@ class EditSubController: UIViewController {
     
     weak var coordinator: AppCoordinator?
     //MARK: -LOGO PROPERTY
-    var iconHeader = UIImageView()
+    var iconHeader = UIButton()
     //MARK: -LeftSideStackView properties
 //    var leftSideStackView = UIStackView()
     var formView = UIStackView()
@@ -95,19 +95,20 @@ class EditSubController: UIViewController {
         viewModel?.price = Float(textField.text ?? "") ?? 0
     }
     
-    @objc
-    func reminderFieldDidChange() {
-        self.selectedRow = reminderPickerView.selectedRow(inComponent: 0)
-        let valueNumber = self.componentNumber[reminderPickerView.selectedRow(inComponent: 0)]
-        let valueType = self.componentDayMonthYear[reminderPickerView.selectedRow(inComponent: 1)]
-        let string2 = "avant"
-        
-        viewModel?.subscription.reminder = "\(valueNumber) \(valueType) \(string2)"
-        viewModel?.reminderValue = valueNumber
-        viewModel?.reminderType2 = valueType
-        
-//        viewModel?.subscription.reminder = reminderPickerView
-    }
+//    @objc
+//    func reminderFieldDidChange() {
+//        self.selectedRow = reminderPickerView.selectedRow(inComponent: 0)
+//        let valueNumber = self.componentNumber[reminderPickerView.selectedRow(inComponent: 0)]
+//        let valueType = self.componentDayMonthYear[reminderPickerView.selectedRow(inComponent: 1)]
+//        let string2 = "avant"
+//        viewModel?.reminder = "\(valueNumber) \(valueType) \(string2)"
+//
+////        viewModel?.subscription.reminder = "\(valueNumber) \(valueType) \(string2)"
+//        viewModel?.reminderValue = valueNumber
+//        viewModel?.reminderType2 = valueType
+//
+////        viewModel?.subscription.reminder = reminderPickerView
+//    }
     
     @objc
     func textFieldDidChange(textField: UITextField) {
@@ -126,7 +127,11 @@ class EditSubController: UIViewController {
     }
     
     @objc func changeReccurency() {
+        print(#function)
+
         showPicker(recurrencyPickerView, recurrency)
+//        viewModel?.subscription.paymentRecurrency = recurrency.text
+
     }
     
     private func deletingAlert() {
@@ -174,22 +179,18 @@ class EditSubController: UIViewController {
                 input.textField.text = "\(valueNumber) \(valueType)"
                 viewModel?.recurrencyValue = valueNumber
                 viewModel?.recurrencyType = valueType
-                viewModel?.subscription.paymentRecurrency = "\(valueNumber) \(valueType)"
+//                viewModel?.subscription.paymentRecurrency = input.textField.text//"\(valueNumber) \(valueType)"
+                viewModel?.recurrency = "\(valueNumber) \(valueType)"
+
             } else {
                 input.textField.text = "\(valueNumber) \(valueType) \(string2)"
                 viewModel?.reminderValue = valueNumber
                 viewModel?.reminderType2 = valueType
-                viewModel?.subscription.reminder = "\(valueNumber) \(valueType) \(string2)"
+                viewModel?.reminder = "\(valueNumber) \(valueType) \(string2)"
+
+//                viewModel?.subscription.reminder = input.textField.text//"\(valueNumber) \(valueType) \(string2)"
             }
-            
-            
-            
         }))
-//        alert.addAction(UIAlertAction(title: "Ajouter", style: .default, handler: { (UIAlertAction) in
-//            self.selectedRow = picker.selectedRow(inComponent: 0)
-//            //voir methode select row commenté
-//        }))
-        
         self.present(alert, animated: true, completion: nil)
     }
 }
@@ -210,7 +211,7 @@ extension EditSubController: UIPickerViewDataSource, UIPickerViewDelegate {
                 return ("\(componentNumber[row])")
             }
             else if component == 1 {
-                return ("\(componentDayMonthYear[row])")//componentDayMonthYear[row]
+                return ("\(componentDayMonthYear[row])")
             } else {
                 return "avant"
             }
@@ -307,11 +308,13 @@ extension EditSubController {
         view.backgroundColor = MSColors.background
         iconHeader.translatesAutoresizingMaskIntoConstraints = false
         if let icon = viewModel?.subscription.icon {
-            iconHeader.image = UIImage(data: icon)
+            iconHeader.setImage(UIImage(data: icon), for: .normal)
+//            iconHeader.image = UIImage(data: icon)
         } else {
-            iconHeader.image = UIImage(named: "custom.pc")
+            iconHeader.setImage(UIImage(systemName: "pc"), for: .normal)
         }
-                view.addSubview(iconHeader)
+        iconHeader.imageView?.sizeToFit()
+        view.addSubview(iconHeader)
         
         // MARK: FORMVIEW
         formView.translatesAutoresizingMaskIntoConstraints = false
@@ -340,21 +343,25 @@ extension EditSubController {
         commitmentDate.translatesAutoresizingMaskIntoConstraints = false
         configureCommitment()
         commitmentDate.locale = Locale.init(identifier: "fr_FR")
-        commitmentDate.date = viewModel?.subscription.commitment ?? Date.now
+        commitmentDate.date = viewModel?.date ?? Date.now
         formView.addArrangedSubview(commitmentStackView)
 
 
         //MARK: Adding reminder field
         reminder.fieldTitle = "Rappel"
         reminder.textField.allowsEditingTextAttributes = false
-        reminder.text = "\(viewModel?.subscription.reminder ?? "1 jour") avant"
+        reminder.text = "\(viewModel?.reminder ?? "marchepas") avant"
         reminder.shouldBehaveAsButton = true
         reminder.addTarget(self, action: #selector(changeReminder), for: .touchUpInside)
         formView.addArrangedSubview(reminder)
 
         //MARK: Adding recurrency field
         recurrency.fieldTitle = "Cycle"
-        recurrency.text = "\(viewModel?.subscription.paymentRecurrency ?? "cassé")"
+//        var recurrencytodisplay = "\(viewModel?.recurrencyValue ?? 0) \(viewModel?.recurrencyType)"
+//        print("\(viewModel?.recurrencyValue ?? 0) \(viewModel?.recurrencyType)")
+//        recurrency.text = "\(viewModel?.recurrencyValue ?? 0) \(String(describing: viewModel?.recurrencyType))"
+//        recurrency.text = recurrencytodisplay
+        recurrency.text = "\(viewModel?.recurrency ?? "cassé")"
         recurrency.shouldBehaveAsButton = true
         recurrency.addTarget(self, action: #selector(changeReccurency), for: .touchUpInside)
         formView.addArrangedSubview(recurrency)

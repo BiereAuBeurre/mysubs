@@ -19,8 +19,36 @@ class EditSubViewModel: NSObject {
         self.price = subscription.price
         self.name = subscription.name
         self.color = subscription.color
+        notificationDate = date ?? Date.now
+        notificationDate = notificationDate.adding(reminderType2, value: -(reminderValue ?? 0)) ?? Date.now
+        notificationDate = notificationDate.adding(recurrencyType, value: recurrencyValue ?? 500) ?? Date.now
+        print("New date to get for notifications is : \(notificationDate)")
+//        self.reminder = "\(reminderValue ?? 0) \(reminderType2)"
+        self.reminder = subscription.reminder
+        self.date = subscription.commitment
+        self.recurrency = subscription.paymentRecurrency// ?? "non renseigné"
     }
+    var notificationDate = Date()
+//    var recurrency: String? {
+//        didSet {
+//            recurrency = "\(recurrencyValue ?? 0) \(recurrencyType)"
+//
+//        }
+//    }
+    var recurrency: String?
+//    {
+//        didSet {
+//
+//            guard oldValue != recurrency else { return }
+//        }
+//    }
     
+    var reminder: String?
+//    {
+//        didSet {
+//            guard oldValue != reminder else { return }
+//        }
+//    }
     var color: String? {
         didSet {
             guard oldValue != color else { return }
@@ -85,19 +113,23 @@ class EditSubViewModel: NSObject {
         }
     }
     
-    var reminderType: String? {
-        didSet {
-            
-            }
-    }
+//    var reminderType: String? {
+//        didSet {
+//
+//            }
+//    }
     
     private var isPaymentRecurrencyChanged: Bool {
-        "\(recurrencyValue ?? 0) \(recurrencyType)" != subscription.paymentRecurrency
+        recurrency != subscription.paymentRecurrency
     }
     
     private var isReminderChanged: Bool {
-        "\(reminderValue ?? 0) \(reminderType2)" != subscription.reminder
+       reminder != subscription.reminder
     }
+    
+//    private var isRecurrencyChanged: Bool {
+//        "\(recurrencyValue ?? 0) \(recurrencyType)" != subscription.paymentRecurrency
+//    }
     
     private var isDateChanged: Bool {
         date != subscription.commitment
@@ -116,7 +148,7 @@ class EditSubViewModel: NSObject {
     }
     
     var canSave: Bool {
-        return isNameChanged || isPriceChanged || isDateChanged || isReminderChanged || isPaymentRecurrencyChanged || isColorChanged ///&& isDate ....
+        return isNameChanged || isPriceChanged || isDateChanged || isReminderChanged || isPaymentRecurrencyChanged || isColorChanged// || isRecurrencyChanged ///&& isDate ....
     }
     
     
@@ -135,10 +167,11 @@ class EditSubViewModel: NSObject {
     func saveEditedSub() {
         subscription.name = name
         subscription.price = price ?? 0
-        subscription.reminder = "\(reminderValue ?? 0) \(reminderType2)"
+        subscription.reminder = reminder//"\(reminderValue ?? 0) \(reminderType2)"//reminder
         subscription.commitment = date
+        
         subscription.color = color
-        subscription.paymentRecurrency = "\(recurrencyValue ?? 0) \(recurrencyType)"
+        subscription.paymentRecurrency = recurrency//"\(recurrencyValue ?? 0) \(recurrencyType)"
         save()
     }
     
