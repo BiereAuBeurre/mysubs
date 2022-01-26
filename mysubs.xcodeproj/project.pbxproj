@@ -48,6 +48,7 @@
 		EF96B9AA274FE1C900961F9C /* mysubsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF96B9A9274FE1C900961F9C /* mysubsUITestsLaunchTests.swift */; };
 		EFCB8EBA2779FC8A009BC47D /* CategoriesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCB8EB92779FC8A009BC47D /* CategoriesCell.swift */; };
 		EFEF69DD276799C8005CB6C3 /* EditSubViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFEF69DC276799C8005CB6C3 /* EditSubViewModel.swift */; };
+		EFF326E427A196E100FAFACE /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF326E327A196E100FAFACE /* CloudKit.framework */; };
 		EFFA24DF275644E20068DFE3 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFA24DE275644E20068DFE3 /* HomeViewController.swift */; };
 		EFFA24E227566E570068DFE3 /* LogoFinderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFA24E127566E570068DFE3 /* LogoFinderService.swift */; };
 /* End PBXBuildFile section */
@@ -119,6 +120,8 @@
 		EF96B9A9274FE1C900961F9C /* mysubsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mysubsUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		EFCB8EB92779FC8A009BC47D /* CategoriesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesCell.swift; sourceTree = "<group>"; };
 		EFEF69DC276799C8005CB6C3 /* EditSubViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSubViewModel.swift; sourceTree = "<group>"; };
+		EFF326E127A196C300FAFACE /* mysubs.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = mysubs.entitlements; sourceTree = "<group>"; };
+		EFF326E327A196E100FAFACE /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		EFFA24DE275644E20068DFE3 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		EFFA24E127566E570068DFE3 /* LogoFinderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoFinderService.swift; sourceTree = "<group>"; };
 		FAF26DAD802A3EFEB87F6109 /* Pods_mysubs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_mysubs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -130,6 +133,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF70E4F027567D270011AB06 /* Pods_mysubs.framework in Frameworks */,
+				EFF326E427A196E100FAFACE /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,6 +349,7 @@
 				EF96B9A6274FE1C900961F9C /* mysubsUITests */,
 				EF96B981274FE1C700961F9C /* Products */,
 				C34FE279BCE2E8DE6B69B0E6 /* Pods */,
+				EFF326E227A196E100FAFACE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -361,6 +366,7 @@
 		EF96B982274FE1C700961F9C /* mysubs */ = {
 			isa = PBXGroup;
 			children = (
+				EFF326E127A196C300FAFACE /* mysubs.entitlements */,
 				EF1F6C7A275A4C5300DA0BBB /* Flows */,
 				EF125B0F2757887700E6FD6B /* Extensions */,
 				EF1F6C78275A4BA500DA0BBB /* Application */,
@@ -394,6 +400,14 @@
 				EF96B9A9274FE1C900961F9C /* mysubsUITestsLaunchTests.swift */,
 			);
 			path = mysubsUITests;
+			sourceTree = "<group>";
+		};
+		EFF326E227A196E100FAFACE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EFF326E327A196E100FAFACE /* CloudKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		EFFA24E027566E120068DFE3 /* Services */ = {
@@ -800,9 +814,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = mysubs/mysubs.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 33VL4C78U3;
+				DEVELOPMENT_TEAM = T4959W6459;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "mysubs/Supporting files/MySubs_Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = mysubs;
@@ -831,9 +846,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = mysubs/mysubs.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 33VL4C78U3;
+				DEVELOPMENT_TEAM = T4959W6459;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "mysubs/Supporting files/MySubs_Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = mysubs;

@@ -7,7 +7,6 @@
 
 import Foundation
 import CoreData
-import UserNotifications
 import UIKit
 
 class NewSubViewModel: NSObject {
@@ -17,12 +16,6 @@ class NewSubViewModel: NSObject {
     var notificationService = NotificationService()
     var notificationDate = Date()
     var icon: Data?
-//    UIImage? {
-//        didSet {
-//            guard oldValue != icon else { return }
-//        }
-//    }
-    //= UIImage(systemName: "house")!
     init(coordinator: AppCoordinator, storageService: StorageService) {
         self.coordinator = coordinator
         self.storageService = storageService
@@ -107,40 +100,6 @@ class NewSubViewModel: NSObject {
         // homeVC.subscriptions  = viewDelegate!.subscriptions
     }
     
-    private func generateNotification() {//for subscription
-//        #if DEBUG
-//
-//        let notificationInterval: Double = 5
-//        #else
-//
-//        let notificationInterval: Double = 5
-//        #endif
-//
-
-        let date = notificationDate.addingTimeInterval(5)
-        let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
-        
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
-        
-        //UNUserNotificationCenter.current().
-        
-        let notificationContent = UNMutableNotificationContent()
-        notificationContent.title = "Abonnement \(name ?? "unknown name")"
-        notificationContent.body = "\(reminderValue ?? 1) days before payement of \(price ?? 0) €"
-        notificationContent.sound = UNNotificationSound.default
-        notificationContent.userInfo = ["id": "25"]
-        notificationContent.categoryIdentifier = "identifier"
-        print("trigger date is", trigger.dateComponents)
-        let request = UNNotificationRequest(identifier: "42", content: notificationContent, trigger: trigger)
-        UNUserNotificationCenter.current().add(request) { error in
-            if let error = error {
-                print("error adding notification \(error)")
-            } else {
-                print("notification added success")
-            }
-        }
-    }
-    
     func saveSub() {
         let newSub = Subscription(context: storageService.viewContext)
         newSub.name = name
@@ -155,10 +114,7 @@ class NewSubViewModel: NSObject {
         newSub.icon = icon
         newSub.paymentRecurrency = "Tous les \(recurrencyValue ?? 0) \(recurrencyType)"
         storageService.save()
-//        generateNotification()
         notificationService.generateNotificationFor(name ?? "unkown", reminderValue ?? 0, price ?? 0, date ?? Date.now)
-        
-        //notifservice.generatenotiffor(date:)
         goBack()
     }
 }

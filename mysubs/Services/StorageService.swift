@@ -8,7 +8,18 @@ import CoreData
 
 class StorageService {
     let viewContext: NSManagedObjectContext
-    init(persistentContainer: NSPersistentCloudKitContainer = AppDelegate.persistentContainer) {
+    
+    static private var persistentContainer: NSPersistentCloudKitContainer = {
+        let container = NSPersistentCloudKitContainer(name: "mysubs")
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            if let error = error as NSError? {
+                fatalError("Unresolved error \(error), \(error.userInfo)")
+            }
+        })
+        return container
+    }()
+    
+    init(persistentContainer: NSPersistentCloudKitContainer = StorageService.persistentContainer) {
         self.viewContext = persistentContainer.viewContext
     }
     
