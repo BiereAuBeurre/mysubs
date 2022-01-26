@@ -13,16 +13,12 @@ class EditSubController: UIViewController {
     //MARK: -LOGO PROPERTY
     var iconHeader = UIButton()
     //MARK: -LeftSideStackView properties
-//    var leftSideStackView = UIStackView()
     var formView = UIStackView()
     var name = InputFormTextField()
     var commitmentTitle = UILabel()
     var commitmentDate = UIDatePicker()
     let commitmentStackView = UIStackView()
-
-    var info = InputFormTextField()
     //MARK: -RightSideStackView properties
-//    var rightSideStackView = UIStackView()
     var price = InputFormTextField()
     var reminder = InputFormTextField()
     var recurrency = InputFormTextField()
@@ -209,7 +205,6 @@ class EditSubController: UIViewController {
                 viewModel?.reminderType2 = valueType
                 viewModel?.reminder = "\(valueNumber) \(valueType) \(string2)"
 
-//                viewModel?.subscription.reminder = input.textField.text//"\(valueNumber) \(valueType) \(string2)"
             }
         }))
         self.present(alert, animated: true, completion: nil)
@@ -225,14 +220,14 @@ extension EditSubController: UIPickerViewDataSource, UIPickerViewDelegate {
             if component == 0 {
                 return ("\(componentNumber[row])")
             } else {
-                return ("\(componentDayMonthYear[row])")
+                return ("\(componentDayMonthYear[row].stringValue)")
             }
         } else {
             if component == 0 {
                 return ("\(componentNumber[row])")
             }
             else if component == 1 {
-                return ("\(componentDayMonthYear[row])")
+                return ("\(componentDayMonthYear[row].stringValue)")
             } else {
                 return "avant"
             }
@@ -280,6 +275,7 @@ extension EditSubController {
     
     private func setUpUI() {
         setUpNavBar()
+        addingValues()
         setUpView()
 
     }
@@ -318,10 +314,23 @@ extension EditSubController {
         self.navigationItem.rightBarButtonItem = rightBarButtonItem
     }
     
+    private func addingValues() {
+        if let icon = viewModel?.icon {
+            iconHeader.setImage(UIImage(data: icon), for: .normal)
+        } else {
+            iconHeader.setImage(UIImage(systemName: "pc"), for: .normal)
+        }
+        name.text = viewModel?.name
+        commitmentDate.date = viewModel?.date ?? Date.now
+        reminder.text = "\(viewModel?.reminder ?? "")"
+        recurrency.text = "\(viewModel?.recurrency ?? "")"
+        colorChoosen.textField.backgroundColor = UIColor(hex: viewModel?.color ?? "#F7CE46")
+
+    }
+    
     private func setUpView() {
         name.configureView()
 //        category.configureView()
-        info.configureView()
         price.configureView()
         reminder.configureView()
         recurrency.configureView()
@@ -334,12 +343,11 @@ extension EditSubController {
         iconHeader.tintColor = MSColors.maintext
         iconHeader.titleLabel?.font = MSFonts.title2
         iconHeader.setTitleColor(MSColors.maintext, for: .normal)
-        if let icon = viewModel?.icon {
-            iconHeader.setImage(UIImage(data: icon), for: .normal)
-//            iconHeader.image = UIImage(data: icon)
-        } else {
-            iconHeader.setImage(UIImage(systemName: "pc"), for: .normal)
-        }
+//        if let icon = viewModel?.icon {
+//            iconHeader.setImage(UIImage(data: icon), for: .normal)
+//        } else {
+//            iconHeader.setImage(UIImage(systemName: "pc"), for: .normal)
+//        }
         
         iconHeader.addTarget(self, action: #selector(showIconPicker), for: .touchUpInside)
 
@@ -356,7 +364,7 @@ extension EditSubController {
         //MARK: Adding name field
         formView.addArrangedSubview(name)
         name.fieldTitle = "Nom"
-        name.text = viewModel?.name
+//        name.text = viewModel?.name
         print("viewmodel.name :\(String(describing: viewModel?.name))")
         // configurer la inpute view pour le name
         name.textFieldInputView = UIView()
@@ -373,14 +381,14 @@ extension EditSubController {
         configureCommitment()
         commitmentDate.locale = Locale.init(identifier: "fr_FR")
         //isoler dans methode a part passage valeur viewmodel
-        commitmentDate.date = viewModel?.date ?? Date.now
+//        commitmentDate.date = viewModel?.date ?? Date.now
         formView.addArrangedSubview(commitmentStackView)
 
 
         //MARK: Adding reminder field
         reminder.fieldTitle = "Rappel"
         reminder.textField.allowsEditingTextAttributes = false
-        reminder.text = "\(viewModel?.reminder ?? "marchepas") avant"
+//        reminder.text = "\(viewModel?.reminder ?? "")"
         reminder.shouldBehaveAsButton = true
         reminder.addTarget(self, action: #selector(changeReminder), for: .touchUpInside)
         formView.addArrangedSubview(reminder)
@@ -391,7 +399,7 @@ extension EditSubController {
 //        print("\(viewModel?.recurrencyValue ?? 0) \(viewModel?.recurrencyType)")
 //        recurrency.text = "\(viewModel?.recurrencyValue ?? 0) \(String(describing: viewModel?.recurrencyType))"
 //        recurrency.text = recurrencytodisplay
-        recurrency.text = "\(viewModel?.recurrency ?? "cassé")"
+//        recurrency.text = "\(viewModel?.recurrency ?? "")"
         recurrency.shouldBehaveAsButton = true
         recurrency.addTarget(self, action: #selector(changeReccurency), for: .touchUpInside)
         formView.addArrangedSubview(recurrency)
@@ -400,7 +408,7 @@ extension EditSubController {
         colorChoosen.shouldBehaveAsButton = true
         colorChoosen.addTarget(self, action: #selector(showColorPicker), for: .touchUpInside)
         colorChoosen.textField.text = "➕"
-        colorChoosen.textField.backgroundColor = UIColor(hex: viewModel?.color ?? "#F7CE46")
+//        colorChoosen.textField.backgroundColor = UIColor(hex: viewModel?.color ?? "#F7CE46")
         colorChoosen.textField.textAlignment = .right
         formView.addArrangedSubview(colorChoosen)
 

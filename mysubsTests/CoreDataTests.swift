@@ -88,22 +88,3 @@ final class CoreDataTests: XCTestCase {
     }
 
 }
-//        for sub in loadedSubscriptions {
-//            do {
-//                try storageService.save()
-//            } catch {
-//                XCTFail("error saving \(error.localizedDescription)")
-//            }
-//            do {
-//                try storageService.delete(sub)
-//            } catch {
-//                XCTFail("error deleting \(error.localizedDescription)")
-//            }
-//            do {
-//                loadedSubscriptions = try storageService.loadsubs()
-//            } catch {
-//                XCTFail("error loading \(error.localizedDescription)")
-//            }
-           
-//        }
-

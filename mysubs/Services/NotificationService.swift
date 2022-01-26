@@ -8,6 +8,7 @@
 import UserNotifications
 
 class NotificationService {
+    
     func generateNotificationFor(_ name: String, _ reminderValue: Int, _ price: Float, _ date: Date) {
         //for subscription
 //        #if DEBUG
