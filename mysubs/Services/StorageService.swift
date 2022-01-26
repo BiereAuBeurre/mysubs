@@ -19,21 +19,21 @@ class StorageService {
         return container
     }()
     
-    init(persistentContainer: NSPersistentCloudKitContainer = StorageService.persistentContainer) {
+    init(persistentContainer: NSPersistentContainer = StorageService.persistentContainer) {
         self.viewContext = persistentContainer.viewContext
     }
     
     //MARK: Category Methods
     
-    func loadCategory() throws -> [SubCategory] {
-        var categories = [SubCategory]()
-        do {
-            categories = try viewContext.fetch(SubCategory.fetchRequest())
-        } catch {
-            print(error)
-        }
-        return categories
-    }
+//    func loadCategory() throws -> [SubCategory] {
+//        var categories = [SubCategory]()
+//        do {
+//            categories = try viewContext.fetch(SubCategory.fetchRequest())
+//        } catch {
+//            print(error)
+//        }
+//        return categories
+//    }
     
     func loadsubs() throws -> [Subscription] {
         var subscriptions = [Subscription]()

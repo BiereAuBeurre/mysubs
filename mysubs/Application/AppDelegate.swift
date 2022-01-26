@@ -42,22 +42,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-
-    // MARK: - Core Data stack
-//    static var persistentContainer: NSPersistentCloudKitContainer {
-//        return (UIApplication.shared.delegate as! AppDelegate).persistentContainer
-//    }
-//
-//    lazy var persistentContainer: NSPersistentCloudKitContainer = {
-//        let container = NSPersistentCloudKitContainer(name: "mysubs")
-//        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-//            if let error = error as NSError? {
-//                fatalError("Unresolved error \(error), \(error.userInfo)")
-//            }
-//        })
-//        return container
-//    }()
-
     // MARK: - Core Data Saving support
 
 //    func saveContext () {
