@@ -14,7 +14,7 @@ class NewSubViewModel: NSObject {
     weak var viewDelegate: NewSubController?
     private let coordinator: AppCoordinator
     private let storageService: StorageService
-    
+    var notificationService = NotificationService()
     var notificationDate = Date()
     var icon: Data?
 //    UIImage? {
@@ -119,6 +119,7 @@ class NewSubViewModel: NSObject {
 
         let date = notificationDate.addingTimeInterval(5)
         let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+        
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
         
         //UNUserNotificationCenter.current().
@@ -154,7 +155,10 @@ class NewSubViewModel: NSObject {
         newSub.icon = icon
         newSub.paymentRecurrency = "Tous les \(recurrencyValue ?? 0) \(recurrencyType)"
         storageService.save()
-        generateNotification()
+//        generateNotification()
+        notificationService.generateNotificationFor(name ?? "unkown", reminderValue ?? 0, price ?? 0, date ?? Date.now)
+        
+        //notifservice.generatenotiffor(date:)
         goBack()
     }
 }

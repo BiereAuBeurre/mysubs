@@ -19,13 +19,13 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     var titleView = UIView()
     var separatorLine = UIView()
     
-    //MARK: -LeftSideStackView properties
+    // LeftSideStackView properties
     var formView = UIStackView()
     var name = InputFormTextField()
     var commitment = InputFormTextField()
     var category = InputFormTextField()
     var info = InputFormTextField()
-    //MARK: -RightSideStackView properties
+    // RightSideStackView properties
     var colorAndIconStackView = UIStackView()
     var price = InputFormTextField()
     var reminder = InputFormTextField()
@@ -38,7 +38,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     var reminderPickerView = UIPickerView()
     var recurrencyPickerView = UIPickerView()
     
-    //MARK: LOGO PROPERTY
+    // LOGO PROPERTY
     var selectedIcon = UIImage()
     var suggestedLogo = UIButton()//UILabel()
     var logo = UIImageView()
@@ -366,14 +366,14 @@ extension NewSubController: UIPickerViewDataSource, UIPickerViewDelegate {
             if component == 0 {
                 return ("\(componentNumber[row])")
             } else {
-                return ("\(componentDayMonthYear[row])")
+                return ("\(componentDayMonthYear[row].stringValue)")
             }
         } else {
             if component == 0 {
                 return ("\(componentNumber[row])")
             }
             else if component == 1 {
-                return ("\(componentDayMonthYear[row])")//componentDayMonthYear[row]
+                return ("\(componentDayMonthYear[row].stringValue)")//componentDayMonthYear[row]
             } else {
                 return "avant"
             }

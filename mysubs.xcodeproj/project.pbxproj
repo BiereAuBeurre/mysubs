@@ -31,6 +31,9 @@
 		EF702850277C6AC100A90A54 /* InputFormTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70284F277C6AC100A90A54 /* InputFormTextField.swift */; };
 		EF70E4F027567D270011AB06 /* Pods_mysubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF70E4EF27567D270011AB06 /* Pods_mysubs.framework */; };
 		EF70E4F32756868A0011AB06 /* BrandInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70E4F22756868A0011AB06 /* BrandInfo.swift */; };
+		EF817B4D27A182E300C7AC96 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EF817B4F27A182E300C7AC96 /* Localizable.strings */; };
+		EF817B5327A18C9F00C7AC96 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF817B5227A18C9F00C7AC96 /* NotificationService.swift */; };
+		EF817B5527A18FA800C7AC96 /* Calendar.Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF817B5427A18FA800C7AC96 /* Calendar.Component.swift */; };
 		EF9072EB275E1FE8006CF678 /* NewSubController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9072EA275E1FE8006CF678 /* NewSubController.swift */; };
 		EF9072ED275E37EE006CF678 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9072EC275E37EE006CF678 /* Coordinator.swift */; };
 		EF9072EF275E3951006CF678 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9072EE275E3951006CF678 /* AppCoordinator.swift */; };
@@ -93,6 +96,11 @@
 		EF70284F277C6AC100A90A54 /* InputFormTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputFormTextField.swift; sourceTree = "<group>"; };
 		EF70E4EF27567D270011AB06 /* Pods_mysubs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_mysubs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF70E4F22756868A0011AB06 /* BrandInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandInfo.swift; sourceTree = "<group>"; };
+		EF817B4E27A182E300C7AC96 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EF817B5027A1833500C7AC96 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		EF817B5127A1833500C7AC96 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EF817B5227A18C9F00C7AC96 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		EF817B5427A18FA800C7AC96 /* Calendar.Component.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar.Component.swift; sourceTree = "<group>"; };
 		EF9072EA275E1FE8006CF678 /* NewSubController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSubController.swift; sourceTree = "<group>"; };
 		EF9072EC275E37EE006CF678 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		EF9072EE275E3951006CF678 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
@@ -177,6 +185,7 @@
 				EF6B125727903B080083E6F7 /* UIColor */,
 				EF125B132757961900E6FD6B /* UIViewcontroller */,
 				EF125B1027578AB500E6FD6B /* UIImageView */,
+				EF817B5427A18FA800C7AC96 /* Calendar.Component.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -202,6 +211,7 @@
 			isa = PBXGroup;
 			children = (
 				EF96B98F274FE1C900961F9C /* Assets.xcassets */,
+				EF817B4F27A182E300C7AC96 /* Localizable.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -392,6 +402,7 @@
 				EFFA24E127566E570068DFE3 /* LogoFinderService.swift */,
 				EF125B09275780E000E6FD6B /* StorageService.swift */,
 				EF125B0727577FA900E6FD6B /* APIConfiguration.swift */,
+				EF817B5227A18C9F00C7AC96 /* NotificationService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -484,6 +495,7 @@
 			knownRegions = (
 				en,
 				Base,
+				fr,
 			);
 			mainGroup = EF96B977274FE1C700961F9C;
 			productRefGroup = EF96B981274FE1C700961F9C /* Products */;
@@ -503,6 +515,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF96B993274FE1C900961F9C /* LaunchScreen.storyboard in Resources */,
+				EF817B4D27A182E300C7AC96 /* Localizable.strings in Resources */,
 				EF96B990274FE1C900961F9C /* Assets.xcassets in Resources */,
 				EF1168D62750035F00274911 /* Main.storyboard in Resources */,
 			);
@@ -571,6 +584,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF817B5527A18FA800C7AC96 /* Calendar.Component.swift in Sources */,
 				EFFA24DF275644E20068DFE3 /* HomeViewController.swift in Sources */,
 				EF9072EB275E1FE8006CF678 /* NewSubController.swift in Sources */,
 				EF3D8D5C275F9FC100D8B6A4 /* EditSubController.swift in Sources */,
@@ -583,6 +597,7 @@
 				EF5F1956279B046200D03161 /* IconPickerViewController.swift in Sources */,
 				EF6B125B279094310083E6F7 /* Notifications.swift in Sources */,
 				EF9072EF275E3951006CF678 /* AppCoordinator.swift in Sources */,
+				EF817B5327A18C9F00C7AC96 /* NotificationService.swift in Sources */,
 				EF1F6C73275A484C00DA0BBB /* MSImages.swift in Sources */,
 				EF96B984274FE1C700961F9C /* AppDelegate.swift in Sources */,
 				EF1520C9279EEFFC00E6E5AB /* IconCell.swift in Sources */,
@@ -640,10 +655,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		EF817B4F27A182E300C7AC96 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EF817B4E27A182E300C7AC96 /* en */,
+				EF817B5127A1833500C7AC96 /* fr */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		EF96B991274FE1C900961F9C /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				EF96B992274FE1C900961F9C /* Base */,
+				EF817B5027A1833500C7AC96 /* fr */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -655,6 +680,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -716,6 +742,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";

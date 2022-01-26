@@ -83,16 +83,11 @@ class EditSubController: UIViewController {
         
         //MARK: - replace selectedRow protocol method since action happen here
         alert.addAction(UIAlertAction(title: "Selectionner", style: .default, handler: { [self] (UIAlertAction) in
-            //Convert view model icon from data to uiimage, then displaying it
-//            viewModel?.icon = iconPickerVC.icon.pngData()
-            
+            //Convert icon selected from uiimage to data, then displaying it and assigning to viewmodel.icon
             if let icon = iconPickerVC.icon.pngData() {
                 iconHeader.setImage(UIImage(data: icon), for: .normal)
                 viewModel?.icon = icon
             }
-            
-            
-//            iconHeader.setImage(iconPickerVC.icon, for: .normal)
         }))
         self.present(alert, animated: true, completion: nil)
                                       
@@ -166,7 +161,7 @@ class EditSubController: UIViewController {
             viewModel?.delete()
             viewModel?.goBack()
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        let cancelAction = UIAlertAction(title: Strings.genericCancel, style: .cancel)
         alert.addAction(deleteAction)
         alert.addAction(cancelAction)
         present(alert, animated: true)
@@ -332,15 +327,22 @@ extension EditSubController {
         recurrency.configureView()
         colorChoosen.configureView()
         view.backgroundColor = MSColors.background
+        
         iconHeader.translatesAutoresizingMaskIntoConstraints = false
+        iconHeader.titleLabel?.textAlignment = .center
+        iconHeader.setTitle("Icône ▼", for: .normal)
+        iconHeader.tintColor = MSColors.maintext
+        iconHeader.titleLabel?.font = MSFonts.title2
+        iconHeader.setTitleColor(MSColors.maintext, for: .normal)
         if let icon = viewModel?.icon {
             iconHeader.setImage(UIImage(data: icon), for: .normal)
 //            iconHeader.image = UIImage(data: icon)
         } else {
             iconHeader.setImage(UIImage(systemName: "pc"), for: .normal)
         }
-        iconHeader.imageView?.sizeToFit()
+        
         iconHeader.addTarget(self, action: #selector(showIconPicker), for: .touchUpInside)
+
         view.addSubview(iconHeader)
         
         // MARK: FORMVIEW
@@ -370,6 +372,7 @@ extension EditSubController {
         commitmentDate.translatesAutoresizingMaskIntoConstraints = false
         configureCommitment()
         commitmentDate.locale = Locale.init(identifier: "fr_FR")
+        //isoler dans methode a part passage valeur viewmodel
         commitmentDate.date = viewModel?.date ?? Date.now
         formView.addArrangedSubview(commitmentStackView)
 
@@ -420,17 +423,21 @@ extension EditSubController {
    
         NSLayoutConstraint.activate([
         iconHeader.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-        iconHeader.widthAnchor.constraint(equalToConstant: 50),
+//        iconHeader.widthAnchor.constraint(equalToConstant: 50),
         iconHeader.heightAnchor.constraint(equalToConstant: 50),
         iconHeader.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
         formView.topAnchor.constraint(equalTo: iconHeader.bottomAnchor, constant: 40),
         formView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+        
+//        formView.trailingAnchor.constraint(equalTo: colorChoosen.trailingAnchor, constant: 200),
+//        view.trailingAnchor.constraint(equalTo: formView.trailingAnchor, constant: 16),
         formView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
         formView.heightAnchor.constraint(equalToConstant: 450),
         deleteButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80),
         deleteButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
         deleteButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
         deleteButton.heightAnchor.constraint(equalToConstant: 40),
+//        colorChoosen.trailingAnchor.constraint(equalTo: formView.trailingAnchor, constant: -150)
         ])
     }
 }

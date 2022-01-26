@@ -13,6 +13,7 @@ class EditSubViewModel: NSObject {
     private let coordinator: AppCoordinator
     let storageService: StorageService
     init(coordinator: AppCoordinator, storageService: StorageService, subscription: Subscription) {
+        //alleger inir
         self.coordinator = coordinator
         self.storageService = storageService
         self.subscription = subscription
@@ -68,7 +69,11 @@ class EditSubViewModel: NSObject {
             }
         }
     }
-    var subscription: Subscription
+      var subscription: Subscription {
+        didSet {
+            //passer valeur init
+        }
+    }
 
     
     var date: Date? {

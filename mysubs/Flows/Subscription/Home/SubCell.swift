@@ -34,7 +34,7 @@ class SubCell: UICollectionViewCell {
     func refreshSubData() {
         subNameLabel.text = subscription?.name
         priceLabel.text = "\(subscription?.price ?? 0) €"
-        contentView.backgroundColor = UIColor(hexa: subscription?.color ?? "FFB6C1")
+        contentView.backgroundColor = UIColor(hex: subscription?.color ?? "FFB6C1")
         if let icon = subscription?.icon {
             logo.image = UIImage(data: icon)
         } else {
