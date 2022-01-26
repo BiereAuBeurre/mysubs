@@ -18,8 +18,6 @@ final class CoreDataTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-
-        loadedSubscriptions = [sub1, sub2]
         // MARK: - managedObjectModel
         let managedObjectModel = NSManagedObjectModel.mergedModel(from: [Bundle.main])!
 
@@ -48,23 +46,12 @@ final class CoreDataTests: XCTestCase {
         storageService = nil
         loadedSubscriptions = []
     }
-//
-//    func testSubLoading() throws {
-//        storageService.save()
-//        do {
-//            loadedSubscriptions = try storageService.loadsubs()
-//
-//        } catch {
-//            XCTFail("error loading \(error.localizedDescription)")
-//        }
-//        XCTAssert(loadedSubscriptions.count == 2)
-//    }
-
-    func testSubDeletion() throws {
+    
+    func testSubLoadingAndDeletion() throws {
         storageService.save()
         do {
             loadedSubscriptions = try storageService.loadsubs()
-            
+
         } catch {
             XCTFail("error loading \(error.localizedDescription)")
         }

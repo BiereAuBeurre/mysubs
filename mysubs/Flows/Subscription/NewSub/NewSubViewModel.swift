@@ -114,7 +114,7 @@ class NewSubViewModel: NSObject {
         newSub.icon = icon
         newSub.paymentRecurrency = "Tous les \(recurrencyValue ?? 0) \(recurrencyType)"
         storageService.save()
-        notificationService.generateNotificationFor(name ?? "unkown", reminderValue ?? 0, price ?? 0, date ?? Date.now)
+        notificationService.generateNotificationFor(name ?? "unkown", reminderValue ?? 0, price ?? 0, notificationDate)
         goBack()
     }
 }

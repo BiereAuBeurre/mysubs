@@ -193,17 +193,17 @@ class EditSubController: UIViewController {
             let string2 = "avant"
 
             if input == recurrency {
-                input.textField.text = "\(valueNumber) \(valueType)"
+                input.textField.text = "\(valueNumber) \(valueType.stringValue)"
                 viewModel?.recurrencyValue = valueNumber
                 viewModel?.recurrencyType = valueType
 //                viewModel?.subscription.paymentRecurrency = input.textField.text//"\(valueNumber) \(valueType)"
-                viewModel?.recurrency = "\(valueNumber) \(valueType)"
+                viewModel?.recurrency = "\(valueNumber) \(valueType.stringValue)"
 
             } else {
-                input.textField.text = "\(valueNumber) \(valueType) \(string2)"
+                input.textField.text = "\(valueNumber) \(valueType.stringValue) \(string2)"
                 viewModel?.reminderValue = valueNumber
                 viewModel?.reminderType2 = valueType
-                viewModel?.reminder = "\(valueNumber) \(valueType) \(string2)"
+                viewModel?.reminder = "\(valueNumber) \(valueType.stringValue) \(string2)"
 
             }
         }))
@@ -285,9 +285,8 @@ extension EditSubController {
         commitmentStackView.addArrangedSubview(commitmentDate)
         commitmentStackView.axis = .vertical
         commitmentStackView.alignment = .leading
-//        commitmentStackView.spacing = 8
+        commitmentDate.backgroundColor = MSColors.background
         commitmentTitle.textColor = MSColors.maintext
-//        commitmentStackView.contentMode = .top
         commitmentDate.contentMode = .top
         commitmentStackView.translatesAutoresizingMaskIntoConstraints = false
         commitmentTitle.translatesAutoresizingMaskIntoConstraints = false
@@ -320,12 +319,11 @@ extension EditSubController {
         } else {
             iconHeader.setImage(UIImage(systemName: "pc"), for: .normal)
         }
-        name.text = viewModel?.name
+        name.text = viewModel?.name//viewModel?.name
         commitmentDate.date = viewModel?.date ?? Date.now
         reminder.text = "\(viewModel?.reminder ?? "")"
         recurrency.text = "\(viewModel?.recurrency ?? "")"
         colorChoosen.textField.backgroundColor = UIColor(hex: viewModel?.color ?? "#F7CE46")
-
     }
     
     private func setUpView() {
@@ -343,14 +341,7 @@ extension EditSubController {
         iconHeader.tintColor = MSColors.maintext
         iconHeader.titleLabel?.font = MSFonts.title2
         iconHeader.setTitleColor(MSColors.maintext, for: .normal)
-//        if let icon = viewModel?.icon {
-//            iconHeader.setImage(UIImage(data: icon), for: .normal)
-//        } else {
-//            iconHeader.setImage(UIImage(systemName: "pc"), for: .normal)
-//        }
-        
         iconHeader.addTarget(self, action: #selector(showIconPicker), for: .touchUpInside)
-
         view.addSubview(iconHeader)
         
         // MARK: FORMVIEW
@@ -364,8 +355,6 @@ extension EditSubController {
         //MARK: Adding name field
         formView.addArrangedSubview(name)
         name.fieldTitle = "Nom"
-//        name.text = viewModel?.name
-        print("viewmodel.name :\(String(describing: viewModel?.name))")
         // configurer la inpute view pour le name
         name.textFieldInputView = UIView()
         
@@ -380,26 +369,18 @@ extension EditSubController {
         commitmentDate.translatesAutoresizingMaskIntoConstraints = false
         configureCommitment()
         commitmentDate.locale = Locale.init(identifier: "fr_FR")
-        //isoler dans methode a part passage valeur viewmodel
-//        commitmentDate.date = viewModel?.date ?? Date.now
         formView.addArrangedSubview(commitmentStackView)
 
 
         //MARK: Adding reminder field
         reminder.fieldTitle = "Rappel"
         reminder.textField.allowsEditingTextAttributes = false
-//        reminder.text = "\(viewModel?.reminder ?? "")"
         reminder.shouldBehaveAsButton = true
         reminder.addTarget(self, action: #selector(changeReminder), for: .touchUpInside)
         formView.addArrangedSubview(reminder)
 
         //MARK: Adding recurrency field
         recurrency.fieldTitle = "Cycle"
-//        var recurrencytodisplay = "\(viewModel?.recurrencyValue ?? 0) \(viewModel?.recurrencyType)"
-//        print("\(viewModel?.recurrencyValue ?? 0) \(viewModel?.recurrencyType)")
-//        recurrency.text = "\(viewModel?.recurrencyValue ?? 0) \(String(describing: viewModel?.recurrencyType))"
-//        recurrency.text = recurrencytodisplay
-//        recurrency.text = "\(viewModel?.recurrency ?? "")"
         recurrency.shouldBehaveAsButton = true
         recurrency.addTarget(self, action: #selector(changeReccurency), for: .touchUpInside)
         formView.addArrangedSubview(recurrency)
@@ -408,7 +389,6 @@ extension EditSubController {
         colorChoosen.shouldBehaveAsButton = true
         colorChoosen.addTarget(self, action: #selector(showColorPicker), for: .touchUpInside)
         colorChoosen.textField.text = "➕"
-//        colorChoosen.textField.backgroundColor = UIColor(hex: viewModel?.color ?? "#F7CE46")
         colorChoosen.textField.textAlignment = .right
         formView.addArrangedSubview(colorChoosen)
 
@@ -416,8 +396,6 @@ extension EditSubController {
         name.textField.addTarget(self, action: #selector(nameFieldTextDidChange), for: .editingChanged)
         price.textField.addTarget(self, action: #selector(priceFieldTextDidChange), for: .editingChanged)
         commitmentDate.addTarget(self, action: #selector(dateDidChange), for: .valueChanged)
-        //FIXME:
-//        reminderPickerView.addTarget(self, action: #selector(reminderFieldDidChange), for: .valueChanged)
     //MARK: DELETE BUTTON
         view.addSubview(deleteButton)
         deleteButton.titleLabel?.textAlignment = .center
@@ -450,15 +428,9 @@ extension EditSubController {
     }
 }
 
-//logo.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
-//logo.widthAnchor.constraint(equalToConstant: 34),
-//logo.heightAnchor.constraint(equalToConstant: 34),
-//logo.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0),
 
 
-
-
-//MARK: Adding category field
+// Adding category field
 //        leftSideStackView.addArrangedSubview(category)
 //        category.translatesAutoresizingMaskIntoConstraints = false
 //        category.label.text = "Catégorie"

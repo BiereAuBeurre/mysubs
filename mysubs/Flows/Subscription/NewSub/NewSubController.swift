@@ -154,11 +154,11 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
             let string2 = "avant"
 
             if input == recurrency {
-                input.textField.text = "\(valueNumber) \(valueType)"
+                input.textField.text = "\(valueNumber) \(valueType.stringValue)"
                 viewModel?.recurrencyValue = valueNumber
                 viewModel?.recurrencyType = valueType
             } else {
-                input.textField.text = "\(valueNumber) \(valueType) \(string2)"
+                input.textField.text = "\(valueNumber) \(valueType.stringValue) \(string2)"
                 viewModel?.reminderValue = valueNumber
                 viewModel?.reminderType2 = valueType
             }

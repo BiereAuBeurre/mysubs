@@ -29,7 +29,7 @@ class EditSubViewModel: NSObject {
     
     var subscription: Subscription {
       didSet {
-          
+
       }
   }
     
@@ -163,11 +163,12 @@ class EditSubViewModel: NSObject {
     func save() {
         storageService.save()
     }
-    func generateNotifDate() {
+    func generateNotifDate() -> Date {
         notificationDate = date ?? Date.now
         notificationDate = notificationDate.adding(reminderType2, value: -(reminderValue ?? 0)) ?? Date.now
         notificationDate = notificationDate.adding(recurrencyType, value: recurrencyValue ?? 0) ?? Date.now
         print("New date to get for notifications is : \(notificationDate)")
+        return notificationDate
     }
     
     func saveEditedSub() {
@@ -178,8 +179,12 @@ class EditSubViewModel: NSObject {
         subscription.icon = icon
         subscription.color = color
         subscription.paymentRecurrency = recurrency
-        generateNotifDate()
-        notificationService.generateNotificationFor(name ?? "unkown", reminderValue ?? 0, price ?? 0, date ?? Date.now)
+//        generateNotifDate()
+        notificationDate = date ?? Date.now
+        notificationDate = notificationDate.adding(reminderType2, value: -(reminderValue ?? 0)) ?? Date.now
+        notificationDate = notificationDate.adding(recurrencyType, value: recurrencyValue ?? 0) ?? Date.now
+        print("New date to get for notifications is : \(notificationDate)")
+        notificationService.generateNotificationFor(name ?? "unkown", reminderValue ?? 0, price ?? 0, notificationDate)
 
         save()
     }
