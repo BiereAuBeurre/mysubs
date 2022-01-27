@@ -39,25 +39,18 @@ class NewSubViewModel: NSObject {
         }
     }
     
-    var recurrencyType: Calendar.Component = .year {
+    var recurrencyType: Calendar.Component = .hour {
         didSet {
             
         }
     }
     
-    var reminderType2: Calendar.Component = .year {
+    var reminderType: Calendar.Component = .hour {
         didSet {
             
         }
     }
     
-    var reminderType: String? {
-        didSet {
-            
-            }
-    }
-    
-    //MARK: -FIXME : fonctionne quand appelé dans le VC -> @objc func addButtonAction
     var price: Float? {
         didSet {
             guard oldValue != price else { return }
@@ -97,7 +90,6 @@ class NewSubViewModel: NSObject {
     
     func goBack() {
         coordinator.goBack()
-        // homeVC.subscriptions  = viewDelegate!.subscriptions
     }
     
     func saveSub() {
@@ -105,10 +97,10 @@ class NewSubViewModel: NSObject {
         newSub.name = name
         newSub.price = price ?? 0
         notificationDate = date ?? Date.now
-        notificationDate = notificationDate.adding(reminderType2, value: -(reminderValue ?? 0)) ?? Date.now
+        notificationDate = notificationDate.adding(reminderType, value: -(reminderValue ?? 0)) ?? Date.now
         notificationDate = notificationDate.adding(recurrencyType, value: recurrencyValue ?? 500) ?? Date.now
         print("New date to get for notifications is : \(notificationDate)")
-        newSub.reminder = "\(reminderValue ?? 0) \(reminderType2)"
+        newSub.reminder = "\(reminderValue ?? 0) \(reminderType)"
         newSub.commitment = date
         newSub.color = color
         newSub.icon = icon

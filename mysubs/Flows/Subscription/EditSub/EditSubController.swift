@@ -72,13 +72,13 @@ class EditSubController: UIViewController {
     @objc
     func showIconPicker() {
         iconPickerVC.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
-        let alert = UIAlertController(title: "Select icon", message: "", preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "Sélectionner un icône", message: "", preferredStyle: .actionSheet)
         alert.setValue(iconPickerVC, forKey: "contentViewController")
-        alert.addAction(UIAlertAction(title: "Annuler", style: .cancel, handler: { (UIAlertAction) in
+        alert.addAction(UIAlertAction(title: Strings.genericCancel, style: .cancel, handler: { (UIAlertAction) in
         }))
         
         //MARK: - replace selectedRow protocol method since action happen here
-        alert.addAction(UIAlertAction(title: "Selectionner", style: .default, handler: { [self] (UIAlertAction) in
+        alert.addAction(UIAlertAction(title: "Sélectionner", style: .default, handler: { [self] (UIAlertAction) in
             //Convert icon selected from uiimage to data, then displaying it and assigning to viewmodel.icon
             if let icon = iconPickerVC.icon.pngData() {
                 iconHeader.setImage(UIImage(data: icon), for: .normal)
@@ -145,15 +145,12 @@ class EditSubController: UIViewController {
     
     @objc func changeReccurency() {
         print(#function)
-
         showPicker(recurrencyPickerView, recurrency)
-//        viewModel?.subscription.paymentRecurrency = recurrency.text
-
     }
     
     private func deletingAlert() {
-        let alert = UIAlertController(title: "Suppression de l'abonnement", message: "Êtes-vous sur de vouloir supprimer l'abonnement : \(viewModel?.subscription.name ?? "")", preferredStyle: .actionSheet)
-        let deleteAction = UIAlertAction(title: "Confirmer", style: .default) { [unowned self] action in
+        let alert = UIAlertController(title: "Suppression de l'abonnement", message: "Êtes-vous sur de vouloir supprimer l'abonnement \(viewModel?.name ?? "") ?", preferredStyle: .actionSheet)
+        let deleteAction = UIAlertAction(title: Strings.genericConfirm, style: .default) { [unowned self] action in
             viewModel?.delete()
             viewModel?.goBack()
         }
@@ -166,7 +163,6 @@ class EditSubController: UIViewController {
     func refreshWith(subscription: Subscription) {
 //        viewModel?.subscription = Subs
 //        nameField.text = sub.name
-        print("sub.name est : \(String(describing: viewModel?.subscription.name))")
     }
     
     private func showPicker(_ picker : UIPickerView, _ input: InputFormTextField) {
@@ -202,7 +198,7 @@ class EditSubController: UIViewController {
             } else {
                 input.textField.text = "\(valueNumber) \(valueType.stringValue) \(string2)"
                 viewModel?.reminderValue = valueNumber
-                viewModel?.reminderType2 = valueType
+                viewModel?.reminderType = valueType
                 viewModel?.reminder = "\(valueNumber) \(valueType.stringValue) \(string2)"
 
             }
@@ -319,7 +315,7 @@ extension EditSubController {
         } else {
             iconHeader.setImage(UIImage(systemName: "pc"), for: .normal)
         }
-        name.text = viewModel?.name//viewModel?.name
+        name.text = viewModel?.name
         commitmentDate.date = viewModel?.date ?? Date.now
         reminder.text = "\(viewModel?.reminder ?? "")"
         recurrency.text = "\(viewModel?.recurrency ?? "")"
@@ -396,7 +392,7 @@ extension EditSubController {
         name.textField.addTarget(self, action: #selector(nameFieldTextDidChange), for: .editingChanged)
         price.textField.addTarget(self, action: #selector(priceFieldTextDidChange), for: .editingChanged)
         commitmentDate.addTarget(self, action: #selector(dateDidChange), for: .valueChanged)
-    //MARK: DELETE BUTTON
+        //MARK: DELETE BUTTON
         view.addSubview(deleteButton)
         deleteButton.titleLabel?.textAlignment = .center
         deleteButton.translatesAutoresizingMaskIntoConstraints = false

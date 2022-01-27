@@ -46,6 +46,7 @@
 		EF96B99E274FE1C900961F9C /* mysubsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF96B99D274FE1C900961F9C /* mysubsTests.swift */; };
 		EF96B9A8274FE1C900961F9C /* mysubsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF96B9A7274FE1C900961F9C /* mysubsUITests.swift */; };
 		EF96B9AA274FE1C900961F9C /* mysubsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF96B9A9274FE1C900961F9C /* mysubsUITestsLaunchTests.swift */; };
+		EFA682B627A2D0290095E1F3 /* SetIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA682B527A2D0290095E1F3 /* SetIcon.swift */; };
 		EFCB8EBA2779FC8A009BC47D /* CategoriesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCB8EB92779FC8A009BC47D /* CategoriesCell.swift */; };
 		EFEF69DD276799C8005CB6C3 /* EditSubViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFEF69DC276799C8005CB6C3 /* EditSubViewModel.swift */; };
 		EFF326E427A196E100FAFACE /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF326E327A196E100FAFACE /* CloudKit.framework */; };
@@ -118,6 +119,7 @@
 		EF96B9A3274FE1C900961F9C /* mysubsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mysubsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF96B9A7274FE1C900961F9C /* mysubsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mysubsUITests.swift; sourceTree = "<group>"; };
 		EF96B9A9274FE1C900961F9C /* mysubsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mysubsUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		EFA682B527A2D0290095E1F3 /* SetIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetIcon.swift; sourceTree = "<group>"; };
 		EFCB8EB92779FC8A009BC47D /* CategoriesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesCell.swift; sourceTree = "<group>"; };
 		EFEF69DC276799C8005CB6C3 /* EditSubViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSubViewModel.swift; sourceTree = "<group>"; };
 		EFF326E127A196C300FAFACE /* mysubs.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = mysubs.entitlements; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 		EF125B1027578AB500E6FD6B /* UIImageView */ = {
 			isa = PBXGroup;
 			children = (
+				EFA682B427A2D00D0095E1F3 /* UITextField */,
 				EF125B1127578AC600E6FD6B /* LoadImage.swift */,
 			);
 			path = UIImageView;
@@ -400,6 +403,14 @@
 				EF96B9A9274FE1C900961F9C /* mysubsUITestsLaunchTests.swift */,
 			);
 			path = mysubsUITests;
+			sourceTree = "<group>";
+		};
+		EFA682B427A2D00D0095E1F3 /* UITextField */ = {
+			isa = PBXGroup;
+			children = (
+				EFA682B527A2D0290095E1F3 /* SetIcon.swift */,
+			);
+			path = UITextField;
 			sourceTree = "<group>";
 		};
 		EFF326E227A196E100FAFACE /* Frameworks */ = {
@@ -611,6 +622,7 @@
 				EF5F1956279B046200D03161 /* IconPickerViewController.swift in Sources */,
 				EF6B125B279094310083E6F7 /* Notifications.swift in Sources */,
 				EF9072EF275E3951006CF678 /* AppCoordinator.swift in Sources */,
+				EFA682B627A2D0290095E1F3 /* SetIcon.swift in Sources */,
 				EF817B5327A18C9F00C7AC96 /* NotificationService.swift in Sources */,
 				EF1F6C73275A484C00DA0BBB /* MSImages.swift in Sources */,
 				EF96B984274FE1C700961F9C /* AppDelegate.swift in Sources */,

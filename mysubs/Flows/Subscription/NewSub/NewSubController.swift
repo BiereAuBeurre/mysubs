@@ -19,13 +19,11 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     var titleView = UIView()
     var separatorLine = UIView()
     
-    // LeftSideStackView properties
     var formView = UIStackView()
     var name = InputFormTextField()
     var commitment = InputFormTextField()
-    var category = InputFormTextField()
+//    var category = InputFormTextField()
     var info = InputFormTextField()
-    // RightSideStackView properties
     var colorAndIconStackView = UIStackView()
     var price = InputFormTextField()
     var reminder = InputFormTextField()
@@ -40,7 +38,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     
     // LOGO PROPERTY
     var selectedIcon = UIImage()
-    var suggestedLogo = UIButton()//UILabel()
+    var suggestedLogo = UIButton()
     var logo = UIImageView()
     var iconCell = IconCell()
     var viewModel: NewSubViewModel?
@@ -50,10 +48,6 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
     }
     
     //MARK: -OBJC METHODs
@@ -71,12 +65,25 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     
     @objc
     func addButtonAction() {
-//        if viewModel?.name == nil && viewModel?.price == nil {
-//            showAlert("Champs manquants", "Merci d'ajouter au moins un nom et un prix")
-//            return
-//        } else {
-            viewModel?.saveSub()
-//        }
+        if viewModel?.name == nil || viewModel?.price == nil {
+            showAlert("Champs manquants", "Merci d'ajouter au moins un nom et un prix")
+            return
+        }
+        
+        if viewModel?.date != nil {
+            if viewModel?.recurrencyType == .hour || viewModel?.reminderType == .hour {
+                showAlert("Champs manquant pour parametrer la date du prochain paiement", "merci d'accompagner la date d'un rappel et d'un cycle de paiement")
+                return
+                //(dateDidChange)
+            }
+        }
+        
+        //       if viewModel?.date != nil && viewModel?.recurrencyType == .hour || viewModel?.reminderType == .hour {
+        //            showAlert("Champs manquant pour parametrer la date du prochain paiement", "merci d'accompagner la date d'un rappel et d'un cycle de paiement")
+        //            return
+        //            //(dateDidChange)
+        //       }
+        viewModel?.saveSub()
     }
     
     @objc
@@ -104,7 +111,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         iconPickerVC.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
         let alert = UIAlertController(title: "Select icon", message: "", preferredStyle: .actionSheet)
         alert.setValue(iconPickerVC, forKey: "contentViewController")
-        alert.addAction(UIAlertAction(title: "Annuler", style: .cancel, handler: { (UIAlertAction) in
+        alert.addAction(UIAlertAction(title: Strings.genericCancel, style: .cancel, handler: { (UIAlertAction) in
         }))
         
         //MARK: - replace selectedRow protocol method since action happen here
@@ -160,7 +167,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
             } else {
                 input.textField.text = "\(valueNumber) \(valueType.stringValue) \(string2)"
                 viewModel?.reminderValue = valueNumber
-                viewModel?.reminderType2 = valueType
+                viewModel?.reminderType = valueType
             }
         }))
         
@@ -346,17 +353,17 @@ extension NewSubController {
 
 }
 
-//Adding icon selected to left vuew mode of textfiel
-extension UITextField {
-    func setIcon(_ image: UIImage) {
-        let iconView = UIImageView(frame: CGRect(x: 10, y: 5, width: 20, height: 20))
-        iconView.image = image
-        let iconContainerView: UIView = UIView(frame: CGRect(x: 20, y: 0, width: 30, height: 30))
-        iconContainerView.addSubview(iconView)
-        leftView = iconContainerView
-        leftViewMode = .always
-    }
-}
+////Adding icon selected to left vuew mode of textfiel
+//extension UITextField {
+//    func setIcon(_ image: UIImage) {
+//        let iconView = UIImageView(frame: CGRect(x: 10, y: 5, width: 20, height: 20))
+//        iconView.image = image
+//        let iconContainerView: UIView = UIView(frame: CGRect(x: 20, y: 0, width: 30, height: 30))
+//        iconContainerView.addSubview(iconView)
+//        leftView = iconContainerView
+//        leftViewMode = .always
+//    }
+//}
 
 //MARK: - BOTH PICKERVIEW SETUP
 extension NewSubController: UIPickerViewDataSource, UIPickerViewDelegate {

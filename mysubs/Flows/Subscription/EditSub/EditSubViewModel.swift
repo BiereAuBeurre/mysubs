@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UserNotifications
 
 class EditSubViewModel: NSObject {
     weak var viewDelegate: EditSubController?
@@ -23,7 +22,7 @@ class EditSubViewModel: NSObject {
         self.color = subscription.color
         self.reminder = subscription.reminder
         self.date = subscription.commitment
-        self.recurrency = subscription.paymentRecurrency// ?? "non renseigné"
+        self.recurrency = subscription.paymentRecurrency
         self.icon = subscription.icon
     }
     
@@ -35,32 +34,41 @@ class EditSubViewModel: NSObject {
     
     var notificationDate = Date()
 
-    var icon: Data?
+    var icon: Data? {
+        didSet {
+            guard oldValue != icon else { return }
+            print("Can Save icon: \(canSave ? "YES" : "NO" )")
+
+        }
+    }
     
-    var recurrency: String?
-//    {
-//        didSet {
-//
-//            guard oldValue != recurrency else { return }
-//        }
-//    }
+    var recurrency: String? {
+        didSet {
+            guard oldValue != recurrency else { return }
+            print("Can Save recurrency: \(canSave ? "YES" : "NO" )")
+
+        }
+    }
     
-    var reminder: String?
-//    {
-//        didSet {
-//            guard oldValue != reminder else { return }
-//        }
-//    }
+    var reminder: String? {
+        didSet {
+            guard oldValue != reminder else { return }
+            print("Can Save reminder: \(canSave ? "YES" : "NO" )")
+
+        }
+    }
     var color: String? {
         didSet {
             guard oldValue != color else { return }
+            print("Can Save color: \(canSave ? "YES" : "NO" )")
+
         }
     }
     
     var name: String? {
         didSet {
             if oldValue != name {
-                print("Can Save: \(canSave ? "YES" : "NO" )")
+                print("Can Save name: \(canSave ? "YES" : "NO" )")
             }
         }
     }
@@ -68,7 +76,7 @@ class EditSubViewModel: NSObject {
     var price: Float? {
         didSet {
             if oldValue != price {
-                print("Can Save: \(canSave ? "YES" : "NO" )")
+                print("Can Save price: \(canSave ? "YES" : "NO" )")
             }
         }
     }
@@ -76,7 +84,7 @@ class EditSubViewModel: NSObject {
     var date: Date? {
         didSet {
             if oldValue != date {
-                print("Can Save: \(canSave ? "YES" : "NO" )")
+                print("Can Save date: \(canSave ? "YES" : "NO" )")
             }
         }
     }
@@ -84,7 +92,7 @@ class EditSubViewModel: NSObject {
     var reminderValue: Int? {
         didSet {
             if oldValue != reminderValue {
-                print("Can Save: \(canSave ? "YES" : "NO" )")
+                print("Can Save reminder value : \(canSave ? "YES" : "NO" )")
             }
         }
     }
@@ -92,7 +100,7 @@ class EditSubViewModel: NSObject {
     var recurrencyValue: Int? {
         didSet {
             if oldValue != recurrencyValue {
-                print("Can Save: \(canSave ? "YES" : "NO" )")
+                print("Can Save recurrency value: \(canSave ? "YES" : "NO" )")
             }
         }
     }
@@ -100,36 +108,26 @@ class EditSubViewModel: NSObject {
     var recurrencyType: Calendar.Component = .year {
         didSet {
             if oldValue != recurrencyType {
-                print("Can Save: \(canSave ? "YES" : "NO" )")
+                print("Can Save recurrency type : \(canSave ? "YES" : "NO" )")
             }
         }
     }
     
-    var reminderType2: Calendar.Component = .year {
+    var reminderType: Calendar.Component = .year {
         didSet {
-            if oldValue != reminderType2 {
-                print("Can Save: \(canSave ? "YES" : "NO" )")
+            if oldValue != reminderType {
+                print("Can Save reminderType2: \(canSave ? "YES" : "NO" )")
             }
         }
     }
-    
-//    var reminderType: String? {
-//        didSet {
-//
-//            }
-//    }
     
     private var isPaymentRecurrencyChanged: Bool {
         recurrency != subscription.paymentRecurrency
     }
     
-    private var isReminderChanged: Bool {
-       reminder != subscription.reminder
+    private var isIconChanged: Bool {
+        icon != subscription.icon
     }
-    
-//    private var isRecurrencyChanged: Bool {
-//        "\(recurrencyValue ?? 0) \(recurrencyType)" != subscription.paymentRecurrency
-//    }
     
     private var isDateChanged: Bool {
         date != subscription.commitment
@@ -147,8 +145,15 @@ class EditSubViewModel: NSObject {
         price != subscription.price
     }
     
+    //FIXME: si appelés dans canSave fait buguer les autres?!
+//    private var isReminderChanged: Bool {
+//       reminder != subscription.reminder
+//    }
+//    private var isRecurrencyChanged: Bool {
+//        "\(recurrencyValue ?? 0) \(recurrencyType)" != subscription.paymentRecurrency
+//    }
     var canSave: Bool {
-        return isNameChanged || isPriceChanged || isDateChanged || isReminderChanged || isPaymentRecurrencyChanged || isColorChanged// || isRecurrencyChanged ///&& isDate ....
+        return isNameChanged || isPriceChanged || isPaymentRecurrencyChanged || isColorChanged || isIconChanged //|| isDateChanged || isRecurrencyChanged || isReminderChanged  ///&& isDate ....
     }
     
     
@@ -163,28 +168,25 @@ class EditSubViewModel: NSObject {
     func save() {
         storageService.save()
     }
-    func generateNotifDate() -> Date {
-        notificationDate = date ?? Date.now
-        notificationDate = notificationDate.adding(reminderType2, value: -(reminderValue ?? 0)) ?? Date.now
-        notificationDate = notificationDate.adding(recurrencyType, value: recurrencyValue ?? 0) ?? Date.now
-        print("New date to get for notifications is : \(notificationDate)")
-        return notificationDate
-    }
     
     func saveEditedSub() {
-        subscription.name = name
+        if isNameChanged {
+            print("new name is being saved")
+            subscription.name = name
+        } 
         subscription.price = price ?? 0
         subscription.reminder = reminder
         subscription.commitment = date
         subscription.icon = icon
         subscription.color = color
         subscription.paymentRecurrency = recurrency
-//        generateNotifDate()
+
+        //Setting notif to right date
         notificationDate = date ?? Date.now
-        notificationDate = notificationDate.adding(reminderType2, value: -(reminderValue ?? 0)) ?? Date.now
+        notificationDate = notificationDate.adding(reminderType, value: -(reminderValue ?? 0)) ?? Date.now
         notificationDate = notificationDate.adding(recurrencyType, value: recurrencyValue ?? 0) ?? Date.now
-        print("New date to get for notifications is : \(notificationDate)")
         notificationService.generateNotificationFor(name ?? "unkown", reminderValue ?? 0, price ?? 0, notificationDate)
+        print("New date to get for notifications is : \(notificationDate)")
 
         save()
     }
