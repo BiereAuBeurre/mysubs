@@ -44,13 +44,36 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     var viewModel: NewSubViewModel?
     var storageService = StorageService()
     let iconPickerVC = IconPickerViewController()
-    
+    let userNotificationCenter = UNUserNotificationCenter.current()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
+        self.userNotificationCenter.delegate = self
+
+//        self.userNotificationCenter.delegate = self
+
     }
     
-    //MARK: -OBJC METHODs
+    //MARK: -objc methods
+    
+    @objc
+    func addButtonAction() {
+        // For a valid sub, user have to fill at least a name and a price 
+        if viewModel?.name == nil || viewModel?.price == nil {
+            showAlert("Champs manquants", "Merci d'ajouter au moins un nom et un prix")
+            return
+        }
+        // Then if the date is set up, user need to input reminder and recurrency as well (for notifications)
+        if viewModel?.date != nil {
+            requestNotificationAuthorization()
+            if viewModel?.recurrencyType == .hour || viewModel?.reminderType == .hour {
+                showAlert("Champs manquant pour parametrer la date du prochain paiement", "merci d'accompagner la date d'un rappel et d'un cycle de paiement")
+                return
+            }
+        }
+        viewModel?.saveSub()
+    }
     
     @objc
     func changeReminder() {
@@ -62,29 +85,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     func changeReccurency() {
         showPicker(recurrencyPickerView, recurrency)
     }
-    
-    @objc
-    func addButtonAction() {
-        if viewModel?.name == nil || viewModel?.price == nil {
-            showAlert("Champs manquants", "Merci d'ajouter au moins un nom et un prix")
-            return
-        }
-        
-        if viewModel?.date != nil {
-            if viewModel?.recurrencyType == .hour || viewModel?.reminderType == .hour {
-                showAlert("Champs manquant pour parametrer la date du prochain paiement", "merci d'accompagner la date d'un rappel et d'un cycle de paiement")
-                return
-                //(dateDidChange)
-            }
-        }
-        
-        //       if viewModel?.date != nil && viewModel?.recurrencyType == .hour || viewModel?.reminderType == .hour {
-        //            showAlert("Champs manquant pour parametrer la date du prochain paiement", "merci d'accompagner la date d'un rappel et d'un cycle de paiement")
-        //            return
-        //            //(dateDidChange)
-        //       }
-        viewModel?.saveSub()
-    }
+
     
     @objc
     func nameFieldTextDidChange(textField: UITextField) {
@@ -109,13 +110,13 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     @objc
     func showIconPicker() {
         iconPickerVC.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
-        let alert = UIAlertController(title: "Select icon", message: "", preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "Sélectionner un icône", message: "", preferredStyle: .actionSheet)
         alert.setValue(iconPickerVC, forKey: "contentViewController")
         alert.addAction(UIAlertAction(title: Strings.genericCancel, style: .cancel, handler: { (UIAlertAction) in
         }))
         
         //MARK: - replace selectedRow protocol method since action happen here
-        alert.addAction(UIAlertAction(title: "Selectionner", style: .default, handler: { [self] (UIAlertAction) in
+        alert.addAction(UIAlertAction(title: "Sélectionner", style: .default, handler: { [self] (UIAlertAction) in
             //Convert view model icon from data to uiimage, then displaying it
             viewModel?.icon = iconPickerVC.icon.pngData()
             iconChoosen.textField.setIcon(iconPickerVC.icon)
@@ -412,4 +413,25 @@ extension NewSubController: UIPickerViewDataSource, UIPickerViewDelegate {
                 }
             }
         }
+}
+
+extension NewSubController: UNUserNotificationCenterDelegate {
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        completionHandler()
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.banner, .badge, .sound])
+    }
+
+    func requestNotificationAuthorization() {
+        let authOptions = UNAuthorizationOptions.init(arrayLiteral: .alert, .badge, .sound)
+        self.userNotificationCenter.requestAuthorization(options: authOptions) { (success, error) in
+            if let error = error {
+                print("Error: ", error)
+            }
+        }
+    }
+    
 }

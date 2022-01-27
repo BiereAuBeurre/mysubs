@@ -20,7 +20,7 @@ class NewSubViewModel: NSObject {
         self.coordinator = coordinator
         self.storageService = storageService
     }
-    
+//    var notificationService = NotificationService()
     var date: Date? {
         didSet {
             guard oldValue != date else { return }
@@ -106,6 +106,7 @@ class NewSubViewModel: NSObject {
         newSub.icon = icon
         newSub.paymentRecurrency = "Tous les \(recurrencyValue ?? 0) \(recurrencyType)"
         storageService.save()
+//        notificationService.requestNotificationAuthorization()
         notificationService.generateNotificationFor(name ?? "unkown", reminderValue ?? 0, price ?? 0, notificationDate)
         goBack()
     }

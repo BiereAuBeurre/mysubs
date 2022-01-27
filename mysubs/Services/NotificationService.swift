@@ -7,8 +7,10 @@
 
 import UserNotifications
 
-class NotificationService {
+class NotificationService: NSObject {
     
+    let userNotificationCenter = UNUserNotificationCenter.current()
+
     func generateNotificationFor(_ name: String, _ reminderValue: Int, _ price: Float, _ date: Date) {
         //for subscription
 //        #if DEBUG
@@ -41,3 +43,5 @@ class NotificationService {
         }
     }
 }
+
+

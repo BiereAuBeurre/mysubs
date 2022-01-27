@@ -19,7 +19,7 @@ enum State<Data> {
 
 class HomeViewController: UIViewController, UINavigationBarDelegate {
     
-    let userNotificationCenter = UNUserNotificationCenter.current()
+//    let userNotificationCenter = UNUserNotificationCenter.current()
 
     var viewModel : HomeViewModel?
     weak var coordinator: AppCoordinator?
@@ -63,9 +63,9 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         setUpUI()
         
         
-        self.userNotificationCenter.delegate = self
+//        self.userNotificationCenter.delegate = self
         //dans le save
-        self.requestNotificationAuthorization()
+//        self.requestNotificationAuthorization()
         
     }
     
@@ -308,38 +308,6 @@ extension HomeViewController {
         ])
     }
 }
-
-
-//MARK: - NOTIF AUTHORIZATION SETTINGS (move when saving sub first time)
-
-extension HomeViewController : UNUserNotificationCenterDelegate {
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        completionHandler()
-    }
-    
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.banner, .badge, .sound])
-    }
-
-    func requestNotificationAuthorization() {
-        let authOptions = UNAuthorizationOptions.init(arrayLiteral: .alert, .badge, .sound)
-        
-        self.userNotificationCenter.requestAuthorization(options: authOptions) { (success, error) in
-            if let error = error {
-                print("Error: ", error)
-            }
-        }
-    }
-}
-
-
-
-
-
-
-
-
-
 
 
 
