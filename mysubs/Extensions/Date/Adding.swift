@@ -13,11 +13,15 @@ extension Date {
         Calendar.current
     }
     
+    func add9hour() -> Date?{
+        return calendar.startOfDay(for: self).adding(.hour, value: 9)
+    }
+    
     func adding(_ component: Calendar.Component, value: Int) -> Date? {
     // FIXME:
       //  calendar.startOfDay(for: <#T##Date#>) //retourne minuit + rajoute 9h
         return calendar.date(byAdding: component, value: value, to: self)
     }
-    
+        
 }
 

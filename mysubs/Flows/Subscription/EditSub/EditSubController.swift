@@ -135,7 +135,9 @@ class EditSubController: UIViewController {
     
     @objc
     func dateDidChange() {
-        viewModel?.subscription.commitment = commitmentDate.date
+        viewModel?.date = commitmentDate.date
+
+//        viewModel?.subscription.commitment = commitmentDate.date
     }
     
     
@@ -272,9 +274,8 @@ extension EditSubController {
     
     private func setUpUI() {
         setUpNavBar()
-        addingValues()
         setUpView()
-
+        setUpData()
     }
     
     private func configureCommitment() {
@@ -310,13 +311,14 @@ extension EditSubController {
         self.navigationItem.rightBarButtonItem = rightBarButtonItem
     }
     
-    private func addingValues() {
+    private func setUpData() {
         if let icon = viewModel?.icon {
             iconHeader.setImage(UIImage(data: icon), for: .normal)
         } else {
             iconHeader.setImage(UIImage(systemName: "pc"), for: .normal)
         }
         name.text = viewModel?.name
+        price.text = "\(viewModel?.price ?? 0)"
         commitmentDate.date = viewModel?.date ?? Date.now
         reminder.text = "\(viewModel?.reminder ?? "")"
         recurrency.text = "\(viewModel?.recurrency ?? "")"
@@ -357,7 +359,6 @@ extension EditSubController {
         
         //MARK: Adding price field
         price.fieldTitle = "Prix"
-        price.text = "\(viewModel?.price ?? 0)"
         formView.addArrangedSubview(price)
         
         //MARK: Adding commitment field
@@ -387,6 +388,7 @@ extension EditSubController {
         colorChoosen.addTarget(self, action: #selector(showColorPicker), for: .touchUpInside)
         colorChoosen.textField.text = "➕"
         colorChoosen.textField.textAlignment = .right
+        colorChoosen.stackView.alignment = .leading
         formView.addArrangedSubview(colorChoosen)
 
         //MARK: - action send values to viewModel for being save as new sub values
@@ -411,7 +413,8 @@ extension EditSubController {
         iconHeader.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
         formView.topAnchor.constraint(equalTo: iconHeader.bottomAnchor, constant: 40),
         formView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-        
+        colorChoosen.textField.widthAnchor.constraint(equalToConstant: 150),
+        colorChoosen.textField.heightAnchor.constraint(equalToConstant: 150),
 //        formView.trailingAnchor.constraint(equalTo: colorChoosen.trailingAnchor, constant: 200),
 //        view.trailingAnchor.constraint(equalTo: formView.trailingAnchor, constant: 16),
         formView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
@@ -420,7 +423,6 @@ extension EditSubController {
         deleteButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
         deleteButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
         deleteButton.heightAnchor.constraint(equalToConstant: 40),
-//        colorChoosen.trailingAnchor.constraint(equalTo: formView.trailingAnchor, constant: -150)
         ])
     }
 }

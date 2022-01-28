@@ -44,12 +44,11 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     var viewModel: NewSubViewModel?
     var storageService = StorageService()
     let iconPickerVC = IconPickerViewController()
-    let userNotificationCenter = UNUserNotificationCenter.current()
+//    let userNotificationCenter = UNUserNotificationCenter.current()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-        self.userNotificationCenter.delegate = self
 
 //        self.userNotificationCenter.delegate = self
 
@@ -66,7 +65,8 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         }
         // Then if the date is set up, user need to input reminder and recurrency as well (for notifications)
         if viewModel?.date != nil {
-            requestNotificationAuthorization()
+            //FIXME:
+//           requestNotificationAuthorization()
             if viewModel?.recurrencyType == .hour || viewModel?.reminderType == .hour {
                 showAlert("Champs manquant pour parametrer la date du prochain paiement", "merci d'accompagner la date d'un rappel et d'un cycle de paiement")
                 return
@@ -146,7 +146,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         vc.view.addSubview(picker)
         picker.centerXAnchor.constraint(equalTo: vc.view.centerXAnchor).isActive = true
         picker.centerYAnchor.constraint(equalTo: vc.view.centerYAnchor).isActive = true
-        let alert = UIAlertController(title: "Select reminder", message: "", preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "Selectionner une valeur", message: "", preferredStyle: .actionSheet)
     
         alert.popoverPresentationController?.sourceView = input
         alert.popoverPresentationController?.sourceRect = input.bounds
@@ -162,7 +162,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
             let string2 = "avant"
 
             if input == recurrency {
-                input.textField.text = "\(valueNumber) \(valueType.stringValue)"
+                input.textField.text = "Tous les \(valueNumber) \(valueType.stringValue)"
                 viewModel?.recurrencyValue = valueNumber
                 viewModel?.recurrencyType = valueType
             } else {
@@ -304,6 +304,10 @@ extension NewSubController {
         iconChoosen.shouldBehaveAsButton = true
         iconChoosen.addTarget(self, action: #selector(showIconPicker), for: .touchUpInside)
         iconChoosen.textField.leftViewMode = .always
+        
+        
+//        iconChoosen.stackView.distribution = .
+
         colorAndIconStackView.addArrangedSubview(iconChoosen)
         
         colorAndIconStackView.axis = .horizontal
@@ -335,7 +339,6 @@ extension NewSubController {
             titleView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             titleView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             titleView.heightAnchor.constraint(equalToConstant: 30),
-            
             newSubLabel.topAnchor.constraint(equalTo: titleView.topAnchor, constant: 0),
             newSubLabel.leadingAnchor.constraint(equalTo: titleView.leadingAnchor, constant: 0),
             newSubLabel.heightAnchor.constraint(equalToConstant: 20),
@@ -354,18 +357,6 @@ extension NewSubController {
 
 }
 
-////Adding icon selected to left vuew mode of textfiel
-//extension UITextField {
-//    func setIcon(_ image: UIImage) {
-//        let iconView = UIImageView(frame: CGRect(x: 10, y: 5, width: 20, height: 20))
-//        iconView.image = image
-//        let iconContainerView: UIView = UIView(frame: CGRect(x: 20, y: 0, width: 30, height: 30))
-//        iconContainerView.addSubview(iconView)
-//        leftView = iconContainerView
-//        leftViewMode = .always
-//    }
-//}
-
 //MARK: - BOTH PICKERVIEW SETUP
 extension NewSubController: UIPickerViewDataSource, UIPickerViewDelegate {
     
@@ -376,24 +367,27 @@ extension NewSubController: UIPickerViewDataSource, UIPickerViewDelegate {
             } else {
                 return ("\(componentDayMonthYear[row].stringValue)")
             }
-        } else {
+        }
+        
+        else {
             if component == 0 {
                 return ("\(componentNumber[row])")
             }
-            else if component == 1 {
+            else/* if component == 1 */{
                 return ("\(componentDayMonthYear[row].stringValue)")//componentDayMonthYear[row]
-            } else {
-                return "avant"
             }
+//            else {
+//                return "avant"
+//            }
         }
     }
     
         func numberOfComponents(in pickerView: UIPickerView) -> Int {
-            if pickerView == recurrencyPickerView {
+//            if pickerView == recurrencyPickerView {
                 return 2
-            } else {
-                return 3
-            }
+//            } else {
+//                return 3
+//            }
         }
     
         func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
@@ -415,23 +409,24 @@ extension NewSubController: UIPickerViewDataSource, UIPickerViewDelegate {
         }
 }
 
-extension NewSubController: UNUserNotificationCenterDelegate {
-
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        completionHandler()
-    }
-    
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.banner, .badge, .sound])
-    }
-
-    func requestNotificationAuthorization() {
-        let authOptions = UNAuthorizationOptions.init(arrayLiteral: .alert, .badge, .sound)
-        self.userNotificationCenter.requestAuthorization(options: authOptions) { (success, error) in
-            if let error = error {
-                print("Error: ", error)
-            }
-        }
-    }
-    
-}
+//MARK: -Setting up notification authorization
+//extension NewSubController: UNUserNotificationCenterDelegate {
+//
+//    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+//        completionHandler()
+//    }
+//    
+//    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+//        completionHandler([.banner, .badge, .sound])
+//    }
+//
+//    func requestNotificationAuthorization() {
+//        let authOptions = UNAuthorizationOptions.init(arrayLiteral: .alert, .badge, .sound)
+//        self.userNotificationCenter.requestAuthorization(options: authOptions) { (success, error) in
+//            if let error = error {
+//                print("Error: ", error)
+//            }
+//        }
+//    }
+//    
+//}

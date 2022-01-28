@@ -26,13 +26,19 @@ class EditSubViewModel: NSObject {
         self.icon = subscription.icon
     }
     
-    var subscription: Subscription {
+    private var subscription: Subscription {
       didSet {
-
+//          self.price = subscription.price
+//          self.name = subscription.name
+//          self.color = subscription.color
+//          self.reminder = subscription.reminder
+//          self.date = subscription.commitment
+//          self.recurrency = subscription.paymentRecurrency
+//          self.icon = subscription.icon
       }
   }
     
-    var notificationDate = Date()
+    var notificationDate: Date?
 
     var icon: Data? {
         didSet {
@@ -183,10 +189,13 @@ class EditSubViewModel: NSObject {
 
         //Setting notif to right date
         notificationDate = date ?? Date.now
-        notificationDate = notificationDate.adding(reminderType, value: -(reminderValue ?? 0)) ?? Date.now
-        notificationDate = notificationDate.adding(recurrencyType, value: recurrencyValue ?? 0) ?? Date.now
-        notificationService.generateNotificationFor(name ?? "unkown", reminderValue ?? 0, price ?? 0, notificationDate)
-        print("New date to get for notifications is : \(notificationDate)")
+        notificationDate = notificationDate?.adding(reminderType, value: -(reminderValue ?? 0)) ?? Date.now
+        notificationDate = notificationDate?.adding(recurrencyType, value: recurrencyValue ?? 0) ?? Date.now
+        
+        if let dateToGet = notificationDate {
+        notificationService.generateNotificationFor(name ?? "unkown", reminderValue ?? 0, price ?? 0, dateToGet)
+        print("New date to get for notifications is : \(dateToGet)")
+        }
 
         save()
     }

@@ -27,7 +27,7 @@ final class CoreDataTests: XCTestCase {
         persistentStoreDescription.shouldAddStoreAsynchronously = true
 
         // MARK: - persistentContainer
-        let persistentContainer = NSPersistentContainer(name: "Reciplease", managedObjectModel: managedObjectModel)
+        let persistentContainer = NSPersistentContainer(name: "mysubs", managedObjectModel: managedObjectModel)
         persistentContainer.persistentStoreDescriptions = [persistentStoreDescription]
         persistentContainer.loadPersistentStores { description, error in
             precondition(description.type == NSInMemoryStoreType, "Store description is not of type NSInMemoryStoreType")

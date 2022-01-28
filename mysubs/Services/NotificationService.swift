@@ -7,24 +7,28 @@
 
 import UserNotifications
 
-class NotificationService: NSObject {
+class NotificationService {
     
     let userNotificationCenter = UNUserNotificationCenter.current()
 
+    func cancelnotif() {}
+    func cancelAllNotif() {}
+    
     func generateNotificationFor(_ name: String, _ reminderValue: Int, _ price: Float, _ date: Date) {
         //for subscription
-//        #if DEBUG
-//
-//        let notificationInterval: Double = 5
-//        #else
-//
-//        let notificationInterval: Double = 5
-//        #endif
-//
-
-        let date = date.addingTimeInterval(5)
-        let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+        #if DEBUG
         
+//        let notificationInterval: Double = 5
+        #else
+//        let notificationInterval: Double = 5
+        #endif
+        let date = date.addingTimeInterval(5)
+//        print(date.calendar.startOfDay(for: date.add9hour()!))
+        
+        let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date/*.calendar.startOfDay(for: date.add9hour()!)*/)
+//        dateComponents.startOfDay(for: date.add9hour())
+
+        print("start of day is :", date.calendar.startOfDay(for: date))
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
         let notificationContent = UNMutableNotificationContent()
         notificationContent.title = "Abonnement \(name )"

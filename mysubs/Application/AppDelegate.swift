@@ -10,7 +10,22 @@ import CoreData
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
+//    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+//        completionHandler()
+//    }
 
+//    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+//        completionHandler([.banner, .badge, .sound])
+//    }
+//
+//    func requestNotificationAuthorization() {
+//        let authOptions = UNAuthorizationOptions.init(arrayLiteral: .alert, .badge, .sound)
+//        self.userNotificationCenter.requestAuthorization(options: authOptions) { (success, error) in
+//            if let error = error {
+//                print("Error: ", error)
+//            }
+//        }
+//    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
