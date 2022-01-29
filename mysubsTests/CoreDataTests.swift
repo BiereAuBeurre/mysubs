@@ -38,13 +38,27 @@ final class CoreDataTests: XCTestCase {
         storageService = StorageService(persistentContainer: persistentContainer)
         sub1 = Subscription(context: storageService.viewContext)
         sub2 = Subscription(context: storageService.viewContext)
-
+        loadedSubscriptions = [sub1, sub2]
     }
 
     override func tearDown() {
         super.tearDown()
         storageService = nil
         loadedSubscriptions = []
+    }
+    
+    
+    func testSubLoading() throws {
+        storageService.save()
+        do {
+            loadedSubscriptions = try storageService.loadsubs()
+
+        } catch {
+            XCTFail("error loading \(error.localizedDescription)")
+        }
+        XCTAssertFalse(loadedSubscriptions.isEmpty)
+        XCTAssertTrue(loadedSubscriptions.count == 2)
+
     }
     
     func testSubLoadingAndDeletion() throws {

@@ -11,83 +11,25 @@ import UIKit
 
 class NewSubViewModel: NSObject {
     weak var viewDelegate: NewSubController?
-    private let coordinator: AppCoordinator
+    private let coordinator: AppCoordinatorProtocol
     private let storageService: StorageService
     var notificationService = NotificationService()
     var notificationDate = Date()
     var icon: Data?
-    init(coordinator: AppCoordinator, storageService: StorageService) {
+    var date: Date?
+    var reminderValue: Int?
+    var recurrencyValue: Int?
+    var recurrencyType: Calendar.Component = .hour
+    var reminderType: Calendar.Component = .hour
+    var price: Float?
+    var color: String?
+    var name: String?
+    var subscriptions: [NSManagedObject] = []
+    
+    init(coordinator: AppCoordinatorProtocol, storageService: StorageService) {
         self.coordinator = coordinator
         self.storageService = storageService
     }
-//    var notificationService = NotificationService()
-    var date: Date? {
-        didSet {
-            guard oldValue != date else { return }
-        }
-    }
-    
-    var reminderValue: Int? {
-        didSet {
-            
-        }
-    }
-    
-    var recurrencyValue: Int? {
-        didSet {
-            
-        }
-    }
-    
-    var recurrencyType: Calendar.Component = .hour {
-        didSet {
-            
-        }
-    }
-    
-    var reminderType: Calendar.Component = .hour {
-        didSet {
-            
-        }
-    }
-    
-    var price: Float? {
-        didSet {
-            guard oldValue != price else { return }
-            viewDelegate?.canSaveStatusDidChange(canSave: canSaveSub)
-
-        }
-    }
-    
-    var color: String? {
-        didSet {
-            guard oldValue != color else { return }
-        }
-    }
-    //MARK: -FIXME
-    var name: String? {
-        didSet {
-            guard oldValue != name else { return }
-//            viewDelegate?.canSaveStatusDidChange(canSave: canSaveSub)
-        }
-    }
-    var canSaveSub: Bool {
-        if name?.isEmpty == true /*|| price?.isZero == true */{
-            viewDelegate?.showAlert("Champ manquant", "ajouter au moins un nom")
-            return false
-        } else {
-            return true
-        }
-        
-    }
-    
-    var subscriptions: [NSManagedObject] = [] {
-        didSet {
-            // viewDelegate?.refreshWith(subscriptions: viewDelegate!.subscriptions)
-
-        }
-    }
-    
     func goBack() {
         coordinator.goBack()
     }

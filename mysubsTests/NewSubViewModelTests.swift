@@ -10,13 +10,13 @@ import CoreData
 @testable import mysubs
 
 class NewSubViewModelTests: XCTestCase {
-//    var coordinatorStartCalled = false
-    let navigationController = UINavigationController(rootViewController: UIViewController())
-
+    
+    let navigationController = UINavigationController()
+    
     var viewModel: NewSubViewModel!
     var storageService: StorageService!
-    var coordinator: CoordinatorMock!
-
+    var coordinator: MockCoordinator!
+    
     override func setUpWithError() throws {
         
         let managedObjectModel = NSManagedObjectModel.mergedModel(from: [Bundle.main])!
@@ -36,26 +36,21 @@ class NewSubViewModelTests: XCTestCase {
             }
         }
         storageService = StorageService(persistentContainer: persistentContainer)
-        coordinator = CoordinatorMock(navigationController: navigationController)
-//        coordinator.configuration.protocolClasses = [CoordinatorMock.self]
-
+        coordinator = MockCoordinator(navigationController: navigationController)
         viewModel = NewSubViewModel(coordinator: coordinator, storageService: storageService)
     }
     
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
         storageService = nil
         coordinator = nil
+        viewModel = nil
     }
 
     func testExample() throws {
         XCTAssertFalse(coordinator.coordinatorStartCalled)
-//        coordinator.start()
         viewModel.goBack()
         viewModel.saveSub()
         XCTAssertTrue(coordinator.coordinatorStartCalled)
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
 
     func testPerformanceExample() throws {

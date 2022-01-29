@@ -188,6 +188,7 @@ class EditSubViewModel: NSObject {
         subscription.paymentRecurrency = recurrency
 
         //Setting notif to right date
+        if isDateChanged == false {
         notificationDate = date ?? Date.now
         notificationDate = notificationDate?.adding(reminderType, value: -(reminderValue ?? 0)) ?? Date.now
         notificationDate = notificationDate?.adding(recurrencyType, value: recurrencyValue ?? 0) ?? Date.now
@@ -196,7 +197,7 @@ class EditSubViewModel: NSObject {
         notificationService.generateNotificationFor(name ?? "unkown", reminderValue ?? 0, price ?? 0, dateToGet)
         print("New date to get for notifications is : \(dateToGet)")
         }
-
+        }
         save()
     }
     

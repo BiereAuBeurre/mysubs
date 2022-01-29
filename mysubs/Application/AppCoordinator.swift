@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class AppCoordinator: Coordinator {
+class AppCoordinator: AppCoordinatorProtocol {
     var navigationController: UINavigationController
      
     //déclarer ts les service ici, coreDataService..
@@ -68,3 +68,17 @@ class AppCoordinator: Coordinator {
      viewmodel.save()
      func save() {
      coordinator.goHome()*/
+
+protocol AppCoordinatorProtocol: Coordinator {
+    
+    func start()
+    
+    func showSubScreen()
+    
+    func showNewSubScreenFor(category: String)/*changer pour enum*/
+    
+    func showDetailSubScreen(sub: Subscription, categorys: [SubCategory])
+     
+    func goBack()
+    
+}

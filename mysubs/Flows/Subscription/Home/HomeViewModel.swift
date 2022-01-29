@@ -10,9 +10,9 @@ import CoreData
 
 class HomeViewModel: NSObject {
     weak var viewDelegate: HomeViewController?
-    private let coordinator: AppCoordinator
+    private let coordinator: AppCoordinatorProtocol
     let storageService: StorageService
-    init(coordinator: AppCoordinator, storageService: StorageService) {
+    init(coordinator: AppCoordinatorProtocol, storageService: StorageService) {
         self.coordinator = coordinator
         self.storageService =  storageService
     }

@@ -17,7 +17,7 @@ enum State<Data> {
 }
 
 class HomeViewController: UIViewController, UINavigationBarDelegate {
-    
+
     let userNotificationCenter = UNUserNotificationCenter.current()
 
     var viewModel : HomeViewModel?
@@ -34,7 +34,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     private let activityIndicator = UIActivityIndicatorView(style: .large)
     
     // MARK: -Properties
-    var viewState: State<[Subscription]> = .empty {
+    var viewState: State<[Subscription]> = .showData {
         didSet {
             // resetState()
             switch viewState {
@@ -51,8 +51,9 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
             case .showData:
                 print("thats datas")
                 activityIndicator.stopAnimating()
-                subCollectionView.isHidden = false
                 subCollectionView.reloadData()
+                subCollectionView.isHidden = false
+
             }
         }
     }
@@ -77,19 +78,21 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     //MARK: -OBJ C METHODS
     @objc func plusButtonAction() {
         viewModel?.showNewSub()
-        print("passage dans methode plusButtonAction (homeVC)")
+//        print("passage dans methode plusButtonAction (homeVC)")
     }
     
-    @objc func categoryNamefieldTextDidChange(textField: UITextField) {}
+//    @objc func categoryNamefieldTextDidChange(textField: UITextField) {}
     
     @objc func deleteAll() {
-        for sub in viewModel!.subscriptions {
-            do {
-                try viewModel?.storageService.delete(sub)
-                viewModel?.fetchSubscription()
-                amountLabel.text = "- €"
-                viewState = .empty
-            } catch { print(error) }
+        if let subscriptions = viewModel?.subscriptions {
+            for sub in subscriptions {
+                do {
+                    try viewModel?.storageService.delete(sub)
+                    viewModel?.fetchSubscription()
+                    amountLabel.text = "- €"
+                    viewState = .empty
+                } catch { print(error) }
+            }
         }
     }
     
@@ -108,7 +111,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         emptyView.textAlignment = .center
         emptyView.font = MSFonts.title2
         emptyView.translatesAutoresizingMaskIntoConstraints = false
-        subListStackView.addArrangedSubview(emptyView)
+//        subListStackView.addArrangedSubview(emptyView)
         amountLabel.text = " - €"
     }
     
@@ -122,7 +125,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     private func resetState() {
         activityIndicator.stopAnimating()
         viewState = .loading
-        subCollectionView.isHidden = true
+        subCollectionView.isHidden = false
     }
     
     private func deleteSub(sub: Subscription) {
@@ -165,7 +168,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 extension HomeViewController {
     
     func refreshWith(subscriptions: [Subscription]) {
-        viewState = .showData
+            viewState = .showData
     }
     
     func didComputetotalAmount() {
