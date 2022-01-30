@@ -46,6 +46,7 @@
 		EF96B9A8274FE1C900961F9C /* mysubsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF96B9A7274FE1C900961F9C /* mysubsUITests.swift */; };
 		EF96B9AA274FE1C900961F9C /* mysubsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF96B9A9274FE1C900961F9C /* mysubsUITestsLaunchTests.swift */; };
 		EFA682B627A2D0290095E1F3 /* SetIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA682B527A2D0290095E1F3 /* SetIcon.swift */; };
+		EFC8821827A6E74A00B6EF5C /* NotificationServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC8821727A6E74A00B6EF5C /* NotificationServiceTest.swift */; };
 		EFCB8EBA2779FC8A009BC47D /* CategoriesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCB8EB92779FC8A009BC47D /* CategoriesCell.swift */; };
 		EFCF583727A41FCE006D89BB /* NewSubViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCF583627A41FCE006D89BB /* NewSubViewModelTests.swift */; };
 		EFCF583927A42862006D89BB /* MockCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCF583827A42862006D89BB /* MockCoordinator.swift */; };
@@ -120,6 +121,7 @@
 		EF96B9A7274FE1C900961F9C /* mysubsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mysubsUITests.swift; sourceTree = "<group>"; };
 		EF96B9A9274FE1C900961F9C /* mysubsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mysubsUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		EFA682B527A2D0290095E1F3 /* SetIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetIcon.swift; sourceTree = "<group>"; };
+		EFC8821727A6E74A00B6EF5C /* NotificationServiceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationServiceTest.swift; sourceTree = "<group>"; };
 		EFCB8EB92779FC8A009BC47D /* CategoriesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesCell.swift; sourceTree = "<group>"; };
 		EFCF583627A41FCE006D89BB /* NewSubViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSubViewModelTests.swift; sourceTree = "<group>"; };
 		EFCF583827A42862006D89BB /* MockCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCoordinator.swift; sourceTree = "<group>"; };
@@ -393,6 +395,7 @@
 			children = (
 				EF96B99D274FE1C900961F9C /* mysubsTests.swift */,
 				EF1520CA27A001DB00E6E5AB /* CoreDataTests.swift */,
+				EFC8821727A6E74A00B6EF5C /* NotificationServiceTest.swift */,
 				EFCF583627A41FCE006D89BB /* NewSubViewModelTests.swift */,
 				EFCF583827A42862006D89BB /* MockCoordinator.swift */,
 			);
@@ -656,6 +659,7 @@
 				EFCF583727A41FCE006D89BB /* NewSubViewModelTests.swift in Sources */,
 				EF1520CB27A001DB00E6E5AB /* CoreDataTests.swift in Sources */,
 				EF96B99E274FE1C900961F9C /* mysubsTests.swift in Sources */,
+				EFC8821827A6E74A00B6EF5C /* NotificationServiceTest.swift in Sources */,
 				EFCF583927A42862006D89BB /* MockCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

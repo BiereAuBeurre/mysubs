@@ -34,16 +34,16 @@ class AppCoordinator: AppCoordinatorProtocol {
         navigationController.pushViewController(homeVC, animated: false)
     }
     
-    func showNewSubScreenFor(category: String)/*changer pour enum*/ {
+    func showNewSubScreenFor() {
         let newSubVC = NewSubController()
-        let newSubVCViewModel = NewSubViewModel(coordinator: self/*, category: category*/, storageService: storageService)
+        let newSubVCViewModel = NewSubViewModel(coordinator: self, storageService: storageService)
         newSubVCViewModel.viewDelegate = newSubVC
         newSubVC.viewModel = newSubVCViewModel
 //        newSubVCViewModel.category = category
         navigationController.pushViewController(newSubVC, animated: true)
     }
     
-    func showDetailSubScreen(sub: Subscription, categorys: [SubCategory]) {
+    func showDetailSubScreen(sub: Subscription) {
         let editSubVC = EditSubController()
         let editSubViewModel = EditSubViewModel(coordinator: self, storageService: storageService, subscription: sub)
         editSubViewModel.viewDelegate = editSubVC
@@ -75,9 +75,9 @@ protocol AppCoordinatorProtocol: Coordinator {
     
     func showSubScreen()
     
-    func showNewSubScreenFor(category: String)/*changer pour enum*/
+    func showNewSubScreenFor()
     
-    func showDetailSubScreen(sub: Subscription, categorys: [SubCategory])
+    func showDetailSubScreen(sub: Subscription)
      
     func goBack()
     

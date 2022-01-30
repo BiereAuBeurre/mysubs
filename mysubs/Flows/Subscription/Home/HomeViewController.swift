@@ -71,8 +71,15 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel?.fetchSubscription()
+        setUpUI()
         setUpTotalAmountView()
         viewModel?.computeTotal()
+        refreshWith(subscriptions: viewModel?.subscriptions ?? [])
+//        if viewModel?.subscriptions == [] {
+//            viewState = .empty
+//        } else {
+//            viewState = .showData
+//        }
     }
     
     //MARK: -OBJ C METHODS
@@ -111,7 +118,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         emptyView.textAlignment = .center
         emptyView.font = MSFonts.title2
         emptyView.translatesAutoresizingMaskIntoConstraints = false
-//        subListStackView.addArrangedSubview(emptyView)
+        subListStackView.addArrangedSubview(emptyView)
         amountLabel.text = " - €"
     }
     
@@ -168,7 +175,11 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 extension HomeViewController {
     
     func refreshWith(subscriptions: [Subscription]) {
+        if subscriptions.isEmpty {
+            viewState = .empty
+        } else {
             viewState = .showData
+        }
     }
     
     func didComputetotalAmount() {
@@ -289,24 +300,6 @@ extension HomeViewController {
         amountLabel.layer.cornerRadius = 5
         amountLabel.textAlignment = .center
         amountLabel.layer.masksToBounds = true
-    }
-    
-    func activateConstraints() {
-        NSLayoutConstraint.activate([
-            subListStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 0),
-            subListStackView.trailingAnchor.constraint(equalToSystemSpacingAfter: view.trailingAnchor, multiplier: 0),
-            subListStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
-            totalAmountView.leadingAnchor.constraint(equalToSystemSpacingAfter: subListStackView.leadingAnchor, multiplier: 0),
-            totalAmountView.trailingAnchor.constraint(equalToSystemSpacingAfter: subListStackView.trailingAnchor, multiplier: 0),
-            totalAmountView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
-            totalAmountView.heightAnchor.constraint(equalToConstant: 50),
-            totalAmountLabel.leadingAnchor.constraint(equalTo: totalAmountView.leadingAnchor, constant: 32),
-            totalAmountLabel.centerYAnchor.constraint(equalTo: totalAmountView.centerYAnchor, constant: 0),
-            amountLabel.trailingAnchor.constraint(equalTo: totalAmountView.trailingAnchor, constant: -32),
-            amountLabel.centerYAnchor.constraint(equalTo: totalAmountView.centerYAnchor, constant: 0),
-            amountLabel.widthAnchor.constraint(equalToConstant: 90),
-            amountLabel.heightAnchor.constraint(equalToConstant: 30),
-        ])
     }
 }
 

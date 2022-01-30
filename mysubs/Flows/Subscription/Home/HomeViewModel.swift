@@ -9,9 +9,11 @@ import Foundation
 import CoreData
 
 class HomeViewModel: NSObject {
+    
     weak var viewDelegate: HomeViewController?
     private let coordinator: AppCoordinatorProtocol
     let storageService: StorageService
+    
     init(coordinator: AppCoordinatorProtocol, storageService: StorageService) {
         self.coordinator = coordinator
         self.storageService =  storageService
@@ -20,12 +22,6 @@ class HomeViewModel: NSObject {
     var subscriptions: [Subscription] = [] {
         didSet {
             viewDelegate?.refreshWith(subscriptions: subscriptions)
-        }
-    }
-    
-    var categorys: [SubCategory] = [] {
-        didSet {
-            viewDelegate?.refreshWith2(categorys: categorys)
         }
     }
     
@@ -44,14 +40,6 @@ class HomeViewModel: NSObject {
         }
     }
     
-//    func fetchCategories() {
-//        do {
-//        categorys = try storageService.loadCategory()
-//        } catch {
-//            print(error)
-//        }
-//    }
-    
     func computeTotal() {
         if subscriptions.isEmpty == true {
             viewDelegate?.amountLabel.text = "- €"
@@ -65,26 +53,32 @@ class HomeViewModel: NSObject {
         }
     }
     
-    func addNewCategory(_ categoryToSave: String) {
-        let newCategory = SubCategory(context: storageService.viewContext)
-        newCategory.name = categoryToSave
-        storageService.save()
-    }
-    
-    
     func showNewSub() {
-        coordinator.showNewSubScreenFor(category: "category")
+        coordinator.showNewSubScreenFor()
     }
     
     func showDetail(sub: Subscription) {
-        coordinator.showDetailSubScreen(sub: sub, categorys: categorys)
+        coordinator.showDetailSubScreen(sub: sub)
     }
-    
-//    func fetchSubs() {
-        // appel reseau
-        // response
-        // subs appel reseau = subs
-//        subscriptions = []
-//    }
-    
+
 }
+
+//    var categorys: [SubCategory] = [] {
+//        didSet {
+//            viewDelegate?.refreshWith2(categorys: categorys)
+//        }
+//    }
+
+//    func fetchCategories() {
+//        do {
+//        categorys = try storageService.loadCategory()
+//        } catch {
+//            print(error)
+//        }
+//    }
+
+//func addNewCategory(_ categoryToSave: String) {
+//    let newCategory = SubCategory(context: storageService.viewContext)
+//    newCategory.name = categoryToSave
+//    storageService.save()
+//}
