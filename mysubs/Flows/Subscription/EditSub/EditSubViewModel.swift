@@ -168,7 +168,7 @@ class EditSubViewModel: NSObject {
             try storageService.delete(subscription)
             //  UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [subscription.id])
         }
-        catch { print(error) }
+        catch { print("can't delete sub because of error",error, "\n", error.localizedDescription) }
     }
     
     func save() {

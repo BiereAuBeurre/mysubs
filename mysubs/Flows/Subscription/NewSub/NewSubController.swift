@@ -44,6 +44,9 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     var viewModel: NewSubViewModel?
     var storageService = StorageService()
     let iconPickerVC = IconPickerViewController()
+    var notifAuthorizer = UIStackView()
+    var notifTitle = UILabel()
+    var switchNotif = UISwitch()
 //    let userNotificationCenter = UNUserNotificationCenter.current()
 
     override func viewDidLoad() {
@@ -134,6 +137,17 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         self.present(colorPicker, animated: true) {
             self.colorChoosen.textField.backgroundColor = colorPicker.selectedColor
         }
+    }
+    
+    @objc
+    func displayNotifSettings() {
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+            self.commitment.isHidden.toggle()
+            self.recurrency.isHidden.toggle()
+            self.reminder.isHidden.toggle()
+            self.commitmentDate.isHidden.toggle()
+            self.commitmentTitle.isHidden.toggle()
+        }, completion: nil)
     }
 
     //MARK: - PRIVATES METHODS
@@ -237,6 +251,23 @@ extension NewSubController {
     }
 
     private func setUpView() {
+        // MARK: SETTING TITLE
+        view.backgroundColor = MSColors.background
+        newSubLabel.text = "Nouvel abonnement"
+        newSubLabel.font = UIFont.preferredFont(forTextStyle: .title2)
+        newSubLabel.textColor = MSColors.maintext
+        newSubLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleView.translatesAutoresizingMaskIntoConstraints = false
+    
+        view.addSubview(titleView)
+        titleView.addSubview(newSubLabel)
+                
+        // MARK: SEPARATOR LINE VIEW
+        separatorLine.translatesAutoresizingMaskIntoConstraints = false
+        separatorLine.backgroundColor = UIColor(named: "yellowgrey")
+        view.addSubview(separatorLine)
+        
+        
         commitment.configureView()
         name.configureView()
         price.configureView()
@@ -245,14 +276,12 @@ extension NewSubController {
         colorChoosen.configureView()
         iconChoosen.configureView()
         
-        // MARK: FORMVIEW
-        formView.translatesAutoresizingMaskIntoConstraints = false
-        formView.axis = .vertical
-        formView.alignment = .fill
-        formView.spacing = 8
-        formView.distribution = .equalSpacing
-        formView.distribution = .fillEqually
-        view.addSubview(formView)
+        //Hide until user touche switch button
+        commitment.isHidden = true
+        recurrency.isHidden = true
+        reminder.isHidden = true
+        commitmentDate.isHidden = true
+        commitmentTitle.isHidden = true
         
 //        //MARK: Adding name field
         name.fieldTitle = "Nom"
@@ -266,6 +295,37 @@ extension NewSubController {
         price.fieldTitle = "Prix"
         price.textField.addTarget(self, action: #selector(priceFieldTextDidChange), for: .editingChanged)
         formView.addArrangedSubview(price)
+        
+        // Addind color and icon picker stackview
+        colorChoosen.fieldTitle = "Couleur ▼"
+        colorChoosen.shouldBehaveAsButton = true
+        colorChoosen.addTarget(self, action: #selector(showColorPicker), for: .touchUpInside)
+        colorChoosen.textField.text = "➕"
+        colorChoosen.textField.textAlignment = .right
+        colorAndIconStackView.addArrangedSubview(colorChoosen)
+
+        iconChoosen.fieldTitle = "Icône ▼"
+        iconChoosen.shouldBehaveAsButton = true
+        iconChoosen.addTarget(self, action: #selector(showIconPicker), for: .touchUpInside)
+        iconChoosen.textField.leftViewMode = .always
+        colorAndIconStackView.addArrangedSubview(iconChoosen)
+        
+        colorAndIconStackView.axis = .horizontal
+        colorAndIconStackView.distribution = .fillEqually
+        colorAndIconStackView.spacing = 48
+        formView.addArrangedSubview(colorAndIconStackView)
+        
+        notifTitle.text = "Autoriser les notifications"
+        switchNotif.isOn = false
+        switchNotif.addTarget(self, action: #selector(displayNotifSettings), for: .touchUpInside)
+        notifAuthorizer.addArrangedSubview(notifTitle)
+        notifAuthorizer.addArrangedSubview(switchNotif)
+        notifAuthorizer.axis = .horizontal
+        notifAuthorizer.distribution = .fillProportionally
+//        notifAuthorizer.alignment = .leading
+//        notifAuthorizer.spacing = 8
+        formView.addArrangedSubview(notifAuthorizer)
+    
         
         //MARK: Adding commitment field
         commitmentDate.addTarget(self, action: #selector(dateDidChange), for: .valueChanged)
@@ -292,65 +352,37 @@ extension NewSubController {
         recurrency.fieldTitle = "Cycle"
         recurrency.shouldBehaveAsButton = true
         recurrency.addTarget(self, action: #selector(changeReccurency), for: .touchUpInside)
-        
-        colorChoosen.fieldTitle = "Couleur ▼"
-        colorChoosen.shouldBehaveAsButton = true
-        colorChoosen.addTarget(self, action: #selector(showColorPicker), for: .touchUpInside)
-        colorChoosen.textField.text = "➕"
-        colorChoosen.textField.textAlignment = .right
-        colorAndIconStackView.addArrangedSubview(colorChoosen)
 
-        iconChoosen.fieldTitle = "Icône ▼"
-        iconChoosen.shouldBehaveAsButton = true
-        iconChoosen.addTarget(self, action: #selector(showIconPicker), for: .touchUpInside)
-        iconChoosen.textField.leftViewMode = .always
         
-        
-//        iconChoosen.stackView.distribution = .
-
-        colorAndIconStackView.addArrangedSubview(iconChoosen)
-        
-        colorAndIconStackView.axis = .horizontal
-        colorAndIconStackView.distribution = .fillEqually
-        colorAndIconStackView.spacing = 48
-        formView.addArrangedSubview(colorAndIconStackView)
-
-        // MARK: SETTING TITLE
-        view.backgroundColor = MSColors.background
-        newSubLabel.text = "Nouvel abonnement"
-        newSubLabel.font = UIFont.preferredFont(forTextStyle: .title2)
-        newSubLabel.textColor = MSColors.maintext
-        newSubLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleView.translatesAutoresizingMaskIntoConstraints = false
-    
-        view.addSubview(titleView)
-        titleView.addSubview(newSubLabel)
-                
-        // MARK: SEPARATOR LINE VIEW
-        separatorLine.translatesAutoresizingMaskIntoConstraints = false
-        separatorLine.backgroundColor = UIColor(named: "yellowgrey")
-        view.addSubview(separatorLine)
-        
-        //MARK: Adding logo suggestion
-       
+        // MARK: FORMVIEW
+        formView.translatesAutoresizingMaskIntoConstraints = false
+        formView.axis = .vertical
+        formView.alignment = .fill
+        formView.spacing = 8
+        formView.distribution = .equalSpacing
+//        formView.setCustomSpacing(<#T##spacing: CGFloat##CGFloat#>, after: <#T##UIView#>)
+        view.addSubview(formView)
  
         NSLayoutConstraint.activate([
             titleView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
-            titleView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            titleView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            titleView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            titleView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             titleView.heightAnchor.constraint(equalToConstant: 30),
             newSubLabel.topAnchor.constraint(equalTo: titleView.topAnchor, constant: 0),
             newSubLabel.leadingAnchor.constraint(equalTo: titleView.leadingAnchor, constant: 0),
             newSubLabel.heightAnchor.constraint(equalToConstant: 20),
             separatorLine.heightAnchor.constraint(equalToConstant: 1),
             separatorLine.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: 8),
-            separatorLine.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            separatorLine.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            separatorLine.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            separatorLine.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            separatorLine.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            separatorLine.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
             formView.topAnchor.constraint(equalTo: separatorLine.bottomAnchor, constant: 40),
-            formView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            formView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            formView.heightAnchor.constraint(equalToConstant: 450),
+            formView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: formView.trailingAnchor, constant: 16),
+            view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: formView.bottomAnchor, constant: 80),
+            notifTitle.heightAnchor.constraint(equalToConstant: 35),
+//            notifTitle.centerYAnchor.constraint(equalTo: notifAuthorizer.centerYAnchor),
+//            switchNotif.centerYAnchor.constraint(equalTo: notifAuthorizer.centerYAnchor)
             ])
     }
     

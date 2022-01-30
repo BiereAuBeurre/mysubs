@@ -194,6 +194,7 @@
 				EF915C1227918AC700266DF3 /* Date */,
 				EF6B125727903B080083E6F7 /* UIColor */,
 				EF125B132757961900E6FD6B /* UIViewcontroller */,
+				EFA682B427A2D00D0095E1F3 /* UITextField */,
 				EF125B1027578AB500E6FD6B /* UIImageView */,
 				EF817B5427A18FA800C7AC96 /* Calendar.Component.swift */,
 			);
@@ -203,7 +204,6 @@
 		EF125B1027578AB500E6FD6B /* UIImageView */ = {
 			isa = PBXGroup;
 			children = (
-				EFA682B427A2D00D0095E1F3 /* UITextField */,
 				EF125B1127578AC600E6FD6B /* LoadImage.swift */,
 			);
 			path = UIImageView;

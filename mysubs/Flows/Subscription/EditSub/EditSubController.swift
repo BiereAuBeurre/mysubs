@@ -11,7 +11,8 @@ class EditSubController: UIViewController {
     
     weak var coordinator: AppCoordinator?
     //MARK: -LOGO PROPERTY
-    var iconHeader = UIButton()
+    var iconButton = UIButton()
+    var iconView = UIImageView()
     //MARK: -LeftSideStackView properties
     var formView = UIStackView()
     var name = InputFormTextField()
@@ -82,7 +83,8 @@ class EditSubController: UIViewController {
         alert.addAction(UIAlertAction(title: "Sélectionner", style: .default, handler: { [self] (UIAlertAction) in
             //Convert icon selected from uiimage to data, then displaying it and assigning to viewmodel.icon
             if let icon = iconPickerVC.icon.pngData() {
-                iconHeader.setImage(UIImage(data: icon), for: .normal)
+                iconView.image = UIImage(data: icon)
+//                iconButton.setImage(UIImage(data: icon), for: .normal)
                 viewModel?.icon = icon
             }
         }))
@@ -100,8 +102,6 @@ class EditSubController: UIViewController {
             self.colorChoosen.textField.backgroundColor = colorPicker.selectedColor
         }
     }
-    //MARK: -Private METHODS
-    
     
     @objc
     func nameFieldTextDidChange(textField: UITextField) {
@@ -136,8 +136,6 @@ class EditSubController: UIViewController {
     @objc
     func dateDidChange() {
         viewModel?.date = commitmentDate.date
-
-//        viewModel?.subscription.commitment = commitmentDate.date
     }
     
     
@@ -150,7 +148,8 @@ class EditSubController: UIViewController {
         print(#function)
         showPicker(recurrencyPickerView, recurrency)
     }
-    
+    //MARK: -Private METHODS
+
     private func deletingAlert() {
         let alert = UIAlertController(title: "Suppression de l'abonnement", message: "Êtes-vous sur de vouloir supprimer l'abonnement \(viewModel?.name ?? "") ?", preferredStyle: .actionSheet)
         let deleteAction = UIAlertAction(title: Strings.genericConfirm, style: .default) { [unowned self] action in
@@ -195,7 +194,6 @@ class EditSubController: UIViewController {
                 input.textField.text = "\(valueNumber) \(valueType.stringValue)"
                 viewModel?.recurrencyValue = valueNumber
                 viewModel?.recurrencyType = valueType
-//                viewModel?.subscription.paymentRecurrency = input.textField.text//"\(valueNumber) \(valueType)"
                 viewModel?.recurrency = "\(valueNumber) \(valueType.stringValue)"
 
             } else {
@@ -221,7 +219,9 @@ extension EditSubController: UIPickerViewDataSource, UIPickerViewDelegate {
             } else {
                 return ("\(componentDayMonthYear[row].stringValue)")
             }
-        } else {
+        }
+        
+        else {
             if component == 0 {
                 return ("\(componentNumber[row])")
             }
@@ -313,10 +313,15 @@ extension EditSubController {
     
     private func setUpData() {
         if let icon = viewModel?.icon {
-            iconHeader.setImage(UIImage(data: icon), for: .normal)
-        } else {
-            iconHeader.setImage(UIImage(systemName: "pc"), for: .normal)
+//            iconHeader.setImage(UIImage(data: icon), for: .normal)
+            iconView.image = UIImage(data: icon)
         }
+//        else {
+//            iconHeader.setImage(UIImage(systemName: "pc"), for: .normal)
+//        }
+//        else {
+//            iconView.setImage(UIImage(systemName: "pc"), for: .normal)
+//        }
         name.text = viewModel?.name
         price.text = "\(viewModel?.price ?? 0)"
         commitmentDate.date = viewModel?.date ?? Date.now
@@ -327,21 +332,30 @@ extension EditSubController {
     
     private func setUpView() {
         name.configureView()
-//        category.configureView()
         price.configureView()
         reminder.configureView()
         recurrency.configureView()
         colorChoosen.configureView()
         view.backgroundColor = MSColors.background
         
-        iconHeader.translatesAutoresizingMaskIntoConstraints = false
-        iconHeader.titleLabel?.textAlignment = .center
-        iconHeader.setTitle("Icône ▼", for: .normal)
-        iconHeader.tintColor = MSColors.maintext
-        iconHeader.titleLabel?.font = MSFonts.title2
-        iconHeader.setTitleColor(MSColors.maintext, for: .normal)
-        iconHeader.addTarget(self, action: #selector(showIconPicker), for: .touchUpInside)
-        view.addSubview(iconHeader)
+        iconButton.translatesAutoresizingMaskIntoConstraints = false
+        iconButton.titleLabel?.textAlignment = .center
+        iconButton.setTitle("Icône ▼", for: .normal)
+        iconButton.tintColor = MSColors.maintext
+        iconButton.titleLabel?.font = MSFonts.title2
+        iconButton.setTitleColor(MSColors.maintext, for: .normal)
+        iconButton.addTarget(self, action: #selector(showIconPicker), for: .touchUpInside)
+        view.addSubview(iconButton)
+        
+        //MARK: iconView
+        iconView.translatesAutoresizingMaskIntoConstraints = false
+//        iconView.titleLabel?.textAlignment = .center
+//        iconView.setTitle("Icône ▼", for: .normal)
+        iconView.tintColor = MSColors.maintext
+//        iconView.titleLabel?.font = MSFonts.title2
+//        iconView.setTitleColor(MSColors.maintext, for: .normal)
+//        iconView.addTarget(self, action: #selector(showIconPicker), for: .touchUpInside)
+        view.addSubview(iconView)
         
         // MARK: FORMVIEW
         formView.translatesAutoresizingMaskIntoConstraints = false
@@ -407,22 +421,19 @@ extension EditSubController {
         deleteButton.addTarget(self, action: #selector(deleteSub), for: .touchUpInside)
    
         NSLayoutConstraint.activate([
-        iconHeader.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-//        iconHeader.widthAnchor.constraint(equalToConstant: 50),
-        iconHeader.heightAnchor.constraint(equalToConstant: 50),
-        iconHeader.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
-        formView.topAnchor.constraint(equalTo: iconHeader.bottomAnchor, constant: 40),
-        formView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-        colorChoosen.textField.widthAnchor.constraint(equalToConstant: 150),
-        colorChoosen.textField.heightAnchor.constraint(equalToConstant: 150),
-//        formView.trailingAnchor.constraint(equalTo: colorChoosen.trailingAnchor, constant: 200),
-//        view.trailingAnchor.constraint(equalTo: formView.trailingAnchor, constant: 16),
-        formView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-        formView.heightAnchor.constraint(equalToConstant: 450),
-        deleteButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80),
+            iconButton.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor, constant: 0),
+        iconButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+        iconView.topAnchor.constraint(equalTo: iconButton.bottomAnchor, constant: 16),
+        iconView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+        formView.topAnchor.constraint(equalTo: iconView.bottomAnchor, constant: 8),
+        formView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+        view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: formView.trailingAnchor, constant: 16),
+        view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: deleteButton.bottomAnchor, constant: 16),
+        view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: deleteButton.trailingAnchor, constant: 16),
+        deleteButton.topAnchor.constraint(equalTo: formView.bottomAnchor, constant: 16),
         deleteButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-        deleteButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
         deleteButton.heightAnchor.constraint(equalToConstant: 40),
+        colorChoosen.textField.widthAnchor.constraint(equalToConstant: 150)
         ])
     }
 }
