@@ -19,18 +19,16 @@ enum State<Data> {
 class HomeViewController: UIViewController, UINavigationBarDelegate {
 
     let userNotificationCenter = UNUserNotificationCenter.current()
-
     var viewModel : HomeViewModel?
     weak var coordinator: AppCoordinator?
     
     // MARK: -UI Properties
-    var subsView = UIView()
-    var totalAmountView = UIView()
+    let totalAmountView = UIView()
     var totalAmountLabel = UILabel()
     var amountLabel = UILabel()
     var subListStackView = UIStackView()
-    var subCollectionView: UICollectionView! //= UICollectionView()
-    var categoryButton = UIButton()//AdaptableSizeButton()
+    var subCollectionView: UICollectionView!
+    var categoryButton = UIButton()
     private let activityIndicator = UIActivityIndicatorView(style: .large)
     
     // MARK: -Properties
@@ -74,12 +72,9 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         setUpUI()
         setUpTotalAmountView()
         viewModel?.computeTotal()
-        refreshWith(subscriptions: viewModel?.subscriptions ?? [])
-//        if viewModel?.subscriptions == [] {
-//            viewState = .empty
-//        } else {
-//            viewState = .showData
-//        }
+//        if let sub = viewModel?.subscriptions {
+//            refreshWith(subscriptions: sub)
+//        } else { viewState = .empty }
     }
     
     //MARK: -OBJ C METHODS
@@ -186,9 +181,9 @@ extension HomeViewController {
         amountLabel.text = viewModel?.totalAmount
     }
     
-     func refreshWith2(categorys: [SubCategory]) {
-         viewState = .showData
-    }
+//     func refreshWith2(categorys: [SubCategory]) {
+//         viewState = .showData
+//    }
     
     func didFinishLoadingSubscriptions2() {
 //        if viewModel?.subscriptions.isEmpty == true {

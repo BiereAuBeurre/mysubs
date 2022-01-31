@@ -6,7 +6,7 @@
 //
 
 import UIKit
-class InputFormTextField: UIControl/*, UIPickerViewDelegate, UIPickerViewDataSource */{
+class InputFormTextField: UIControl {
     
     var textFieldInputView: UIView? {
         didSet {
@@ -47,7 +47,7 @@ class InputFormTextField: UIControl/*, UIPickerViewDelegate, UIPickerViewDataSou
         stackView.addArrangedSubview(label)
         stackView.addArrangedSubview(textField)
         stackView.axis = .vertical
-        stackView.alignment = .fill
+//        stackView.alignment = .fill
         stackView.spacing = 8
         textField.borderStyle = .roundedRect
         label.textColor = MSColors.maintext
@@ -56,8 +56,8 @@ class InputFormTextField: UIControl/*, UIPickerViewDelegate, UIPickerViewDataSou
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 8),
             stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
-            stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
-//            stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8),
+            stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8),
+            stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8),
             textField.heightAnchor.constraint(equalToConstant: 35)
         ])
     }

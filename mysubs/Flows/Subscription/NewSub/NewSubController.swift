@@ -16,12 +16,12 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     var selectedRow = 0
     var selectedColor = ""
     var newSubLabel = UILabel()
-    var titleView = UIView()
+//    var titleView = UIView()
     var separatorLine = UIView()
     
     var formView = UIStackView()
     var name = InputFormTextField()
-    var commitment = InputFormTextField()
+//    var commitment = InputFormTextField()
 //    var category = InputFormTextField()
     var info = InputFormTextField()
     var colorAndIconStackView = UIStackView()
@@ -48,7 +48,8 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     var notifTitle = UILabel()
     var switchNotif = UISwitch()
 //    let userNotificationCenter = UNUserNotificationCenter.current()
-
+    var notifSettingsStackView = UIStackView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
@@ -142,11 +143,9 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     @objc
     func displayNotifSettings() {
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
-            self.commitment.isHidden.toggle()
+            self.commitmentStackView.isHidden.toggle()
             self.recurrency.isHidden.toggle()
             self.reminder.isHidden.toggle()
-            self.commitmentDate.isHidden.toggle()
-            self.commitmentTitle.isHidden.toggle()
         }, completion: nil)
     }
 
@@ -190,16 +189,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     }
     
     private func configureCommitment() {
-        commitmentStackView.addArrangedSubview(commitmentTitle)
-        commitmentStackView.addArrangedSubview(commitmentDate)
-        commitmentStackView.axis = .vertical
-        commitmentStackView.alignment = .leading
-        commitmentStackView.distribution = .fillEqually
-        commitmentTitle.textColor = MSColors.maintext
-        commitmentDate.contentMode = .topLeft
-        commitmentStackView.translatesAutoresizingMaskIntoConstraints = false
-        commitmentTitle.translatesAutoresizingMaskIntoConstraints = false
-        commitmentDate.translatesAutoresizingMaskIntoConstraints = false
+        
     }
     
     private func refreshWith(subscriptions: [Subscription]) {
@@ -257,31 +247,17 @@ extension NewSubController {
         newSubLabel.font = UIFont.preferredFont(forTextStyle: .title2)
         newSubLabel.textColor = MSColors.maintext
         newSubLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleView.translatesAutoresizingMaskIntoConstraints = false
-    
-        view.addSubview(titleView)
-        titleView.addSubview(newSubLabel)
+        view.addSubview(newSubLabel)
                 
         // MARK: SEPARATOR LINE VIEW
         separatorLine.translatesAutoresizingMaskIntoConstraints = false
         separatorLine.backgroundColor = UIColor(named: "yellowgrey")
         view.addSubview(separatorLine)
-        
-        
-        commitment.configureView()
-        name.configureView()
-        price.configureView()
-        reminder.configureView()
-        recurrency.configureView()
-        colorChoosen.configureView()
-        iconChoosen.configureView()
-        
+
         //Hide until user touche switch button
-        commitment.isHidden = true
+        commitmentStackView.isHidden = true
         recurrency.isHidden = true
         reminder.isHidden = true
-        commitmentDate.isHidden = true
-        commitmentTitle.isHidden = true
         
 //        //MARK: Adding name field
         name.fieldTitle = "Nom"
@@ -289,25 +265,29 @@ extension NewSubController {
         // configurer la inpute view pour le name
         name.textFieldInputView = UIView()
         name.textField.addTarget(self, action: #selector(nameFieldTextDidChange), for: .editingChanged)
+        name.configureView()
         formView.addArrangedSubview(name)
 
         //MARK: price
         price.fieldTitle = "Prix"
         price.textField.addTarget(self, action: #selector(priceFieldTextDidChange), for: .editingChanged)
+        price.configureView()
         formView.addArrangedSubview(price)
         
-        // Addind color and icon picker stackview
+        // Addin color and icon picker stackview
         colorChoosen.fieldTitle = "Couleur ▼"
         colorChoosen.shouldBehaveAsButton = true
         colorChoosen.addTarget(self, action: #selector(showColorPicker), for: .touchUpInside)
         colorChoosen.textField.text = "➕"
         colorChoosen.textField.textAlignment = .right
+        colorChoosen.configureView()
         colorAndIconStackView.addArrangedSubview(colorChoosen)
 
         iconChoosen.fieldTitle = "Icône ▼"
         iconChoosen.shouldBehaveAsButton = true
         iconChoosen.addTarget(self, action: #selector(showIconPicker), for: .touchUpInside)
         iconChoosen.textField.leftViewMode = .always
+        iconChoosen.configureView()
         colorAndIconStackView.addArrangedSubview(iconChoosen)
         
         colorAndIconStackView.axis = .horizontal
@@ -315,74 +295,82 @@ extension NewSubController {
         colorAndIconStackView.spacing = 48
         formView.addArrangedSubview(colorAndIconStackView)
         
-        notifTitle.text = "Autoriser les notifications"
+        notifTitle.text = "Activer un rappel avant paiement"
         switchNotif.isOn = false
         switchNotif.addTarget(self, action: #selector(displayNotifSettings), for: .touchUpInside)
         notifAuthorizer.addArrangedSubview(notifTitle)
         notifAuthorizer.addArrangedSubview(switchNotif)
         notifAuthorizer.axis = .horizontal
-        notifAuthorizer.distribution = .fillProportionally
-//        notifAuthorizer.alignment = .leading
-//        notifAuthorizer.spacing = 8
-        formView.addArrangedSubview(notifAuthorizer)
+        notifAuthorizer.spacing = 8
+        notifAuthorizer.distribution = .equalCentering
+        notifSettingsStackView.axis = .vertical
+        notifSettingsStackView.addArrangedSubview(notifAuthorizer)
+        formView.addArrangedSubview(notifSettingsStackView)
     
         
         //MARK: Adding commitment field
-        commitmentDate.addTarget(self, action: #selector(dateDidChange), for: .valueChanged)
+        
+        commitmentStackView.axis = .vertical
+        commitmentStackView.alignment = .leading
+        commitmentStackView.distribution = .fillEqually
+        commitmentStackView.translatesAutoresizingMaskIntoConstraints = false
+
+        commitmentTitle.textColor = MSColors.maintext
         commitmentTitle.text = "Dernier paiement"
+        commitmentTitle.translatesAutoresizingMaskIntoConstraints = false
+        commitmentDate.translatesAutoresizingMaskIntoConstraints = false
+        commitmentDate.contentMode = .topLeft
+
+        commitmentDate.addTarget(self, action: #selector(dateDidChange), for: .valueChanged)
         commitmentDate.datePickerMode = .date
         commitmentDate.translatesAutoresizingMaskIntoConstraints = false
-        configureCommitment()
         commitmentDate.locale = Locale.init(identifier: "fr_FR")
         commitmentDate.date = Date.now
-        formView.addArrangedSubview(commitmentStackView)
+        commitmentStackView.addArrangedSubview(commitmentTitle)
+        commitmentStackView.addArrangedSubview(commitmentDate)
+        notifSettingsStackView.addArrangedSubview(commitmentStackView)
+        
         //MARK: - reminder
         reminder.fieldTitle = "Rappel"
         reminder.textField.allowsEditingTextAttributes = false
         reminder.shouldBehaveAsButton = true
         reminder.addTarget(self, action: #selector(changeReminder), for: .touchUpInside)
-        formView.addArrangedSubview(reminder)
+        reminder.configureView()
+        notifSettingsStackView.addArrangedSubview(reminder)
+
         //MARK: - recurrency field
         recurrency.fieldTitle = "Cycle"
         recurrency.shouldBehaveAsButton = true
         recurrency.addTarget(self, action: #selector(changeReccurency), for: .touchUpInside)
-        formView.addArrangedSubview(recurrency)
-   
-        //MARK: Adding recurrency field
-        recurrency.fieldTitle = "Cycle"
-        recurrency.shouldBehaveAsButton = true
-        recurrency.addTarget(self, action: #selector(changeReccurency), for: .touchUpInside)
-
+        recurrency.configureView()
+        notifSettingsStackView.addArrangedSubview(recurrency)
         
         // MARK: FORMVIEW
         formView.translatesAutoresizingMaskIntoConstraints = false
         formView.axis = .vertical
-        formView.alignment = .fill
         formView.spacing = 8
-        formView.distribution = .equalSpacing
-//        formView.setCustomSpacing(<#T##spacing: CGFloat##CGFloat#>, after: <#T##UIView#>)
+        formView.backgroundColor = .white
         view.addSubview(formView)
  
         NSLayoutConstraint.activate([
-            titleView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
-            titleView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            titleView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            titleView.heightAnchor.constraint(equalToConstant: 30),
-            newSubLabel.topAnchor.constraint(equalTo: titleView.topAnchor, constant: 0),
-            newSubLabel.leadingAnchor.constraint(equalTo: titleView.leadingAnchor, constant: 0),
-            newSubLabel.heightAnchor.constraint(equalToConstant: 20),
+            newSubLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            newSubLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            newSubLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            newSubLabel.heightAnchor.constraint(equalToConstant: 30),
+            
             separatorLine.heightAnchor.constraint(equalToConstant: 1),
-            separatorLine.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: 8),
+            separatorLine.topAnchor.constraint(equalTo: newSubLabel.bottomAnchor, constant: 8),
             separatorLine.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             separatorLine.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            separatorLine.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-            formView.topAnchor.constraint(equalTo: separatorLine.bottomAnchor, constant: 40),
+            
+            formView.topAnchor.constraint(equalTo: separatorLine.bottomAnchor, constant: 32),
             formView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: formView.trailingAnchor, constant: 16),
-            view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: formView.bottomAnchor, constant: 80),
-            notifTitle.heightAnchor.constraint(equalToConstant: 35),
-//            notifTitle.centerYAnchor.constraint(equalTo: notifAuthorizer.centerYAnchor),
-//            switchNotif.centerYAnchor.constraint(equalTo: notifAuthorizer.centerYAnchor)
+            view.safeAreaLayoutGuide.bottomAnchor.constraint(greaterThanOrEqualTo: formView.bottomAnchor, constant: 16),
+//            notifAuthorizer.heightAnchor.constraint(equalTo: name.heightAnchor),
+//            commitmentStackView.heightAnchor.constraint(equalTo: notifAuthorizer.heightAnchor),
+//            colorAndIconStackView.heightAnchor.constraint(equalTo: name.heightAnchor),
+
             ])
     }
     
@@ -408,18 +396,11 @@ extension NewSubController: UIPickerViewDataSource, UIPickerViewDelegate {
             else/* if component == 1 */{
                 return ("\(componentDayMonthYear[row].stringValue)")//componentDayMonthYear[row]
             }
-//            else {
-//                return "avant"
-//            }
         }
     }
     
         func numberOfComponents(in pickerView: UIPickerView) -> Int {
-//            if pickerView == recurrencyPickerView {
                 return 2
-//            } else {
-//                return 3
-//            }
         }
     
         func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {

@@ -421,7 +421,7 @@ extension EditSubController {
         deleteButton.addTarget(self, action: #selector(deleteSub), for: .touchUpInside)
    
         NSLayoutConstraint.activate([
-            iconButton.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor, constant: 0),
+        iconButton.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor, constant: 0),
         iconButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
         iconView.topAnchor.constraint(equalTo: iconButton.bottomAnchor, constant: 16),
         iconView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
