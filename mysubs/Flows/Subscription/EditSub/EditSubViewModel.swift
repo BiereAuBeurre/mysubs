@@ -56,14 +56,16 @@ class EditSubViewModel: NSObject {
         }
     }
     
-    var reminder: String? {
-        didSet {
-            guard oldValue != reminder else { return }
-            print("Can Save reminder: \(canSave ? "YES" : "NO" )")
-
-        }
-    }
-    var color: String? {
+    var reminder: String?
+//    {
+//        didSet {
+//            guard oldValue != reminder else { return }
+//            print("Can Save reminder: \(canSave ? "YES" : "NO" )")
+//
+//        }
+//    }
+    var color: String?
+    {
         didSet {
             guard oldValue != color else { return }
             print("Can Save color: \(canSave ? "YES" : "NO" )")
@@ -72,6 +74,7 @@ class EditSubViewModel: NSObject {
     }
     
     var name: String? {
+//        subscription.name
         didSet {
             if oldValue != name {
                 print("Can Save name: \(canSave ? "YES" : "NO" )")
@@ -189,16 +192,23 @@ class EditSubViewModel: NSObject {
 
         //Setting notif to right date
         if isDateChanged == false {
+            
         notificationDate = date ?? Date.now
         notificationDate = notificationDate?.adding(reminderType, value: -(reminderValue ?? 0)) ?? Date.now
         notificationDate = notificationDate?.adding(recurrencyType, value: recurrencyValue ?? 0) ?? Date.now
         
-        if let dateToGet = notificationDate {
-        notificationService.generateNotificationFor(name ?? "unkown", reminderValue ?? 0, price ?? 0, dateToGet)
-        print("New date to get for notifications is : \(dateToGet)")
-        }
+//        if let dateToGet = notificationDate {
+//        notificationService.generateNotificationFor(name ?? "unkown", reminderValue ?? 0, price ?? 0, dateToGet)
+//        print("New date to get for notifications is : \(dateToGet)")
+//        }
         }
         save()
+        guard let dateToGet = notificationDate,
+              let name = name,
+              let reminderValue = reminderValue,
+              let price = price else { return }
+        print("edited notificationDate is", notificationDate)
+    notificationService.generateNotificationFor(name, reminderValue, price, dateToGet)
     }
     
     func goBack() {

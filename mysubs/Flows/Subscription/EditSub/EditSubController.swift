@@ -10,9 +10,7 @@ import UIKit
 class EditSubController: UIViewController {
     
     weak var coordinator: AppCoordinator?
-    //MARK: -LOGO PROPERTY
-    var iconButton = UIButton()
-    var iconView = UIImageView()
+
     //MARK: -LeftSideStackView properties
     var formView = UIStackView()
     var name = InputFormTextField()
@@ -23,7 +21,6 @@ class EditSubController: UIViewController {
     var price = InputFormTextField()
     var reminder = InputFormTextField()
     var recurrency = InputFormTextField()
-    var suggestedLogo = UILabel()
     //MARK: -FOOTER BUTTON PROPERTIES
     var footerStackView = UIStackView()
     var modifyButton = UIButton()
@@ -42,8 +39,21 @@ class EditSubController: UIViewController {
     var recurrencyPickerView = UIPickerView()
     let iconPickerVC = IconPickerViewController()
 
+    var notifAuthorizer = UIStackView()
+    var notifTitle = UILabel()
+    var switchNotif = UISwitch()
+    var notifSettingsStackView = UIStackView()
+    var colorAndIconStackView = UIStackView()
+
+    var colorStackView = UIStackView()
+    var iconStackView = UIStackView()
+    var colorTitle = UIButton()
+    var colorPreview = UIImageView()
+    var iconTitle = UIButton()
+    var iconPreview = UIImageView()
     
-    var colorChoosen = InputFormTextField()
+    //    let userNotificationCenter = UNUserNotificationCenter.current()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,7 +84,7 @@ class EditSubController: UIViewController {
     @objc
     func showIconPicker() {
         iconPickerVC.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
-        let alert = UIAlertController(title: "Sélectionner un icône", message: "", preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "Sélectionner une icône", message: "", preferredStyle: .actionSheet)
         alert.setValue(iconPickerVC, forKey: "contentViewController")
         alert.addAction(UIAlertAction(title: Strings.genericCancel, style: .cancel, handler: { (UIAlertAction) in
         }))
@@ -83,7 +93,7 @@ class EditSubController: UIViewController {
         alert.addAction(UIAlertAction(title: "Sélectionner", style: .default, handler: { [self] (UIAlertAction) in
             //Convert icon selected from uiimage to data, then displaying it and assigning to viewmodel.icon
             if let icon = iconPickerVC.icon.pngData() {
-                iconView.image = UIImage(data: icon)
+                iconPreview.image = UIImage(data: icon)
 //                iconButton.setImage(UIImage(data: icon), for: .normal)
                 viewModel?.icon = icon
             }
@@ -99,7 +109,8 @@ class EditSubController: UIViewController {
         colorPicker.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
         colorPicker.title = "Couleurs"
         self.present(colorPicker, animated: true) {
-            self.colorChoosen.textField.backgroundColor = colorPicker.selectedColor
+            self.colorPreview.backgroundColor = colorPicker.selectedColor
+//            self.colorChoosen.textField.backgroundColor =
         }
     }
     
@@ -148,6 +159,16 @@ class EditSubController: UIViewController {
         print(#function)
         showPicker(recurrencyPickerView, recurrency)
     }
+    
+    @objc
+    func displayNotifSettings() {
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+            self.commitmentStackView.isHidden.toggle()
+            self.recurrency.isHidden.toggle()
+            self.reminder.isHidden.toggle()
+        }, completion: nil)
+    }
+    
     //MARK: -Private METHODS
 
     private func deletingAlert() {
@@ -217,7 +238,7 @@ extension EditSubController: UIPickerViewDataSource, UIPickerViewDelegate {
             if component == 0 {
                 return ("\(componentNumber[row])")
             } else {
-                return ("\(componentDayMonthYear[row].stringValue)")
+                return componentDayMonthYear[row].stringValue
             }
         }
         
@@ -225,10 +246,8 @@ extension EditSubController: UIPickerViewDataSource, UIPickerViewDelegate {
             if component == 0 {
                 return ("\(componentNumber[row])")
             }
-            else if component == 1 {
-                return ("\(componentDayMonthYear[row].stringValue)")
-            } else {
-                return "avant"
+            else  {
+                return componentDayMonthYear[row].stringValue
             }
         }
     }
@@ -264,7 +283,7 @@ extension EditSubController: UIPickerViewDataSource, UIPickerViewDelegate {
 extension EditSubController: UIColorPickerViewControllerDelegate {
     ///  Called on every color selection done in the picker.
     func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
-        self.colorChoosen.textField.backgroundColor = viewController.selectedColor
+        self.colorPreview.backgroundColor = viewController.selectedColor
         self.selectedColor = viewController.selectedColor.toHexString()
         viewModel?.color = selectedColor
     }
@@ -313,129 +332,261 @@ extension EditSubController {
     
     private func setUpData() {
         if let icon = viewModel?.icon {
-//            iconHeader.setImage(UIImage(data: icon), for: .normal)
-            iconView.image = UIImage(data: icon)
+            iconPreview.image = UIImage(data: icon)
         }
-//        else {
-//            iconHeader.setImage(UIImage(systemName: "pc"), for: .normal)
-//        }
-//        else {
-//            iconView.setImage(UIImage(systemName: "pc"), for: .normal)
-//        }
+        if let color = viewModel?.color {
+            self.colorPreview.backgroundColor = UIColor(hex: color)
+        }
         name.text = viewModel?.name
         price.text = "\(viewModel?.price ?? 0)"
         commitmentDate.date = viewModel?.date ?? Date.now
         reminder.text = "\(viewModel?.reminder ?? "")"
         recurrency.text = "\(viewModel?.recurrency ?? "")"
-        colorChoosen.textField.backgroundColor = UIColor(hex: viewModel?.color ?? "#F7CE46")
+
     }
-    
     private func setUpView() {
-        name.configureView()
-        price.configureView()
-        reminder.configureView()
-        recurrency.configureView()
-        colorChoosen.configureView()
+        // MARK: SETTING TITLE
         view.backgroundColor = MSColors.background
+
+        //Hide until user touche switch button
+        commitmentStackView.isHidden = true
+        recurrency.isHidden = true
+        reminder.isHidden = true
         
-        iconButton.translatesAutoresizingMaskIntoConstraints = false
-        iconButton.titleLabel?.textAlignment = .center
-        iconButton.setTitle("Icône ▼", for: .normal)
-        iconButton.tintColor = MSColors.maintext
-        iconButton.titleLabel?.font = MSFonts.title2
-        iconButton.setTitleColor(MSColors.maintext, for: .normal)
-        iconButton.addTarget(self, action: #selector(showIconPicker), for: .touchUpInside)
-        view.addSubview(iconButton)
-        
-        //MARK: iconView
-        iconView.translatesAutoresizingMaskIntoConstraints = false
-//        iconView.titleLabel?.textAlignment = .center
-//        iconView.setTitle("Icône ▼", for: .normal)
-        iconView.tintColor = MSColors.maintext
-//        iconView.titleLabel?.font = MSFonts.title2
-//        iconView.setTitleColor(MSColors.maintext, for: .normal)
-//        iconView.addTarget(self, action: #selector(showIconPicker), for: .touchUpInside)
-        view.addSubview(iconView)
-        
-        // MARK: FORMVIEW
-        formView.translatesAutoresizingMaskIntoConstraints = false
-        formView.axis = .vertical
-        formView.alignment = .fill
-        formView.spacing = 8
-        formView.distribution = .fillEqually
-        view.addSubview(formView)
-        
-        //MARK: Adding name field
-        formView.addArrangedSubview(name)
+//        //MARK: Adding name field
         name.fieldTitle = "Nom"
+        name.text = viewModel?.name
         // configurer la inpute view pour le name
         name.textFieldInputView = UIView()
-        
-        //MARK: Adding price field
+        name.textField.addTarget(self, action: #selector(nameFieldTextDidChange), for: .editingChanged)
+        name.configureView()
+        formView.addArrangedSubview(name)
+
+        //MARK: price
         price.fieldTitle = "Prix"
+        price.textField.addTarget(self, action: #selector(priceFieldTextDidChange), for: .editingChanged)
+        price.configureView()
         formView.addArrangedSubview(price)
         
+        colorTitle.setTitle("Couleur ▼", for: .normal)
+        colorTitle.setTitleColor(MSColors.maintext, for: .normal)
+        colorTitle.addTarget(self, action: #selector(showColorPicker), for: .touchUpInside)
+        
+        colorPreview.backgroundColor = .white
+        colorPreview.addCornerRadius()
+        let tapColorPreview = UITapGestureRecognizer(target: self, action: #selector(showColorPicker))
+        colorPreview.addGestureRecognizer(tapColorPreview)
+        colorPreview.isUserInteractionEnabled = true
+        colorStackView.axis = .vertical
+        colorStackView.contentMode = .left
+        colorStackView.addArrangedSubview(colorTitle)
+        colorStackView.addArrangedSubview(colorPreview)
+        colorStackView.alignment = .leading
+        colorAndIconStackView.addArrangedSubview(colorStackView)
+
+        
+        iconTitle.setTitle("Icône ▼", for: .normal)
+        iconTitle.setTitleColor(MSColors.maintext, for: .normal)
+        iconTitle.addTarget(self, action: #selector(showIconPicker), for: .touchUpInside)
+        iconStackView.axis = .vertical
+        iconPreview.backgroundColor = .white
+        iconPreview.addCornerRadius()
+        let tapIconPreview = UITapGestureRecognizer(target: self, action: #selector(showIconPicker))
+        iconPreview.addGestureRecognizer(tapIconPreview)
+        iconPreview.isUserInteractionEnabled = true
+        iconPreview.contentMode = .scaleAspectFit
+        iconStackView.addArrangedSubview(iconTitle)
+        iconStackView.addArrangedSubview(iconPreview)
+        iconStackView.alignment = .leading
+        colorAndIconStackView.addArrangedSubview(iconStackView)
+        
+        colorAndIconStackView.axis = .horizontal
+        colorAndIconStackView.distribution = .fillEqually
+        colorAndIconStackView.spacing = 34
+        formView.addArrangedSubview(colorAndIconStackView)
+        
+        notifTitle.text = "Activer un rappel avant paiement"
+        notifAuthorizer.addArrangedSubview(notifTitle)
+        
+        if viewModel?.date == nil {
+            switchNotif.isOn = false
+            commitmentStackView.isHidden = true
+            recurrency.isHidden = true
+            reminder.isHidden = true
+        } else {
+            switchNotif.isOn = true
+            commitmentStackView.isHidden = false
+            recurrency.isHidden = false
+            reminder.isHidden = false
+        }
+        switchNotif.addTarget(self, action: #selector(displayNotifSettings), for: .touchUpInside)
+        notifAuthorizer.addArrangedSubview(switchNotif)
+        notifAuthorizer.axis = .horizontal
+        notifSettingsStackView.addArrangedSubview(notifAuthorizer)
+
+//        notifAuthorizer.spacing = 16
+        notifAuthorizer.distribution = .equalCentering
+        notifSettingsStackView.axis = .vertical
+        notifSettingsStackView.spacing = 8
+        formView.addArrangedSubview(notifSettingsStackView)
+    
+        
         //MARK: Adding commitment field
+        
+        commitmentStackView.axis = .vertical
+        commitmentStackView.alignment = .leading
+        commitmentStackView.distribution = .fillEqually
+        commitmentStackView.translatesAutoresizingMaskIntoConstraints = false
+
+        commitmentTitle.textColor = MSColors.maintext
         commitmentTitle.text = "Dernier paiement"
+        commitmentTitle.translatesAutoresizingMaskIntoConstraints = false
+        commitmentDate.translatesAutoresizingMaskIntoConstraints = false
+        commitmentDate.contentMode = .topLeft
+
+        commitmentDate.addTarget(self, action: #selector(dateDidChange), for: .valueChanged)
         commitmentDate.datePickerMode = .date
         commitmentDate.translatesAutoresizingMaskIntoConstraints = false
-        configureCommitment()
         commitmentDate.locale = Locale.init(identifier: "fr_FR")
-        formView.addArrangedSubview(commitmentStackView)
-
-
-        //MARK: Adding reminder field
+        commitmentDate.date = Date.now
+        commitmentStackView.addArrangedSubview(commitmentTitle)
+        commitmentStackView.addArrangedSubview(commitmentDate)
+        notifSettingsStackView.addArrangedSubview(commitmentStackView)
+        
+        //MARK: - reminder
         reminder.fieldTitle = "Rappel"
         reminder.textField.allowsEditingTextAttributes = false
         reminder.shouldBehaveAsButton = true
         reminder.addTarget(self, action: #selector(changeReminder), for: .touchUpInside)
-        formView.addArrangedSubview(reminder)
+        reminder.configureView()
+        notifSettingsStackView.addArrangedSubview(reminder)
 
-        //MARK: Adding recurrency field
+        //MARK: - recurrency field
         recurrency.fieldTitle = "Cycle"
         recurrency.shouldBehaveAsButton = true
         recurrency.addTarget(self, action: #selector(changeReccurency), for: .touchUpInside)
-        formView.addArrangedSubview(recurrency)
+        recurrency.configureView()
+        notifSettingsStackView.addArrangedSubview(recurrency)
         
-        colorChoosen.fieldTitle = "Couleur ▼"
-        colorChoosen.shouldBehaveAsButton = true
-        colorChoosen.addTarget(self, action: #selector(showColorPicker), for: .touchUpInside)
-        colorChoosen.textField.text = "➕"
-        colorChoosen.textField.textAlignment = .right
-        colorChoosen.stackView.alignment = .leading
-        formView.addArrangedSubview(colorChoosen)
-
-        //MARK: - action send values to viewModel for being save as new sub values
-        name.textField.addTarget(self, action: #selector(nameFieldTextDidChange), for: .editingChanged)
-        price.textField.addTarget(self, action: #selector(priceFieldTextDidChange), for: .editingChanged)
-        commitmentDate.addTarget(self, action: #selector(dateDidChange), for: .valueChanged)
-        //MARK: DELETE BUTTON
-        view.addSubview(deleteButton)
-        deleteButton.titleLabel?.textAlignment = .center
-        deleteButton.translatesAutoresizingMaskIntoConstraints = false
-        deleteButton.setTitle(" Supprimer", for: .normal)
-        deleteButton.setImage(UIImage(systemName: "trash"), for: .normal)
-        deleteButton.tintColor = MSColors.maintext
-        deleteButton.titleLabel?.font = MSFonts.title2
-        deleteButton.setTitleColor(MSColors.maintext, for: .normal)
-        deleteButton.addTarget(self, action: #selector(deleteSub), for: .touchUpInside)
-   
+        // MARK: FORMVIEW
+        formView.translatesAutoresizingMaskIntoConstraints = false
+        formView.axis = .vertical
+        formView.spacing = 16
+        view.addSubview(formView)
+ 
         NSLayoutConstraint.activate([
-        iconButton.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor, constant: 0),
-        iconButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
-        iconView.topAnchor.constraint(equalTo: iconButton.bottomAnchor, constant: 16),
-        iconView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-        formView.topAnchor.constraint(equalTo: iconView.bottomAnchor, constant: 8),
-        formView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-        view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: formView.trailingAnchor, constant: 16),
-        view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: deleteButton.bottomAnchor, constant: 16),
-        view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: deleteButton.trailingAnchor, constant: 16),
-        deleteButton.topAnchor.constraint(equalTo: formView.bottomAnchor, constant: 16),
-        deleteButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-        deleteButton.heightAnchor.constraint(equalToConstant: 40),
-        colorChoosen.textField.widthAnchor.constraint(equalToConstant: 150)
-        ])
+            formView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
+            formView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: formView.trailingAnchor, constant: 16),
+            view.safeAreaLayoutGuide.bottomAnchor.constraint(greaterThanOrEqualTo: formView.bottomAnchor, constant: 16),
+            iconPreview.heightAnchor.constraint(equalToConstant: 40),
+            iconPreview.widthAnchor.constraint(equalToConstant: 80),
+            colorPreview.heightAnchor.constraint(equalToConstant: 40),
+            colorPreview.widthAnchor.constraint(equalToConstant: 80),
+            iconStackView.trailingAnchor.constraint(greaterThanOrEqualTo: colorAndIconStackView.trailingAnchor, constant: -8),
+            ])
     }
+//    private func setUpView() {
+//        name.configureView()
+//        price.configureView()
+//        reminder.configureView()
+//        recurrency.configureView()
+//        colorChoosen.configureView()
+//        view.backgroundColor = MSColors.background
+//
+//        iconButton.translatesAutoresizingMaskIntoConstraints = false
+//        iconButton.titleLabel?.textAlignment = .center
+//        iconButton.setTitle("Icône ▼", for: .normal)
+//        iconButton.tintColor = MSColors.maintext
+//        iconButton.titleLabel?.font = MSFonts.title2
+//        iconButton.setTitleColor(MSColors.maintext, for: .normal)
+//        iconButton.addTarget(self, action: #selector(showIconPicker), for: .touchUpInside)
+//        view.addSubview(iconButton)
+//
+//        //MARK: iconView
+//        iconView.translatesAutoresizingMaskIntoConstraints = false
+//        iconView.tintColor = MSColors.maintext
+//        view.addSubview(iconView)
+//
+//        // MARK: FORMVIEW
+//        formView.translatesAutoresizingMaskIntoConstraints = false
+//        formView.axis = .vertical
+//        formView.alignment = .fill
+//        formView.spacing = 8
+//        formView.distribution = .fillEqually
+//        view.addSubview(formView)
+//
+//        //MARK: Adding name field
+//        formView.addArrangedSubview(name)
+//        name.fieldTitle = "Nom"
+//        // configurer la inpute view pour le name
+//        name.textFieldInputView = UIView()
+//
+//        //MARK: Adding price field
+//        price.fieldTitle = "Prix"
+//        formView.addArrangedSubview(price)
+//
+//        //MARK: Adding commitment field
+//        commitmentTitle.text = "Dernier paiement"
+//        commitmentDate.datePickerMode = .date
+//        commitmentDate.translatesAutoresizingMaskIntoConstraints = false
+//        configureCommitment()
+//        commitmentDate.locale = Locale.init(identifier: "fr_FR")
+//        formView.addArrangedSubview(commitmentStackView)
+//
+//
+//        //MARK: Adding reminder field
+//        reminder.fieldTitle = "Rappel"
+//        reminder.textField.allowsEditingTextAttributes = false
+//        reminder.shouldBehaveAsButton = true
+//        reminder.addTarget(self, action: #selector(changeReminder), for: .touchUpInside)
+//        formView.addArrangedSubview(reminder)
+//
+//        //MARK: Adding recurrency field
+//        recurrency.fieldTitle = "Cycle"
+//        recurrency.shouldBehaveAsButton = true
+//        recurrency.addTarget(self, action: #selector(changeReccurency), for: .touchUpInside)
+//        formView.addArrangedSubview(recurrency)
+//
+//        colorChoosen.fieldTitle = "Couleur ▼"
+//        colorChoosen.shouldBehaveAsButton = true
+//        colorChoosen.addTarget(self, action: #selector(showColorPicker), for: .touchUpInside)
+//        colorChoosen.textField.text = "➕"
+//        colorChoosen.textField.textAlignment = .right
+//        colorChoosen.stackView.alignment = .leading
+//        formView.addArrangedSubview(colorChoosen)
+//
+//        //MARK: - action send values to viewModel for being save as new sub values
+//        name.textField.addTarget(self, action: #selector(nameFieldTextDidChange), for: .editingChanged)
+//        price.textField.addTarget(self, action: #selector(priceFieldTextDidChange), for: .editingChanged)
+//        commitmentDate.addTarget(self, action: #selector(dateDidChange), for: .valueChanged)
+//        //MARK: DELETE BUTTON
+//        view.addSubview(deleteButton)
+//        deleteButton.titleLabel?.textAlignment = .center
+//        deleteButton.translatesAutoresizingMaskIntoConstraints = false
+//        deleteButton.setTitle(" Supprimer", for: .normal)
+//        deleteButton.setImage(UIImage(systemName: "trash"), for: .normal)
+//        deleteButton.tintColor = MSColors.maintext
+//        deleteButton.titleLabel?.font = MSFonts.title2
+//        deleteButton.setTitleColor(MSColors.maintext, for: .normal)
+//        deleteButton.addTarget(self, action: #selector(deleteSub), for: .touchUpInside)
+//
+//        NSLayoutConstraint.activate([
+//        iconButton.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor, constant: 0),
+//        iconButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+//        iconView.topAnchor.constraint(equalTo: iconButton.bottomAnchor, constant: 16),
+//        iconView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+//        formView.topAnchor.constraint(equalTo: iconView.bottomAnchor, constant: 8),
+//        formView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+//        view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: formView.trailingAnchor, constant: 16),
+//        view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: deleteButton.bottomAnchor, constant: 16),
+//        view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: deleteButton.trailingAnchor, constant: 16),
+//        deleteButton.topAnchor.constraint(equalTo: formView.bottomAnchor, constant: 16),
+//        deleteButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+//        deleteButton.heightAnchor.constraint(equalToConstant: 40),
+//        colorChoosen.textField.widthAnchor.constraint(equalToConstant: 150)
+//        ])
+//    }
 }
 
 

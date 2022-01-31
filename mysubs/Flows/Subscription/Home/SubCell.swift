@@ -34,11 +34,17 @@ class SubCell: UICollectionViewCell {
     func refreshSubData() {
         subNameLabel.text = subscription?.name
         priceLabel.text = "\(subscription?.price ?? 0) €"
-        contentView.backgroundColor = UIColor(hex: subscription?.color ?? "FFB6C1")
+        if let color = subscription?.color {
+            contentView.backgroundColor = UIColor(hex: color)
+        } else {
+            contentView.backgroundColor = .white
+        }
+
         if let icon = subscription?.icon {
             logo.image = UIImage(data: icon)
         } else {
             logo.image = UIImage(systemName: "pc")
+            logo.tintColor = .black
         }
     }
     
@@ -48,6 +54,7 @@ class SubCell: UICollectionViewCell {
         subNameLabel.translatesAutoresizingMaskIntoConstraints = false
         subNameLabel.textColor = .black
         logo.translatesAutoresizingMaskIntoConstraints = false
+        logo.contentMode = .scaleAspectFit
         contentView.alpha = 0.8
         addSubview(priceLabel)
         addSubview(logo)

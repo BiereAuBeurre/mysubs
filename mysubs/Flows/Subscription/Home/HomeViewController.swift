@@ -83,7 +83,6 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
 //        print("passage dans methode plusButtonAction (homeVC)")
     }
     
-//    @objc func categoryNamefieldTextDidChange(textField: UITextField) {}
     
     @objc func deleteAll() {
         if let subscriptions = viewModel?.subscriptions {

@@ -28,8 +28,14 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     var price = InputFormTextField()
     var reminder = InputFormTextField()
     var recurrency = InputFormTextField()
-    var colorChoosen = InputFormTextField()
-    var iconChoosen = InputFormTextField()
+    
+    var colorStackView = UIStackView()
+    var iconStackView = UIStackView()
+    var colorTitle = UIButton()
+    var colorPreview = UIImageView()
+    var iconTitle = UIButton()
+    var iconPreview = UIImageView()
+    
     var commitmentTitle = UILabel()
     var commitmentDate = UIDatePicker()
     let commitmentStackView = UIStackView()
@@ -114,7 +120,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     @objc
     func showIconPicker() {
         iconPickerVC.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
-        let alert = UIAlertController(title: "Sélectionner un icône", message: "", preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "Sélectionner une icône", message: "", preferredStyle: .actionSheet)
         alert.setValue(iconPickerVC, forKey: "contentViewController")
         alert.addAction(UIAlertAction(title: Strings.genericCancel, style: .cancel, handler: { (UIAlertAction) in
         }))
@@ -123,7 +129,9 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         alert.addAction(UIAlertAction(title: "Sélectionner", style: .default, handler: { [self] (UIAlertAction) in
             //Convert view model icon from data to uiimage, then displaying it
             viewModel?.icon = iconPickerVC.icon.pngData()
-            iconChoosen.textField.setIcon(iconPickerVC.icon)
+//            iconStackView.textField.setIcon(iconPickerVC.icon)
+            iconPreview.image = iconPickerVC.icon
+            iconPreview.tintColor = .black
         }))
         self.present(alert, animated: true, completion: nil)
                                       
@@ -136,7 +144,8 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         colorPicker.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
         colorPicker.title = "Couleurs"
         self.present(colorPicker, animated: true) {
-            self.colorChoosen.textField.backgroundColor = colorPicker.selectedColor
+//            self.colorStackView.textField.backgroundColor = colorPicker.selectedColor
+            self.colorPreview.backgroundColor = colorPicker.selectedColor
         }
     }
     
@@ -159,8 +168,13 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         vc.view.addSubview(picker)
         picker.centerXAnchor.constraint(equalTo: vc.view.centerXAnchor).isActive = true
         picker.centerYAnchor.constraint(equalTo: vc.view.centerYAnchor).isActive = true
-        let alert = UIAlertController(title: "Selectionner une valeur", message: "", preferredStyle: .actionSheet)
-    
+        var alert = UIAlertController()
+        if input == reminder {
+            alert = UIAlertController(title: "Sélectionner le rappel", message: "Indiquez combien de jours avant le paiement vous souhaitez être notifié", preferredStyle: .actionSheet)
+        } else {
+            alert = UIAlertController(title: "Sélectionner un cycle", message: "Indiquez à quels intervalles vous payez", preferredStyle: .actionSheet)
+        }
+        
         alert.popoverPresentationController?.sourceView = input
         alert.popoverPresentationController?.sourceRect = input.bounds
         alert.setValue(vc, forKey: "contentViewController")
@@ -184,12 +198,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
                 viewModel?.reminderType = valueType
             }
         }))
-        
         self.present(alert, animated: true, completion: nil)
-    }
-    
-    private func configureCommitment() {
-        
     }
     
     private func refreshWith(subscriptions: [Subscription]) {
@@ -203,7 +212,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
 extension NewSubController: UIColorPickerViewControllerDelegate {
     ///  Called on every color selection done in the picker.
     func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
-        self.colorChoosen.textField.backgroundColor = viewController.selectedColor
+        self.colorPreview.backgroundColor = viewController.selectedColor
         self.selectedColor = viewController.selectedColor.toHexString()
         viewModel?.color = selectedColor
     }
@@ -274,25 +283,41 @@ extension NewSubController {
         price.configureView()
         formView.addArrangedSubview(price)
         
-        // Addin color and icon picker stackview
-        colorChoosen.fieldTitle = "Couleur ▼"
-        colorChoosen.shouldBehaveAsButton = true
-        colorChoosen.addTarget(self, action: #selector(showColorPicker), for: .touchUpInside)
-        colorChoosen.textField.text = "➕"
-        colorChoosen.textField.textAlignment = .right
-        colorChoosen.configureView()
-        colorAndIconStackView.addArrangedSubview(colorChoosen)
+        colorTitle.setTitle("Couleur ▼", for: .normal) //= "Couleur ▼"
+        colorTitle.setTitleColor(MSColors.maintext, for: .normal)
+        colorTitle.addTarget(self, action: #selector(showColorPicker), for: .touchUpInside)
+        
+        colorPreview.backgroundColor = .white
+        colorPreview.addCornerRadius()
+        let tapColorPreview = UITapGestureRecognizer(target: self, action: #selector(showColorPicker))
+        colorPreview.addGestureRecognizer(tapColorPreview)
+        colorPreview.isUserInteractionEnabled = true
+        colorStackView.axis = .vertical
+        colorStackView.contentMode = .left
+        colorStackView.addArrangedSubview(colorTitle)
+        colorStackView.addArrangedSubview(colorPreview)
+        colorStackView.alignment = .leading
+        colorAndIconStackView.addArrangedSubview(colorStackView)
 
-        iconChoosen.fieldTitle = "Icône ▼"
-        iconChoosen.shouldBehaveAsButton = true
-        iconChoosen.addTarget(self, action: #selector(showIconPicker), for: .touchUpInside)
-        iconChoosen.textField.leftViewMode = .always
-        iconChoosen.configureView()
-        colorAndIconStackView.addArrangedSubview(iconChoosen)
+        
+        iconTitle.setTitle("Icône ▼", for: .normal)
+        iconTitle.setTitleColor(MSColors.maintext, for: .normal)
+        iconTitle.addTarget(self, action: #selector(showIconPicker), for: .touchUpInside)
+        iconStackView.axis = .vertical
+        iconPreview.backgroundColor = .white
+        iconPreview.addCornerRadius()
+        let tapIconPreview = UITapGestureRecognizer(target: self, action: #selector(showIconPicker))
+        iconPreview.addGestureRecognizer(tapIconPreview)
+        iconPreview.isUserInteractionEnabled = true
+        iconPreview.contentMode = .scaleAspectFit
+        iconStackView.addArrangedSubview(iconTitle)
+        iconStackView.addArrangedSubview(iconPreview)
+        iconStackView.alignment = .leading
+        colorAndIconStackView.addArrangedSubview(iconStackView)
         
         colorAndIconStackView.axis = .horizontal
         colorAndIconStackView.distribution = .fillEqually
-        colorAndIconStackView.spacing = 48
+        colorAndIconStackView.spacing = 34
         formView.addArrangedSubview(colorAndIconStackView)
         
         notifTitle.text = "Activer un rappel avant paiement"
@@ -301,33 +326,33 @@ extension NewSubController {
         notifAuthorizer.addArrangedSubview(notifTitle)
         notifAuthorizer.addArrangedSubview(switchNotif)
         notifAuthorizer.axis = .horizontal
-        notifAuthorizer.spacing = 8
         notifAuthorizer.distribution = .equalCentering
-        notifSettingsStackView.axis = .vertical
         notifSettingsStackView.addArrangedSubview(notifAuthorizer)
+
+        notifSettingsStackView.axis = .vertical
+        notifSettingsStackView.spacing = 8
         formView.addArrangedSubview(notifSettingsStackView)
     
         
         //MARK: Adding commitment field
-        
-        commitmentStackView.axis = .vertical
-        commitmentStackView.alignment = .leading
-        commitmentStackView.distribution = .fillEqually
-        commitmentStackView.translatesAutoresizingMaskIntoConstraints = false
-
+        commitmentTitle.translatesAutoresizingMaskIntoConstraints = false
         commitmentTitle.textColor = MSColors.maintext
         commitmentTitle.text = "Dernier paiement"
-        commitmentTitle.translatesAutoresizingMaskIntoConstraints = false
+        commitmentStackView.addArrangedSubview(commitmentTitle)
+
         commitmentDate.translatesAutoresizingMaskIntoConstraints = false
         commitmentDate.contentMode = .topLeft
-
         commitmentDate.addTarget(self, action: #selector(dateDidChange), for: .valueChanged)
         commitmentDate.datePickerMode = .date
         commitmentDate.translatesAutoresizingMaskIntoConstraints = false
         commitmentDate.locale = Locale.init(identifier: "fr_FR")
         commitmentDate.date = Date.now
-        commitmentStackView.addArrangedSubview(commitmentTitle)
         commitmentStackView.addArrangedSubview(commitmentDate)
+        
+        commitmentStackView.translatesAutoresizingMaskIntoConstraints = false
+        commitmentStackView.axis = .vertical
+        commitmentStackView.alignment = .leading
+        commitmentStackView.distribution = .fillEqually
         notifSettingsStackView.addArrangedSubview(commitmentStackView)
         
         //MARK: - reminder
@@ -348,8 +373,7 @@ extension NewSubController {
         // MARK: FORMVIEW
         formView.translatesAutoresizingMaskIntoConstraints = false
         formView.axis = .vertical
-        formView.spacing = 8
-        formView.backgroundColor = .white
+        formView.spacing = 16
         view.addSubview(formView)
  
         NSLayoutConstraint.activate([
@@ -367,14 +391,13 @@ extension NewSubController {
             formView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: formView.trailingAnchor, constant: 16),
             view.safeAreaLayoutGuide.bottomAnchor.constraint(greaterThanOrEqualTo: formView.bottomAnchor, constant: 16),
-//            notifAuthorizer.heightAnchor.constraint(equalTo: name.heightAnchor),
-//            commitmentStackView.heightAnchor.constraint(equalTo: notifAuthorizer.heightAnchor),
-//            colorAndIconStackView.heightAnchor.constraint(equalTo: name.heightAnchor),
-
+            iconPreview.heightAnchor.constraint(equalToConstant: 40),
+            iconPreview.widthAnchor.constraint(equalToConstant: 80),
+            colorPreview.heightAnchor.constraint(equalToConstant: 40),
+            colorPreview.widthAnchor.constraint(equalToConstant: 80),
+            iconStackView.trailingAnchor.constraint(greaterThanOrEqualTo: colorAndIconStackView.trailingAnchor, constant: -8),
             ])
     }
-    
-
 }
 
 //MARK: - BOTH PICKERVIEW SETUP
@@ -383,18 +406,18 @@ extension NewSubController: UIPickerViewDataSource, UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if pickerView == recurrencyPickerView {
             if component == 0 {
-                return ("\(componentNumber[row])")
+                return "\(componentNumber[row])"
             } else {
-                return ("\(componentDayMonthYear[row].stringValue)")
+                return componentDayMonthYear[row].stringValue
             }
         }
         
         else {
             if component == 0 {
-                return ("\(componentNumber[row])")
+                return "\(componentNumber[row])"
             }
-            else/* if component == 1 */{
-                return ("\(componentDayMonthYear[row].stringValue)")//componentDayMonthYear[row]
+            else{
+                return componentDayMonthYear[row].stringValue
             }
         }
     }

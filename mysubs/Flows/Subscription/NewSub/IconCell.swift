@@ -40,6 +40,8 @@ class IconCell: UICollectionViewCell {
     
     func configureCell() {
         logo.translatesAutoresizingMaskIntoConstraints = false
+        logo.tintColor = .black
+        logo.contentMode = .scaleAspectFit
         addSubview(logo)
 
         // MARK: - Constraints
