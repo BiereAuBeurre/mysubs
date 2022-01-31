@@ -209,7 +209,6 @@ class EditSubController: UIViewController {
             self.selectedRow = picker.selectedRow(inComponent: 0)
             let valueNumber = self.componentNumber[picker.selectedRow(inComponent: 0)]
             let valueType = self.componentDayMonthYear[picker.selectedRow(inComponent: 1)]
-            let string2 = "avant"
 
             if input == recurrency {
                 input.textField.text = "\(valueNumber) \(valueType.stringValue)"
@@ -218,10 +217,10 @@ class EditSubController: UIViewController {
                 viewModel?.recurrency = "\(valueNumber) \(valueType.stringValue)"
 
             } else {
-                input.textField.text = "\(valueNumber) \(valueType.stringValue) \(string2)"
+                input.textField.text = "\(valueNumber) \(valueType.stringValue) avant"
                 viewModel?.reminderValue = valueNumber
                 viewModel?.reminderType = valueType
-                viewModel?.reminder = "\(valueNumber) \(valueType.stringValue) \(string2)"
+                viewModel?.reminder = "\(valueNumber) \(valueType.stringValue)"
 
             }
         }))
@@ -253,11 +252,11 @@ extension EditSubController: UIPickerViewDataSource, UIPickerViewDelegate {
     }
     
         func numberOfComponents(in pickerView: UIPickerView) -> Int {
-            if pickerView == recurrencyPickerView {
+//            if pickerView == recurrencyPickerView {
                 return 2
-            } else {
-                return 3
-            }
+//            } else {
+//                return 3
+//            }
         }
     
         func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
@@ -337,11 +336,23 @@ extension EditSubController {
         if let color = viewModel?.color {
             self.colorPreview.backgroundColor = UIColor(hex: color)
         }
+        if let date = viewModel?.date {
+            commitmentDate.date = date
+            switchNotif.isOn = true
+            commitmentStackView.isHidden = false
+            recurrency.isHidden = false
+            reminder.isHidden = false
+        } else {
+            switchNotif.isOn = false
+            commitmentStackView.isHidden = true
+            recurrency.isHidden = true
+            reminder.isHidden = true
+        }
+        
         name.text = viewModel?.name
         price.text = "\(viewModel?.price ?? 0)"
-        commitmentDate.date = viewModel?.date ?? Date.now
-        reminder.text = "\(viewModel?.reminder ?? "")"
-        recurrency.text = "\(viewModel?.recurrency ?? "")"
+        reminder.text = "\(viewModel?.reminder?.localized ?? "") avant"
+        recurrency.text = "Tous les \(viewModel?.recurrency?.localized ?? "")"
 
     }
     private func setUpView() {
@@ -349,9 +360,9 @@ extension EditSubController {
         view.backgroundColor = MSColors.background
 
         //Hide until user touche switch button
-        commitmentStackView.isHidden = true
-        recurrency.isHidden = true
-        reminder.isHidden = true
+//        commitmentStackView.isHidden = true
+//        recurrency.isHidden = true
+//        reminder.isHidden = true
         
 //        //MARK: Adding name field
         name.fieldTitle = "Nom"
@@ -408,17 +419,17 @@ extension EditSubController {
         notifTitle.text = "Activer un rappel avant paiement"
         notifAuthorizer.addArrangedSubview(notifTitle)
         
-        if viewModel?.date == nil {
-            switchNotif.isOn = false
-            commitmentStackView.isHidden = true
-            recurrency.isHidden = true
-            reminder.isHidden = true
-        } else {
-            switchNotif.isOn = true
-            commitmentStackView.isHidden = false
-            recurrency.isHidden = false
-            reminder.isHidden = false
-        }
+//        if viewModel?.date == nil {
+//            switchNotif.isOn = false
+//            commitmentStackView.isHidden = true
+//            recurrency.isHidden = true
+//            reminder.isHidden = true
+//        } else {
+//            switchNotif.isOn = true
+//            commitmentStackView.isHidden = false
+//            recurrency.isHidden = false
+//            reminder.isHidden = false
+//        }
         switchNotif.addTarget(self, action: #selector(displayNotifSettings), for: .touchUpInside)
         notifAuthorizer.addArrangedSubview(switchNotif)
         notifAuthorizer.axis = .horizontal
@@ -430,6 +441,17 @@ extension EditSubController {
         notifSettingsStackView.spacing = 8
         formView.addArrangedSubview(notifSettingsStackView)
     
+        //MARK: DELETE BUTTON
+        deleteButton.titleLabel?.textAlignment = .center
+        deleteButton.translatesAutoresizingMaskIntoConstraints = false
+        deleteButton.setTitle(" Supprimer", for: .normal)
+        deleteButton.setImage(UIImage(systemName: "trash"), for: .normal)
+        deleteButton.tintColor = MSColors.maintext
+        deleteButton.titleLabel?.font = MSFonts.title2
+        deleteButton.setTitleColor(MSColors.maintext, for: .normal)
+        deleteButton.addTarget(self, action: #selector(deleteSub), for: .touchUpInside)
+        view.addSubview(deleteButton)
+
         
         //MARK: Adding commitment field
         
@@ -471,19 +493,23 @@ extension EditSubController {
         // MARK: FORMVIEW
         formView.translatesAutoresizingMaskIntoConstraints = false
         formView.axis = .vertical
-        formView.spacing = 16
+        formView.spacing = 8
         view.addSubview(formView)
  
         NSLayoutConstraint.activate([
             formView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
             formView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: formView.trailingAnchor, constant: 16),
-            view.safeAreaLayoutGuide.bottomAnchor.constraint(greaterThanOrEqualTo: formView.bottomAnchor, constant: 16),
+            deleteButton.topAnchor.constraint(greaterThanOrEqualTo: formView.bottomAnchor, constant: 16),
             iconPreview.heightAnchor.constraint(equalToConstant: 40),
             iconPreview.widthAnchor.constraint(equalToConstant: 80),
             colorPreview.heightAnchor.constraint(equalToConstant: 40),
             colorPreview.widthAnchor.constraint(equalToConstant: 80),
             iconStackView.trailingAnchor.constraint(greaterThanOrEqualTo: colorAndIconStackView.trailingAnchor, constant: -8),
+            view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: deleteButton.bottomAnchor, constant: 8),
+            view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: deleteButton.trailingAnchor, constant: 16),
+            deleteButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            deleteButton.heightAnchor.constraint(equalToConstant: 30),
             ])
     }
 //    private func setUpView() {
@@ -561,7 +587,6 @@ extension EditSubController {
 //        price.textField.addTarget(self, action: #selector(priceFieldTextDidChange), for: .editingChanged)
 //        commitmentDate.addTarget(self, action: #selector(dateDidChange), for: .valueChanged)
 //        //MARK: DELETE BUTTON
-//        view.addSubview(deleteButton)
 //        deleteButton.titleLabel?.textAlignment = .center
 //        deleteButton.translatesAutoresizingMaskIntoConstraints = false
 //        deleteButton.setTitle(" Supprimer", for: .normal)
@@ -570,6 +595,8 @@ extension EditSubController {
 //        deleteButton.titleLabel?.font = MSFonts.title2
 //        deleteButton.setTitleColor(MSColors.maintext, for: .normal)
 //        deleteButton.addTarget(self, action: #selector(deleteSub), for: .touchUpInside)
+//        view.addSubview(deleteButton)
+
 //
 //        NSLayoutConstraint.activate([
 //        iconButton.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor, constant: 0),

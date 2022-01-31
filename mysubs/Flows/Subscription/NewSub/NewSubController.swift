@@ -157,7 +157,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
             self.reminder.isHidden.toggle()
         }, completion: nil)
     }
-
+    
     //MARK: - PRIVATES METHODS
     private func showPicker(_ picker : UIPickerView, _ input: InputFormTextField) {
         let vc = UIViewController()
@@ -186,14 +186,13 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
             self.selectedRow = picker.selectedRow(inComponent: 0)
             let valueNumber = self.componentNumber[picker.selectedRow(inComponent: 0)]
             let valueType = self.componentDayMonthYear[picker.selectedRow(inComponent: 1)]
-            let string2 = "avant"
 
             if input == recurrency {
                 input.textField.text = "Tous les \(valueNumber) \(valueType.stringValue)"
                 viewModel?.recurrencyValue = valueNumber
                 viewModel?.recurrencyType = valueType
             } else {
-                input.textField.text = "\(valueNumber) \(valueType.stringValue) \(string2)"
+                input.textField.text = "\(valueNumber) \(valueType.stringValue) avant"
                 viewModel?.reminderValue = valueNumber
                 viewModel?.reminderType = valueType
             }
@@ -340,6 +339,7 @@ extension NewSubController {
         commitmentTitle.text = "Dernier paiement"
         commitmentStackView.addArrangedSubview(commitmentTitle)
 
+        commitmentDate.timeZone = .current
         commitmentDate.translatesAutoresizingMaskIntoConstraints = false
         commitmentDate.contentMode = .topLeft
         commitmentDate.addTarget(self, action: #selector(dateDidChange), for: .valueChanged)

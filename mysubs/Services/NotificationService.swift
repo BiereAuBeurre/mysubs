@@ -15,21 +15,27 @@ class NotificationService {
     func cancelAllNotif() {}
     
     func generateNotificationFor(_ name: String, _ reminderValue: Int, _ price: Float, _ date: Date) {
-        //for subscription
+       
         #if DEBUG
-        
-//        let notificationInterval: Double = 5
-        #else
-//        let notificationInterval: Double = 5
-        #endif
-        let date = date.addingTimeInterval(5)
-//        print(date.calendar.startOfDay(for: date.add9hour()!))
-        
-        let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date/*.calendar.startOfDay(for: date.add9hour()!)*/)
-//        dateComponents.startOfDay(for: date.add9hour())
+        let notificationInterval: Double = 5
+        let date = date.addingTimeInterval(notificationInterval)
+        var dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
 
-        print("start of day is :", date.calendar.startOfDay(for: date))
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+        #else
+        let notificationInterval: Double = 5
+        let date = date.addingTimeInterval(notificationInterval)
+        var dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+        dateComponents.hour = 9
+        dateComponents.minute = 0
+        dateComponents.second = 0
+        #endif
+        
+//        let date = date.addingTimeInterval(notificationInterval)
+//        var dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+//        dateComponents.hour = 9
+//        dateComponents.minute = 0
+//        dateComponents.second = 0
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
         let notificationContent = UNMutableNotificationContent()
         notificationContent.title = "Abonnement \(name )"
         notificationContent.body = "\(reminderValue ) days before payement of \(price ) €"
