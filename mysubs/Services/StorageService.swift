@@ -6,7 +6,9 @@
 
 import CoreData
 
-class StorageService {
+class StorageService: StorageServiceProtocol {
+    
+    
     let viewContext: NSManagedObjectContext
     
     static private var persistentContainer: NSPersistentCloudKitContainer = {
@@ -59,4 +61,11 @@ class StorageService {
             try viewContext.save()
         } catch { throw error }
     }
+}
+
+protocol StorageServiceProtocol {
+    var viewContext: NSManagedObjectContext { get }
+    func loadsubs() throws -> [Subscription]
+    func save()
+    func delete(_ object: NSManagedObject) throws
 }

@@ -184,6 +184,9 @@ class EditSubViewModel: NSObject {
             print("new name is being saved")
             subscription.name = name
         }
+        if let name2 = name {
+            subscription.name = name2
+        }
         if isPriceChanged {
             print("new price is being saved")
         subscription.price = price ?? 0
@@ -194,21 +197,24 @@ class EditSubViewModel: NSObject {
             print("new date is bieng saved")
         }
         subscription.reminder = reminder
-//        subscription.commitment = date
+        subscription.commitment = date
         subscription.icon = icon
         subscription.color = color
         subscription.paymentRecurrency = recurrency
 
         //If user doesn't edit date, means the todays value is the good one
-        if date == nil {
-        notificationDate = Date.now
-        notificationDate = notificationDate?.adding(reminderType, value: -(reminderValue ?? 0)) ?? Date.now
-        notificationDate = notificationDate?.adding(recurrencyType, value: recurrencyValue ?? 0) ?? Date.now
-        } else {
-            notificationDate = date
+//        if date == nil {
+//        notificationDate = Date.now
+//        notificationDate = notificationDate?.adding(reminderType, value: -(reminderValue ?? 0)) ?? Date.now
+//        notificationDate = notificationDate?.adding(recurrencyType, value: recurrencyValue ?? 0) ?? Date.now
+//        } else {
+//        notificationDate = date
 //            subscription.commitment = date
 
-        }
+        notificationDate = date
+        notificationDate = notificationDate?.adding(reminderType, value: -(reminderValue ?? 0)) ?? Date.now
+        notificationDate = notificationDate?.adding(recurrencyType, value: recurrencyValue ?? 0) ?? Date.now
+//        }
 //        if let dateToGet = notificationDate {
 //        notificationService.generateNotificationFor(name ?? "unkown", reminderValue ?? 0, price ?? 0, dateToGet)
 //        print("New date to get for notifications is : \(dateToGet)")

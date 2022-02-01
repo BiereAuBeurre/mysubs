@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class AppCoordinator: AppCoordinatorProtocol {
+class AppCoordinator: Coordinator, AppCoordinatorProtocol {
     var navigationController: UINavigationController
      
     //déclarer ts les service ici, coreDataService..

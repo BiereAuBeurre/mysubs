@@ -10,34 +10,37 @@ import UIKit
 @testable import mysubs
 
 class MockCoordinator: AppCoordinatorProtocol {
-    var navigationController: UINavigationController
 
-    init(navigationController: UINavigationController) {
-        self.navigationController = navigationController
-    }
-    var coordinatorStartCalled = false
     
+    var navigationController = UINavigationController()
+    var subscription: Subscription?
+
+    var coordinatorStartCalled = false
     func start() {
         print(#function)
         print("new start is ok")
         coordinatorStartCalled = true
     }
 
+    var showSubScreenIsCalled = false
     func showSubScreen() {
         print(#function)
+        coordinatorStartCalled = true
 
     }
-
-    func showNewSubScreenFor(category: String) {
-        print(#function)
+    
+    func showNewSubScreenFor() {
+        coordinatorStartCalled = true
+    }
+    
+    func showDetailSubScreen(sub: Subscription) {
+        self.subscription = sub
+        coordinatorStartCalled = true
     }
 
-    func showDetailSubScreen(sub: Subscription, categorys: [SubCategory]) {
-        print(#function)
-    }
-
+    var goBackIsCalled = false
     func goBack() {
-        start()
+        goBackIsCalled = true
         print(#function)
     }
     

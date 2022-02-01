@@ -129,7 +129,6 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         alert.addAction(UIAlertAction(title: "Sélectionner", style: .default, handler: { [self] (UIAlertAction) in
             //Convert view model icon from data to uiimage, then displaying it
             viewModel?.icon = iconPickerVC.icon.pngData()
-//            iconStackView.textField.setIcon(iconPickerVC.icon)
             iconPreview.image = iconPickerVC.icon
             iconPreview.tintColor = .black
         }))
@@ -156,6 +155,11 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
             self.recurrency.isHidden.toggle()
             self.reminder.isHidden.toggle()
         }, completion: nil)
+        if switchNotif.isOn {
+        viewModel?.date = commitmentDate.date
+        } else {
+            viewModel?.date = nil
+        }
     }
     
     //MARK: - PRIVATES METHODS

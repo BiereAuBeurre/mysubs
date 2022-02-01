@@ -12,7 +12,7 @@ import UIKit
 class NewSubViewModel: NSObject {
     weak var viewDelegate: NewSubController?
     private let coordinator: AppCoordinatorProtocol
-    private let storageService: StorageService
+    private let storageService: StorageServiceProtocol
     var notificationService = NotificationService()
     var notificationDate: Date?
     var icon: Data?
@@ -26,7 +26,7 @@ class NewSubViewModel: NSObject {
     var name: String?
     var subscriptions: [NSManagedObject] = []
     
-    init(coordinator: AppCoordinatorProtocol, storageService: StorageService) {
+    init(coordinator: AppCoordinatorProtocol, storageService: StorageServiceProtocol) {
         self.coordinator = coordinator
         self.storageService = storageService
     }
@@ -36,38 +36,23 @@ class NewSubViewModel: NSObject {
     
     func saveSub() {
         let newSub = Subscription(context: storageService.viewContext)
-        
+        //Minimum values to save a sub
         newSub.name = name
-        if let price = price {
-            newSub.price = price
-        }
-        notificationDate = date
-        if let date = date {
-            newSub.commitment = date
-            notificationDate = date
-            
-        }
-        if let reminder = reminderValue {
-            notificationDate = notificationDate?.adding(reminderType, value: -(reminder))
-            newSub.reminder = "\(reminder) \(reminderType)"
-            
-        }
-        if let recurrency = recurrencyValue {
-            notificationDate = notificationDate?.adding(recurrencyType, value: recurrency)
-            newSub.paymentRecurrency = "Tous les \(recurrency) \(recurrencyType)"
-            
-        }
-        print("New date to get for notifications is : \(notificationDate)")
+        newSub.price = price ?? 0
+        
+        //But is the date has value (mean notif has been switch) then both next values has to be saved, then generating a notif with it
+        if date != nil {
         newSub.commitment = date
-        newSub.color = color
-        newSub.icon = icon
+            if let reminderValue = reminderValue, let recurrencyValue = recurrencyValue, let price = price, let notificationDate = date, let name = name {
+                newSub.reminder = "\(reminderValue) \(reminderType)"
+                newSub.paymentRecurrency = "Tous les \(recurrencyValue) \(recurrencyType)"
+                self.notificationDate = notificationDate.adding(reminderType, value: -(reminderValue))
+                self.notificationDate = notificationDate.adding(recurrencyType, value: recurrencyValue)
+                print("notification date in newsubVM is :", notificationDate)
+                notificationService.generateNotificationFor(name, reminderValue, price, notificationDate )
+            }
+    }
         storageService.save()
         goBack()
-        
-//        guard let dateToGet = notificationDate,
-              guard let name = name,
-              let reminderValue = reminderValue,
-              let price = price else { return }
-        notificationService.generateNotificationFor(name, reminderValue, price, notificationDate ?? Date.now)
     }
 }

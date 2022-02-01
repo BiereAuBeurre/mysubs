@@ -14,29 +14,13 @@ class NewSubViewModelTests: XCTestCase {
     let navigationController = UINavigationController()
     
     var viewModel: NewSubViewModel!
-    var storageService: StorageService!
+    var storageService: MockStorageService!
     var coordinator: MockCoordinator!
     
     override func setUpWithError() throws {
         
-        let managedObjectModel = NSManagedObjectModel.mergedModel(from: [Bundle.main])!
-
-        // MARK: - persistentStoreDescription
-        let persistentStoreDescription = NSPersistentStoreDescription()
-        persistentStoreDescription.type = NSInMemoryStoreType
-        persistentStoreDescription.shouldAddStoreAsynchronously = true
-
-        // MARK: - persistentContainer
-        let persistentContainer = NSPersistentContainer(name: "mysubs", managedObjectModel: managedObjectModel)
-        persistentContainer.persistentStoreDescriptions = [persistentStoreDescription]
-        persistentContainer.loadPersistentStores { description, error in
-            precondition(description.type == NSInMemoryStoreType, "Store description is not of type NSInMemoryStoreType")
-            if let error = error as NSError? {
-                fatalError("Persistent container creation failed : \(error.userInfo)")
-            }
-        }
-        storageService = StorageService(persistentContainer: persistentContainer)
-        coordinator = MockCoordinator(navigationController: navigationController)
+        storageService = MockStorageService()
+        coordinator = MockCoordinator()
         viewModel = NewSubViewModel(coordinator: coordinator, storageService: storageService)
     }
     
@@ -46,12 +30,20 @@ class NewSubViewModelTests: XCTestCase {
         viewModel = nil
     }
 
-    func testExample() throws {
-        XCTAssertFalse(coordinator.coordinatorStartCalled)
-        viewModel.goBack()
+    func testGoBack() throws {
+        XCTAssertFalse(coordinator.goBackIsCalled)
+        XCTAssertFalse(storageService.saveIsCalled)
         viewModel.saveSub()
-        XCTAssertTrue(coordinator.coordinatorStartCalled)
+
+        viewModel.goBack()
+        XCTAssertTrue(coordinator.goBackIsCalled)
+        XCTAssertTrue(storageService.saveIsCalled)
+
     }
+    
+    func testSavingSub() throws {
+    }
+
 
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
