@@ -17,7 +17,6 @@ enum State<Data> {
 }
 
 class HomeViewController: UIViewController, UINavigationBarDelegate {
-
     let userNotificationCenter = UNUserNotificationCenter.current()
     var viewModel : HomeViewModel?
     weak var coordinator: AppCoordinator?
@@ -59,11 +58,8 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-        
         self.userNotificationCenter.delegate = self
-        //dans le save
-//        self.requestNotificationAuthorization()
-        
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -372,5 +368,4 @@ extension HomeViewController: UNUserNotificationCenterDelegate {
             }
         }
     }
-
 }

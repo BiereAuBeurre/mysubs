@@ -57,17 +57,18 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         setUpUI()
     }
     
-    func presentNotificationAlert() {
-            let alertVC = UIAlertController(title: "Autoriser les notifications", message: "Si vous souhaitez recevoir une notification selon le rappel renseigné, merci d'autoriser les notifications.", preferredStyle: .alert)
-        alertVC.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
-            NotificationService.requestNotificationAuthorization()
-        }))
- 
-            self.present(alertVC, animated: true, completion: nil)
+//    func presentNotificationAlert() {
+//            let alertVC = UIAlertController(title: "Autoriser les notifications", message: "Si vous souhaitez recevoir une notification selon le rappel renseigné, merci d'autoriser les notifications.", preferredStyle: .alert)
+//        alertVC.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+//        }))
+//
+//            self.present(alertVC, animated: true, completion: nil)
 //        construction alert controller
 //        title message qui explique que tu dois demander autho
 //        si user il tap ok
-    }
+//        NotificationService.requestNotificationAuthorization()
+//
+//    }
     
     //MARK: -objc methods
     
@@ -81,8 +82,6 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         // Then if the date is set up, user need to input reminder and recurrency as well (for notifications)
         if viewModel?.date != nil {
             if viewModel?.recurrencyType == .hour || viewModel?.reminderType == .hour {
-                
-                
                 let alertVC = UIAlertController(title: "Champs manquant pour paramétrer la date du prochain paiement !", message: "merci d'accompagner la date d'un rappel et d'un cycle de paiement", preferredStyle: .alert)
                 alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 alertVC.addAction(UIAlertAction(title: "Désactiver le rappel", style: .cancel, handler: { _ in
@@ -92,19 +91,11 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
                     self.reminder.isHidden = true
                 }))
                 self.present(alertVC, animated: true, completion: nil)
-                
-                
-                showAlert("Champs manquant pour parametrer la date du prochain paiement", "merci d'accompagner la date d'un rappel et d'un cycle de paiement")
                 return
             }
         }
         if switchNotif.isOn {
-            NotificationService.shouldRequestNotificationAuthorization { shouldRequest in
-                guard shouldRequest else { print("Authorization already determined"); return }
-                DispatchQueue.main.async {
-                    self.presentNotificationAlert()
-                }
-            }
+            NotificationService.requestNotificationAuthorization()
         }
         viewModel?.saveSub()
     }
@@ -167,7 +158,6 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         colorPicker.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
         colorPicker.title = "Couleurs"
         self.present(colorPicker, animated: true) {
-//            self.colorStackView.textField.backgroundColor = colorPicker.selectedColor
             self.colorPreview.backgroundColor = colorPicker.selectedColor
         }
     }

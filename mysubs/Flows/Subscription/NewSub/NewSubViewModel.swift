@@ -44,26 +44,18 @@ class NewSubViewModel: NSObject {
         newSub.icon = icon
         newSub.color = color
         //RAJOUTER COLOR + ICON
-        
+        let id = newSub.objectID.uriRepresentation().absoluteString
+
         //But if the date has value (mean notif has been switchOn) then both next values has to be saved, then generating a notif with it
         if date != nil {
             newSub.commitment = date
-            if let reminderValue = reminderValue, let recurrencyValue = recurrencyValue, let price = price, let notificationDate = date, let name = name {
+            if let reminderValue = reminderValue, let recurrencyValue = recurrencyValue, let price = price, let date = date, let name = name {
                 newSub.reminder = "\(reminderValue) \(reminderType.stringValue)"
                 newSub.paymentRecurrency = "\(recurrencyValue) \(recurrencyType.stringValue)"
-                self.notificationDate = notificationDate.adding(reminderType, value: -(reminderValue))
-                self.notificationDate = notificationDate.adding(recurrencyType, value: recurrencyValue)
-                print("notification date in newsubVM is :", notificationDate)
-                
-//                NotificationService.shouldRequestNotificationAuthorization { shouldRequest in
-//                    guard shouldRequest else { print("Authorization already determined"); return }
-//                    DispatchQueue.main.async {
-//                        self.viewDelegate?.presentNotificationAlert()
-//                    }
-//                }
-//                self.viewDelegate?.presentNotificationAlert()
-
-                notificationService.generateNotificationFor(name, reminderValue, price, notificationDate )
+                self.notificationDate = date.adding(reminderType, value: -(reminderValue))
+                self.notificationDate = self.notificationDate?.adding(recurrencyType, value: recurrencyValue)
+                print("self.notification date in newsubVM is : \(self.notificationDate!)")
+                notificationService.generateNotificationFor(name, reminderValue, price, self.notificationDate ?? Date.now, id: id)
             }
         }
         storageService.save()

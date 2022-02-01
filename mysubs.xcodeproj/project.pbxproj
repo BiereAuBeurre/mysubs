@@ -26,7 +26,6 @@
 		EF3D8D5C275F9FC100D8B6A4 /* EditSubController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3D8D5B275F9FC100D8B6A4 /* EditSubController.swift */; };
 		EF5F1956279B046200D03161 /* IconPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5F1955279B046200D03161 /* IconPickerViewController.swift */; };
 		EF6B125927903B220083E6F7 /* ToHexString.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6B125827903B220083E6F7 /* ToHexString.swift */; };
-		EF6B125B279094310083E6F7 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6B125A279094310083E6F7 /* Notifications.swift */; };
 		EF702850277C6AC100A90A54 /* InputFormTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70284F277C6AC100A90A54 /* InputFormTextField.swift */; };
 		EF70E4F027567D270011AB06 /* Pods_mysubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF70E4EF27567D270011AB06 /* Pods_mysubs.framework */; };
 		EF70E4F32756868A0011AB06 /* BrandInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70E4F22756868A0011AB06 /* BrandInfo.swift */; };
@@ -97,7 +96,6 @@
 		EF3D8D5B275F9FC100D8B6A4 /* EditSubController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSubController.swift; sourceTree = "<group>"; };
 		EF5F1955279B046200D03161 /* IconPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPickerViewController.swift; sourceTree = "<group>"; };
 		EF6B125827903B220083E6F7 /* ToHexString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToHexString.swift; sourceTree = "<group>"; };
-		EF6B125A279094310083E6F7 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		EF70284F277C6AC100A90A54 /* InputFormTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputFormTextField.swift; sourceTree = "<group>"; };
 		EF70E4EF27567D270011AB06 /* Pods_mysubs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_mysubs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF70E4F22756868A0011AB06 /* BrandInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandInfo.swift; sourceTree = "<group>"; };
@@ -336,7 +334,6 @@
 			isa = PBXGroup;
 			children = (
 				EF9072EA275E1FE8006CF678 /* NewSubController.swift */,
-				EF6B125A279094310083E6F7 /* Notifications.swift */,
 				EF3578C12763A15000DA443F /* NewSubViewModel.swift */,
 				EF5F1955279B046200D03161 /* IconPickerViewController.swift */,
 				EF1520C8279EEFFC00E6E5AB /* IconCell.swift */,
@@ -632,7 +629,6 @@
 				EFFA24E227566E570068DFE3 /* LogoFinderService.swift in Sources */,
 				EF125B192757C11000E6FD6B /* AddCornerRadius.swift in Sources */,
 				EF5F1956279B046200D03161 /* IconPickerViewController.swift in Sources */,
-				EF6B125B279094310083E6F7 /* Notifications.swift in Sources */,
 				EF9072EF275E3951006CF678 /* AppCoordinator.swift in Sources */,
 				EFA682B627A2D0290095E1F3 /* SetIcon.swift in Sources */,
 				EF817B5327A18C9F00C7AC96 /* NotificationService.swift in Sources */,

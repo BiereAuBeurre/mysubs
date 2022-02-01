@@ -32,6 +32,7 @@ class EditSubViewModel: NSObject {
       }
   }
     
+    
     var notificationDate: Date?
 
     var icon: Data? {
@@ -109,7 +110,7 @@ class EditSubViewModel: NSObject {
         }
     }
     
-    var recurrencyType: Calendar.Component = .year {
+    var recurrencyType: Calendar.Component = .hour {
         didSet {
             if oldValue != recurrencyType {
                 print("Can Save recurrency type : \(canSave ? "YES" : "NO" )")
@@ -117,7 +118,7 @@ class EditSubViewModel: NSObject {
         }
     }
     
-    var reminderType: Calendar.Component = .year {
+    var reminderType: Calendar.Component = .hour {
         didSet {
             if oldValue != reminderType {
                 print("Can Save reminderType2: \(canSave ? "YES" : "NO" )")
@@ -164,7 +165,8 @@ class EditSubViewModel: NSObject {
     func delete() {
         do {
             try storageService.delete(subscription)
-            //  UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [subscription.id])
+            let id = subscription.objectID.uriRepresentation().absoluteString
+            notificationService.cancelnotif(for: id)
         }
         catch { print("can't delete sub because of error",error, "\n", error.localizedDescription) }
     }
@@ -191,16 +193,17 @@ class EditSubViewModel: NSObject {
         let id = subscription.objectID.uriRepresentation().absoluteString
         if isDateChanged {
             if date == nil {
-               // notificationService.cancelnotif(for: subscription.id)
+                notificationService.cancelnotif(for: id)
             } else {
+                // si je change la date sans désactiver, je reset tout au niveau des notif dans date did change dans le VC
                 subscription.commitment = date
-                if let reminderValue = reminderValue, let recurrencyValue = recurrencyValue, let price = price, let notificationDate = date, let name = name {
+                if let reminderValue = reminderValue, let recurrencyValue = recurrencyValue, let price = price, let date = date, let name = name {
                     subscription.reminder = "\(reminderValue) \(reminderType.stringValue)"
                     subscription.paymentRecurrency = "\(recurrencyValue) \(recurrencyType.stringValue)"
-                    self.notificationDate = notificationDate.adding(reminderType, value: -(reminderValue))
-                    self.notificationDate = notificationDate.adding(recurrencyType, value: recurrencyValue)
-                    print("notification date in newsubVM is :", notificationDate)
-                    notificationService.generateNotificationFor(name, reminderValue, price, notificationDate )
+                    self.notificationDate = date.adding(reminderType, value: -(reminderValue))
+                    self.notificationDate = self.notificationDate?.adding(recurrencyType, value: recurrencyValue)
+                    print("self.notification date in newsubVM is : \(self.notificationDate!)")
+                    notificationService.generateNotificationFor(name, reminderValue, price, self.notificationDate ?? Date.now, id: id)
                 }
             }
         }

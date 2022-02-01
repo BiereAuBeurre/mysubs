@@ -52,7 +52,6 @@ class EditSubController: UIViewController {
     var iconTitle = UIButton()
     var iconPreview = UIImageView()
     
-    //    let userNotificationCenter = UNUserNotificationCenter.current()
 
     
     override func viewDidLoad() {
@@ -75,7 +74,28 @@ class EditSubController: UIViewController {
     
     @objc
     func doneEditingAction() {
-        
+        // For a valid sub, user have to fill at least a name and a price
+        if viewModel?.name == nil || viewModel?.price == nil {
+            showAlert("Champs manquants", "Merci d'ajouter au moins un nom et un prix")
+            return
+        }
+        // Then if the date is set up, user need to input reminder and recurrency as well (for notifications)
+        if viewModel?.date != nil {
+            if viewModel?.recurrencyType == .hour || viewModel?.reminderType == .hour {
+                let alertVC = UIAlertController(title: "Champs manquant pour paramétrer la date du prochain paiement !", message: "merci d'accompagner la date d'un rappel et d'un cycle de paiement", preferredStyle: .alert)
+                alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                alertVC.addAction(UIAlertAction(title: "Désactiver le rappel", style: .cancel, handler: { _ in
+                    self.switchNotif.isOn = false
+                    self.commitmentStackView.isHidden = true
+                    self.recurrency.isHidden = true
+                    self.reminder.isHidden = true
+                }))
+                self.present(alertVC, animated: true, completion: nil)
+                
+                // showAlert("Champs manquant pour parametrer la date du prochain paiement", "merci d'accompagner la date d'un rappel et d'un cycle de paiement")
+                return
+            }
+        }
         viewModel?.saveEditedSub()
         viewModel?.goBack()
         
@@ -147,6 +167,8 @@ class EditSubController: UIViewController {
     @objc
     func dateDidChange() {
         viewModel?.date = commitmentDate.date
+        recurrency.text = ""
+        reminder.text = ""
     }
     
     
@@ -462,7 +484,7 @@ extension EditSubController {
         commitmentDate.datePickerMode = .date
         commitmentDate.translatesAutoresizingMaskIntoConstraints = false
         commitmentDate.locale = Locale.init(identifier: "fr_FR")
-        commitmentDate.date = Date.now
+//        commitmentDate.date = Date.now
         commitmentStackView.addArrangedSubview(commitmentTitle)
         commitmentStackView.addArrangedSubview(commitmentDate)
         notifSettingsStackView.addArrangedSubview(commitmentStackView)
