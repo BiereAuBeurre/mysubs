@@ -40,18 +40,22 @@ class NewSubViewModel: NSObject {
         newSub.name = name
         newSub.price = price ?? 0
         
-        //But is the date has value (mean notif has been switch) then both next values has to be saved, then generating a notif with it
+        newSub.icon = icon
+        newSub.color = color
+        //RAJOUTER COLOR + ICON
+        
+        //But if the date has value (mean notif has been switchOn) then both next values has to be saved, then generating a notif with it
         if date != nil {
-        newSub.commitment = date
+            newSub.commitment = date
             if let reminderValue = reminderValue, let recurrencyValue = recurrencyValue, let price = price, let notificationDate = date, let name = name {
-                newSub.reminder = "\(reminderValue) \(reminderType)"
-                newSub.paymentRecurrency = "Tous les \(recurrencyValue) \(recurrencyType)"
+                newSub.reminder = "\(reminderValue) \(reminderType.stringValue)"
+                newSub.paymentRecurrency = "\(recurrencyValue) \(recurrencyType.stringValue)"
                 self.notificationDate = notificationDate.adding(reminderType, value: -(reminderValue))
                 self.notificationDate = notificationDate.adding(recurrencyType, value: recurrencyValue)
                 print("notification date in newsubVM is :", notificationDate)
                 notificationService.generateNotificationFor(name, reminderValue, price, notificationDate )
             }
-    }
+        }
         storageService.save()
         goBack()
     }

@@ -167,6 +167,11 @@ class EditSubController: UIViewController {
             self.recurrency.isHidden.toggle()
             self.reminder.isHidden.toggle()
         }, completion: nil)
+        if switchNotif.isOn {
+        viewModel?.date = commitmentDate.date
+        } else {
+            viewModel?.date = nil
+        }
     }
     
     //MARK: -Private METHODS
@@ -217,7 +222,7 @@ class EditSubController: UIViewController {
                 viewModel?.recurrency = "\(valueNumber) \(valueType.stringValue)"
 
             } else {
-                input.textField.text = "\(valueNumber) \(valueType.stringValue) avant"
+                input.textField.text = "\(valueNumber) \(valueType.stringValue)"
                 viewModel?.reminderValue = valueNumber
                 viewModel?.reminderType = valueType
                 viewModel?.reminder = "\(valueNumber) \(valueType.stringValue)"
@@ -353,8 +358,8 @@ extension EditSubController {
         
         name.text = viewModel?.name
         price.text = "\(viewModel?.price ?? 0)"
-        reminder.text = "\(viewModel?.reminder?.localized ?? "") avant"
-        recurrency.text = "\(viewModel?.recurrency?.localized ?? "")"
+        reminder.text = "\(viewModel?.reminder ?? "") avant"
+        recurrency.text = "Tous les \(viewModel?.recurrency ?? "")"
 
     }
     private func setUpView() {

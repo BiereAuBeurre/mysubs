@@ -28,13 +28,7 @@ class EditSubViewModel: NSObject {
     
     private var subscription: Subscription {
       didSet {
-//          self.price = subscription.price
-//          self.name = subscription.name
-//          self.color = subscription.color
-//          self.reminder = subscription.reminder
-//          self.date = subscription.commitment
-//          self.recurrency = subscription.paymentRecurrency
-//          self.icon = subscription.icon
+
       }
   }
     
@@ -179,57 +173,67 @@ class EditSubViewModel: NSObject {
         storageService.save()
     }
     
-    func saveEditedSub() {
-        if isNameChanged {
-            print("new name is being saved")
-            subscription.name = name
-        }
-        if let name2 = name {
-            subscription.name = name2
-        }
-        if isPriceChanged {
-            print("new price is being saved")
-        subscription.price = price ?? 0
-        }
-        
-        if isDateChanged {
-            subscription.commitment = date
-            print("new date is bieng saved")
-        }
-        subscription.reminder = reminder
-        subscription.commitment = date
-        subscription.icon = icon
-        subscription.color = color
-        subscription.paymentRecurrency = recurrency
-
-        //If user doesn't edit date, means the todays value is the good one
-//        if date == nil {
-//        notificationDate = Date.now
-//        notificationDate = notificationDate?.adding(reminderType, value: -(reminderValue ?? 0)) ?? Date.now
-//        notificationDate = notificationDate?.adding(recurrencyType, value: recurrencyValue ?? 0) ?? Date.now
-//        } else {
-//        notificationDate = date
-//            subscription.commitment = date
-
-        notificationDate = date
-        notificationDate = notificationDate?.adding(reminderType, value: -(reminderValue ?? 0)) ?? Date.now
-        notificationDate = notificationDate?.adding(recurrencyType, value: recurrencyValue ?? 0) ?? Date.now
-//        }
-//        if let dateToGet = notificationDate {
-//        notificationService.generateNotificationFor(name ?? "unkown", reminderValue ?? 0, price ?? 0, dateToGet)
-//        print("New date to get for notifications is : \(dateToGet)")
-//        }
-//        }
-        save()
-//        guard let dateToGet = notificationDate,
-//              guard let name = name,
-//              let reminderValue = reminderValue,
-//              let price = price else { return }
-        print("edited notificationDate is", notificationDate)
-        notificationService.generateNotificationFor(name ?? "unknown name", reminderValue ?? 1, price ?? 1, notificationDate ?? Date.now)
-    }
-    
     func goBack() {
         coordinator.goBack()
     }
+    
+    func saveEditedSub() {
+        //Minimum values to save a sub
+        //if isNameChanged{} utile?
+        subscription.name = name
+        subscription.price = price ?? 0
+        
+        //Color & icon
+        subscription.icon = icon
+        subscription.color = color
+        
+        //But if the date has value changed (mean notif has been recalculated) then both next values has to be saved, then generating a notif with it
+        if isDateChanged {
+            if date == nil {
+                notificationService.cancelnotif()
+            } else {
+                subscription.commitment = date
+                if let reminderValue = reminderValue, let recurrencyValue = recurrencyValue, let price = price, let notificationDate = date, let name = name {
+                    subscription.reminder = "\(reminderValue) \(reminderType.stringValue)"
+                    subscription.paymentRecurrency = "\(recurrencyValue) \(recurrencyType.stringValue)"
+                    self.notificationDate = notificationDate.adding(reminderType, value: -(reminderValue))
+                    self.notificationDate = notificationDate.adding(recurrencyType, value: recurrencyValue)
+                    print("notification date in newsubVM is :", notificationDate)
+                    notificationService.generateNotificationFor(name, reminderValue, price, notificationDate )
+                }
+            }
+        }
+        storageService.save()
+        goBack()
+    }
 }
+
+        
+        
+//        if isNameChanged {
+//            print("new name is being saved")
+//            subscription.name = name
+//        }
+//        if let name2 = name {
+//            subscription.name = name2
+//        }
+//        if isPriceChanged {
+//            print("new price is being saved")
+//        subscription.price = price ?? 0
+//        }
+//
+//        if isDateChanged {
+//            subscription.commitment = date
+//            print("new date is bieng saved")
+//        }
+//        subscription.reminder = reminder
+//        subscription.commitment = date
+//        subscription.icon = icon
+//        subscription.color = color
+//        subscription.paymentRecurrency = recurrency
+//        save()
+//
+//        print("edited notificationDate is", notificationDate)
+//        notificationService.generateNotificationFor(name ?? "unknown name", reminderValue ?? 1, price ?? 1, notificationDate ?? Date.now)
+//
+    
