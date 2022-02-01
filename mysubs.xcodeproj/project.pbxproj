@@ -31,6 +31,8 @@
 		EF70E4F32756868A0011AB06 /* BrandInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70E4F22756868A0011AB06 /* BrandInfo.swift */; };
 		EF7AB50027A93E2E00D0DD99 /* MockStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7AB4FF27A93E2E00D0DD99 /* MockStorageService.swift */; };
 		EF7AB50227A93F0C00D0DD99 /* FakeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7AB50127A93F0C00D0DD99 /* FakeData.swift */; };
+		EF7AB50427A9ADF600D0DD99 /* EditSubViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7AB50327A9ADF600D0DD99 /* EditSubViewModelTests.swift */; };
+		EF7AB50627A9B2ED00D0DD99 /* HomeViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7AB50527A9B2ED00D0DD99 /* HomeViewModelTests.swift */; };
 		EF817B4D27A182E300C7AC96 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EF817B4F27A182E300C7AC96 /* Localizable.strings */; };
 		EF817B5327A18C9F00C7AC96 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF817B5227A18C9F00C7AC96 /* NotificationService.swift */; };
 		EF817B5527A18FA800C7AC96 /* Calendar.Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF817B5427A18FA800C7AC96 /* Calendar.Component.swift */; };
@@ -101,6 +103,8 @@
 		EF70E4F22756868A0011AB06 /* BrandInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandInfo.swift; sourceTree = "<group>"; };
 		EF7AB4FF27A93E2E00D0DD99 /* MockStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockStorageService.swift; sourceTree = "<group>"; };
 		EF7AB50127A93F0C00D0DD99 /* FakeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeData.swift; sourceTree = "<group>"; };
+		EF7AB50327A9ADF600D0DD99 /* EditSubViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSubViewModelTests.swift; sourceTree = "<group>"; };
+		EF7AB50527A9B2ED00D0DD99 /* HomeViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelTests.swift; sourceTree = "<group>"; };
 		EF817B4E27A182E300C7AC96 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EF817B5027A1833500C7AC96 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		EF817B5127A1833500C7AC96 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -399,6 +403,8 @@
 				EFC8821727A6E74A00B6EF5C /* NotificationServiceTest.swift */,
 				EF7AB50127A93F0C00D0DD99 /* FakeData.swift */,
 				EFCF583627A41FCE006D89BB /* NewSubViewModelTests.swift */,
+				EF7AB50327A9ADF600D0DD99 /* EditSubViewModelTests.swift */,
+				EF7AB50527A9B2ED00D0DD99 /* HomeViewModelTests.swift */,
 				EFCF583827A42862006D89BB /* MockCoordinator.swift */,
 				EF7AB4FF27A93E2E00D0DD99 /* MockStorageService.swift */,
 			);
@@ -663,6 +669,8 @@
 				EF96B99E274FE1C900961F9C /* mysubsTests.swift in Sources */,
 				EFC8821827A6E74A00B6EF5C /* NotificationServiceTest.swift in Sources */,
 				EFCF583927A42862006D89BB /* MockCoordinator.swift in Sources */,
+				EF7AB50627A9B2ED00D0DD99 /* HomeViewModelTests.swift in Sources */,
+				EF7AB50427A9ADF600D0DD99 /* EditSubViewModelTests.swift in Sources */,
 				EF7AB50027A93E2E00D0DD99 /* MockStorageService.swift in Sources */,
 				EF7AB50227A93F0C00D0DD99 /* FakeData.swift in Sources */,
 			);
