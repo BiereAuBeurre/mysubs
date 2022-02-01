@@ -28,14 +28,15 @@ class MockCoordinator: AppCoordinatorProtocol {
         coordinatorStartCalled = true
 
     }
-    
+    var showNewSubScreenForIsCalled = false
     func showNewSubScreenFor() {
-        coordinatorStartCalled = true
+        showNewSubScreenForIsCalled = true
     }
     
+    var showDetailSubScreenIsCalled =  false
     func showDetailSubScreen(sub: Subscription) {
         self.subscription = sub
-        coordinatorStartCalled = true
+        showDetailSubScreenIsCalled = true
     }
 
     var goBackIsCalled = false

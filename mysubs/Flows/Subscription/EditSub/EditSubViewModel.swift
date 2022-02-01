@@ -9,11 +9,11 @@ import Foundation
 
 class EditSubViewModel: NSObject {
     weak var viewDelegate: EditSubController?
-    private let coordinator: AppCoordinator
-    let storageService: StorageService
+    private let coordinator: AppCoordinatorProtocol
+    let storageService: StorageServiceProtocol
     var notificationService = NotificationService()
 
-    init(coordinator: AppCoordinator, storageService: StorageService, subscription: Subscription) {
+    init(coordinator: AppCoordinatorProtocol, storageService: StorageServiceProtocol, subscription: Subscription) {
         self.coordinator = coordinator
         self.storageService = storageService
         self.subscription = subscription

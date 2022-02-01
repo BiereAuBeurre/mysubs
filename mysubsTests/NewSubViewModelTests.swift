@@ -14,29 +14,33 @@ class NewSubViewModelTests: XCTestCase {
     let navigationController = UINavigationController()
     
     var viewModel: NewSubViewModel!
-    var storageService: MockStorageService!
-    var coordinator: MockCoordinator!
+    var mockStorageService: MockStorageService!
+    var mockCoordinator: MockCoordinator!
     
     override func setUpWithError() throws {
         
-        storageService = MockStorageService()
-        coordinator = MockCoordinator()
-        viewModel = NewSubViewModel(coordinator: coordinator, storageService: storageService)
+        mockStorageService = MockStorageService()
+        mockCoordinator = MockCoordinator()
+        viewModel = NewSubViewModel(coordinator: mockCoordinator, storageService: mockStorageService)
     }
     
     override func tearDownWithError() throws {
-        storageService = nil
-        coordinator = nil
+        mockStorageService = nil
+        mockCoordinator = nil
         viewModel = nil
     }
 
     func testSavingSub() throws {
-        viewModel.date = Date.now
+        viewModel.date = Date().adding(.year, value: -100)
+        viewModel.reminderValue = 1
+        viewModel.recurrencyValue = 1
+        viewModel.name = "couocu"
+        viewModel.price = 20
         //faire
-        XCTAssertFalse(coordinator.goBackIsCalled)
+        XCTAssertFalse(mockCoordinator.goBackIsCalled)
         viewModel.saveSub()
-        XCTAssertTrue(coordinator.goBackIsCalled)
-        XCTAssertTrue(storageService.saveIsCalled)
+        XCTAssertTrue(mockCoordinator.goBackIsCalled)
+        XCTAssertTrue(mockStorageService.saveIsCalled)
 
     }
     

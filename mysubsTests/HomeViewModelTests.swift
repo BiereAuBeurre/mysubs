@@ -6,22 +6,42 @@
 //
 
 import XCTest
+@testable import mysubs
 
 class HomeViewModelTests: XCTestCase {
 
+    var viewModel: HomeViewModel!
+    var mockStorageService: MockStorageService!
+    var mockCoordinator: MockCoordinator!
+    
+    var loadedSubscriptions: [Subscription] = []
+    
+    private let sub1 = Subscription()
+    
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        mockStorageService = MockStorageService()
+        mockCoordinator = MockCoordinator()
+        viewModel = HomeViewModel(coordinator: mockCoordinator, storageService: mockStorageService)
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        mockStorageService = nil
+        mockCoordinator = nil
+//        viewModel = nil
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testShowNewSub() throws {
+        XCTAssertFalse(mockCoordinator.showNewSubScreenForIsCalled)
+        viewModel.showNewSub()
+        XCTAssertTrue(mockCoordinator.showNewSubScreenForIsCalled)
     }
 
+    func testShowDetailSub() throws {
+        XCTAssertFalse(mockCoordinator.showDetailSubScreenIsCalled)
+        viewModel.showDetail(sub: sub1)
+        XCTAssertTrue(mockCoordinator.showDetailSubScreenIsCalled)
+    }
+    
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
         self.measure {

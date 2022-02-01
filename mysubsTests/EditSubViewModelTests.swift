@@ -6,33 +6,51 @@
 //
 
 import XCTest
+@testable import mysubs
 
-class EditSubViewModel: XCTestCase {
+class EditSubViewModelTests: XCTestCase {
     let navigationController = UINavigationController()
     
-    var viewModel: NewSubViewModel!
+    var viewModel: EditSubViewModel!
     var mockStorageService: MockStorageService!
     var mockCoordinator: MockCoordinator!
+    var sub: Subscription!
     
     override func setUpWithError() throws {
         mockStorageService = MockStorageService()
         mockCoordinator = MockCoordinator()
-        viewModel = NewSubViewModel(coordinator: mockCoordinator, storageService: mockStorageService)    }
+        sub = Subscription(context: mockStorageService.viewContext)
+        viewModel = EditSubViewModel(coordinator: mockCoordinator, storageService: mockStorageService, subscription: sub)
+    }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        mockStorageService = nil
+        mockCoordinator = nil
+        viewModel = nil
+        
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testGoBack() throws {
+        XCTAssertFalse(mockCoordinator.goBackIsCalled)
+        viewModel?.goBack()
+        XCTAssertTrue(mockCoordinator.goBackIsCalled)
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    
+    func testSubscriptionSave() throws {
+        XCTAssertFalse(mockStorageService.saveIsCalled)
+        sub.name = "test"
+        sub.price = 0
+//        sub.icon = ""
+        sub.color = ""
+        viewModel.date = Date.now
+        viewModel.reminderValue = 8
+        viewModel.recurrencyValue = 9
+        viewModel.price = 9
+        viewModel.name = "test"
+        sub.commitment = Date.now
+        viewModel.saveEditedSub()
+        viewModel.save()
+        XCTAssertTrue(mockStorageService.saveIsCalled)
         }
-    }
 
 }

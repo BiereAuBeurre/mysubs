@@ -84,7 +84,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
             if viewModel?.recurrencyType == .hour || viewModel?.reminderType == .hour {
                 let alertVC = UIAlertController(title: "Champs manquant pour paramétrer la date du prochain paiement !", message: "merci d'accompagner la date d'un rappel et d'un cycle de paiement", preferredStyle: .alert)
                 alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                alertVC.addAction(UIAlertAction(title: "Désactiver le rappel", style: .cancel, handler: { _ in
+                alertVC.addAction(UIAlertAction(title: "Ne pas mettre de rappel", style: .cancel, handler: { _ in
                     self.switchNotif.isOn = false
                     self.commitmentStackView.isHidden = true
                     self.recurrency.isHidden = true
