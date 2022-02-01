@@ -62,7 +62,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         
         self.userNotificationCenter.delegate = self
         //dans le save
-        self.requestNotificationAuthorization()
+//        self.requestNotificationAuthorization()
         
     }
     
@@ -363,12 +363,12 @@ extension HomeViewController: UNUserNotificationCenterDelegate {
     }
 
     func requestNotificationAuthorization() {
-        let authOptions = UNAuthorizationOptions.init(arrayLiteral: .alert, .badge, .sound)
-//        UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { (success, error) in
-
-        self.userNotificationCenter.requestAuthorization(options: authOptions) { (success, error) in
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (isGranted, error) in
+            if isGranted {
+                print("Notification permission was granted")
+            }
             if let error = error {
-                print("Error: ", error)
+                print("Error requesting notification authorization: \(error)")
             }
         }
     }

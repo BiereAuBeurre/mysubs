@@ -188,9 +188,10 @@ class EditSubViewModel: NSObject {
         subscription.color = color
         
         //But if the date has value changed (mean notif has been recalculated) then both next values has to be saved, then generating a notif with it
+        let id = subscription.objectID.uriRepresentation().absoluteString
         if isDateChanged {
             if date == nil {
-                notificationService.cancelnotif()
+               // notificationService.cancelnotif(for: subscription.id)
             } else {
                 subscription.commitment = date
                 if let reminderValue = reminderValue, let recurrencyValue = recurrencyValue, let price = price, let notificationDate = date, let name = name {

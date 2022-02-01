@@ -16,13 +16,10 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     var selectedRow = 0
     var selectedColor = ""
     var newSubLabel = UILabel()
-//    var titleView = UIView()
     var separatorLine = UIView()
     
     var formView = UIStackView()
     var name = InputFormTextField()
-//    var commitment = InputFormTextField()
-//    var category = InputFormTextField()
     var info = InputFormTextField()
     var colorAndIconStackView = UIStackView()
     var price = InputFormTextField()
@@ -53,15 +50,23 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     var notifAuthorizer = UIStackView()
     var notifTitle = UILabel()
     var switchNotif = UISwitch()
-//    let userNotificationCenter = UNUserNotificationCenter.current()
     var notifSettingsStackView = UIStackView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-
-//        self.userNotificationCenter.delegate = self
-
+    }
+    
+    func presentNotificationAlert() {
+            let alertVC = UIAlertController(title: "Autoriser les notifications", message: "Si vous souhaitez recevoir une notification selon le rappel renseigné, merci d'autoriser les notifications.", preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+            NotificationService.requestNotificationAuthorization()
+        }))
+ 
+            self.present(alertVC, animated: true, completion: nil)
+//        construction alert controller
+//        title message qui explique que tu dois demander autho
+//        si user il tap ok
     }
     
     //MARK: -objc methods
@@ -75,11 +80,30 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         }
         // Then if the date is set up, user need to input reminder and recurrency as well (for notifications)
         if viewModel?.date != nil {
-            //FIXME:
-//           requestNotificationAuthorization()
             if viewModel?.recurrencyType == .hour || viewModel?.reminderType == .hour {
+                
+                
+                let alertVC = UIAlertController(title: "Champs manquant pour paramétrer la date du prochain paiement !", message: "merci d'accompagner la date d'un rappel et d'un cycle de paiement", preferredStyle: .alert)
+                alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                alertVC.addAction(UIAlertAction(title: "Désactiver le rappel", style: .cancel, handler: { _ in
+                    self.switchNotif.isOn = false
+                    self.commitmentStackView.isHidden = true
+                    self.recurrency.isHidden = true
+                    self.reminder.isHidden = true
+                }))
+                self.present(alertVC, animated: true, completion: nil)
+                
+                
                 showAlert("Champs manquant pour parametrer la date du prochain paiement", "merci d'accompagner la date d'un rappel et d'un cycle de paiement")
                 return
+            }
+        }
+        if switchNotif.isOn {
+            NotificationService.shouldRequestNotificationAuthorization { shouldRequest in
+                guard shouldRequest else { print("Authorization already determined"); return }
+                DispatchQueue.main.async {
+                    self.presentNotificationAlert()
+                }
             }
         }
         viewModel?.saveSub()
@@ -208,6 +232,8 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         // myCollectionView.reloadData()
         print("refresh with is read")
     }
+    
+    
     
 }
 

@@ -14,12 +14,13 @@ final class FakeData {
             subscription1.name = "Coucou"
             subscription1.price = 2
             subscription1.reminder = "2j"
-            subscription1.commitment = Date.now
+            subscription1.commitment = Date()
             subscription1.color = ""
             subscription1.icon = nil
             subscription1.paymentRecurrency = ""
         }
     }
+    
     static var subscription2 = Subscription() {
         didSet {
             subscription2.name = "Coucou"

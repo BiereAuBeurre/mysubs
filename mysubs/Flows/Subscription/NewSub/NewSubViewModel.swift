@@ -30,9 +30,10 @@ class NewSubViewModel: NSObject {
         self.coordinator = coordinator
         self.storageService = storageService
     }
-    func goBack() {
-        coordinator.goBack()
-    }
+    
+//    func goBack() {
+//        coordinator.goBack()
+//    }
     
     func saveSub() {
         let newSub = Subscription(context: storageService.viewContext)
@@ -53,10 +54,21 @@ class NewSubViewModel: NSObject {
                 self.notificationDate = notificationDate.adding(reminderType, value: -(reminderValue))
                 self.notificationDate = notificationDate.adding(recurrencyType, value: recurrencyValue)
                 print("notification date in newsubVM is :", notificationDate)
+                
+//                NotificationService.shouldRequestNotificationAuthorization { shouldRequest in
+//                    guard shouldRequest else { print("Authorization already determined"); return }
+//                    DispatchQueue.main.async {
+//                        self.viewDelegate?.presentNotificationAlert()
+//                    }
+//                }
+//                self.viewDelegate?.presentNotificationAlert()
+
                 notificationService.generateNotificationFor(name, reminderValue, price, notificationDate )
             }
         }
         storageService.save()
-        goBack()
+        coordinator.goBack()
+
+//        goBack()
     }
 }

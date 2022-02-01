@@ -41,6 +41,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             print("error")
             return
         }
+        let subId = userInfo["id"]
+        // push editviewcontroller avec le id 
         print(userInfo)
     }
 

@@ -30,19 +30,17 @@ class NewSubViewModelTests: XCTestCase {
         viewModel = nil
     }
 
-    func testGoBack() throws {
+    func testSavingSub() throws {
+        viewModel.date = Date.now
+        //faire
         XCTAssertFalse(coordinator.goBackIsCalled)
-        XCTAssertFalse(storageService.saveIsCalled)
         viewModel.saveSub()
-
-        viewModel.goBack()
         XCTAssertTrue(coordinator.goBackIsCalled)
         XCTAssertTrue(storageService.saveIsCalled)
 
     }
     
-    func testSavingSub() throws {
-    }
+
 
 
     func testPerformanceExample() throws {
