@@ -11,17 +11,17 @@ class EditSubController: UIViewController {
     
     weak var coordinator: AppCoordinator?
 
-    //MARK: -LeftSideStackView properties
+    //LeftSideStackView properties
     var formView = UIStackView()
     var name = InputFormTextField()
     var commitmentTitle = UILabel()
     var commitmentDate = UIDatePicker()
     let commitmentStackView = UIStackView()
-    //MARK: -RightSideStackView properties
+    //RightSideStackView properties
     var price = InputFormTextField()
     var reminder = InputFormTextField()
     var recurrency = InputFormTextField()
-    //MARK: -FOOTER BUTTON PROPERTIES
+    //FOOTER BUTTON PROPERTIES
     var footerStackView = UIStackView()
     var modifyButton = UIButton()
     var deleteButton = UIButton()
@@ -52,14 +52,12 @@ class EditSubController: UIViewController {
     var iconTitle = UIButton()
     var iconPreview = UIImageView()
     
-
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
     }
     
-    //MARK: -OJBC METHODS
+    //OJBC METHODS
     
     @objc
     func deleteSub() {
@@ -98,11 +96,11 @@ class EditSubController: UIViewController {
         iconPickerVC.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
         let alert = UIAlertController(title: "Sélectionner une icône", message: "", preferredStyle: .actionSheet)
         alert.setValue(iconPickerVC, forKey: "contentViewController")
-        alert.addAction(UIAlertAction(title: Strings.genericCancel, style: .cancel, handler: { (UIAlertAction) in
+        alert.addAction(UIAlertAction(title: Strings.genericCancel, style: .cancel, handler: { _ in
         }))
         
-        //MARK: - replace selectedRow protocol method since action happen here
-        alert.addAction(UIAlertAction(title: "Sélectionner", style: .default, handler: { [self] (UIAlertAction) in
+        //replace selectedRow protocol method since action happen here
+        alert.addAction(UIAlertAction(title: "Sélectionner", style: .default, handler: { [self] _ in
             //Convert icon selected from uiimage to data, then displaying it and assigning to viewmodel.icon
             if let icon = iconPickerVC.icon.pngData() {
                 iconPreview.image = UIImage(data: icon)
@@ -114,7 +112,7 @@ class EditSubController: UIViewController {
         }
     
     @objc
-    func showColorPicker()  {
+    func showColorPicker() {
         let colorPicker = UIColorPickerViewController()
         colorPicker.delegate = self
         colorPicker.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
@@ -147,7 +145,6 @@ class EditSubController: UIViewController {
         reminder.text = ""
     }
     
-    
     @objc func changeReminder() {
         print(#function)
         showPicker(reminderPickerView, reminder)
@@ -172,11 +169,11 @@ class EditSubController: UIViewController {
         }
     }
     
-    //MARK: -Private METHODS
+    //Private METHODS
 
     private func deletingAlert() {
         let alert = UIAlertController(title: "Suppression de l'abonnement", message: "Êtes-vous sur de vouloir supprimer l'abonnement \(viewModel?.name ?? "") ?", preferredStyle: .actionSheet)
-        let deleteAction = UIAlertAction(title: Strings.genericConfirm, style: .default) { [unowned self] action in
+        let deleteAction = UIAlertAction(title: Strings.genericConfirm, style: .default) { [unowned self] _ in
             viewModel?.delete()
             viewModel?.goBack()
         }
@@ -191,24 +188,24 @@ class EditSubController: UIViewController {
 ////        nameField.text = sub.name
 //    }
     
-    private func showPicker(_ picker : UIPickerView, _ input: InputFormTextField) {
-        let vc = UIViewController()
-        vc.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
+    private func showPicker(_ picker: UIPickerView, _ input: InputFormTextField) {
+        let pickerVC = UIViewController()
+        pickerVC.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
         picker.dataSource = self
         picker.delegate = self
         picker.selectRow(selectedRow, inComponent: 0, animated: false)
-        vc.view.addSubview(picker)
-        picker.centerXAnchor.constraint(equalTo: vc.view.centerXAnchor).isActive = true
-        picker.centerYAnchor.constraint(equalTo: vc.view.centerYAnchor).isActive = true
+        pickerVC.view.addSubview(picker)
+        picker.centerXAnchor.constraint(equalTo: pickerVC.view.centerXAnchor).isActive = true
+        picker.centerYAnchor.constraint(equalTo: pickerVC.view.centerYAnchor).isActive = true
         let alert = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
         
         alert.popoverPresentationController?.sourceView = input
         alert.popoverPresentationController?.sourceRect = input.bounds
-        alert.setValue(vc, forKey: "contentViewController")
-        alert.addAction(UIAlertAction(title: "Annuler", style: .cancel, handler: { (UIAlertAction) in
+        alert.setValue(pickerVC, forKey: "contentViewController")
+        alert.addAction(UIAlertAction(title: "Annuler", style: .cancel, handler: { _ in
         }))
-        //MARK: - replace selectedRow protocol method since action happen here
-        alert.addAction(UIAlertAction(title: "Select", style: .default, handler: { [self] (UIAlertAction) in
+        //replace selectedRow protocol method since action happen here
+        alert.addAction(UIAlertAction(title: "Select", style: .default, handler: { [self] _ in
             self.selectedRow = picker.selectedRow(inComponent: 0)
             let valueNumber = self.componentNumber[picker.selectedRow(inComponent: 0)]
             let valueType = self.componentDayMonthYear[picker.selectedRow(inComponent: 1)]
@@ -231,8 +228,7 @@ class EditSubController: UIViewController {
     }
 }
 
-
-//MARK: - PICKERVIEW SETTINGS
+// MARK: - PICKERVIEW SETTINGS
 extension EditSubController: UIPickerViewDataSource, UIPickerViewDelegate {
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
@@ -242,13 +238,10 @@ extension EditSubController: UIPickerViewDataSource, UIPickerViewDelegate {
             } else {
                 return componentDayMonthYear[row].stringValue
             }
-        }
-        
-        else {
+        } else {
             if component == 0 {
                 return ("\(componentNumber[row])")
-            }
-            else  {
+            } else {
                 return componentDayMonthYear[row].stringValue
             }
         }
@@ -281,7 +274,7 @@ extension EditSubController: UIPickerViewDataSource, UIPickerViewDelegate {
         }
 }
 
-//MARK: - COLOR PICKER SETTINGS
+// MARK: - COLOR PICKER SETTINGS
 extension EditSubController: UIColorPickerViewControllerDelegate {
     ///  Called on every color selection done in the picker.
     func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
@@ -290,7 +283,7 @@ extension EditSubController: UIColorPickerViewControllerDelegate {
         viewModel?.color = selectedColor
     }
 }
-// MARK: -SETTING UP ALL UI
+// MARK: SETTING UP ALL UI
 extension EditSubController {
     
     private func setUpUI() {
@@ -312,22 +305,22 @@ extension EditSubController {
         commitmentDate.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            commitmentTitle.heightAnchor.constraint(equalToConstant: 35),
+            commitmentTitle.heightAnchor.constraint(equalToConstant: 35)
         ])
     }
     
     private func setUpNavBar() {
-        // MARK: DISPLAYING LOGO
+        // DISPLAYING LOGO
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 38, height: 38))
         imageView.contentMode = .scaleAspectFit
         let image = UIImage(named: "subs_dark")
         imageView.image = image
         navigationItem.titleView = imageView
-        //MARK: DISPLAYING DONE BUTTON
+        //DISPLAYING DONE BUTTON
         let doneButton: UIButton = UIButton(type: .custom)
         doneButton.setTitle("Terminer", for: .normal)
         doneButton.addTarget(self, action: #selector(doneEditingAction), for: .touchUpInside)
-        let rightBarButtonItem:UIBarButtonItem = UIBarButtonItem(customView: doneButton)
+        let rightBarButtonItem: UIBarButtonItem = UIBarButtonItem(customView: doneButton)
         rightBarButtonItem.customView = doneButton
         self.navigationItem.rightBarButtonItem = rightBarButtonItem
     }

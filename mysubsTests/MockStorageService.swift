@@ -47,5 +47,4 @@ class MockStorageService: StorageServiceProtocol {
         deleteIsCalled = true
     }
     
-    
 }

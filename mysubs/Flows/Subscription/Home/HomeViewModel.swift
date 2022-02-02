@@ -34,8 +34,7 @@ class HomeViewModel: NSObject {
     func fetchSubscription() {
         do {
             subscriptions = try storageService.loadsubs()
-        }
-        catch {
+        } catch {
             print(error)
         }
     }

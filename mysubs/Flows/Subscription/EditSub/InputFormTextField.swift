@@ -52,7 +52,6 @@ class InputFormTextField: UIControl {
         textField.borderStyle = .roundedRect
         label.textColor = MSColors.maintext
         
-
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 8),
             stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
@@ -62,18 +61,3 @@ class InputFormTextField: UIControl {
         ])
     }
 }
-
-
-// FIXME: making uneditable textfield from keyboard for commitment, reccurency and reminder (only from associated picker view)
-//extension InputFormTextField: UITextFieldDelegate {
-    
-    //MARK: making uneditable fields with pickerView
-//    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-//        if textField == self.textField {
-//          // code which you want to execute when the user touch myTextField
-//            print("can't edit here")
-//       }
-//       return false
-//    }
-    
-//}

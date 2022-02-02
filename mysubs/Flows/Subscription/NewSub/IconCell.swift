@@ -10,13 +10,12 @@ import UIKit
 class IconCell: UICollectionViewCell {
     // For selection effect on cell since it's selectAction which contains the action
     override var isSelected: Bool {
-       didSet{
+       didSet {
            if self.isSelected {
                UIView.animate(withDuration: 0.3) { // for animation effect
                    self.backgroundColor = .placeholderText
                }
-           }
-           else {
+           } else {
                UIView.animate(withDuration: 0.3) { // when deselected
                    self.backgroundColor = .systemBackground
                }
@@ -49,9 +48,7 @@ class IconCell: UICollectionViewCell {
             logo.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
             logo.widthAnchor.constraint(equalToConstant: 42),
             logo.heightAnchor.constraint(equalToConstant: 42),
-            logo.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0),
-            
+            logo.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0)
         ])
-        
     }
 }

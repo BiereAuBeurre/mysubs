@@ -32,6 +32,5 @@ final class FakeData {
             subscription2.paymentRecurrency = ""
         }
     }
-
     
 }

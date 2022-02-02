@@ -18,10 +18,10 @@ enum State<Data> {
 
 class HomeViewController: UIViewController, UINavigationBarDelegate {
     //let userNotificationCenter = UNUserNotificationCenter.current()
-    var viewModel : HomeViewModel?
+    var viewModel: HomeViewModel?
     weak var coordinator: AppCoordinator?
     
-    // MARK: -UI Properties
+    // UI Properties
     let totalAmountView = UIView()
     var totalAmountLabel = UILabel()
     var amountLabel = UILabel()
@@ -30,7 +30,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     var categoryButton = UIButton()
     private let activityIndicator = UIActivityIndicatorView(style: .large)
     
-    // MARK: -Properties
+    // Properties
     var viewState: State<[Subscription]> = .showData {
         didSet {
 //             resetState()
@@ -73,11 +73,10 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
 //        } else { viewState = .empty }
     }
     
-    //MARK: -OBJ C METHODS
+    //OBJ C METHODS
     @objc func plusButtonAction() {
         viewModel?.showNewSub()
     }
-    
     
 //    @objc func deleteAll() {
 //        if let subscriptions = viewModel?.subscriptions {
@@ -98,7 +97,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
 //        }
 //    }
 //
-    //MARK: -PRIVATE METHODS
+    //PRIVATE METHODS
     private func displayEmptyView() {
         let emptyView = UITextView.init(frame: view.frame)
         emptyView.text = "\n\n\nAppuyez sur le + en haut pour commencer !"
@@ -123,13 +122,15 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     private func deleteSub(sub: Subscription) {
         do {
             try viewModel?.storageService.delete(sub)
+        } catch {
+            print(error); self.showAlert("Erreur", "Suppression impossible. Merci de réessayer plus tard")
+            
         }
-        catch { print (error); self.showAlert("Erreur", "Suppression impossible. Merci de réessayer plus tard") }
     }
   
 }
 
-//MARK: -SET UP COLLECTION VIEWS
+//SET UP COLLECTION VIEWS
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -158,9 +159,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
 }
 
-
-
-//MARK: -REFRESHING DATAS
+// MARK: REFRESHING DATAS
 extension HomeViewController {
     
     func refreshWith(subscriptions: [Subscription]) {
@@ -176,7 +175,7 @@ extension HomeViewController {
     }
     
 }
-//MARK: -UI SET UP
+// MARK: UI SET UP
 extension HomeViewController {
     
     func setUpUI() {
@@ -186,7 +185,7 @@ extension HomeViewController {
         subListStackView.translatesAutoresizingMaskIntoConstraints = false
         subListStackView.axis = .vertical
         
-        //MARK: Collection View
+        //Collection View
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: self.view.frame.width - 16, height: 60)
         layout.scrollDirection = .vertical
@@ -216,7 +215,7 @@ extension HomeViewController {
             amountLabel.trailingAnchor.constraint(equalTo: totalAmountView.trailingAnchor, constant: -32),
             amountLabel.centerYAnchor.constraint(equalTo: totalAmountView.centerYAnchor, constant: 0),
             amountLabel.widthAnchor.constraint(equalToConstant: 90),
-            amountLabel.heightAnchor.constraint(equalToConstant: 30),
+            amountLabel.heightAnchor.constraint(equalToConstant: 30)
         ])
     }
     
@@ -232,7 +231,7 @@ extension HomeViewController {
         let plusButton: UIButton = UIButton(type: .custom)
         plusButton.setImage(UIImage(named: "plus_button"), for: .normal)
         plusButton.addTarget(self, action: #selector(plusButtonAction), for: .touchUpInside)
-        let rightBarButtonItem:UIBarButtonItem = UIBarButtonItem(customView: plusButton)
+        let rightBarButtonItem: UIBarButtonItem = UIBarButtonItem(customView: plusButton)
         let plusWidth = rightBarButtonItem.customView?.widthAnchor.constraint(equalToConstant: 24)
         plusWidth?.isActive = true
         let plusHeight = rightBarButtonItem.customView?.heightAnchor.constraint(equalToConstant: 24)
@@ -244,7 +243,7 @@ extension HomeViewController {
         let menuButton: UIButton = UIButton(type: .custom)
         menuButton.setImage(UIImage(named: "menu_button"), for: .normal)
         menuButton.addTarget(self, action: #selector(plusButtonAction), for: .touchUpInside)
-        let leftBarButtonItem:UIBarButtonItem = UIBarButtonItem(customView: menuButton)
+        let leftBarButtonItem: UIBarButtonItem = UIBarButtonItem(customView: menuButton)
         let menuWidth = leftBarButtonItem.customView?.widthAnchor.constraint(equalToConstant: 24)
         menuWidth?.isActive = true
         let menuHeight = leftBarButtonItem.customView?.heightAnchor.constraint(equalToConstant: 24)
@@ -252,7 +251,6 @@ extension HomeViewController {
         leftBarButtonItem.customView = menuButton
         self.navigationItem.leftBarButtonItem = leftBarButtonItem
     }
-    
     
     func setUpTotalAmountView() {
         totalAmountView.translatesAutoresizingMaskIntoConstraints = false
@@ -269,7 +267,7 @@ extension HomeViewController {
         amountLabel.translatesAutoresizingMaskIntoConstraints = false
         amountLabel.adjustsFontForContentSizeCategory = true
         
-        //MARK: calculating total amount for displayed subs
+        //calculating total amount for displayed subs
         amountLabel.font = UIFont.preferredFont(forTextStyle: .headline)
         amountLabel.textColor = UIColor(named: "yellowgrey")
         amountLabel.backgroundColor = MSColors.background

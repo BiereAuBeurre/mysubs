@@ -40,4 +40,3 @@ class CategoriesCell: UICollectionViewCell {
         titleLabel.frame = CGRect(x: 0, y: 0, width: contentView.frame.size.width, height: contentView.frame.size.height)
     }
 }
-

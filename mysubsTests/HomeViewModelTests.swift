@@ -32,7 +32,6 @@ class HomeViewModelTests: XCTestCase {
 //        viewModel = nil
     }
     
-    
     func testComputeTotalWithValue() {
         sub1.price = 22
         viewModel.subscriptions = [sub1]
@@ -46,7 +45,6 @@ class HomeViewModelTests: XCTestCase {
         //dddd
         XCTAssertEqual(viewModel.totalAmount, "")
     }
-    
     
     func testFetchSub() throws {
         XCTAssertFalse(mockStorageService.loadsubsIsCalled)

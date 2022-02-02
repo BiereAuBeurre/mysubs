@@ -7,6 +7,8 @@
 import UIKit
 import CoreData
 
+//swiftlint:disable file_length
+
 class NewSubController: UIViewController, UINavigationBarDelegate {
     // Pop up VC settings
     let componentNumber = Array(stride(from: 1, to: 30 + 1, by: 1))
@@ -60,7 +62,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     func requestNotificationPermissionIfNeeded() {
         NotificationService.shouldRequestNotificationAuthorization { shouldRequestAuthorization in
             guard shouldRequestAuthorization else {
-                print("Authorization already determined") // goback
+                print("Authorization already determined")
                 return
             }
             DispatchQueue.main.async {
@@ -81,10 +83,9 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         notificationPermissionAlert.addAction(dismiss)
         notificationPermissionAlert.addAction(accept)
         present(notificationPermissionAlert, animated: true)
-        //goback
     }
     
-    //MARK: -objc methods
+    //objc methods
     
     @objc
     func addButtonAction() {
@@ -113,6 +114,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
 //            NotificationService.requestNotificationAuthorization()
         }
         viewModel?.saveSub()
+        viewModel?.goBack()
     }
     
     @objc
@@ -126,7 +128,6 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         showPicker(recurrencyPickerView, recurrency)
     }
 
-    
     @objc
     func nameFieldTextDidChange(textField: UITextField) {
         viewModel?.name = textField.text
@@ -152,11 +153,11 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         iconPickerVC.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
         let alert = UIAlertController(title: "Sélectionner une icône", message: "", preferredStyle: .actionSheet)
         alert.setValue(iconPickerVC, forKey: "contentViewController")
-        alert.addAction(UIAlertAction(title: Strings.genericCancel, style: .cancel, handler: { (UIAlertAction) in
+        alert.addAction(UIAlertAction(title: Strings.genericCancel, style: .cancel, handler: { _ in
         }))
         
-        //MARK: - replace selectedRow protocol method since action happen here
-        alert.addAction(UIAlertAction(title: "Sélectionner", style: .default, handler: { [self] (UIAlertAction) in
+        //replace selectedRow protocol method since action happen here
+        alert.addAction(UIAlertAction(title: "Sélectionner", style: .default, handler: { [self] _ in
             //Convert view model icon from data to uiimage, then displaying it
             viewModel?.icon = iconPickerVC.icon.pngData()
             iconPreview.image = iconPickerVC.icon
@@ -167,7 +168,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         }
     
     @objc
-    func showColorPicker()  {
+    func showColorPicker() {
         let colorPicker = UIColorPickerViewController()
         colorPicker.delegate = self
         colorPicker.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
@@ -191,16 +192,16 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         }
     }
     
-    //MARK: - PRIVATES METHODS
-    private func showPicker(_ picker : UIPickerView, _ input: InputFormTextField) {
-        let vc = UIViewController()
-        vc.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
+    //PRIVATES METHODS
+    private func showPicker(_ picker: UIPickerView, _ input: InputFormTextField) {
+        let pickerVC = UIViewController()
+        pickerVC.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
         picker.dataSource = self
         picker.delegate = self
         picker.selectRow(selectedRow, inComponent: 0, animated: false)
-        vc.view.addSubview(picker)
-        picker.centerXAnchor.constraint(equalTo: vc.view.centerXAnchor).isActive = true
-        picker.centerYAnchor.constraint(equalTo: vc.view.centerYAnchor).isActive = true
+        pickerVC.view.addSubview(picker)
+        picker.centerXAnchor.constraint(equalTo: pickerVC.view.centerXAnchor).isActive = true
+        picker.centerYAnchor.constraint(equalTo: pickerVC.view.centerYAnchor).isActive = true
         var alert = UIAlertController()
         if input == reminder {
             alert = UIAlertController(title: "Sélectionner le rappel", message: "Indiquez combien de jours avant le paiement vous souhaitez être notifié", preferredStyle: .actionSheet)
@@ -210,12 +211,11 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         
         alert.popoverPresentationController?.sourceView = input
         alert.popoverPresentationController?.sourceRect = input.bounds
-        alert.setValue(vc, forKey: "contentViewController")
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (UIAlertAction) in
-        }))
+        alert.setValue(pickerVC, forKey: "contentViewController")
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
-        //MARK: - replace selectedRow protocol method since action happen here
-        alert.addAction(UIAlertAction(title: "Select", style: .default, handler: { [self] (UIAlertAction) in
+        // replace selectedRow protocol method since action happen here
+        alert.addAction(UIAlertAction(title: "Select", style: .default, handler: { [self] _ in
             self.selectedRow = picker.selectedRow(inComponent: 0)
             let valueNumber = self.componentNumber[picker.selectedRow(inComponent: 0)]
             let valueType = self.componentDayMonthYear[picker.selectedRow(inComponent: 1)]
@@ -238,11 +238,9 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
 //        print("refresh with is read")
 //    }
     
-    
-    
 }
 
-//MARK: - COLOR PICKER SETTINGS
+// MARK: - COLOR PICKER SETTINGS
 extension NewSubController: UIColorPickerViewControllerDelegate {
     ///  Called on every color selection done in the picker.
     func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
@@ -278,7 +276,7 @@ extension NewSubController {
         let addSubButton: UIButton = UIButton(type: .custom)
         addSubButton.setTitle("Ajouter", for: .normal)
         addSubButton.addTarget(self, action: #selector(addButtonAction), for: .touchUpInside)
-        let rightBarButtonItem:UIBarButtonItem = UIBarButtonItem(customView: addSubButton)
+        let rightBarButtonItem: UIBarButtonItem = UIBarButtonItem(customView: addSubButton)
         rightBarButtonItem.customView = addSubButton
         self.navigationItem.rightBarButtonItem = rightBarButtonItem
     }
@@ -301,8 +299,7 @@ extension NewSubController {
         commitmentStackView.isHidden = true
         recurrency.isHidden = true
         reminder.isHidden = true
-        
-//        //MARK: Adding name field
+        //Adding name field
         name.fieldTitle = "Nom"
         name.text = ""
         // configurer la inpute view pour le name
@@ -311,8 +308,7 @@ extension NewSubController {
         name.textField.addTarget(self, action: #selector(nameFieldTextDidChange), for: .editingChanged)
         name.configureView()
         formView.addArrangedSubview(name)
-
-        //MARK: price
+        //price
         price.fieldTitle = "Prix"
         price.textField.keyboardType = .decimalPad
         price.textField.addDoneToolBar()
@@ -337,7 +333,6 @@ extension NewSubController {
         colorStackView.alignment = .leading
         colorAndIconStackView.addArrangedSubview(colorStackView)
 
-        
         iconTitle.setTitle("Icône ▼", for: .normal)
         iconTitle.setTitleColor(MSColors.maintext, for: .normal)
         iconTitle.addTarget(self, action: #selector(showIconPicker), for: .touchUpInside)
@@ -366,13 +361,10 @@ extension NewSubController {
         notifAuthorizer.axis = .horizontal
         notifAuthorizer.distribution = .equalCentering
         notifSettingsStackView.addArrangedSubview(notifAuthorizer)
-
         notifSettingsStackView.axis = .vertical
         notifSettingsStackView.spacing = 8
         formView.addArrangedSubview(notifSettingsStackView)
-    
-        
-        //MARK: Adding commitment field
+        //Adding commitment field
         commitmentTitle.translatesAutoresizingMaskIntoConstraints = false
         commitmentTitle.textColor = MSColors.maintext
         commitmentTitle.text = "Dernier paiement"
@@ -393,16 +385,14 @@ extension NewSubController {
         commitmentStackView.alignment = .leading
         commitmentStackView.distribution = .fillEqually
         notifSettingsStackView.addArrangedSubview(commitmentStackView)
-        
-        //MARK: - reminder
+        //reminder
         reminder.fieldTitle = "Rappel"
         reminder.textField.allowsEditingTextAttributes = false
         reminder.shouldBehaveAsButton = true
         reminder.addTarget(self, action: #selector(changeReminder), for: .touchUpInside)
         reminder.configureView()
         notifSettingsStackView.addArrangedSubview(reminder)
-
-        //MARK: - recurrency field
+        //recurrency field
         recurrency.fieldTitle = "Cycle"
         recurrency.shouldBehaveAsButton = true
         recurrency.addTarget(self, action: #selector(changeReccurency), for: .touchUpInside)
@@ -434,12 +424,12 @@ extension NewSubController {
             iconPreview.widthAnchor.constraint(equalToConstant: 80),
             colorPreview.heightAnchor.constraint(equalToConstant: 40),
             colorPreview.widthAnchor.constraint(equalToConstant: 80),
-            iconStackView.trailingAnchor.constraint(greaterThanOrEqualTo: colorAndIconStackView.trailingAnchor, constant: -8),
+            iconStackView.trailingAnchor.constraint(greaterThanOrEqualTo: colorAndIconStackView.trailingAnchor, constant: -8)
             ])
     }
 }
 
-//MARK: - BOTH PICKERVIEW SETUP
+// MARK: - BOTH PICKERVIEW SETUP
 extension NewSubController: UIPickerViewDataSource, UIPickerViewDelegate {
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
@@ -449,13 +439,10 @@ extension NewSubController: UIPickerViewDataSource, UIPickerViewDelegate {
             } else {
                 return componentDayMonthYear[row].stringValue
             }
-        }
-        
-        else {
+        } else {
             if component == 0 {
                 return "\(componentNumber[row])"
-            }
-            else{
+            } else {
                 return componentDayMonthYear[row].stringValue
             }
         }

@@ -45,36 +45,20 @@ final class NotificationService {
         completionHandler([.banner, .badge, .sound])
     }
     
+    //swiftlint:disable function_parameter_count
     func generateNotificationFor(_ name: String, _ reminderValue: Int, _ price: Float, _ date: Date, id: String, reminderType: Calendar.Component) {
-
-//        userNotificationCenter.delegate = self
-//        #if DEBUG
-//        let notificationInterval: Double = 5
-//        let date = date.addingTimeInterval(notificationInterval)
-//        var dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
-
-//        #else
-        //Assigning the notif to 9AM
-//        let notificationInterval: Double = 5
-//        let date = date.addingTimeInterval(notificationInterval)
-//        var dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
-//        dateComponents.hour = 9
-//        dateComponents.minute = 0
-//        dateComponents.second = 0
-//        #endif
-        
-
+        //Cheat to display notif in simulator right after creation
+        #if DEBUG
         let notificationInterval: Double = 15
         let date = date.addingTimeInterval(notificationInterval)
-
         let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
-        
-        
-        
-        //HORS DEBUG
-        //        dateComponents.hour = 9
-        //        dateComponents.minute = 0
-        //        dateComponents.second = 0
+        #else
+        //Assigning the notif to 9AM for real use
+        var dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+        dateComponents.hour = 9
+        dateComponents.minute = 0
+        dateComponents.second = 0
+        #endif
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
         let notificationContent = UNMutableNotificationContent()
         notificationContent.title = "Abonnement \(name)"
@@ -91,10 +75,4 @@ final class NotificationService {
             }
         }
     }
-    
-    func addNotificationRquest(_ request: UNNotificationRequest) {
-        
-    }
 }
-
-

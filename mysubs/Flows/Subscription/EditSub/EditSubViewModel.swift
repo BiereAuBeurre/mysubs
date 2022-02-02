@@ -27,10 +27,7 @@ class EditSubViewModel: NSObject {
     }
     
     private var subscription: Subscription
-    
-    
     var notificationDate: Date?
-
     var icon: Data?
     var recurrency: String?
     var reminder: String?
@@ -38,8 +35,6 @@ class EditSubViewModel: NSObject {
     var name: String?
     var price: Float?
     var date: Date?
-
-
     var reminderValue: Int?
     var reminderType: Calendar.Component?//= .hour
     var recurrencyValue: Int?
@@ -54,8 +49,7 @@ class EditSubViewModel: NSObject {
             try storageService.delete(subscription)
             let id = subscription.objectID.uriRepresentation().absoluteString
             notificationService.cancelnotif(for: id)
-        }
-        catch { print("can't delete sub because of error",error, "\n", error.localizedDescription) }
+        } catch { print("can't delete sub because of error", error, "\n", error.localizedDescription) }
     }
     
     func save() {

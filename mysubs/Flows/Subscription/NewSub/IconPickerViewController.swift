@@ -12,7 +12,7 @@ class IconPickerViewController: UIViewController {
     
     var iconCollectionView: UICollectionView!
     var icon = UIImage()
-    var iconDictionnary = ["airplane.circle.fill", "icloud", "battery.100.bolt","music.note.list", "bolt.car.fill", "book.circle.fill", "briefcase.fill", "car.circle.fill", "cart.circle.fill", "bitcoinsign.circle", "creditcard.circle.fill", "cross.vial", "eye.circle.fill", "fork.knife.circle.fill", "gift.fill", "graduationcap.fill", "headphones.circle.fill", "house.fill", "ivfluid.bag", "lock.fill", "map.circle.fill", "network", "paintpalette.fill", "pc", "phone.fill", "pills.fill", "play.rectangle.fill", "star.fill", "suit.heart.fill", "sun.haze.fill", "sun.max.fill", "testtube.2", "tv.circle.fill", "wifi.circle.fill", "bolt.circle.fill"]
+    var iconDictionnary = ["airplane.circle.fill", "icloud", "battery.100.bolt", "music.note.list", "bolt.car.fill", "book.circle.fill", "briefcase.fill", "car.circle.fill", "cart.circle.fill", "bitcoinsign.circle", "creditcard.circle.fill", "cross.vial", "eye.circle.fill", "fork.knife.circle.fill", "gift.fill", "graduationcap.fill", "headphones.circle.fill", "house.fill", "ivfluid.bag", "lock.fill", "map.circle.fill", "network", "paintpalette.fill", "pc", "phone.fill", "pills.fill", "play.rectangle.fill", "star.fill", "suit.heart.fill", "sun.haze.fill", "sun.max.fill", "testtube.2", "tv.circle.fill", "wifi.circle.fill", "bolt.circle.fill"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +32,7 @@ class IconPickerViewController: UIViewController {
         iconCollectionView.translatesAutoresizingMaskIntoConstraints = false
         iconCollectionView.isScrollEnabled = true
         iconCollectionView.isUserInteractionEnabled = true
-        layout.itemSize = CGSize(width:(self.iconCollectionView.frame.size.width - 20)/6,height: (self.iconCollectionView.frame.size.height)/16)
+        layout.itemSize = CGSize(width: (self.iconCollectionView.frame.size.width - 20)/6, height: (self.iconCollectionView.frame.size.height)/16)
 
         view.backgroundColor = .systemBackground
         view.addSubview(iconCollectionView ?? UICollectionView())
@@ -41,13 +41,13 @@ class IconPickerViewController: UIViewController {
             iconCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
             iconCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
             iconCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
-            iconCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            iconCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
 }
 // MARK: - UICollectionViewDataSource & Delegate protocol methods
-extension IconPickerViewController : UICollectionViewDelegate, UICollectionViewDataSource {
+extension IconPickerViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return iconDictionnary.count
@@ -63,7 +63,6 @@ extension IconPickerViewController : UICollectionViewDelegate, UICollectionViewD
          icon = UIImage(systemName: "\(iconDictionnary[indexPath.row])") ?? UIImage(systemName: "house.fill")!
         return iconCell
     }
-    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         icon = UIImage(systemName: "\(iconDictionnary[indexPath.row])") ?? UIImage(systemName: "house.fill")!

@@ -47,7 +47,6 @@ final class CoreDataTests: XCTestCase {
         loadedSubscriptions = []
     }
     
-    
     func testSubLoading() throws {
         storageService.save()
         do {
