@@ -30,7 +30,6 @@
 		EF6B125927903B220083E6F7 /* ToHexString.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6B125827903B220083E6F7 /* ToHexString.swift */; };
 		EF702850277C6AC100A90A54 /* InputFormTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70284F277C6AC100A90A54 /* InputFormTextField.swift */; };
 		EF70E4F027567D270011AB06 /* Pods_mysubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF70E4EF27567D270011AB06 /* Pods_mysubs.framework */; };
-		EF70E4F32756868A0011AB06 /* BrandInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70E4F22756868A0011AB06 /* BrandInfo.swift */; };
 		EF7AB50027A93E2E00D0DD99 /* MockStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7AB4FF27A93E2E00D0DD99 /* MockStorageService.swift */; };
 		EF7AB50227A93F0C00D0DD99 /* FakeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7AB50127A93F0C00D0DD99 /* FakeData.swift */; };
 		EF7AB50427A9ADF600D0DD99 /* EditSubViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7AB50327A9ADF600D0DD99 /* EditSubViewModelTests.swift */; };
@@ -92,7 +91,6 @@
 		EF6B125827903B220083E6F7 /* ToHexString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToHexString.swift; sourceTree = "<group>"; };
 		EF70284F277C6AC100A90A54 /* InputFormTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputFormTextField.swift; sourceTree = "<group>"; };
 		EF70E4EF27567D270011AB06 /* Pods_mysubs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_mysubs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EF70E4F22756868A0011AB06 /* BrandInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandInfo.swift; sourceTree = "<group>"; };
 		EF7AB4FF27A93E2E00D0DD99 /* MockStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockStorageService.swift; sourceTree = "<group>"; };
 		EF7AB50127A93F0C00D0DD99 /* FakeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeData.swift; sourceTree = "<group>"; };
 		EF7AB50327A9ADF600D0DD99 /* EditSubViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSubViewModelTests.swift; sourceTree = "<group>"; };
@@ -308,14 +306,6 @@
 			path = UIColor;
 			sourceTree = "<group>";
 		};
-		EF70E4F1275686780011AB06 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				EF70E4F22756868A0011AB06 /* BrandInfo.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
 		EF9072E9275E1FC5006CF678 /* NewSub */ = {
 			isa = PBXGroup;
 			children = (
@@ -367,7 +357,6 @@
 				EF1F6C70275A471D00DA0BBB /* Supporting files */,
 				EF1F6C6D275A463800DA0BBB /* Helpers */,
 				EF1F6C6C275A45F800DA0BBB /* Resources */,
-				EF70E4F1275686780011AB06 /* Models */,
 				EF125B0D2757822C00E6FD6B /* Views */,
 				EF96B98C274FE1C700961F9C /* mysubs.xcdatamodeld */,
 			);
@@ -584,7 +573,6 @@
 				EF125B0A275780E000E6FD6B /* StorageService.swift in Sources */,
 				EFCB8EBA2779FC8A009BC47D /* CategoriesCell.swift in Sources */,
 				EF6ADFBE27AA9836000B9B6D /* AddDoneToolBar.swift in Sources */,
-				EF70E4F32756868A0011AB06 /* BrandInfo.swift in Sources */,
 				EF3578C22763A15100DA443F /* NewSubViewModel.swift in Sources */,
 				EF9072ED275E37EE006CF678 /* Coordinator.swift in Sources */,
 				EF125B1227578AC600E6FD6B /* LoadImage.swift in Sources */,
