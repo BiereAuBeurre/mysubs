@@ -44,7 +44,7 @@ class SubCell: UICollectionViewCell {
         if let icon = subscription?.icon {
             logo.image = UIImage(data: icon)
         } else {
-            logo.image = UIImage(systemName: "pc")
+            logo.image = UIImage(systemName: "circlebadge.fill")
             logo.tintColor = .black
         }
     }

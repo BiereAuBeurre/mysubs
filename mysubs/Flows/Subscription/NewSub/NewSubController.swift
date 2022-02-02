@@ -57,18 +57,32 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         setUpUI()
     }
     
-//    func presentNotificationAlert() {
-//            let alertVC = UIAlertController(title: "Autoriser les notifications", message: "Si vous souhaitez recevoir une notification selon le rappel renseigné, merci d'autoriser les notifications.", preferredStyle: .alert)
-//        alertVC.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
-//        }))
-//
-//            self.present(alertVC, animated: true, completion: nil)
-//        construction alert controller
-//        title message qui explique que tu dois demander autho
-//        si user il tap ok
-//        NotificationService.requestNotificationAuthorization()
-//
-//    }
+    func requestNotificationPermissionIfNeeded() {
+        NotificationService.shouldRequestNotificationAuthorization { shouldRequestAuthorization in
+            guard shouldRequestAuthorization else {
+                print("Authorization already determined") // goback
+                return
+            }
+            DispatchQueue.main.async {
+                self.presentNotificationPermissionAlert()
+            }
+        }
+    }
+    
+    func presentNotificationPermissionAlert() {
+        let notificationPermissionAlert = UIAlertController(
+            title: "Autoriser les notifications",
+            message: "Si vous souhaitez recevoir une notification selon le rappel renseigné, merci d'autoriser les notifications.",
+            preferredStyle: .alert)
+        let dismiss = UIAlertAction(title: "Plus Tard", style: .cancel)  
+        let accept = UIAlertAction(title: "Ok", style: .default) { _ in
+            NotificationService.requestNotificationAuthorization()
+        }
+        notificationPermissionAlert.addAction(dismiss)
+        notificationPermissionAlert.addAction(accept)
+        present(notificationPermissionAlert, animated: true)
+        //goback
+    }
     
     //MARK: -objc methods
     
@@ -95,7 +109,8 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
             }
         }
         if switchNotif.isOn {
-            NotificationService.requestNotificationAuthorization()
+            requestNotificationPermissionIfNeeded()
+//            NotificationService.requestNotificationAuthorization()
         }
         viewModel?.saveSub()
     }
@@ -370,7 +385,7 @@ extension NewSubController {
         commitmentDate.datePickerMode = .date
         commitmentDate.translatesAutoresizingMaskIntoConstraints = false
         commitmentDate.locale = Locale.init(identifier: "fr_FR")
-        commitmentDate.date = Date.now
+        commitmentDate.date = Date()
         commitmentStackView.addArrangedSubview(commitmentDate)
         
         commitmentStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -468,25 +483,3 @@ extension NewSubController: UIPickerViewDataSource, UIPickerViewDelegate {
             }
         }
 }
-
-//MARK: -Setting up notification authorization
-//extension NewSubController: UNUserNotificationCenterDelegate {
-//
-//    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-//        completionHandler()
-//    }
-//    
-//    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-//        completionHandler([.banner, .badge, .sound])
-//    }
-//
-//    func requestNotificationAuthorization() {
-//        let authOptions = UNAuthorizationOptions.init(arrayLiteral: .alert, .badge, .sound)
-//        self.userNotificationCenter.requestAuthorization(options: authOptions) { (success, error) in
-//            if let error = error {
-//                print("Error: ", error)
-//            }
-//        }
-//    }
-//    
-//}

@@ -23,7 +23,7 @@ extension UIImageView {
             guard let data = try? Data(contentsOf: url),
                   let image = UIImage(data: data) else { return }
 //            print("diplsaying background image")
-            DispatchQueue.main.async  { [weak self] in
+            DispatchQueue.main.async { [weak self] in
 //                print("BACKGROUND IMAGE LOADED")
                 self?.image = image
             }

@@ -1,0 +1,12 @@
+disabled_rules:
+    - trailing_whitespace
+    - comment_spacing
+    - line_length
+
+function_body_length:
+    warning: 120
+    error: 150
+
+file_length:
+    warning: 300
+    error: 500

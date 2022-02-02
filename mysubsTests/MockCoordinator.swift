@@ -11,10 +11,8 @@ import UIKit
 
 class MockCoordinator: AppCoordinatorProtocol {
 
-    
     var navigationController = UINavigationController()
-    var subscription: Subscription?
-
+    
     var coordinatorStartCalled = false
     func start() {
         print(#function)
@@ -33,6 +31,7 @@ class MockCoordinator: AppCoordinatorProtocol {
         showNewSubScreenForIsCalled = true
     }
     
+    var subscription: Subscription?
     var showDetailSubScreenIsCalled =  false
     func showDetailSubScreen(sub: Subscription) {
         self.subscription = sub
@@ -42,7 +41,6 @@ class MockCoordinator: AppCoordinatorProtocol {
     var goBackIsCalled = false
     func goBack() {
         goBackIsCalled = true
-        print(#function)
     }
     
 }

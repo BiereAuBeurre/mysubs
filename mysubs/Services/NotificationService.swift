@@ -30,12 +30,12 @@ final class NotificationService {
         }
     }
     
-//    static func shouldRequestNotificationAuthorization(_ completion: @escaping ((Bool) -> Void)) {
-//        UNUserNotificationCenter.current().getNotificationSettings { settings in
-//            let isNotAuthorized = (settings.authorizationStatus == .notDetermined)
-//            completion(isNotAuthorized)
-//        }
-//    }
+    static func shouldRequestNotificationAuthorization(_ completion: @escaping ((Bool) -> Void)) {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            let isNotAuthorized = (settings.authorizationStatus == .notDetermined)
+            completion(isNotAuthorized)
+        }
+    }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         completionHandler()

@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E05764A198A97B6A206C7AA1 /* Pods_mysubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B895B0C5416CC85252987C97 /* Pods_mysubs.framework */; };
 		EF1168D62750035F00274911 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF1168D52750035F00274911 /* Main.storyboard */; };
-		EF125B0827577FA900E6FD6B /* APIConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF125B0727577FA900E6FD6B /* APIConfiguration.swift */; };
 		EF125B0A275780E000E6FD6B /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF125B09275780E000E6FD6B /* StorageService.swift */; };
 		EF125B1227578AC600E6FD6B /* LoadImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF125B1127578AC600E6FD6B /* LoadImage.swift */; };
 		EF125B152757962500E6FD6B /* ShowAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF125B142757962500E6FD6B /* ShowAlert.swift */; };
@@ -25,7 +25,7 @@
 		EF3578C22763A15100DA443F /* NewSubViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3578C12763A15000DA443F /* NewSubViewModel.swift */; };
 		EF3D8D5C275F9FC100D8B6A4 /* EditSubController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3D8D5B275F9FC100D8B6A4 /* EditSubController.swift */; };
 		EF5F1956279B046200D03161 /* IconPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5F1955279B046200D03161 /* IconPickerViewController.swift */; };
-		EF6ADFBC27AA932B000B9B6D /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6ADFBB27AA932B000B9B6D /* File.swift */; };
+		EF6ADFBC27AA932B000B9B6D /* EditMaxDigitTo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6ADFBB27AA932B000B9B6D /* EditMaxDigitTo.swift */; };
 		EF6ADFBE27AA9836000B9B6D /* AddDoneToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6ADFBD27AA9836000B9B6D /* AddDoneToolBar.swift */; };
 		EF6B125927903B220083E6F7 /* ToHexString.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6B125827903B220083E6F7 /* ToHexString.swift */; };
 		EF702850277C6AC100A90A54 /* InputFormTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70284F277C6AC100A90A54 /* InputFormTextField.swift */; };
@@ -47,9 +47,6 @@
 		EF96B98E274FE1C700961F9C /* mysubs.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EF96B98C274FE1C700961F9C /* mysubs.xcdatamodeld */; };
 		EF96B990274FE1C900961F9C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF96B98F274FE1C900961F9C /* Assets.xcassets */; };
 		EF96B993274FE1C900961F9C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF96B991274FE1C900961F9C /* LaunchScreen.storyboard */; };
-		EF96B99E274FE1C900961F9C /* mysubsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF96B99D274FE1C900961F9C /* mysubsTests.swift */; };
-		EF96B9A8274FE1C900961F9C /* mysubsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF96B9A7274FE1C900961F9C /* mysubsUITests.swift */; };
-		EF96B9AA274FE1C900961F9C /* mysubsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF96B9A9274FE1C900961F9C /* mysubsUITestsLaunchTests.swift */; };
 		EFA682B627A2D0290095E1F3 /* SetIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA682B527A2D0290095E1F3 /* SetIcon.swift */; };
 		EFC8821827A6E74A00B6EF5C /* NotificationServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC8821727A6E74A00B6EF5C /* NotificationServiceTest.swift */; };
 		EFCB8EBA2779FC8A009BC47D /* CategoriesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCB8EB92779FC8A009BC47D /* CategoriesCell.swift */; };
@@ -58,7 +55,6 @@
 		EFEF69DD276799C8005CB6C3 /* EditSubViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFEF69DC276799C8005CB6C3 /* EditSubViewModel.swift */; };
 		EFF326E427A196E100FAFACE /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF326E327A196E100FAFACE /* CloudKit.framework */; };
 		EFFA24DF275644E20068DFE3 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFA24DE275644E20068DFE3 /* HomeViewController.swift */; };
-		EFFA24E227566E570068DFE3 /* LogoFinderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFA24E127566E570068DFE3 /* LogoFinderService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,20 +65,13 @@
 			remoteGlobalIDString = EF96B97F274FE1C700961F9C;
 			remoteInfo = mysubs;
 		};
-		EF96B9A4274FE1C900961F9C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EF96B978274FE1C700961F9C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = EF96B97F274FE1C700961F9C;
-			remoteInfo = mysubs;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		28734AF35D4C5AB8620AFF30 /* Pods-mysubs.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mysubs.release.xcconfig"; path = "Target Support Files/Pods-mysubs/Pods-mysubs.release.xcconfig"; sourceTree = "<group>"; };
+		B895B0C5416CC85252987C97 /* Pods_mysubs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_mysubs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E92B44913F948E7701CD59C6 /* Pods-mysubs.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mysubs.debug.xcconfig"; path = "Target Support Files/Pods-mysubs/Pods-mysubs.debug.xcconfig"; sourceTree = "<group>"; };
 		EF1168D52750035F00274911 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		EF125B0727577FA900E6FD6B /* APIConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConfiguration.swift; sourceTree = "<group>"; };
 		EF125B09275780E000E6FD6B /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		EF125B1127578AC600E6FD6B /* LoadImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadImage.swift; sourceTree = "<group>"; };
 		EF125B142757962500E6FD6B /* ShowAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowAlert.swift; sourceTree = "<group>"; };
@@ -99,7 +88,7 @@
 		EF3578C12763A15000DA443F /* NewSubViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSubViewModel.swift; sourceTree = "<group>"; };
 		EF3D8D5B275F9FC100D8B6A4 /* EditSubController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSubController.swift; sourceTree = "<group>"; };
 		EF5F1955279B046200D03161 /* IconPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPickerViewController.swift; sourceTree = "<group>"; };
-		EF6ADFBB27AA932B000B9B6D /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		EF6ADFBB27AA932B000B9B6D /* EditMaxDigitTo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMaxDigitTo.swift; sourceTree = "<group>"; };
 		EF6ADFBD27AA9836000B9B6D /* AddDoneToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDoneToolBar.swift; sourceTree = "<group>"; };
 		EF6B125827903B220083E6F7 /* ToHexString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToHexString.swift; sourceTree = "<group>"; };
 		EF70284F277C6AC100A90A54 /* InputFormTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputFormTextField.swift; sourceTree = "<group>"; };
@@ -126,10 +115,6 @@
 		EF96B992274FE1C900961F9C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EF96B994274FE1C900961F9C /* MySubs_Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = MySubs_Info.plist; sourceTree = "<group>"; };
 		EF96B999274FE1C900961F9C /* mysubsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mysubsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		EF96B99D274FE1C900961F9C /* mysubsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mysubsTests.swift; sourceTree = "<group>"; };
-		EF96B9A3274FE1C900961F9C /* mysubsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mysubsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		EF96B9A7274FE1C900961F9C /* mysubsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mysubsUITests.swift; sourceTree = "<group>"; };
-		EF96B9A9274FE1C900961F9C /* mysubsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mysubsUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		EFA682B527A2D0290095E1F3 /* SetIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetIcon.swift; sourceTree = "<group>"; };
 		EFC8821727A6E74A00B6EF5C /* NotificationServiceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationServiceTest.swift; sourceTree = "<group>"; };
 		EFCB8EB92779FC8A009BC47D /* CategoriesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesCell.swift; sourceTree = "<group>"; };
@@ -139,7 +124,6 @@
 		EFF326E127A196C300FAFACE /* mysubs.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = mysubs.entitlements; sourceTree = "<group>"; };
 		EFF326E327A196E100FAFACE /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		EFFA24DE275644E20068DFE3 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		EFFA24E127566E570068DFE3 /* LogoFinderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoFinderService.swift; sourceTree = "<group>"; };
 		FAF26DAD802A3EFEB87F6109 /* Pods_mysubs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_mysubs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -150,17 +134,11 @@
 			files = (
 				EF70E4F027567D270011AB06 /* Pods_mysubs.framework in Frameworks */,
 				EFF326E427A196E100FAFACE /* CloudKit.framework in Frameworks */,
+				E05764A198A97B6A206C7AA1 /* Pods_mysubs.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		EF96B996274FE1C900961F9C /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		EF96B9A0274FE1C900961F9C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -277,13 +255,6 @@
 			path = Application;
 			sourceTree = "<group>";
 		};
-		EF1F6C79275A4BBF00DA0BBB /* Networking */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Networking;
-			sourceTree = "<group>";
-		};
 		EF1F6C7A275A4C5300DA0BBB /* Flows */ = {
 			isa = PBXGroup;
 			children = (
@@ -326,7 +297,7 @@
 		EF6ADFBA27AA931F000B9B6D /* Float */ = {
 			isa = PBXGroup;
 			children = (
-				EF6ADFBB27AA932B000B9B6D /* File.swift */,
+				EF6ADFBB27AA932B000B9B6D /* EditMaxDigitTo.swift */,
 			);
 			path = Float;
 			sourceTree = "<group>";
@@ -371,7 +342,6 @@
 			children = (
 				EF96B982274FE1C700961F9C /* mysubs */,
 				EF96B99C274FE1C900961F9C /* mysubsTests */,
-				EF96B9A6274FE1C900961F9C /* mysubsUITests */,
 				EF96B981274FE1C700961F9C /* Products */,
 				C34FE279BCE2E8DE6B69B0E6 /* Pods */,
 				EFF326E227A196E100FAFACE /* Frameworks */,
@@ -383,7 +353,6 @@
 			children = (
 				EF96B980274FE1C700961F9C /* mysubs.app */,
 				EF96B999274FE1C900961F9C /* mysubsTests.xctest */,
-				EF96B9A3274FE1C900961F9C /* mysubsUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -395,7 +364,6 @@
 				EF1F6C7A275A4C5300DA0BBB /* Flows */,
 				EF125B0F2757887700E6FD6B /* Extensions */,
 				EF1F6C78275A4BA500DA0BBB /* Application */,
-				EF1F6C79275A4BBF00DA0BBB /* Networking */,
 				EFFA24E027566E120068DFE3 /* Services */,
 				EF1F6C71275A47DF00DA0BBB /* Styles */,
 				EF1F6C70275A471D00DA0BBB /* Supporting files */,
@@ -411,7 +379,6 @@
 		EF96B99C274FE1C900961F9C /* mysubsTests */ = {
 			isa = PBXGroup;
 			children = (
-				EF96B99D274FE1C900961F9C /* mysubsTests.swift */,
 				EF1520CA27A001DB00E6E5AB /* CoreDataTests.swift */,
 				EFC8821727A6E74A00B6EF5C /* NotificationServiceTest.swift */,
 				EF7AB50127A93F0C00D0DD99 /* FakeData.swift */,
@@ -422,15 +389,6 @@
 				EF7AB4FF27A93E2E00D0DD99 /* MockStorageService.swift */,
 			);
 			path = mysubsTests;
-			sourceTree = "<group>";
-		};
-		EF96B9A6274FE1C900961F9C /* mysubsUITests */ = {
-			isa = PBXGroup;
-			children = (
-				EF96B9A7274FE1C900961F9C /* mysubsUITests.swift */,
-				EF96B9A9274FE1C900961F9C /* mysubsUITestsLaunchTests.swift */,
-			);
-			path = mysubsUITests;
 			sourceTree = "<group>";
 		};
 		EFA682B427A2D00D0095E1F3 /* UITextField */ = {
@@ -446,6 +404,7 @@
 			isa = PBXGroup;
 			children = (
 				EFF326E327A196E100FAFACE /* CloudKit.framework */,
+				B895B0C5416CC85252987C97 /* Pods_mysubs.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -453,9 +412,7 @@
 		EFFA24E027566E120068DFE3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				EFFA24E127566E570068DFE3 /* LogoFinderService.swift */,
 				EF125B09275780E000E6FD6B /* StorageService.swift */,
-				EF125B0727577FA900E6FD6B /* APIConfiguration.swift */,
 				EF817B5227A18C9F00C7AC96 /* NotificationService.swift */,
 			);
 			path = Services;
@@ -472,7 +429,7 @@
 				EF96B97C274FE1C700961F9C /* Sources */,
 				EF96B97D274FE1C700961F9C /* Frameworks */,
 				EF96B97E274FE1C700961F9C /* Resources */,
-				84B5E3264AC9EE61689A3189 /* [CP] Embed Pods Frameworks */,
+				EF6ADFBF27AABBFC000B9B6D /* Swift Lint Script */,
 			);
 			buildRules = (
 			);
@@ -501,24 +458,6 @@
 			productReference = EF96B999274FE1C900961F9C /* mysubsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		EF96B9A2274FE1C900961F9C /* mysubsUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = EF96B9B3274FE1C900961F9C /* Build configuration list for PBXNativeTarget "mysubsUITests" */;
-			buildPhases = (
-				EF96B99F274FE1C900961F9C /* Sources */,
-				EF96B9A0274FE1C900961F9C /* Frameworks */,
-				EF96B9A1274FE1C900961F9C /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				EF96B9A5274FE1C900961F9C /* PBXTargetDependency */,
-			);
-			name = mysubsUITests;
-			productName = mysubsUITests;
-			productReference = EF96B9A3274FE1C900961F9C /* mysubsUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -533,10 +472,6 @@
 						CreatedOnToolsVersion = 13.1;
 					};
 					EF96B998274FE1C900961F9C = {
-						CreatedOnToolsVersion = 13.1;
-						TestTargetID = EF96B97F274FE1C700961F9C;
-					};
-					EF96B9A2274FE1C900961F9C = {
 						CreatedOnToolsVersion = 13.1;
 						TestTargetID = EF96B97F274FE1C700961F9C;
 					};
@@ -558,7 +493,6 @@
 			targets = (
 				EF96B97F274FE1C700961F9C /* mysubs */,
 				EF96B998274FE1C900961F9C /* mysubsTests */,
-				EF96B9A2274FE1C900961F9C /* mysubsUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -576,13 +510,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		EF96B997274FE1C900961F9C /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		EF96B9A1274FE1C900961F9C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -614,22 +541,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		84B5E3264AC9EE61689A3189 /* [CP] Embed Pods Frameworks */ = {
+		EF6ADFBF27AABBFC000B9B6D /* Swift Lint Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-mysubs/Pods-mysubs-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			inputPaths = (
+			);
+			name = "Swift Lint Script";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-mysubs/Pods-mysubs-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-mysubs/Pods-mysubs-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -646,10 +574,9 @@
 				EF6B125927903B220083E6F7 /* ToHexString.swift in Sources */,
 				EF915C1427918AD300266DF3 /* Adding.swift in Sources */,
 				EF1F6C6F275A464900DA0BBB /* Strings.swift in Sources */,
-				EFFA24E227566E570068DFE3 /* LogoFinderService.swift in Sources */,
 				EF125B192757C11000E6FD6B /* AddCornerRadius.swift in Sources */,
 				EF5F1956279B046200D03161 /* IconPickerViewController.swift in Sources */,
-				EF6ADFBC27AA932B000B9B6D /* File.swift in Sources */,
+				EF6ADFBC27AA932B000B9B6D /* EditMaxDigitTo.swift in Sources */,
 				EF9072EF275E3951006CF678 /* AppCoordinator.swift in Sources */,
 				EFA682B627A2D0290095E1F3 /* SetIcon.swift in Sources */,
 				EF817B5327A18C9F00C7AC96 /* NotificationService.swift in Sources */,
@@ -658,7 +585,6 @@
 				EF1520C9279EEFFC00E6E5AB /* IconCell.swift in Sources */,
 				EFEF69DD276799C8005CB6C3 /* EditSubViewModel.swift in Sources */,
 				EF125B0A275780E000E6FD6B /* StorageService.swift in Sources */,
-				EF125B0827577FA900E6FD6B /* APIConfiguration.swift in Sources */,
 				EFCB8EBA2779FC8A009BC47D /* CategoriesCell.swift in Sources */,
 				EF6ADFBE27AA9836000B9B6D /* AddDoneToolBar.swift in Sources */,
 				EF70E4F32756868A0011AB06 /* BrandInfo.swift in Sources */,
@@ -682,22 +608,12 @@
 			files = (
 				EFCF583727A41FCE006D89BB /* NewSubViewModelTests.swift in Sources */,
 				EF1520CB27A001DB00E6E5AB /* CoreDataTests.swift in Sources */,
-				EF96B99E274FE1C900961F9C /* mysubsTests.swift in Sources */,
 				EFC8821827A6E74A00B6EF5C /* NotificationServiceTest.swift in Sources */,
 				EFCF583927A42862006D89BB /* MockCoordinator.swift in Sources */,
 				EF7AB50627A9B2ED00D0DD99 /* HomeViewModelTests.swift in Sources */,
 				EF7AB50427A9ADF600D0DD99 /* EditSubViewModelTests.swift in Sources */,
 				EF7AB50027A93E2E00D0DD99 /* MockStorageService.swift in Sources */,
 				EF7AB50227A93F0C00D0DD99 /* FakeData.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		EF96B99F274FE1C900961F9C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				EF96B9A8274FE1C900961F9C /* mysubsUITests.swift in Sources */,
-				EF96B9AA274FE1C900961F9C /* mysubsUITestsLaunchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -708,11 +624,6 @@
 			isa = PBXTargetDependency;
 			target = EF96B97F274FE1C700961F9C /* mysubs */;
 			targetProxy = EF96B99A274FE1C900961F9C /* PBXContainerItemProxy */;
-		};
-		EF96B9A5274FE1C900961F9C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = EF96B97F274FE1C700961F9C /* mysubs */;
-			targetProxy = EF96B9A4274FE1C900961F9C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -874,7 +785,6 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -906,7 +816,6 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -929,7 +838,6 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 33VL4C78U3;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -954,7 +862,6 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 33VL4C78U3;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -967,52 +874,6 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mysubs.app/mysubs";
-			};
-			name = Release;
-		};
-		EF96B9B4274FE1C900961F9C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 33VL4C78U3;
-				GENERATE_INFOPLIST_FILE = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = fr.manonrusso.mysubsUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = mysubs;
-			};
-			name = Debug;
-		};
-		EF96B9B5274FE1C900961F9C /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 33VL4C78U3;
-				GENERATE_INFOPLIST_FILE = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = fr.manonrusso.mysubsUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = mysubs;
 			};
 			name = Release;
 		};
@@ -1042,15 +903,6 @@
 			buildConfigurations = (
 				EF96B9B1274FE1C900961F9C /* Debug */,
 				EF96B9B2274FE1C900961F9C /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		EF96B9B3274FE1C900961F9C /* Build configuration list for PBXNativeTarget "mysubsUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				EF96B9B4274FE1C900961F9C /* Debug */,
-				EF96B9B5274FE1C900961F9C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

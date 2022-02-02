@@ -14,7 +14,5 @@ extension UIButton {
         
         return desiredButtonSize
     }
-    func AdaptableSizeButton() {
 
-}
 }

@@ -29,7 +29,7 @@ class EditSubController: UIViewController {
     var storageService = StorageService()
 
     let componentNumber = Array(stride(from: 1, to: 30 + 1, by: 1))
-    let componentDayMonthYear = [Calendar.Component.day, Calendar.Component.weekOfMonth, Calendar.Component.month, Calendar.Component.year] 
+    let componentDayMonthYear = [Calendar.Component.day, Calendar.Component.weekOfMonth, Calendar.Component.month, Calendar.Component.year]
     let screenWidth = UIScreen.main.bounds.width - 10
     let screenHeight = UIScreen.main.bounds.height / 2
     var selectedColor = ""
@@ -362,10 +362,10 @@ extension EditSubController {
 
     }
     private func setUpView() {
-        // MARK: SETTING TITLE
-        view.backgroundColor = MSColors.background
+        //swiftlint:disable file_length
 
-//        //MARK: Adding name field
+        view.backgroundColor = MSColors.background
+        //adding name field
         name.fieldTitle = "Nom"
         name.text = viewModel?.name
         // configurer la inpute view pour le name
@@ -374,20 +374,17 @@ extension EditSubController {
         name.textField.addTarget(self, action: #selector(nameFieldTextDidChange), for: .editingChanged)
         name.configureView()
         formView.addArrangedSubview(name)
-
-        // MARK: price
+        // price
         price.fieldTitle = "Prix"
         price.textField.keyboardType = .decimalPad
         price.textField.addDoneToolBar()
         price.textField.addTarget(self, action: #selector(priceFieldTextDidChange), for: .editingChanged)
         price.configureView()
         formView.addArrangedSubview(price)
-        
-        // MARK: color picker
+        // color picker
         colorTitle.setTitle("Couleur ▼", for: .normal)
         colorTitle.setTitleColor(MSColors.maintext, for: .normal)
         colorTitle.addTarget(self, action: #selector(showColorPicker), for: .touchUpInside)
-        
         colorPreview.backgroundColor = .white
         colorPreview.addCornerRadius()
         let tapColorPreview = UITapGestureRecognizer(target: self, action: #selector(showColorPicker))
@@ -399,8 +396,7 @@ extension EditSubController {
         colorStackView.addArrangedSubview(colorPreview)
         colorStackView.alignment = .leading
         colorAndIconStackView.addArrangedSubview(colorStackView)
-
-        // MARK: iconpicker
+        // iconpicker
         iconTitle.setTitle("Icône ▼", for: .normal)
         iconTitle.setTitleColor(MSColors.maintext, for: .normal)
         iconTitle.addTarget(self, action: #selector(showIconPicker), for: .touchUpInside)
@@ -415,76 +411,63 @@ extension EditSubController {
         iconStackView.addArrangedSubview(iconPreview)
         iconStackView.alignment = .leading
         colorAndIconStackView.addArrangedSubview(iconStackView)
-        
         colorAndIconStackView.axis = .horizontal
         colorAndIconStackView.distribution = .fillEqually
         colorAndIconStackView.spacing = 34
         formView.addArrangedSubview(colorAndIconStackView)
         
-        //MARK: notif settings
+        //notif settings
         notifTitle.text = "Activer un rappel avant paiement"
         notifAuthorizer.addArrangedSubview(notifTitle)
-        
         switchNotif.addTarget(self, action: #selector(displayNotifSettings), for: .touchUpInside)
         notifAuthorizer.addArrangedSubview(switchNotif)
         notifAuthorizer.axis = .horizontal
         notifAuthorizer.distribution = .equalCentering
         notifSettingsStackView.addArrangedSubview(notifAuthorizer)
-
         notifSettingsStackView.axis = .vertical
         notifSettingsStackView.spacing = 8
         formView.addArrangedSubview(notifSettingsStackView)
-    
-        //MARK: DELETE BUTTON
+        //DELETE BUTTON
         deleteButton.titleLabel?.textAlignment = .center
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
         deleteButton.setTitle(" Supprimer", for: .normal)
         deleteButton.setImage(UIImage(systemName: "trash"), for: .normal)
-        deleteButton.tintColor = MSColors.maintext
+        deleteButton.tintColor = .systemRed//MSColors.maintext
         deleteButton.titleLabel?.font = MSFonts.title2
         deleteButton.setTitleColor(MSColors.maintext, for: .normal)
         deleteButton.addTarget(self, action: #selector(deleteSub), for: .touchUpInside)
         view.addSubview(deleteButton)
-
-        
-        //MARK: Adding commitment field
-        
+        //Adding commitment field
         commitmentStackView.axis = .vertical
         commitmentStackView.alignment = .leading
         commitmentStackView.distribution = .fillEqually
         commitmentStackView.translatesAutoresizingMaskIntoConstraints = false
-
         commitmentTitle.textColor = MSColors.maintext
         commitmentTitle.text = "Dernier paiement"
         commitmentTitle.translatesAutoresizingMaskIntoConstraints = false
         commitmentDate.translatesAutoresizingMaskIntoConstraints = false
         commitmentDate.contentMode = .topLeft
-
         commitmentDate.addTarget(self, action: #selector(dateDidChange), for: .valueChanged)
         commitmentDate.datePickerMode = .date
         commitmentDate.translatesAutoresizingMaskIntoConstraints = false
         commitmentDate.locale = Locale.init(identifier: "fr_FR")
-//        commitmentDate.date = Date.now
         commitmentStackView.addArrangedSubview(commitmentTitle)
         commitmentStackView.addArrangedSubview(commitmentDate)
         notifSettingsStackView.addArrangedSubview(commitmentStackView)
-        
-        //MARK: - reminder
+        //reminder
         reminder.fieldTitle = "Rappel"
         reminder.textField.allowsEditingTextAttributes = false
         reminder.shouldBehaveAsButton = true
         reminder.addTarget(self, action: #selector(changeReminder), for: .touchUpInside)
         reminder.configureView()
         notifSettingsStackView.addArrangedSubview(reminder)
-
-        //MARK: - recurrency field
+        //recurrency field
         recurrency.fieldTitle = "Cycle"
         recurrency.shouldBehaveAsButton = true
         recurrency.addTarget(self, action: #selector(changeReccurency), for: .touchUpInside)
         recurrency.configureView()
         notifSettingsStackView.addArrangedSubview(recurrency)
-        
-        // MARK: FORMVIEW
+        // FORMVIEW
         formView.translatesAutoresizingMaskIntoConstraints = false
         formView.axis = .vertical
         formView.spacing = 8
@@ -503,7 +486,7 @@ extension EditSubController {
             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: deleteButton.bottomAnchor, constant: 8),
             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: deleteButton.trailingAnchor, constant: 16),
             deleteButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            deleteButton.heightAnchor.constraint(equalToConstant: 30),
+            deleteButton.heightAnchor.constraint(equalToConstant: 30)
             ])
     }
 }

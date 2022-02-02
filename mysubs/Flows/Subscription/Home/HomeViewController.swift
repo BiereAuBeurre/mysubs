@@ -17,7 +17,7 @@ enum State<Data> {
 }
 
 class HomeViewController: UIViewController, UINavigationBarDelegate {
-    let userNotificationCenter = UNUserNotificationCenter.current()
+    //let userNotificationCenter = UNUserNotificationCenter.current()
     var viewModel : HomeViewModel?
     weak var coordinator: AppCoordinator?
     
@@ -58,7 +58,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-        self.userNotificationCenter.delegate = self
+        //self.userNotificationCenter.delegate = self
 
     }
     
@@ -137,7 +137,11 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let subCell = subCollectionView.dequeueReusableCell(withReuseIdentifier: SubCell.identifier, for: indexPath) as! SubCell
+        guard let subCell = collectionView.dequeueReusableCell(withReuseIdentifier: SubCell.identifier, for: indexPath) as? SubCell else {
+            assertionFailure("The dequeue collection view cell was of the wrong type")
+            return UICollectionViewCell()
+        }
+//        let subCell = subCollectionView.dequeueReusableCell(withReuseIdentifier: SubCell.identifier, for: indexPath) as! SubCell
         subCell.subscription = viewModel?.subscriptions[indexPath.row]
         subCell.addCornerRadius()
         return subCell
@@ -273,28 +277,5 @@ extension HomeViewController {
         amountLabel.layer.cornerRadius = 5
         amountLabel.textAlignment = .center
         amountLabel.layer.masksToBounds = true
-    }
-}
-
-//MARK: -Setting up notification authorization
-extension HomeViewController: UNUserNotificationCenterDelegate {
-
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        completionHandler()
-    }
-
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.banner, .badge, .sound])
-    }
-
-    func requestNotificationAuthorization() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (isGranted, error) in
-            if isGranted {
-                print("Notification permission was granted")
-            }
-            if let error = error {
-                print("Error requesting notification authorization: \(error)")
-            }
-        }
     }
 }

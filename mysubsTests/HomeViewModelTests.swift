@@ -43,6 +43,7 @@ class HomeViewModelTests: XCTestCase {
     func testComputeTotalWithoutValue() {
         viewModel.subscriptions = []
         viewModel.computeTotal()
+        //dddd
         XCTAssertEqual(viewModel.totalAmount, "")
     }
     
@@ -63,6 +64,7 @@ class HomeViewModelTests: XCTestCase {
     func testShowDetailSub() throws {
         XCTAssertFalse(mockCoordinator.showDetailSubScreenIsCalled)
         viewModel.showDetail(sub: sub1)
+        XCTAssertEqual(mockCoordinator.subscription, sub1)
         XCTAssertTrue(mockCoordinator.showDetailSubScreenIsCalled)
     }
     

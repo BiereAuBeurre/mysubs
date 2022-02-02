@@ -12,7 +12,4 @@ enum MSColors {
     static let background = UIColor(named: "background")
     static let maintext = UIColor(named: "maintext")
 //    static let background = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-    
-    
-    
 }

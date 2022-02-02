@@ -63,12 +63,6 @@ class AppCoordinator: Coordinator, AppCoordinatorProtocol {
     }
 }
 
-///toutes les methodes de navigation private, toujours appeler qch comme avec viewdidload() (dans start())
-    /*func savePref()
-     viewmodel.save()
-     func save() {
-     coordinator.goHome()*/
-
 protocol AppCoordinatorProtocol: Coordinator {
     
     func start()

@@ -89,7 +89,7 @@ class EditSubViewModel: NSObject {
                     self.notificationDate = date.adding(reminderType, value: -(reminderValue))
                     self.notificationDate = self.notificationDate?.adding(recurrencyType, value: recurrencyValue)
                     print("self.notification date in newsubVM is : \(self.notificationDate!)")
-                    notificationService.generateNotificationFor(name, reminderValue, price, self.notificationDate ?? Date.now, id: id, reminderType: reminderType)
+                    notificationService.generateNotificationFor(name, reminderValue, price, self.notificationDate ?? Date(), id: id, reminderType: reminderType)
                 }
             }
         }

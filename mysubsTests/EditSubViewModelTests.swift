@@ -42,13 +42,13 @@ class EditSubViewModelTests: XCTestCase {
         sub.price = 0
 //        sub.icon = ""
         sub.color = ""
-        viewModel.date = Date.now
+        viewModel.date = Date()
         viewModel.reminderValue = 8
         viewModel.recurrencyValue = 9
         viewModel.price = 9
         viewModel.reminderType = Calendar.Component.nanosecond
         viewModel.name = "test"
-        sub.commitment = Date.now
+        sub.commitment = Date()
         viewModel.saveEditedSub()
         viewModel.save()
         XCTAssertTrue(mockStorageService.saveIsCalled)
