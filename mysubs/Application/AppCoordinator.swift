@@ -11,7 +11,6 @@ import UIKit
 class AppCoordinator: Coordinator, AppCoordinatorProtocol {
     var navigationController: UINavigationController
      
-    //déclarer ts les service ici, coreDataService..
     private let storageService: StorageService
 
     init(navigationController: UINavigationController) {
@@ -22,7 +21,6 @@ class AppCoordinator: Coordinator, AppCoordinatorProtocol {
     func start() {
         print("ok")
         showSubScreen()
-        // logique pour decider dans quel flow on commence, où notif envoi
     }
     
     func showSubScreen() {
@@ -30,7 +28,6 @@ class AppCoordinator: Coordinator, AppCoordinatorProtocol {
         let homeVCViewModel = HomeViewModel(coordinator: self, storageService: storageService)
         homeVCViewModel.viewDelegate = homeVC
         homeVC.viewModel = homeVCViewModel
-//        homeVC.category = category
         navigationController.pushViewController(homeVC, animated: false)
     }
     
@@ -39,7 +36,6 @@ class AppCoordinator: Coordinator, AppCoordinatorProtocol {
         let newSubVCViewModel = NewSubViewModel(coordinator: self, storageService: storageService)
         newSubVCViewModel.viewDelegate = newSubVC
         newSubVC.viewModel = newSubVCViewModel
-//        newSubVCViewModel.category = category
         navigationController.pushViewController(newSubVC, animated: true)
     }
     
@@ -48,15 +44,8 @@ class AppCoordinator: Coordinator, AppCoordinatorProtocol {
         let editSubViewModel = EditSubViewModel(coordinator: self, storageService: storageService, subscription: sub)
         editSubViewModel.viewDelegate = editSubVC
         editSubVC.viewModel = editSubViewModel
-//        editSubVC.categorys = categorys
-//        print("dans coordinator \(categorys)")
-//        editSubVC.sub = sub
         navigationController.pushViewController(editSubVC, animated: true)
     }
-    
-//    func openReminderModal() {
-//        navigationController.present(commitmentModalVC, animated: true, completion: nil)
-//    }
      
     func goBack() {
         navigationController.popToRootViewController(animated: true)

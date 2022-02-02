@@ -54,8 +54,8 @@ class NewSubViewModel: NSObject {
             }
         }
         storageService.save()
-        //coordinator.goBack()
     }
+    
     func goBack() {
         coordinator.goBack()
     }

@@ -17,23 +17,20 @@ enum State<Data> {
 }
 
 class HomeViewController: UIViewController, UINavigationBarDelegate {
-    //let userNotificationCenter = UNUserNotificationCenter.current()
     var viewModel: HomeViewModel?
     weak var coordinator: AppCoordinator?
     
     // UI Properties
-    let totalAmountView = UIView()
-    var totalAmountLabel = UILabel()
-    var amountLabel = UILabel()
-    var subListStackView = UIStackView()
-    var subCollectionView: UICollectionView!
-    var categoryButton = UIButton()
+    private let totalAmountView = UIView()
+    private var totalAmountLabel = UILabel()
+    private var subListStackView = UIStackView()
+    private  var subCollectionView: UICollectionView!
     private let activityIndicator = UIActivityIndicatorView(style: .large)
-    
+
     // Properties
+    var amountLabel = UILabel()
     var viewState: State<[Subscription]> = .showData {
         didSet {
-//             resetState()
             switch viewState {
             case .loading:
                 activityIndicator.startAnimating()
@@ -58,8 +55,6 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-        //self.userNotificationCenter.delegate = self
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -68,35 +63,13 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         setUpUI()
         setUpTotalAmountView()
         viewModel?.computeTotal()
-//        if let sub = viewModel?.subscriptions {
-//            refreshWith(subscriptions: sub)
-//        } else { viewState = .empty }
     }
     
     //OBJ C METHODS
     @objc func plusButtonAction() {
         viewModel?.showNewSub()
     }
-    
-//    @objc func deleteAll() {
-//        if let subscriptions = viewModel?.subscriptions {
-//            for sub in subscriptions {
-//                do {
-//                    try viewModel?.storageService.delete(sub)
-//                    viewModel?.fetchSubscription()
-//                    amountLabel.text = "- €"
-//                    viewState = .empty
-//                } catch { print(error) }
-//            }
-//        }
-//    }
-    
-//    @objc func handleSwipes(_ sender: UISwipeGestureRecognizer) {
-//        if sender.direction == .left {
-//            print("swipe left")
-//        }
-//    }
-//
+
     //PRIVATE METHODS
     private func displayEmptyView() {
         let emptyView = UITextView.init(frame: view.frame)
@@ -113,24 +86,17 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         viewModel?.showDetail(sub: sub)
     }
     
-//    private func resetState() {
-//        activityIndicator.stopAnimating()
-//        viewState = .showData
-//        subCollectionView.isHidden = false
-//    }
-    
     private func deleteSub(sub: Subscription) {
         do {
             try viewModel?.storageService.delete(sub)
         } catch {
             print(error); self.showAlert("Erreur", "Suppression impossible. Merci de réessayer plus tard")
-            
         }
     }
   
 }
 
-//SET UP COLLECTION VIEWS
+// MARK: SET UP COLLECTION VIEWS
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -142,20 +108,14 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             assertionFailure("The dequeue collection view cell was of the wrong type")
             return UICollectionViewCell()
         }
-//        let subCell = subCollectionView.dequeueReusableCell(withReuseIdentifier: SubCell.identifier, for: indexPath) as! SubCell
         subCell.subscription = viewModel?.subscriptions[indexPath.row]
         subCell.addCornerRadius()
         return subCell
-        
-        // let leftSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
-        // leftSwipe.direction = .left
-        // subCell.addGestureRecognizer(leftSwipe)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let selectedSub = viewModel?.subscriptions[indexPath.row] else { return }
         cellTapped(sub: selectedSub)
-        print("item \(indexPath.row+1) tapped")
     }
 }
 

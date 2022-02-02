@@ -40,7 +40,6 @@ class EditSubViewModelTests: XCTestCase {
         XCTAssertFalse(mockStorageService.saveIsCalled)
         sub.name = "test"
         sub.price = 0
-//        sub.icon = ""
         sub.color = ""
         viewModel.date = Date()
         viewModel.reminderValue = 8

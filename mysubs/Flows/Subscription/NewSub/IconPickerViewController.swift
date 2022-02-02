@@ -53,14 +53,13 @@ extension IconPickerViewController: UICollectionViewDelegate, UICollectionViewDa
         return iconDictionnary.count
     }
 
-     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-         guard let iconCell = collectionView.dequeueReusableCell(withReuseIdentifier: IconCell.identifier, for: indexPath) as? IconCell else {
-             assertionFailure("The dequeue collection view cell was of the wrong type")
-             return UICollectionViewCell()
-         }
-         //let iconCell = collectionView.dequeueReusableCell(withReuseIdentifier: IconCell.identifier, for: indexPath) as! IconCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let iconCell = collectionView.dequeueReusableCell(withReuseIdentifier: IconCell.identifier, for: indexPath) as? IconCell else {
+            assertionFailure("The dequeue collection view cell was of the wrong type")
+            return UICollectionViewCell()
+        }
         iconCell.logo.image = UIImage(systemName: "\(iconDictionnary[indexPath.row])")
-         icon = UIImage(systemName: "\(iconDictionnary[indexPath.row])") ?? UIImage(systemName: "house.fill")!
+        icon = UIImage(systemName: "\(iconDictionnary[indexPath.row])") ?? UIImage(systemName: "house.fill")!
         return iconCell
     }
     

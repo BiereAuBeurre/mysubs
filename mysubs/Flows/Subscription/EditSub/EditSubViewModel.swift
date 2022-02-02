@@ -10,23 +10,13 @@ import Foundation
 class EditSubViewModel: NSObject {
     weak var viewDelegate: EditSubController?
     private let coordinator: AppCoordinatorProtocol
-    let storageService: StorageServiceProtocol
-    var notificationService = NotificationService()
-
-    init(coordinator: AppCoordinatorProtocol, storageService: StorageServiceProtocol, subscription: Subscription) {
-        self.coordinator = coordinator
-        self.storageService = storageService
-        self.subscription = subscription
-        self.price = subscription.price
-        self.name = subscription.name
-        self.color = subscription.color
-        self.reminder = subscription.reminder
-        self.date = subscription.commitment
-        self.recurrency = subscription.paymentRecurrency
-        self.icon = subscription.icon
+    private let storageService: StorageServiceProtocol
+    private var notificationService = NotificationService()
+    private var subscription: Subscription
+    private var isDateChanged: Bool {
+        date != subscription.commitment
     }
     
-    private var subscription: Subscription
     var notificationDate: Date?
     var icon: Data?
     var recurrency: String?
@@ -40,8 +30,17 @@ class EditSubViewModel: NSObject {
     var recurrencyValue: Int?
     var recurrencyType: Calendar.Component = .hour
     
-    private var isDateChanged: Bool {
-        date != subscription.commitment
+    init(coordinator: AppCoordinatorProtocol, storageService: StorageServiceProtocol, subscription: Subscription) {
+        self.coordinator = coordinator
+        self.storageService = storageService
+        self.subscription = subscription
+        self.price = subscription.price
+        self.name = subscription.name
+        self.color = subscription.color
+        self.reminder = subscription.reminder
+        self.date = subscription.commitment
+        self.recurrency = subscription.paymentRecurrency
+        self.icon = subscription.icon
     }
     
     func delete() {
@@ -75,7 +74,7 @@ class EditSubViewModel: NSObject {
             if date == nil {
                 notificationService.cancelnotif(for: id)
             } else {
-                // si je change la date sans désactiver, je reset tout au niveau des notif dans date did change dans le VC
+                //If date is changed, all other parameters are reset in dateDidChange in VC
                 subscription.commitment = date
                 if let reminderValue = reminderValue, let recurrencyValue = recurrencyValue, let reminderType = reminderType, let price = price, let date = date, let name = name {
                     subscription.reminder = "\(reminderValue) \(reminderType.stringValue)"

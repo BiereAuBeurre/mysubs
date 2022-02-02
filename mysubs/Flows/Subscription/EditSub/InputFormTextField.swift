@@ -35,7 +35,6 @@ class InputFormTextField: UIControl {
             guard shouldBehaveAsButton else { return }
             stackView.isUserInteractionEnabled = false
             textField.isUserInteractionEnabled = false
-            //textField.removeTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
         }
     }
     
@@ -47,7 +46,6 @@ class InputFormTextField: UIControl {
         stackView.addArrangedSubview(label)
         stackView.addArrangedSubview(textField)
         stackView.axis = .vertical
-//        stackView.alignment = .fill
         stackView.spacing = 8
         textField.borderStyle = .roundedRect
         label.textColor = MSColors.maintext

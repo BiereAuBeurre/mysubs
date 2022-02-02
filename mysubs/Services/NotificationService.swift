@@ -7,7 +7,6 @@
 
 import UserNotifications
 
-// struct ? ou final class
 final class NotificationService {
     
     let userNotificationCenter = UNUserNotificationCenter.current()
@@ -47,7 +46,7 @@ final class NotificationService {
     
     //swiftlint:disable function_parameter_count
     func generateNotificationFor(_ name: String, _ reminderValue: Int, _ price: Float, _ date: Date, id: String, reminderType: Calendar.Component) {
-        //Cheat to display notif in simulator right after creation
+        //In order to display notif in simulator right after creation
         #if DEBUG
         let notificationInterval: Double = 15
         let date = date.addingTimeInterval(notificationInterval)

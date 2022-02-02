@@ -6,6 +6,7 @@
 //
 import UIKit
 import Foundation
+
 extension UITextField {
     // This method is defining the toolbar buttons of the keyboard and their actions.
     func addDoneToolBar() {

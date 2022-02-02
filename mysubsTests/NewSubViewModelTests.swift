@@ -29,20 +29,22 @@ class NewSubViewModelTests: XCTestCase {
         mockCoordinator = nil
         viewModel = nil
     }
+    
+    func testGoBack() throws {
+        XCTAssertFalse(mockCoordinator.goBackIsCalled)
+        viewModel.goBack()
+        XCTAssertTrue(mockCoordinator.goBackIsCalled)
+    }
 
     func testSavingSub() throws {
+        XCTAssertFalse(mockStorageService.saveIsCalled)
         viewModel.date = Date().adding(.year, value: -100)
         viewModel.reminderValue = 1
         viewModel.recurrencyValue = 1
-        viewModel.name = "couocu"
+        viewModel.name = "coucou"
         viewModel.price = 20
         viewModel.reminderType = Calendar.Component.nanosecond
-        XCTAssertFalse(mockCoordinator.goBackIsCalled)
         viewModel.saveSub()
-        //storageserviceSaveisCalle
-        XCTAssertTrue(mockCoordinator.goBackIsCalled)
         XCTAssertTrue(mockStorageService.saveIsCalled)
-
     }
-
 }

@@ -12,45 +12,45 @@ class EditSubController: UIViewController {
     weak var coordinator: AppCoordinator?
 
     //LeftSideStackView properties
-    var formView = UIStackView()
-    var name = InputFormTextField()
-    var commitmentTitle = UILabel()
-    var commitmentDate = UIDatePicker()
-    let commitmentStackView = UIStackView()
+    private var formView = UIStackView()
+    private var name = InputFormTextField()
+    private var commitmentTitle = UILabel()
+    private var commitmentDate = UIDatePicker()
+    private let commitmentStackView = UIStackView()
     //RightSideStackView properties
-    var price = InputFormTextField()
-    var reminder = InputFormTextField()
-    var recurrency = InputFormTextField()
+    private var price = InputFormTextField()
+    private var reminder = InputFormTextField()
+    private var recurrency = InputFormTextField()
     //FOOTER BUTTON PROPERTIES
-    var footerStackView = UIStackView()
-    var modifyButton = UIButton()
-    var deleteButton = UIButton()
+    private var footerStackView = UIStackView()
+    private var modifyButton = UIButton()
+    private var deleteButton = UIButton()
     var viewModel: EditSubViewModel?
-    var storageService = StorageService()
+    private var storageService = StorageService()
 
-    let componentNumber = Array(stride(from: 1, to: 30 + 1, by: 1))
-    let componentDayMonthYear = [Calendar.Component.day, Calendar.Component.weekOfMonth, Calendar.Component.month, Calendar.Component.year]
-    let screenWidth = UIScreen.main.bounds.width - 10
-    let screenHeight = UIScreen.main.bounds.height / 2
-    var selectedColor = ""
+    private let componentNumber = Array(stride(from: 1, to: 30 + 1, by: 1))
+    private let componentDayMonthYear = [Calendar.Component.day, Calendar.Component.weekOfMonth, Calendar.Component.month, Calendar.Component.year]
+    private let screenWidth = UIScreen.main.bounds.width - 10
+    private let screenHeight = UIScreen.main.bounds.height / 2
+    private var selectedColor = ""
 
-    var selectedRow = 0
-    var reminderPickerView = UIPickerView()
-    var recurrencyPickerView = UIPickerView()
-    let iconPickerVC = IconPickerViewController()
+    private var selectedRow = 0
+    private var reminderPickerView = UIPickerView()
+    private var recurrencyPickerView = UIPickerView()
+    private let iconPickerVC = IconPickerViewController()
 
-    var notifAuthorizer = UIStackView()
-    var notifTitle = UILabel()
-    var switchNotif = UISwitch()
-    var notifSettingsStackView = UIStackView()
-    var colorAndIconStackView = UIStackView()
+    private var notifAuthorizer = UIStackView()
+    private var notifTitle = UILabel()
+    private var switchNotif = UISwitch()
+    private var notifSettingsStackView = UIStackView()
+    private var colorAndIconStackView = UIStackView()
 
-    var colorStackView = UIStackView()
-    var iconStackView = UIStackView()
-    var colorTitle = UIButton()
-    var colorPreview = UIImageView()
-    var iconTitle = UIButton()
-    var iconPreview = UIImageView()
+    private var colorStackView = UIStackView()
+    private var iconStackView = UIStackView()
+    private var colorTitle = UIButton()
+    private var colorPreview = UIImageView()
+    private var iconTitle = UIButton()
+    private var iconPreview = UIImageView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,7 +58,6 @@ class EditSubController: UIViewController {
     }
     
     //OJBC METHODS
-    
     @objc
     func deleteSub() {
         deletingAlert()
@@ -108,7 +107,6 @@ class EditSubController: UIViewController {
             }
         }))
         self.present(alert, animated: true, completion: nil)
-                                      
         }
     
     @objc
@@ -130,14 +128,8 @@ class EditSubController: UIViewController {
     @objc
     func priceFieldTextDidChange(textField: UITextField) {
         viewModel?.price = Float(textField.text?.replacingOccurrences(of: ",", with: ".") ?? "")
-//        viewModel?.price = Float(textField.text ?? "") ?? 0
     }
-    
-//    @objc
-//    func textFieldDidChange(textField: UITextField) {
-//        //delegate.textFieldDidCha
-//    }
-    
+
     @objc
     func dateDidChange() {
         viewModel?.date = commitmentDate.date
@@ -170,7 +162,6 @@ class EditSubController: UIViewController {
     }
     
     //Private METHODS
-
     private func deletingAlert() {
         let alert = UIAlertController(title: "Suppression de l'abonnement", message: "Êtes-vous sur de vouloir supprimer l'abonnement \(viewModel?.name ?? "") ?", preferredStyle: .actionSheet)
         let deleteAction = UIAlertAction(title: Strings.genericConfirm, style: .default) { [unowned self] _ in
@@ -182,11 +173,6 @@ class EditSubController: UIViewController {
         alert.addAction(cancelAction)
         present(alert, animated: true)
     }
-    
-//    func refreshWith(subscription: Subscription) {
-////        viewModel?.subscription = Subs
-////        nameField.text = sub.name
-//    }
     
     private func showPicker(_ picker: UIPickerView, _ input: InputFormTextField) {
         let pickerVC = UIViewController()
@@ -215,13 +201,11 @@ class EditSubController: UIViewController {
                 viewModel?.recurrencyValue = valueNumber
                 viewModel?.recurrencyType = valueType
                 viewModel?.recurrency = "\(valueNumber) \(valueType.stringValue)"
-
             } else {
                 input.textField.text = "\(valueNumber) \(valueType.stringValue)"
                 viewModel?.reminderValue = valueNumber
                 viewModel?.reminderType = valueType
                 viewModel?.reminder = "\(valueNumber) \(valueType.stringValue)"
-
             }
         }))
         self.present(alert, animated: true, completion: nil)
@@ -247,31 +231,27 @@ extension EditSubController: UIPickerViewDataSource, UIPickerViewDelegate {
         }
     }
     
-        func numberOfComponents(in pickerView: UIPickerView) -> Int {
-//            if pickerView == recurrencyPickerView {
-                return 2
-//            } else {
-//                return 3
-//            }
-        }
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 2
+    }
     
-        func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-            if pickerView == recurrencyPickerView {
-                if component == 0 {
-                    return componentNumber.count
-                } else {
-                    return componentDayMonthYear.count
-                }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if pickerView == recurrencyPickerView {
+            if component == 0 {
+                return componentNumber.count
             } else {
-                if component == 0 {
-                    return componentNumber.count
-                } else if component == 1 {
-                    return componentDayMonthYear.count
-                } else {
-                    return 1
-                }
+                return componentDayMonthYear.count
+            }
+        } else {
+            if component == 0 {
+                return componentNumber.count
+            } else if component == 1 {
+                return componentDayMonthYear.count
+            } else {
+                return 1
             }
         }
+    }
 }
 
 // MARK: - COLOR PICKER SETTINGS
@@ -303,7 +283,6 @@ extension EditSubController {
         commitmentStackView.translatesAutoresizingMaskIntoConstraints = false
         commitmentTitle.translatesAutoresizingMaskIntoConstraints = false
         commitmentDate.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
             commitmentTitle.heightAnchor.constraint(equalToConstant: 35)
         ])
@@ -332,7 +311,6 @@ extension EditSubController {
         if let color = viewModel?.color {
             self.colorPreview.backgroundColor = UIColor(hex: color)
         }
-        
         // If user already set up date and else, this part has to be shown, else, it'll be hide with possibility to show it
         if let date = viewModel?.date {
             commitmentDate.date = date
@@ -346,17 +324,14 @@ extension EditSubController {
             recurrency.isHidden = true
             reminder.isHidden = true
         }
-        
         name.text = viewModel?.name
         price.text = "\(viewModel?.price ?? 0)"
-
         reminder.text = "\(viewModel?.reminder ?? "") avant"
         recurrency.text = "Tous les \(viewModel?.recurrency ?? "")"
-
     }
+    
     private func setUpView() {
         //swiftlint:disable file_length
-
         view.backgroundColor = MSColors.background
         //adding name field
         name.fieldTitle = "Nom"
@@ -408,7 +383,6 @@ extension EditSubController {
         colorAndIconStackView.distribution = .fillEqually
         colorAndIconStackView.spacing = 34
         formView.addArrangedSubview(colorAndIconStackView)
-        
         //notif settings
         notifTitle.text = "Activer un rappel avant paiement"
         notifAuthorizer.addArrangedSubview(notifTitle)
@@ -454,7 +428,6 @@ extension EditSubController {
         reminder.addTarget(self, action: #selector(changeReminder), for: .touchUpInside)
         reminder.configureView()
         notifSettingsStackView.addArrangedSubview(reminder)
-        //recurrency field
         recurrency.fieldTitle = "Cycle"
         recurrency.shouldBehaveAsButton = true
         recurrency.addTarget(self, action: #selector(changeReccurency), for: .touchUpInside)

@@ -26,7 +26,7 @@ final class FakeData {
             subscription2.name = "Coucou"
             subscription2.price = 2
             subscription2.reminder = "2j"
-            subscription2.commitment = Date.now
+            subscription2.commitment = Date()
             subscription2.color = ""
             subscription2.icon = nil
             subscription2.paymentRecurrency = ""

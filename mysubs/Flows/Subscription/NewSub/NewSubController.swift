@@ -11,82 +11,55 @@ import CoreData
 
 class NewSubController: UIViewController, UINavigationBarDelegate {
     // Pop up VC settings
-    let componentNumber = Array(stride(from: 1, to: 30 + 1, by: 1))
-    let componentDayMonthYear = [Calendar.Component.day, Calendar.Component.weekOfMonth, Calendar.Component.month, Calendar.Component.year]
-    let screenWidth = UIScreen.main.bounds.width - 10
-    let screenHeight = UIScreen.main.bounds.height / 2
-    var selectedRow = 0
-    var selectedColor = ""
-    var newSubLabel = UILabel()
-    var separatorLine = UIView()
+    private let componentNumber = Array(stride(from: 1, to: 30 + 1, by: 1))
+    private let componentDayMonthYear = [Calendar.Component.day, Calendar.Component.weekOfMonth, Calendar.Component.month, Calendar.Component.year]
+    private let screenWidth = UIScreen.main.bounds.width - 10
+    private let screenHeight = UIScreen.main.bounds.height / 2
+    private var selectedRow = 0
+    private var selectedColor = ""
+    private var newSubLabel = UILabel()
+    private var separatorLine = UIView()
     
-    var formView = UIStackView()
-    var name = InputFormTextField()
-    var info = InputFormTextField()
-    var colorAndIconStackView = UIStackView()
-    var price = InputFormTextField()
-    var reminder = InputFormTextField()
-    var recurrency = InputFormTextField()
+    private var formView = UIStackView()
+    private var name = InputFormTextField()
+    private var info = InputFormTextField()
+    private var colorAndIconStackView = UIStackView()
+    private var price = InputFormTextField()
+    private var reminder = InputFormTextField()
+    private var recurrency = InputFormTextField()
     
-    var colorStackView = UIStackView()
-    var iconStackView = UIStackView()
-    var colorTitle = UIButton()
-    var colorPreview = UIImageView()
-    var iconTitle = UIButton()
-    var iconPreview = UIImageView()
+    private var colorStackView = UIStackView()
+    private var iconStackView = UIStackView()
+    private var colorTitle = UIButton()
+    private var colorPreview = UIImageView()
+    private var iconTitle = UIButton()
+    private var iconPreview = UIImageView()
     
-    var commitmentTitle = UILabel()
-    var commitmentDate = UIDatePicker()
-    let commitmentStackView = UIStackView()
-    var reminderPickerView = UIPickerView()
-    var recurrencyPickerView = UIPickerView()
+    private var commitmentTitle = UILabel()
+    private var commitmentDate = UIDatePicker()
+    private let commitmentStackView = UIStackView()
+    private var reminderPickerView = UIPickerView()
+    private var recurrencyPickerView = UIPickerView()
     
     // LOGO PROPERTY
-    var selectedIcon = UIImage()
-    var suggestedLogo = UIButton()
-    var logo = UIImageView()
-    var iconCell = IconCell()
+    private var selectedIcon = UIImage()
+    private var suggestedLogo = UIButton()
+    private var logo = UIImageView()
+    private var iconCell = IconCell()
     var viewModel: NewSubViewModel?
-    var storageService = StorageService()
-    let iconPickerVC = IconPickerViewController()
-    var notifAuthorizer = UIStackView()
-    var notifTitle = UILabel()
-    var switchNotif = UISwitch()
-    var notifSettingsStackView = UIStackView()
+    private var storageService = StorageService()
+    private let iconPickerVC = IconPickerViewController()
+    private var notifAuthorizer = UIStackView()
+    private var notifTitle = UILabel()
+    private var switchNotif = UISwitch()
+    private var notifSettingsStackView = UIStackView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
     }
     
-    func requestNotificationPermissionIfNeeded() {
-        NotificationService.shouldRequestNotificationAuthorization { shouldRequestAuthorization in
-            guard shouldRequestAuthorization else {
-                print("Authorization already determined")
-                return
-            }
-            DispatchQueue.main.async {
-                self.presentNotificationPermissionAlert()
-            }
-        }
-    }
-    
-    func presentNotificationPermissionAlert() {
-        let notificationPermissionAlert = UIAlertController(
-            title: "Autoriser les notifications",
-            message: "Si vous souhaitez recevoir une notification selon le rappel renseigné, merci d'autoriser les notifications.",
-            preferredStyle: .alert)
-        let dismiss = UIAlertAction(title: "Plus Tard", style: .cancel)  
-        let accept = UIAlertAction(title: "Ok", style: .default) { _ in
-            NotificationService.requestNotificationAuthorization()
-        }
-        notificationPermissionAlert.addAction(dismiss)
-        notificationPermissionAlert.addAction(accept)
-        present(notificationPermissionAlert, animated: true)
-    }
-    
     //objc methods
-    
     @objc
     func addButtonAction() {
         // For a valid sub, user have to fill at least a name and a price 
@@ -111,7 +84,6 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         }
         if switchNotif.isOn {
             requestNotificationPermissionIfNeeded()
-//            NotificationService.requestNotificationAuthorization()
         }
         viewModel?.saveSub()
         viewModel?.goBack()
@@ -137,12 +109,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     func priceFieldTextDidChange(textField: UITextField) {
         viewModel?.price = Float(textField.text?.replacingOccurrences(of: ",", with: ".") ?? "")
     }
-    
-    @objc
-    func textFieldDidChange(textField: UITextField) {
-        //delegate.textFieldDidCha
-    }
-    
+
     @objc
     func dateDidChange() {
         viewModel?.date = commitmentDate.date
@@ -155,7 +122,6 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         alert.setValue(iconPickerVC, forKey: "contentViewController")
         alert.addAction(UIAlertAction(title: Strings.genericCancel, style: .cancel, handler: { _ in
         }))
-        
         //replace selectedRow protocol method since action happen here
         alert.addAction(UIAlertAction(title: "Sélectionner", style: .default, handler: { [self] _ in
             //Convert view model icon from data to uiimage, then displaying it
@@ -164,7 +130,6 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
             iconPreview.tintColor = .black
         }))
         self.present(alert, animated: true, completion: nil)
-                                      
         }
     
     @objc
@@ -193,6 +158,33 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     }
     
     //PRIVATES METHODS
+    
+    private func requestNotificationPermissionIfNeeded() {
+        NotificationService.shouldRequestNotificationAuthorization { shouldRequestAuthorization in
+            guard shouldRequestAuthorization else {
+                print("Authorization already determined")
+                return
+            }
+            DispatchQueue.main.async {
+                self.presentNotificationPermissionAlert()
+            }
+        }
+    }
+    
+    private func presentNotificationPermissionAlert() {
+        let notificationPermissionAlert = UIAlertController(
+            title: "Autoriser les notifications",
+            message: "Si vous souhaitez recevoir une notification selon le rappel renseigné, merci d'autoriser les notifications.",
+            preferredStyle: .alert)
+        let dismiss = UIAlertAction(title: "Plus Tard", style: .cancel)
+        let accept = UIAlertAction(title: "Ok", style: .default) { _ in
+            NotificationService.requestNotificationAuthorization()
+        }
+        notificationPermissionAlert.addAction(dismiss)
+        notificationPermissionAlert.addAction(accept)
+        present(notificationPermissionAlert, animated: true)
+    }
+    
     private func showPicker(_ picker: UIPickerView, _ input: InputFormTextField) {
         let pickerVC = UIViewController()
         pickerVC.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
@@ -208,12 +200,10 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         } else {
             alert = UIAlertController(title: "Sélectionner un cycle", message: "Indiquez à quels intervalles vous payez", preferredStyle: .actionSheet)
         }
-        
         alert.popoverPresentationController?.sourceView = input
         alert.popoverPresentationController?.sourceRect = input.bounds
         alert.setValue(pickerVC, forKey: "contentViewController")
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        
         // replace selectedRow protocol method since action happen here
         alert.addAction(UIAlertAction(title: "Select", style: .default, handler: { [self] _ in
             self.selectedRow = picker.selectedRow(inComponent: 0)
@@ -232,12 +222,6 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         }))
         self.present(alert, animated: true, completion: nil)
     }
-    
-//    private func refreshWith(subscriptions: [Subscription]) {
-//        // myCollectionView.reloadData()
-//        print("refresh with is read")
-//    }
-    
 }
 
 // MARK: - COLOR PICKER SETTINGS

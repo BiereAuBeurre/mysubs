@@ -37,6 +37,13 @@
             BlueprintName = "mysubs"
             ReferencedContainer = "container:mysubs.xcodeproj">
          </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "EF96B998274FE1C900961F9C"
+            BuildableName = "mysubsTests.xctest"
+            BlueprintName = "mysubsTests"
+            ReferencedContainer = "container:mysubs.xcodeproj">
+         </BuildableReference>
       </CodeCoverageTargets>
       <Testables>
          <TestableReference

@@ -23,7 +23,7 @@ class StorageService: StorageServiceProtocol {
     init(persistentContainer: NSPersistentContainer = StorageService.persistentContainer) {
         self.viewContext = persistentContainer.viewContext
     }
-
+    
     func loadsubs() throws -> [Subscription] {
         var subscriptions = [Subscription]()
         do {
@@ -43,7 +43,6 @@ class StorageService: StorageServiceProtocol {
     }
     
     func delete(_ object: NSManagedObject) throws {
-        //on lui passe un nsmanaged object au lieu du sub, faire juste viewcontext.delete
         do {
             viewContext.delete(object)
             try viewContext.save()
