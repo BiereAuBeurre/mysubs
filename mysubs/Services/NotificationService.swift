@@ -11,7 +11,6 @@ import UserNotifications
 final class NotificationService {
     
     let userNotificationCenter = UNUserNotificationCenter.current()
-//    self.userNotificationCenter.delegate = self
 
     func cancelnotif(for notificationId: String) {
         userNotificationCenter.removePendingNotificationRequests(withIdentifiers: [notificationId])
@@ -46,7 +45,8 @@ final class NotificationService {
         completionHandler([.banner, .badge, .sound])
     }
     
-    func generateNotificationFor(_ name: String, _ reminderValue: Int, _ price: Float, _ date: Date, id: String) {
+    func generateNotificationFor(_ name: String, _ reminderValue: Int, _ price: Float, _ date: Date, id: String, reminderType: Calendar.Component) {
+
 //        userNotificationCenter.delegate = self
 //        #if DEBUG
 //        let notificationInterval: Double = 5
@@ -54,6 +54,7 @@ final class NotificationService {
 //        var dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
 
 //        #else
+        //Assigning the notif to 9AM
 //        let notificationInterval: Double = 5
 //        let date = date.addingTimeInterval(notificationInterval)
 //        var dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
@@ -67,6 +68,9 @@ final class NotificationService {
         let date = date.addingTimeInterval(notificationInterval)
 
         let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+        
+        
+        
         //HORS DEBUG
         //        dateComponents.hour = 9
         //        dateComponents.minute = 0
@@ -74,12 +78,10 @@ final class NotificationService {
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
         let notificationContent = UNMutableNotificationContent()
         notificationContent.title = "Abonnement \(name)"
-        notificationContent.body = "\(reminderValue) days before payement of \(price) €"
+        notificationContent.body = "\(reminderValue) \(reminderType.stringValue) avant paiement de \(price) €"
         notificationContent.sound = UNNotificationSound.default
-//        notificationContent.userInfo = ["id": "25"]
         notificationContent.categoryIdentifier = "identifier"
         print("trigger date is", trigger.dateComponents)
-        //changer pour un identifiant unique
         let request = UNNotificationRequest(identifier: id, content: notificationContent, trigger: trigger)
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {

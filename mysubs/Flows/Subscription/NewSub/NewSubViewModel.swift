@@ -20,7 +20,7 @@ class NewSubViewModel: NSObject {
     var reminderValue: Int?
     var recurrencyValue: Int?
     var recurrencyType: Calendar.Component = .hour
-    var reminderType: Calendar.Component = .hour
+    var reminderType: Calendar.Component? //= .hour
     var price: Float?
     var color: String?
     var name: String?
@@ -31,10 +31,6 @@ class NewSubViewModel: NSObject {
         self.storageService = storageService
     }
     
-//    func goBack() {
-//        coordinator.goBack()
-//    }
-    
     func saveSub() {
         let newSub = Subscription(context: storageService.viewContext)
         //Minimum values to save a sub
@@ -43,24 +39,22 @@ class NewSubViewModel: NSObject {
         
         newSub.icon = icon
         newSub.color = color
-        //RAJOUTER COLOR + ICON
         let id = newSub.objectID.uriRepresentation().absoluteString
 
         //But if the date has value (mean notif has been switchOn) then both next values has to be saved, then generating a notif with it
         if date != nil {
             newSub.commitment = date
-            if let reminderValue = reminderValue, let recurrencyValue = recurrencyValue, let price = price, let date = date, let name = name {
+            if let reminderValue = reminderValue, let reminderType = reminderType, let recurrencyValue = recurrencyValue, let price = price, let date = date, let name = name {
                 newSub.reminder = "\(reminderValue) \(reminderType.stringValue)"
                 newSub.paymentRecurrency = "\(recurrencyValue) \(recurrencyType.stringValue)"
                 self.notificationDate = date.adding(reminderType, value: -(reminderValue))
                 self.notificationDate = self.notificationDate?.adding(recurrencyType, value: recurrencyValue)
                 print("self.notification date in newsubVM is : \(self.notificationDate!)")
-                notificationService.generateNotificationFor(name, reminderValue, price, self.notificationDate ?? Date.now, id: id)
+                notificationService.generateNotificationFor(name, reminderValue, price, self.notificationDate ?? Date.now, id: id, reminderType: reminderType)
             }
         }
         storageService.save()
         coordinator.goBack()
-
-//        goBack()
     }
+    
 }

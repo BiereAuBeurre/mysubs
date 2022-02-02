@@ -15,13 +15,15 @@ class HomeViewModelTests: XCTestCase {
     var mockCoordinator: MockCoordinator!
     
     var loadedSubscriptions: [Subscription] = []
-    
-    private let sub1 = Subscription()
+    var sub1: Subscription!
     
     override func setUpWithError() throws {
         mockStorageService = MockStorageService()
         mockCoordinator = MockCoordinator()
         viewModel = HomeViewModel(coordinator: mockCoordinator, storageService: mockStorageService)
+        
+        sub1 = Subscription(context: mockStorageService.viewContext)
+
     }
 
     override func tearDownWithError() throws {
@@ -29,7 +31,29 @@ class HomeViewModelTests: XCTestCase {
         mockCoordinator = nil
 //        viewModel = nil
     }
+    
+    
+    func testComputeTotalWithValue() {
+        sub1.price = 22
+        viewModel.subscriptions = [sub1]
+        viewModel.computeTotal()
+        XCTAssertEqual(viewModel.totalAmount, "22.0 €")
+    }
+    
+    func testComputeTotalWithoutValue() {
+        viewModel.subscriptions = []
+        viewModel.computeTotal()
+        XCTAssertEqual(viewModel.totalAmount, "")
+    }
+    
+    
+    func testFetchSub() throws {
+        XCTAssertFalse(mockStorageService.loadsubsIsCalled)
 
+        viewModel.fetchSubscription()
+        XCTAssertTrue(mockStorageService.loadsubsIsCalled)
+    }
+    
     func testShowNewSub() throws {
         XCTAssertFalse(mockCoordinator.showNewSubScreenForIsCalled)
         viewModel.showNewSub()

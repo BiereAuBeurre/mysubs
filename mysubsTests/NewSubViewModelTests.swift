@@ -36,6 +36,7 @@ class NewSubViewModelTests: XCTestCase {
         viewModel.recurrencyValue = 1
         viewModel.name = "couocu"
         viewModel.price = 20
+        viewModel.reminderType = Calendar.Component.nanosecond
         //faire
         XCTAssertFalse(mockCoordinator.goBackIsCalled)
         viewModel.saveSub()

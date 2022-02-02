@@ -33,7 +33,8 @@ class SubCell: UICollectionViewCell {
     //Setting values in cells with the object value
     func refreshSubData() {
         subNameLabel.text = subscription?.name
-        priceLabel.text = "\(subscription?.price ?? 0) €"
+        
+        priceLabel.text = "\(subscription?.price.editMaxDigitTo(2).replacingOccurrences(of: ",", with: ".") ?? "0") €"
         if let color = subscription?.color {
             contentView.backgroundColor = UIColor(hex: color)
         } else {

@@ -33,7 +33,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     // MARK: -Properties
     var viewState: State<[Subscription]> = .showData {
         didSet {
-            // resetState()
+//             resetState()
             switch viewState {
             case .loading:
                 activityIndicator.startAnimating()
@@ -76,30 +76,28 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     //MARK: -OBJ C METHODS
     @objc func plusButtonAction() {
         viewModel?.showNewSub()
-//        print("passage dans methode plusButtonAction (homeVC)")
     }
     
     
-    @objc func deleteAll() {
-        if let subscriptions = viewModel?.subscriptions {
-            for sub in subscriptions {
-                do {
-                    try viewModel?.storageService.delete(sub)
-                    viewModel?.fetchSubscription()
-                    amountLabel.text = "- €"
-                    viewState = .empty
-                } catch { print(error) }
-            }
-        }
-    }
+//    @objc func deleteAll() {
+//        if let subscriptions = viewModel?.subscriptions {
+//            for sub in subscriptions {
+//                do {
+//                    try viewModel?.storageService.delete(sub)
+//                    viewModel?.fetchSubscription()
+//                    amountLabel.text = "- €"
+//                    viewState = .empty
+//                } catch { print(error) }
+//            }
+//        }
+//    }
     
-    @objc func handleSwipes(_ sender: UISwipeGestureRecognizer) {
-        if sender.direction == .left {
-            print("swipe left")
-        }
-    }
-
-    
+//    @objc func handleSwipes(_ sender: UISwipeGestureRecognizer) {
+//        if sender.direction == .left {
+//            print("swipe left")
+//        }
+//    }
+//
     //MARK: -PRIVATE METHODS
     private func displayEmptyView() {
         let emptyView = UITextView.init(frame: view.frame)
@@ -111,19 +109,16 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         subListStackView.addArrangedSubview(emptyView)
         amountLabel.text = " - €"
     }
-    
-    private func setUpViewState() {}
-    
+        
     private func cellTapped(sub: Subscription) {
         viewModel?.showDetail(sub: sub)
-        print("passage dans methode show details")
     }
     
-    private func resetState() {
-        activityIndicator.stopAnimating()
-        viewState = .loading
-        subCollectionView.isHidden = false
-    }
+//    private func resetState() {
+//        activityIndicator.stopAnimating()
+//        viewState = .showData
+//        subCollectionView.isHidden = false
+//    }
     
     private func deleteSub(sub: Subscription) {
         do {
@@ -176,21 +171,10 @@ extension HomeViewController {
         amountLabel.text = viewModel?.totalAmount
     }
     
-//     func refreshWith2(categorys: [SubCategory]) {
-//         viewState = .showData
-//    }
-    
-    func didFinishLoadingSubscriptions2() {
-//        if viewModel?.subscriptions.isEmpty == true {
-//            viewState = .empty
-//        } else {
-//            viewState = .showData
-//        }
-    }
-    
 }
 //MARK: -UI SET UP
 extension HomeViewController {
+    
     func setUpUI() {
         setUpNavBar()
         view.backgroundColor = MSColors.background
@@ -292,61 +276,6 @@ extension HomeViewController {
     }
 }
 
-
-
-
-//    @objc func addNewCategory() {
-//        // Displaying the alert window
-//        let alert = UIAlertController(title: "Nouvelle categorie", message: "Ajoutez votre nouvelle categorie", preferredStyle: .alert)
-//        let saveAction = UIAlertAction(title: "Ajouter", style: .default) { [unowned self] action in
-//            guard let textField = alert.textFields?.first,
-//                  let categoryToSave = textField.text else { return }
-//            // Saving the new category into the viewModel
-//            viewModel?.addNewCategory(categoryToSave)
-//            print("voici la cateory name ajoutée :\(categoryToSave)")
-//            viewModel?.fetchCategories()
-//            categoryCollectionView.reloadData()
-//        }
-//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-//        alert.addTextField()
-//        alert.addAction(saveAction)
-//        alert.addAction(cancelAction)
-//        present(alert, animated: true)
-//    }
-
-//    func configureCategoriesStackView() {
-//        categoriesStackView.translatesAutoresizingMaskIntoConstraints = false
-//        categoriesStackView.backgroundColor = MSColors.background
-//        categoriesStackView.spacing = 5.5
-//        view.addSubview(categoriesStackView)
-//        configureAddCategoryButton()
-//        configureCategoriesCollectionView()
-//    }
-    
-//    func configureAddCategoryButton() {
-//        addCategoryButton.translatesAutoresizingMaskIntoConstraints = false
-//        addCategoryButton.setImage(UIImage(systemName: "plus.circle.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 38, weight: .light, scale: .small)), for: .normal)
-//        addCategoryButton.tintColor = MSColors.maintext
-//        addCategoryButton.addTarget(self, action: #selector(addNewCategory), for: .touchUpInside)
-//        categoriesStackView.addArrangedSubview(addCategoryButton)
-//    }
-    
-//    func configureCategoriesCollectionView() {
-//        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-//        layout.itemSize = CGSize(width: view.frame.size.width/5, height: view.frame.size.width/13.5)
-//        layout.scrollDirection = .horizontal
-//        categoryCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-//        categoryCollectionView.backgroundColor = MSColors.background
-//
-//        categoryCollectionView.register(CategoriesCell.self, forCellWithReuseIdentifier: CategoriesCell.identifier)
-//        categoryCollectionView.dataSource = self
-//        categoryCollectionView.delegate = self
-//        categoryCollectionView.translatesAutoresizingMaskIntoConstraints = false
-//        categoryCollectionView.isScrollEnabled = true
-//        categoryCollectionView.isUserInteractionEnabled = true
-//        categoryCollectionView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height/6.5)
-//        categoriesStackView.addArrangedSubview(categoryCollectionView)
-//    }
 //MARK: -Setting up notification authorization
 extension HomeViewController: UNUserNotificationCenterDelegate {
 

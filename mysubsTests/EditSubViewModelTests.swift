@@ -46,6 +46,7 @@ class EditSubViewModelTests: XCTestCase {
         viewModel.reminderValue = 8
         viewModel.recurrencyValue = 9
         viewModel.price = 9
+        viewModel.reminderType = Calendar.Component.nanosecond
         viewModel.name = "test"
         sub.commitment = Date.now
         viewModel.saveEditedSub()
@@ -53,4 +54,9 @@ class EditSubViewModelTests: XCTestCase {
         XCTAssertTrue(mockStorageService.saveIsCalled)
         }
 
+    func testDeleteSubscription() {
+        XCTAssertFalse(mockStorageService.deleteIsCalled)
+        viewModel.delete()
+        XCTAssertTrue(mockStorageService.deleteIsCalled)
+    }
 }

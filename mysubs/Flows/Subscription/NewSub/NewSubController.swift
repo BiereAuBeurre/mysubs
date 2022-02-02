@@ -119,7 +119,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
 
     @objc
     func priceFieldTextDidChange(textField: UITextField) {
-        viewModel?.price = Float(textField.text ?? "")
+        viewModel?.price = Float(textField.text?.replacingOccurrences(of: ",", with: ".") ?? "")
     }
     
     @objc
@@ -218,10 +218,10 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         self.present(alert, animated: true, completion: nil)
     }
     
-    private func refreshWith(subscriptions: [Subscription]) {
-        // myCollectionView.reloadData()
-        print("refresh with is read")
-    }
+//    private func refreshWith(subscriptions: [Subscription]) {
+//        // myCollectionView.reloadData()
+//        print("refresh with is read")
+//    }
     
     
     
@@ -292,12 +292,16 @@ extension NewSubController {
         name.text = ""
         // configurer la inpute view pour le name
         name.textFieldInputView = UIView()
+        name.textField.addDoneToolBar()
         name.textField.addTarget(self, action: #selector(nameFieldTextDidChange), for: .editingChanged)
         name.configureView()
         formView.addArrangedSubview(name)
 
         //MARK: price
         price.fieldTitle = "Prix"
+        price.textField.keyboardType = .decimalPad
+        price.textField.addDoneToolBar()
+
         price.textField.addTarget(self, action: #selector(priceFieldTextDidChange), for: .editingChanged)
         price.configureView()
         formView.addArrangedSubview(price)

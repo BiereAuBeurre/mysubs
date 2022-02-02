@@ -62,23 +62,3 @@ class HomeViewModel: NSObject {
     }
 
 }
-
-//    var categorys: [SubCategory] = [] {
-//        didSet {
-//            viewDelegate?.refreshWith2(categorys: categorys)
-//        }
-//    }
-
-//    func fetchCategories() {
-//        do {
-//        categorys = try storageService.loadCategory()
-//        } catch {
-//            print(error)
-//        }
-//    }
-
-//func addNewCategory(_ categoryToSave: String) {
-//    let newCategory = SubCategory(context: storageService.viewContext)
-//    newCategory.name = categoryToSave
-//    storageService.save()
-//}

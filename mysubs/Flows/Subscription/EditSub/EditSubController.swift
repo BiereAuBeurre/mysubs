@@ -59,12 +59,6 @@ class EditSubController: UIViewController {
         setUpUI()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-//        self.viewModel?.subscription = sub
-//        self.viewModel?.categorys = categorys
-    }
-    
     //MARK: -OJBC METHODS
     
     @objc
@@ -91,8 +85,6 @@ class EditSubController: UIViewController {
                     self.reminder.isHidden = true
                 }))
                 self.present(alertVC, animated: true, completion: nil)
-                
-                // showAlert("Champs manquant pour parametrer la date du prochain paiement", "merci d'accompagner la date d'un rappel et d'un cycle de paiement")
                 return
             }
         }
@@ -114,7 +106,6 @@ class EditSubController: UIViewController {
             //Convert icon selected from uiimage to data, then displaying it and assigning to viewmodel.icon
             if let icon = iconPickerVC.icon.pngData() {
                 iconPreview.image = UIImage(data: icon)
-//                iconButton.setImage(UIImage(data: icon), for: .normal)
                 viewModel?.icon = icon
             }
         }))
@@ -130,7 +121,6 @@ class EditSubController: UIViewController {
         colorPicker.title = "Couleurs"
         self.present(colorPicker, animated: true) {
             self.colorPreview.backgroundColor = colorPicker.selectedColor
-//            self.colorChoosen.textField.backgroundColor =
         }
     }
     
@@ -141,28 +131,14 @@ class EditSubController: UIViewController {
     
     @objc
     func priceFieldTextDidChange(textField: UITextField) {
-        viewModel?.price = Float(textField.text ?? "") ?? 0
+        viewModel?.price = Float(textField.text?.replacingOccurrences(of: ",", with: ".") ?? "")
+//        viewModel?.price = Float(textField.text ?? "") ?? 0
     }
     
 //    @objc
-//    func reminderFieldDidChange() {
-//        self.selectedRow = reminderPickerView.selectedRow(inComponent: 0)
-//        let valueNumber = self.componentNumber[reminderPickerView.selectedRow(inComponent: 0)]
-//        let valueType = self.componentDayMonthYear[reminderPickerView.selectedRow(inComponent: 1)]
-//        let string2 = "avant"
-//        viewModel?.reminder = "\(valueNumber) \(valueType) \(string2)"
-//
-////        viewModel?.subscription.reminder = "\(valueNumber) \(valueType) \(string2)"
-//        viewModel?.reminderValue = valueNumber
-//        viewModel?.reminderType2 = valueType
-//
-////        viewModel?.subscription.reminder = reminderPickerView
+//    func textFieldDidChange(textField: UITextField) {
+//        //delegate.textFieldDidCha
 //    }
-    
-    @objc
-    func textFieldDidChange(textField: UITextField) {
-        //delegate.textFieldDidCha
-    }
     
     @objc
     func dateDidChange() {
@@ -210,10 +186,10 @@ class EditSubController: UIViewController {
         present(alert, animated: true)
     }
     
-    func refreshWith(subscription: Subscription) {
-//        viewModel?.subscription = Subs
-//        nameField.text = sub.name
-    }
+//    func refreshWith(subscription: Subscription) {
+////        viewModel?.subscription = Subs
+////        nameField.text = sub.name
+//    }
     
     private func showPicker(_ picker : UIPickerView, _ input: InputFormTextField) {
         let vc = UIViewController()
@@ -380,6 +356,7 @@ extension EditSubController {
         
         name.text = viewModel?.name
         price.text = "\(viewModel?.price ?? 0)"
+
         reminder.text = "\(viewModel?.reminder ?? "") avant"
         recurrency.text = "Tous les \(viewModel?.recurrency ?? "")"
 
@@ -393,12 +370,15 @@ extension EditSubController {
         name.text = viewModel?.name
         // configurer la inpute view pour le name
         name.textFieldInputView = UIView()
+        name.textField.addDoneToolBar()
         name.textField.addTarget(self, action: #selector(nameFieldTextDidChange), for: .editingChanged)
         name.configureView()
         formView.addArrangedSubview(name)
 
         // MARK: price
         price.fieldTitle = "Prix"
+        price.textField.keyboardType = .decimalPad
+        price.textField.addDoneToolBar()
         price.textField.addTarget(self, action: #selector(priceFieldTextDidChange), for: .editingChanged)
         price.configureView()
         formView.addArrangedSubview(price)
@@ -527,18 +507,3 @@ extension EditSubController {
             ])
     }
 }
-
-
-
-// Adding category field
-//        leftSideStackView.addArrangedSubview(category)
-//        category.translatesAutoresizingMaskIntoConstraints = false
-//        category.label.text = "Catégorie"
-//        category.label.textColor = MSColors.maintext
-//        category.textField.borderStyle = .roundedRect
-//        category.textField.translatesAutoresizingMaskIntoConstraints = false
-//FIXME: plutôt utiliser addtarget comme commenté ? Ne fonctionne pas donc bouton rajouté sur textfield pour le moment
-//        category.textField.addTarget(self, action: #selector(didSelectReminderField), for: .touchUpInside)
-//FIXME: display the associated cateogry of the selected subscription (currently displaying the first one of the array)
-//        category.textField.text = categorys.first?.name//""//subInfo.category // changer pour liste préconçue
-//        category.textField.placeholder = categorys.first?.name

@@ -25,6 +25,8 @@
 		EF3578C22763A15100DA443F /* NewSubViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3578C12763A15000DA443F /* NewSubViewModel.swift */; };
 		EF3D8D5C275F9FC100D8B6A4 /* EditSubController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3D8D5B275F9FC100D8B6A4 /* EditSubController.swift */; };
 		EF5F1956279B046200D03161 /* IconPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5F1955279B046200D03161 /* IconPickerViewController.swift */; };
+		EF6ADFBC27AA932B000B9B6D /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6ADFBB27AA932B000B9B6D /* File.swift */; };
+		EF6ADFBE27AA9836000B9B6D /* AddDoneToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6ADFBD27AA9836000B9B6D /* AddDoneToolBar.swift */; };
 		EF6B125927903B220083E6F7 /* ToHexString.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6B125827903B220083E6F7 /* ToHexString.swift */; };
 		EF702850277C6AC100A90A54 /* InputFormTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70284F277C6AC100A90A54 /* InputFormTextField.swift */; };
 		EF70E4F027567D270011AB06 /* Pods_mysubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF70E4EF27567D270011AB06 /* Pods_mysubs.framework */; };
@@ -97,6 +99,8 @@
 		EF3578C12763A15000DA443F /* NewSubViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSubViewModel.swift; sourceTree = "<group>"; };
 		EF3D8D5B275F9FC100D8B6A4 /* EditSubController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSubController.swift; sourceTree = "<group>"; };
 		EF5F1955279B046200D03161 /* IconPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPickerViewController.swift; sourceTree = "<group>"; };
+		EF6ADFBB27AA932B000B9B6D /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		EF6ADFBD27AA9836000B9B6D /* AddDoneToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDoneToolBar.swift; sourceTree = "<group>"; };
 		EF6B125827903B220083E6F7 /* ToHexString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToHexString.swift; sourceTree = "<group>"; };
 		EF70284F277C6AC100A90A54 /* InputFormTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputFormTextField.swift; sourceTree = "<group>"; };
 		EF70E4EF27567D270011AB06 /* Pods_mysubs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_mysubs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -197,6 +201,7 @@
 		EF125B0F2757887700E6FD6B /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				EF6ADFBA27AA931F000B9B6D /* Float */,
 				EF915C1227918AC700266DF3 /* Date */,
 				EF6B125727903B080083E6F7 /* UIColor */,
 				EF125B132757961900E6FD6B /* UIViewcontroller */,
@@ -318,6 +323,14 @@
 			path = EditSub;
 			sourceTree = "<group>";
 		};
+		EF6ADFBA27AA931F000B9B6D /* Float */ = {
+			isa = PBXGroup;
+			children = (
+				EF6ADFBB27AA932B000B9B6D /* File.swift */,
+			);
+			path = Float;
+			sourceTree = "<group>";
+		};
 		EF6B125727903B080083E6F7 /* UIColor */ = {
 			isa = PBXGroup;
 			children = (
@@ -424,6 +437,7 @@
 			isa = PBXGroup;
 			children = (
 				EFA682B527A2D0290095E1F3 /* SetIcon.swift */,
+				EF6ADFBD27AA9836000B9B6D /* AddDoneToolBar.swift */,
 			);
 			path = UITextField;
 			sourceTree = "<group>";
@@ -635,6 +649,7 @@
 				EFFA24E227566E570068DFE3 /* LogoFinderService.swift in Sources */,
 				EF125B192757C11000E6FD6B /* AddCornerRadius.swift in Sources */,
 				EF5F1956279B046200D03161 /* IconPickerViewController.swift in Sources */,
+				EF6ADFBC27AA932B000B9B6D /* File.swift in Sources */,
 				EF9072EF275E3951006CF678 /* AppCoordinator.swift in Sources */,
 				EFA682B627A2D0290095E1F3 /* SetIcon.swift in Sources */,
 				EF817B5327A18C9F00C7AC96 /* NotificationService.swift in Sources */,
@@ -645,6 +660,7 @@
 				EF125B0A275780E000E6FD6B /* StorageService.swift in Sources */,
 				EF125B0827577FA900E6FD6B /* APIConfiguration.swift in Sources */,
 				EFCB8EBA2779FC8A009BC47D /* CategoriesCell.swift in Sources */,
+				EF6ADFBE27AA9836000B9B6D /* AddDoneToolBar.swift in Sources */,
 				EF70E4F32756868A0011AB06 /* BrandInfo.swift in Sources */,
 				EF3578C22763A15100DA443F /* NewSubViewModel.swift in Sources */,
 				EF9072ED275E37EE006CF678 /* Coordinator.swift in Sources */,
