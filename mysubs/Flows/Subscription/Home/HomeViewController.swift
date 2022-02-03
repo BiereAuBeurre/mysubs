@@ -60,7 +60,7 @@ final class HomeViewController: UIViewController, UINavigationBarDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel?.fetchSubscription()
-        setUpUI()
+//        setUpUI()
         setUpTotalAmountView()
         viewModel?.computeTotal()
     }

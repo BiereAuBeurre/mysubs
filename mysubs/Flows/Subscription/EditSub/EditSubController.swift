@@ -194,12 +194,12 @@ final class EditSubController: UIViewController {
             let valueType = self.componentDayMonthYear[picker.selectedRow(inComponent: 1)]
 
             if input == recurrency {
-                input.textField.text = "\(valueNumber) \(valueType.stringValue)"
+                input.textField.text = "Tous les \(valueNumber) \(valueType.stringValue)"
                 viewModel?.recurrencyValue = valueNumber
                 viewModel?.recurrencyType = valueType
                 viewModel?.recurrency = "\(valueNumber) \(valueType.stringValue)"
             } else {
-                input.textField.text = "\(valueNumber) \(valueType.stringValue)"
+                input.textField.text = "\(valueNumber) \(valueType.stringValue) avant"
                 viewModel?.reminderValue = valueNumber
                 viewModel?.reminderType = valueType
                 viewModel?.reminder = "\(valueNumber) \(valueType.stringValue)"
@@ -422,6 +422,12 @@ extension EditSubController {
         commitmentStackView.addArrangedSubview(commitmentTitle)
         commitmentStackView.addArrangedSubview(commitmentDate)
         notifSettingsStackView.addArrangedSubview(commitmentStackView)
+        //recurrency
+        recurrency.fieldTitle = "Cycle"
+        recurrency.shouldBehaveAsButton = true
+        recurrency.addTarget(self, action: #selector(changeReccurency), for: .touchUpInside)
+        recurrency.configureView()
+        notifSettingsStackView.addArrangedSubview(recurrency)
         //reminder
         reminder.fieldTitle = "Rappel"
         reminder.textField.allowsEditingTextAttributes = false
@@ -429,11 +435,6 @@ extension EditSubController {
         reminder.addTarget(self, action: #selector(changeReminder), for: .touchUpInside)
         reminder.configureView()
         notifSettingsStackView.addArrangedSubview(reminder)
-        recurrency.fieldTitle = "Cycle"
-        recurrency.shouldBehaveAsButton = true
-        recurrency.addTarget(self, action: #selector(changeReccurency), for: .touchUpInside)
-        recurrency.configureView()
-        notifSettingsStackView.addArrangedSubview(recurrency)
         // FORMVIEW
         formView.translatesAutoresizingMaskIntoConstraints = false
         formView.axis = .vertical

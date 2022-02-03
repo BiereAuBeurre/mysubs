@@ -366,6 +366,12 @@ extension NewSubController {
         commitmentStackView.alignment = .leading
         commitmentStackView.distribution = .fillEqually
         notifSettingsStackView.addArrangedSubview(commitmentStackView)
+        //recurrency field
+        recurrency.fieldTitle = "Cycle"
+        recurrency.shouldBehaveAsButton = true
+        recurrency.addTarget(self, action: #selector(changeReccurency), for: .touchUpInside)
+        recurrency.configureView()
+        notifSettingsStackView.addArrangedSubview(recurrency)
         //reminder
         reminder.fieldTitle = "Rappel"
         reminder.textField.allowsEditingTextAttributes = false
@@ -373,13 +379,6 @@ extension NewSubController {
         reminder.addTarget(self, action: #selector(changeReminder), for: .touchUpInside)
         reminder.configureView()
         notifSettingsStackView.addArrangedSubview(reminder)
-        //recurrency field
-        recurrency.fieldTitle = "Cycle"
-        recurrency.shouldBehaveAsButton = true
-        recurrency.addTarget(self, action: #selector(changeReccurency), for: .touchUpInside)
-        recurrency.configureView()
-        notifSettingsStackView.addArrangedSubview(recurrency)
-        
         // MARK: FORMVIEW
         formView.translatesAutoresizingMaskIntoConstraints = false
         formView.axis = .vertical
