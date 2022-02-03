@@ -17,6 +17,14 @@ final class EditSubViewModel: NSObject {
         date != subscription.commitment
     }
     
+    private var isReminderChanged: Bool {
+        reminder != subscription.reminder
+    }
+    
+    private var isRecurrencyChanged: Bool {
+        recurrency != subscription.paymentRecurrency
+    }
+    
     // Public properties
     weak var viewDelegate: EditSubController?
     var notificationDate: Date?
@@ -30,7 +38,7 @@ final class EditSubViewModel: NSObject {
     var reminderValue: Int?
     var reminderType: Calendar.Component?
     var recurrencyValue: Int?
-    var recurrencyType: Calendar.Component = .hour
+    var recurrencyType: Calendar.Component?
     
     init(coordinator: AppCoordinatorProtocol, storageService: StorageServiceProtocol, subscription: Subscription) {
         self.coordinator = coordinator
@@ -73,13 +81,13 @@ final class EditSubViewModel: NSObject {
         
         //But if the date has value changed (mean notif has been recalculated) then both next values has to be saved, then generating a notif with it
         let id = subscription.objectID.uriRepresentation().absoluteString
-        if isDateChanged {
+        if isDateChanged || isReminderChanged || isRecurrencyChanged {
             if date == nil {
                 notificationService.cancelnotif(for: id)
             } else {
                 //If date is changed, all other parameters are reset in dateDidChange in VC
                 subscription.commitment = date
-                if let reminderValue = reminderValue, let recurrencyValue = recurrencyValue, let reminderType = reminderType, let price = price, let date = date, let name = name {
+                if let reminderValue = reminderValue, let recurrencyValue = recurrencyValue, let reminderType = reminderType, let recurrencyType = recurrencyType, let price = price, let date = date, let name = name {
                     subscription.reminder = "\(reminderValue) \(reminderType.stringValue)"
                     subscription.paymentRecurrency = "\(recurrencyValue) \(recurrencyType.stringValue)"
                     self.notificationDate = date.adding(reminderType, value: -(reminderValue))
