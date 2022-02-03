@@ -75,9 +75,9 @@ final class EditSubController: UIViewController {
                 alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 alertVC.addAction(UIAlertAction(title: "Ne pas mettre de rappel", style: .cancel, handler: { _ in
                     self.switchNotif.isOn = false
-                    self.commitmentStackView.isHidden = true
-                    self.recurrency.isHidden = true
-                    self.reminder.isHidden = true
+                    self.viewModel?.goBack()
+                    self.viewModel?.saveEditedSub()
+
                 }))
                 self.present(alertVC, animated: true, completion: nil)
                 return
@@ -142,20 +142,6 @@ final class EditSubController: UIViewController {
     @objc func changeReccurency() {
         print(#function)
         showPicker(recurrencyPickerView, recurrency)
-    }
-    
-    @objc
-    func displayNotifSettings() {
-        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
-            self.commitmentStackView.isHidden.toggle()
-            self.recurrency.isHidden.toggle()
-            self.reminder.isHidden.toggle()
-        }, completion: nil)
-        if switchNotif.isOn {
-        viewModel?.date = commitmentDate.date
-        } else {
-            viewModel?.date = nil
-        }
     }
     
     //Private METHODS
@@ -303,24 +289,15 @@ extension EditSubController {
     }
     
     private func setUpData() {
+        if let date = viewModel?.date {
+            commitmentDate.date = date
+        }
+
         if let icon = viewModel?.icon {
             iconPreview.image = UIImage(data: icon)
         }
         if let color = viewModel?.color {
             self.colorPreview.backgroundColor = UIColor(hex: color)
-        }
-        // If user already set up date and else, this part has to be shown, else, it'll be hide with possibility to show it
-        if let date = viewModel?.date {
-            commitmentDate.date = date
-            switchNotif.isOn = true
-            commitmentStackView.isHidden = false
-            recurrency.isHidden = false
-            reminder.isHidden = false
-        } else {
-            switchNotif.isOn = false
-            commitmentStackView.isHidden = true
-            recurrency.isHidden = true
-            reminder.isHidden = true
         }
         if let reminder = viewModel?.reminder {
             self.reminder.text = "\(reminder) avant"
@@ -384,27 +361,6 @@ extension EditSubController {
         colorAndIconStackView.distribution = .fillEqually
         colorAndIconStackView.spacing = 34
         formView.addArrangedSubview(colorAndIconStackView)
-        //notif settings
-        notifTitle.text = "Activer un rappel avant paiement"
-        notifAuthorizer.addArrangedSubview(notifTitle)
-        switchNotif.addTarget(self, action: #selector(displayNotifSettings), for: .touchUpInside)
-        notifAuthorizer.addArrangedSubview(switchNotif)
-        notifAuthorizer.axis = .horizontal
-        notifAuthorizer.distribution = .equalCentering
-        notifSettingsStackView.addArrangedSubview(notifAuthorizer)
-        notifSettingsStackView.axis = .vertical
-        notifSettingsStackView.spacing = 8
-        formView.addArrangedSubview(notifSettingsStackView)
-        //DELETE BUTTON
-        deleteButton.titleLabel?.textAlignment = .center
-        deleteButton.translatesAutoresizingMaskIntoConstraints = false
-        deleteButton.setTitle(" Supprimer", for: .normal)
-        deleteButton.setImage(UIImage(systemName: "trash"), for: .normal)
-        deleteButton.tintColor = .systemRed//MSColors.maintext
-        deleteButton.titleLabel?.font = MSFonts.title2
-        deleteButton.setTitleColor(MSColors.maintext, for: .normal)
-        deleteButton.addTarget(self, action: #selector(deleteSub), for: .touchUpInside)
-        view.addSubview(deleteButton)
         //Adding commitment field
         commitmentStackView.axis = .vertical
         commitmentStackView.alignment = .leading
@@ -435,11 +391,31 @@ extension EditSubController {
         reminder.addTarget(self, action: #selector(changeReminder), for: .touchUpInside)
         reminder.configureView()
         notifSettingsStackView.addArrangedSubview(reminder)
+        //notif settings
+        notifTitle.text = "Activer un rappel avant paiement"
+        notifAuthorizer.addArrangedSubview(notifTitle)
+        notifAuthorizer.axis = .horizontal
+        notifAuthorizer.distribution = .equalCentering
+        notifAuthorizer.addArrangedSubview(switchNotif)
+        notifSettingsStackView.axis = .vertical
+        notifSettingsStackView.spacing = 8
+        notifSettingsStackView.addArrangedSubview(notifAuthorizer)
+        formView.addArrangedSubview(notifSettingsStackView)
         // FORMVIEW
         formView.translatesAutoresizingMaskIntoConstraints = false
         formView.axis = .vertical
         formView.spacing = 8
         view.addSubview(formView)
+        //DELETE BUTTON
+        deleteButton.titleLabel?.textAlignment = .center
+        deleteButton.translatesAutoresizingMaskIntoConstraints = false
+        deleteButton.setTitle(" Supprimer", for: .normal)
+        deleteButton.setImage(UIImage(systemName: "trash"), for: .normal)
+        deleteButton.tintColor = .systemRed//MSColors.maintext
+        deleteButton.titleLabel?.font = MSFonts.title2
+        deleteButton.setTitleColor(MSColors.maintext, for: .normal)
+        deleteButton.addTarget(self, action: #selector(deleteSub), for: .touchUpInside)
+        view.addSubview(deleteButton)
  
         NSLayoutConstraint.activate([
             formView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),

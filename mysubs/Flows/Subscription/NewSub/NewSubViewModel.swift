@@ -35,7 +35,7 @@ final class NewSubViewModel: NSObject {
         //Minimum values to save a sub
         newSub.name = name
         newSub.price = price ?? 0
-        
+        newSub.commitment = date
         newSub.icon = icon
         newSub.color = color
         let id = newSub.objectID.uriRepresentation().absoluteString

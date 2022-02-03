@@ -68,18 +68,19 @@ final class NewSubController: UIViewController, UINavigationBarDelegate {
         }
         // Then if the date is set up, user need to input reminder and recurrency as well (for notifications)
         if viewModel?.date != nil {
+            if switchNotif.isOn {
             if viewModel?.recurrencyType == .hour || viewModel?.reminderType == .hour {
                 let alertVC = UIAlertController(title: "Champs manquant pour paramétrer la date du prochain paiement !", message: "merci d'accompagner la date d'un rappel et d'un cycle de paiement", preferredStyle: .alert)
                 alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 alertVC.addAction(UIAlertAction(title: "Ne pas mettre de rappel", style: .cancel, handler: { _ in
                     self.switchNotif.isOn = false
-                    self.commitmentStackView.isHidden = true
-                    self.recurrency.isHidden = true
-                    self.reminder.isHidden = true
+                    self.viewModel?.saveSub()
+                    self.viewModel?.goBack()
                 }))
                 self.present(alertVC, animated: true, completion: nil)
                 return
             }
+        }
         }
         if switchNotif.isOn {
             requestNotificationPermissionIfNeeded()
@@ -139,20 +140,6 @@ final class NewSubController: UIViewController, UINavigationBarDelegate {
         colorPicker.title = "Couleurs"
         self.present(colorPicker, animated: true) {
             self.colorPreview.backgroundColor = colorPicker.selectedColor
-        }
-    }
-    
-    @objc
-    func displayNotifSettings() {
-        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
-            self.commitmentStackView.isHidden.toggle()
-            self.recurrency.isHidden.toggle()
-            self.reminder.isHidden.toggle()
-        }, completion: nil)
-        if switchNotif.isOn {
-        viewModel?.date = commitmentDate.date
-        } else {
-            viewModel?.date = nil
         }
     }
     
@@ -277,11 +264,6 @@ extension NewSubController {
         separatorLine.backgroundColor = UIColor(named: "yellowgrey")
         view.addSubview(separatorLine)
 
-        //Hide until user touche switch button
-        commitmentStackView.isHidden = true
-        recurrency.isHidden = true
-        reminder.isHidden = true
-        //Adding name field
         name.fieldTitle = "Nom"
         name.text = ""
         name.textFieldInputView = UIView()
@@ -333,18 +315,6 @@ extension NewSubController {
         colorAndIconStackView.distribution = .fillEqually
         colorAndIconStackView.spacing = 34
         formView.addArrangedSubview(colorAndIconStackView)
-        
-        notifTitle.text = "Activer un rappel avant paiement"
-        switchNotif.isOn = false
-        switchNotif.addTarget(self, action: #selector(displayNotifSettings), for: .touchUpInside)
-        notifAuthorizer.addArrangedSubview(notifTitle)
-        notifAuthorizer.addArrangedSubview(switchNotif)
-        notifAuthorizer.axis = .horizontal
-        notifAuthorizer.distribution = .equalCentering
-        notifSettingsStackView.addArrangedSubview(notifAuthorizer)
-        notifSettingsStackView.axis = .vertical
-        notifSettingsStackView.spacing = 8
-        formView.addArrangedSubview(notifSettingsStackView)
         //Adding commitment field
         commitmentTitle.translatesAutoresizingMaskIntoConstraints = false
         commitmentTitle.textColor = MSColors.maintext
@@ -379,6 +349,19 @@ extension NewSubController {
         reminder.addTarget(self, action: #selector(changeReminder), for: .touchUpInside)
         reminder.configureView()
         notifSettingsStackView.addArrangedSubview(reminder)
+        
+        notifTitle.text = "Activer un rappel avant paiement"
+        switchNotif.isOn = false
+//        switchNotif.addTarget(self, action: #selector(displayNotifSettings), for: .touchUpInside)
+        notifAuthorizer.addArrangedSubview(notifTitle)
+        notifAuthorizer.addArrangedSubview(switchNotif)
+        notifAuthorizer.axis = .horizontal
+        notifAuthorizer.distribution = .equalCentering
+        notifSettingsStackView.addArrangedSubview(notifAuthorizer)
+        notifSettingsStackView.axis = .vertical
+        notifSettingsStackView.spacing = 8
+        formView.addArrangedSubview(notifSettingsStackView)
+        
         // MARK: FORMVIEW
         formView.translatesAutoresizingMaskIntoConstraints = false
         formView.axis = .vertical
