@@ -6,8 +6,9 @@
 //
 
 import UIKit
-class InputFormTextField: UIControl {
-    
+
+final class InputFormTextField: UIControl {
+    //Properties
     var textFieldInputView: UIView? {
         didSet {
             textField.inputView = inputView
@@ -38,6 +39,7 @@ class InputFormTextField: UIControl {
         }
     }
     
+    // Method
     func configureView() {
         label.translatesAutoresizingMaskIntoConstraints = false
         textField.translatesAutoresizingMaskIntoConstraints = false

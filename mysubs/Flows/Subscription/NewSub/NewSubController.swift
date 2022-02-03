@@ -9,8 +9,9 @@ import CoreData
 
 //swiftlint:disable file_length
 
-class NewSubController: UIViewController, UINavigationBarDelegate {
-    // Pop up VC settings
+final class NewSubController: UIViewController, UINavigationBarDelegate {
+    var viewModel: NewSubViewModel?
+    // Private properties
     private let componentNumber = Array(stride(from: 1, to: 30 + 1, by: 1))
     private let componentDayMonthYear = [Calendar.Component.day, Calendar.Component.weekOfMonth, Calendar.Component.month, Calendar.Component.year]
     private let screenWidth = UIScreen.main.bounds.width - 10
@@ -41,12 +42,10 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     private var reminderPickerView = UIPickerView()
     private var recurrencyPickerView = UIPickerView()
     
-    // LOGO PROPERTY
     private var selectedIcon = UIImage()
     private var suggestedLogo = UIButton()
     private var logo = UIImageView()
     private var iconCell = IconCell()
-    var viewModel: NewSubViewModel?
     private var storageService = StorageService()
     private let iconPickerVC = IconPickerViewController()
     private var notifAuthorizer = UIStackView()
@@ -157,8 +156,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         }
     }
     
-    //PRIVATES METHODS
-    
+    //Private methods
     private func requestNotificationPermissionIfNeeded() {
         NotificationService.shouldRequestNotificationAuthorization { shouldRequestAuthorization in
             guard shouldRequestAuthorization else {
@@ -203,9 +201,9 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
         alert.popoverPresentationController?.sourceView = input
         alert.popoverPresentationController?.sourceRect = input.bounds
         alert.setValue(pickerVC, forKey: "contentViewController")
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Annuler", style: .cancel, handler: nil))
         // replace selectedRow protocol method since action happen here
-        alert.addAction(UIAlertAction(title: "Select", style: .default, handler: { [self] _ in
+        alert.addAction(UIAlertAction(title: "Sélectionner", style: .default, handler: { [self] _ in
             self.selectedRow = picker.selectedRow(inComponent: 0)
             let valueNumber = self.componentNumber[picker.selectedRow(inComponent: 0)]
             let valueType = self.componentDayMonthYear[picker.selectedRow(inComponent: 1)]
@@ -224,7 +222,7 @@ class NewSubController: UIViewController, UINavigationBarDelegate {
     }
 }
 
-// MARK: - COLOR PICKER SETTINGS
+// MARK: - Color picker settings
 extension NewSubController: UIColorPickerViewControllerDelegate {
     ///  Called on every color selection done in the picker.
     func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
@@ -240,7 +238,7 @@ extension NewSubController {
     }
 }
 
-// MARK: - SET UP ALL UI
+// MARK: - Set up UI
 extension NewSubController {
     
     private func setUpUI() {
@@ -249,14 +247,14 @@ extension NewSubController {
     }
     
     private func setUpNavBar() {
-        // DISPLAYING LOGO
+        // Displaying logo
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 38, height: 38))
         imageView.contentMode = .scaleAspectFit
         let image = UIImage(named: "subs_dark")
         imageView.image = image
         navigationItem.titleView = imageView
         
-        //DISPLAYING ADD SUB BUTTON
+        //Displaying add button
         let addSubButton: UIButton = UIButton(type: .custom)
         addSubButton.setTitle("Ajouter", for: .normal)
         addSubButton.addTarget(self, action: #selector(addButtonAction), for: .touchUpInside)
@@ -266,7 +264,7 @@ extension NewSubController {
     }
 
     private func setUpView() {
-        // MARK: SETTING TITLE
+        // Setting title
         view.backgroundColor = MSColors.background
         newSubLabel.text = "Nouvel abonnement"
         newSubLabel.font = UIFont.preferredFont(forTextStyle: .title2)
@@ -274,7 +272,7 @@ extension NewSubController {
         newSubLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(newSubLabel)
                 
-        // MARK: SEPARATOR LINE VIEW
+        // Separator line view
         separatorLine.translatesAutoresizingMaskIntoConstraints = false
         separatorLine.backgroundColor = UIColor(named: "yellowgrey")
         view.addSubview(separatorLine)
@@ -286,7 +284,6 @@ extension NewSubController {
         //Adding name field
         name.fieldTitle = "Nom"
         name.text = ""
-        // configurer la inpute view pour le name
         name.textFieldInputView = UIView()
         name.textField.addDoneToolBar()
         name.textField.addTarget(self, action: #selector(nameFieldTextDidChange), for: .editingChanged)
@@ -413,7 +410,7 @@ extension NewSubController {
     }
 }
 
-// MARK: - BOTH PICKERVIEW SETUP
+// MARK: - Both pickerview settings
 extension NewSubController: UIPickerViewDataSource, UIPickerViewDelegate {
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
@@ -432,25 +429,25 @@ extension NewSubController: UIPickerViewDataSource, UIPickerViewDelegate {
         }
     }
     
-        func numberOfComponents(in pickerView: UIPickerView) -> Int {
-                return 2
-        }
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 2
+    }
     
-        func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-            if pickerView == recurrencyPickerView {
-                if component == 0 {
-                    return componentNumber.count
-                } else {
-                    return componentDayMonthYear.count
-                }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if pickerView == recurrencyPickerView {
+            if component == 0 {
+                return componentNumber.count
             } else {
-                if component == 0 {
-                    return componentNumber.count
-                } else if component == 1 {
-                    return componentDayMonthYear.count
-                } else {
-                    return 1
-                }
+                return componentDayMonthYear.count
+            }
+        } else {
+            if component == 0 {
+                return componentNumber.count
+            } else if component == 1 {
+                return componentDayMonthYear.count
+            } else {
+                return 1
             }
         }
+    }
 }

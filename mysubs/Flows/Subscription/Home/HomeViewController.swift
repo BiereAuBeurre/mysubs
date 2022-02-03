@@ -16,11 +16,9 @@ enum State<Data> {
     case showData
 }
 
-class HomeViewController: UIViewController, UINavigationBarDelegate {
-    var viewModel: HomeViewModel?
-    weak var coordinator: AppCoordinator?
+final class HomeViewController: UIViewController, UINavigationBarDelegate {
     
-    // UI Properties
+    // Private Properties
     private let totalAmountView = UIView()
     private var totalAmountLabel = UILabel()
     private var subListStackView = UIStackView()
@@ -28,6 +26,8 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
     private let activityIndicator = UIActivityIndicatorView(style: .large)
 
     // Properties
+    var viewModel: HomeViewModel?
+    weak var coordinator: AppCoordinator?
     var amountLabel = UILabel()
     var viewState: State<[Subscription]> = .showData {
         didSet {
@@ -70,7 +70,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
         viewModel?.showNewSub()
     }
 
-    //PRIVATE METHODS
+    //Privates methods
     private func displayEmptyView() {
         let emptyView = UITextView.init(frame: view.frame)
         emptyView.text = "\n\n\nAppuyez sur le + en haut pour commencer !"
@@ -96,7 +96,7 @@ class HomeViewController: UIViewController, UINavigationBarDelegate {
   
 }
 
-// MARK: SET UP COLLECTION VIEWS
+// MARK: Collection view set up
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -119,7 +119,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
 }
 
-// MARK: REFRESHING DATAS
+// MARK: Refreshing datas
 extension HomeViewController {
     
     func refreshWith(subscriptions: [Subscription]) {
@@ -135,7 +135,7 @@ extension HomeViewController {
     }
     
 }
-// MARK: UI SET UP
+// MARK: UI set up
 extension HomeViewController {
     
     func setUpUI() {

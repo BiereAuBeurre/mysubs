@@ -8,12 +8,13 @@
 import Foundation
 import CoreData
 
-class HomeViewModel: NSObject {
+final class HomeViewModel: NSObject {
     
+    // Properties
     weak var viewDelegate: HomeViewController?
-    private let coordinator: AppCoordinatorProtocol
     let storageService: StorageServiceProtocol
-    
+    private let coordinator: AppCoordinatorProtocol
+
     init(coordinator: AppCoordinatorProtocol, storageService: StorageServiceProtocol) {
         self.coordinator = coordinator
         self.storageService =  storageService

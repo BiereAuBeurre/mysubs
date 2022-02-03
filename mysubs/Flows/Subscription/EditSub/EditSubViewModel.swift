@@ -7,8 +7,8 @@
 
 import Foundation
 
-class EditSubViewModel: NSObject {
-    weak var viewDelegate: EditSubController?
+final class EditSubViewModel: NSObject {
+    // Private properties
     private let coordinator: AppCoordinatorProtocol
     private let storageService: StorageServiceProtocol
     private var notificationService = NotificationService()
@@ -17,6 +17,8 @@ class EditSubViewModel: NSObject {
         date != subscription.commitment
     }
     
+    // Public properties
+    weak var viewDelegate: EditSubController?
     var notificationDate: Date?
     var icon: Data?
     var recurrency: String?
@@ -26,7 +28,7 @@ class EditSubViewModel: NSObject {
     var price: Float?
     var date: Date?
     var reminderValue: Int?
-    var reminderType: Calendar.Component?//= .hour
+    var reminderType: Calendar.Component?
     var recurrencyValue: Int?
     var recurrencyType: Calendar.Component = .hour
     
@@ -43,6 +45,7 @@ class EditSubViewModel: NSObject {
         self.icon = subscription.icon
     }
     
+    // Methods
     func delete() {
         do {
             try storageService.delete(subscription)

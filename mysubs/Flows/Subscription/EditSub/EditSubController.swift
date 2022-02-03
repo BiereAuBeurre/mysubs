@@ -7,25 +7,23 @@
 
 import UIKit
 
-class EditSubController: UIViewController {
+final class EditSubController: UIViewController {
     
     weak var coordinator: AppCoordinator?
+    var viewModel: EditSubViewModel?
 
-    //LeftSideStackView properties
+    // Private properties
     private var formView = UIStackView()
     private var name = InputFormTextField()
     private var commitmentTitle = UILabel()
     private var commitmentDate = UIDatePicker()
     private let commitmentStackView = UIStackView()
-    //RightSideStackView properties
     private var price = InputFormTextField()
     private var reminder = InputFormTextField()
     private var recurrency = InputFormTextField()
-    //FOOTER BUTTON PROPERTIES
     private var footerStackView = UIStackView()
     private var modifyButton = UIButton()
     private var deleteButton = UIButton()
-    var viewModel: EditSubViewModel?
     private var storageService = StorageService()
 
     private let componentNumber = Array(stride(from: 1, to: 30 + 1, by: 1))
@@ -87,7 +85,6 @@ class EditSubController: UIViewController {
         }
         viewModel?.saveEditedSub()
         viewModel?.goBack()
-        
     }
     
     @objc
@@ -191,7 +188,7 @@ class EditSubController: UIViewController {
         alert.addAction(UIAlertAction(title: "Annuler", style: .cancel, handler: { _ in
         }))
         //replace selectedRow protocol method since action happen here
-        alert.addAction(UIAlertAction(title: "Select", style: .default, handler: { [self] _ in
+        alert.addAction(UIAlertAction(title: "Sélectionner", style: .default, handler: { [self] _ in
             self.selectedRow = picker.selectedRow(inComponent: 0)
             let valueNumber = self.componentNumber[picker.selectedRow(inComponent: 0)]
             let valueType = self.componentDayMonthYear[picker.selectedRow(inComponent: 1)]
@@ -212,7 +209,7 @@ class EditSubController: UIViewController {
     }
 }
 
-// MARK: - PICKERVIEW SETTINGS
+// MARK: - Both pickerview settings
 extension EditSubController: UIPickerViewDataSource, UIPickerViewDelegate {
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
@@ -254,7 +251,7 @@ extension EditSubController: UIPickerViewDataSource, UIPickerViewDelegate {
     }
 }
 
-// MARK: - COLOR PICKER SETTINGS
+// MARK: - Color picker settings
 extension EditSubController: UIColorPickerViewControllerDelegate {
     ///  Called on every color selection done in the picker.
     func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
@@ -263,7 +260,8 @@ extension EditSubController: UIColorPickerViewControllerDelegate {
         viewModel?.color = selectedColor
     }
 }
-// MARK: SETTING UP ALL UI
+
+// MARK: - Set up UI
 extension EditSubController {
     
     private func setUpUI() {
@@ -324,10 +322,14 @@ extension EditSubController {
             recurrency.isHidden = true
             reminder.isHidden = true
         }
+        if let reminder = viewModel?.reminder {
+            self.reminder.text = "\(reminder) avant"
+        }
+        if let recurrency = viewModel?.recurrency {
+            self.recurrency.text = "Tous les \(recurrency)"
+        }
         name.text = viewModel?.name
         price.text = "\(viewModel?.price ?? 0)"
-        reminder.text = "\(viewModel?.reminder ?? "") avant"
-        recurrency.text = "Tous les \(viewModel?.recurrency ?? "")"
     }
     
     private func setUpView() {
@@ -336,7 +338,6 @@ extension EditSubController {
         //adding name field
         name.fieldTitle = "Nom"
         name.text = viewModel?.name
-        // configurer la inpute view pour le name
         name.textFieldInputView = UIView()
         name.textField.addDoneToolBar()
         name.textField.addTarget(self, action: #selector(nameFieldTextDidChange), for: .editingChanged)

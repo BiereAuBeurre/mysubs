@@ -7,12 +7,9 @@
 
 import Foundation
 import CoreData
-import UIKit
 
-class NewSubViewModel: NSObject {
+final class NewSubViewModel: NSObject {
     weak var viewDelegate: NewSubController?
-    private let coordinator: AppCoordinatorProtocol
-    private let storageService: StorageServiceProtocol
     var notificationService = NotificationService()
     var notificationDate: Date?
     var icon: Data?
@@ -20,12 +17,14 @@ class NewSubViewModel: NSObject {
     var reminderValue: Int?
     var recurrencyValue: Int?
     var recurrencyType: Calendar.Component = .hour
-    var reminderType: Calendar.Component? //= .hour
+    var reminderType: Calendar.Component?
     var price: Float?
     var color: String?
     var name: String?
     var subscriptions: [NSManagedObject] = []
-    
+    //Private properties
+    private let coordinator: AppCoordinatorProtocol
+    private let storageService: StorageServiceProtocol
     init(coordinator: AppCoordinatorProtocol, storageService: StorageServiceProtocol) {
         self.coordinator = coordinator
         self.storageService = storageService

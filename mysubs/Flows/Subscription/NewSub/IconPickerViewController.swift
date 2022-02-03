@@ -8,7 +8,7 @@
 import UIKit
 import Foundation
 
-class IconPickerViewController: UIViewController {
+final class IconPickerViewController: UIViewController {
     
     var iconCollectionView: UICollectionView!
     var icon = UIImage()
@@ -18,8 +18,8 @@ class IconPickerViewController: UIViewController {
         super.viewDidLoad()
         setUpUI()
     }
-
-    func setUpUI() {
+    
+    private func setUpUI() {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -33,7 +33,7 @@ class IconPickerViewController: UIViewController {
         iconCollectionView.isScrollEnabled = true
         iconCollectionView.isUserInteractionEnabled = true
         layout.itemSize = CGSize(width: (self.iconCollectionView.frame.size.width - 20)/6, height: (self.iconCollectionView.frame.size.height)/16)
-
+        
         view.backgroundColor = .systemBackground
         view.addSubview(iconCollectionView ?? UICollectionView())
         
@@ -52,7 +52,7 @@ extension IconPickerViewController: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return iconDictionnary.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let iconCell = collectionView.dequeueReusableCell(withReuseIdentifier: IconCell.identifier, for: indexPath) as? IconCell else {
             assertionFailure("The dequeue collection view cell was of the wrong type")
@@ -66,5 +66,5 @@ extension IconPickerViewController: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         icon = UIImage(systemName: "\(iconDictionnary[indexPath.row])") ?? UIImage(systemName: "house.fill")!
     }
-
+    
 }

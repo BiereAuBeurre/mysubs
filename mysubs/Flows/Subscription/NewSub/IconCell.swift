@@ -7,7 +7,7 @@
 
 import UIKit
 
-class IconCell: UICollectionViewCell {
+final class IconCell: UICollectionViewCell {
     // For selection effect on cell since it's selectAction which contains the action
     override var isSelected: Bool {
        didSet {
@@ -37,7 +37,7 @@ class IconCell: UICollectionViewCell {
 //        fatalError("error")
     }
     
-    func configureCell() {
+    private func configureCell() {
         logo.translatesAutoresizingMaskIntoConstraints = false
         logo.tintColor = .black
         logo.contentMode = .scaleAspectFit

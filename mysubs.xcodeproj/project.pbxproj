@@ -47,7 +47,6 @@
 		EF96B990274FE1C900961F9C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF96B98F274FE1C900961F9C /* Assets.xcassets */; };
 		EF96B993274FE1C900961F9C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF96B991274FE1C900961F9C /* LaunchScreen.storyboard */; };
 		EFA682B627A2D0290095E1F3 /* SetIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA682B527A2D0290095E1F3 /* SetIcon.swift */; };
-		EFCB8EBA2779FC8A009BC47D /* CategoriesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCB8EB92779FC8A009BC47D /* CategoriesCell.swift */; };
 		EFCF583727A41FCE006D89BB /* NewSubViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCF583627A41FCE006D89BB /* NewSubViewModelTests.swift */; };
 		EFCF583927A42862006D89BB /* MockCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCF583827A42862006D89BB /* MockCoordinator.swift */; };
 		EFEF69DD276799C8005CB6C3 /* EditSubViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFEF69DC276799C8005CB6C3 /* EditSubViewModel.swift */; };
@@ -113,7 +112,6 @@
 		EF96B994274FE1C900961F9C /* MySubs_Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = MySubs_Info.plist; sourceTree = "<group>"; };
 		EF96B999274FE1C900961F9C /* mysubsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mysubsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFA682B527A2D0290095E1F3 /* SetIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetIcon.swift; sourceTree = "<group>"; };
-		EFCB8EB92779FC8A009BC47D /* CategoriesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesCell.swift; sourceTree = "<group>"; };
 		EFCF583627A41FCE006D89BB /* NewSubViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSubViewModelTests.swift; sourceTree = "<group>"; };
 		EFCF583827A42862006D89BB /* MockCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCoordinator.swift; sourceTree = "<group>"; };
 		EFEF69DC276799C8005CB6C3 /* EditSubViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSubViewModel.swift; sourceTree = "<group>"; };
@@ -275,7 +273,6 @@
 				EFFA24DE275644E20068DFE3 /* HomeViewController.swift */,
 				EF3578BD2763588A00DA443F /* HomeViewModel.swift */,
 				EF1F6C6A2759125E00DA0BBB /* SubCell.swift */,
-				EFCB8EB92779FC8A009BC47D /* CategoriesCell.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -571,7 +568,6 @@
 				EF1520C9279EEFFC00E6E5AB /* IconCell.swift in Sources */,
 				EFEF69DD276799C8005CB6C3 /* EditSubViewModel.swift in Sources */,
 				EF125B0A275780E000E6FD6B /* StorageService.swift in Sources */,
-				EFCB8EBA2779FC8A009BC47D /* CategoriesCell.swift in Sources */,
 				EF6ADFBE27AA9836000B9B6D /* AddDoneToolBar.swift in Sources */,
 				EF3578C22763A15100DA443F /* NewSubViewModel.swift in Sources */,
 				EF9072ED275E37EE006CF678 /* Coordinator.swift in Sources */,

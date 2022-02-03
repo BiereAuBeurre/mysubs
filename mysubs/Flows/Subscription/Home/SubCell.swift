@@ -7,18 +7,19 @@
 
 import UIKit
 
-class SubCell: UICollectionViewCell {
+final class SubCell: UICollectionViewCell {
+    //Properties
     static let identifier = "SubCell"
-    
-    private var subNameLabel = UILabel()
-    private var logo = UIImageView()
-    private var priceLabel = UILabel()
     var colorToConvert = String()
     var subscription: Subscription? {
         didSet {
             refreshSubData()
         }
     }
+    //Privates properties
+    private var subNameLabel = UILabel()
+    private var logo = UIImageView()
+    private var priceLabel = UILabel()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -31,7 +32,7 @@ class SubCell: UICollectionViewCell {
     }
     
     //Setting values in cells with the object value
-    func refreshSubData() {
+    private func refreshSubData() {
         subNameLabel.text = subscription?.name
         
         priceLabel.text = "\(subscription?.price.editMaxDigitTo(2).replacingOccurrences(of: ",", with: ".") ?? "0") €"
@@ -49,7 +50,7 @@ class SubCell: UICollectionViewCell {
         }
     }
     
-    func configureCell() {
+    private func configureCell() {
         priceLabel.translatesAutoresizingMaskIntoConstraints = false
         priceLabel.textColor = .black//MSColors.maintext
         subNameLabel.translatesAutoresizingMaskIntoConstraints = false
