@@ -48,7 +48,7 @@ final class NotificationService {
     func generateNotificationFor(_ name: String, _ reminderValue: Int, _ price: Float, _ date: Date, id: String, reminderType: Calendar.Component) {
         //In order to display notif in simulator right after creation
         #if DEBUG
-        let notificationInterval: Double = 15
+        let notificationInterval: Double = 20
         let date = date.addingTimeInterval(notificationInterval)
         let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
         #else

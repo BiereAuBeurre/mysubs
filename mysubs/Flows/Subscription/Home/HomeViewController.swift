@@ -85,15 +85,6 @@ final class HomeViewController: UIViewController, UINavigationBarDelegate {
     private func cellTapped(sub: Subscription) {
         viewModel?.showDetail(sub: sub)
     }
-    
-    private func deleteSub(sub: Subscription) {
-        do {
-            try viewModel?.storageService.delete(sub)
-        } catch {
-            print(error); self.showAlert("Erreur", "Suppression impossible. Merci de réessayer plus tard")
-        }
-    }
-  
 }
 
 // MARK: Collection view set up

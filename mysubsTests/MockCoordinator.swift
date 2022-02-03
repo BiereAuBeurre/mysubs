@@ -16,7 +16,6 @@ class MockCoordinator: AppCoordinatorProtocol {
     var coordinatorStartCalled = false
     func start() {
         print(#function)
-        print("new start is ok")
         coordinatorStartCalled = true
     }
 

@@ -84,7 +84,7 @@ final class EditSubController: UIViewController {
         // Then if the date is set up, user need to input reminder and recurrency as well (for notifications)
 //        if viewModel?.date != nil {
         if switchNotif.isOn {
-        if viewModel?.recurrencyValue == nil || viewModel?.reminderValue == nil {
+        if viewModel?.recurrency == nil || viewModel?.reminder == nil {
 //            if viewModel?.recurrencyType == .hour || viewModel?.reminderType == .hour {
                 let alertVC = UIAlertController(title: "Champs manquant pour paramétrer la date du prochain paiement !", message: "merci d'accompagner la date d'un rappel et d'un cycle de paiement", preferredStyle: .alert)
                 alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -170,7 +170,6 @@ final class EditSubController: UIViewController {
              viewModel?.reminder = reminder.text
              viewModel?.recurrency = recurrency.text
          } else {
-//             viewModel?.date = nil
              viewModel?.reminder = nil
              viewModel?.recurrency = nil
              reminder.text = ""
@@ -290,21 +289,21 @@ extension EditSubController {
         setUpData()
     }
     
-    private func configureCommitment() {
-        commitmentStackView.addArrangedSubview(commitmentTitle)
-        commitmentStackView.addArrangedSubview(commitmentDate)
-        commitmentStackView.axis = .vertical
-        commitmentStackView.alignment = .leading
-        commitmentDate.backgroundColor = MSColors.background
-        commitmentTitle.textColor = MSColors.maintext
-        commitmentDate.contentMode = .top
-        commitmentStackView.translatesAutoresizingMaskIntoConstraints = false
-        commitmentTitle.translatesAutoresizingMaskIntoConstraints = false
-        commitmentDate.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            commitmentTitle.heightAnchor.constraint(equalToConstant: 35)
-        ])
-    }
+//    private func configureCommitment() {
+//        commitmentStackView.addArrangedSubview(commitmentTitle)
+//        commitmentStackView.addArrangedSubview(commitmentDate)
+//        commitmentStackView.axis = .vertical
+//        commitmentStackView.alignment = .leading
+//        commitmentDate.backgroundColor = MSColors.background
+//        commitmentTitle.textColor = MSColors.maintext
+//        commitmentDate.contentMode = .top
+//        commitmentStackView.translatesAutoresizingMaskIntoConstraints = false
+//        commitmentTitle.translatesAutoresizingMaskIntoConstraints = false
+//        commitmentDate.translatesAutoresizingMaskIntoConstraints = false
+//        NSLayoutConstraint.activate([
+//            commitmentTitle.heightAnchor.constraint(equalToConstant: 35)
+//        ])
+//    }
     
     private func setUpNavBar() {
         // DISPLAYING LOGO
@@ -339,14 +338,6 @@ extension EditSubController {
         if let recurrency = viewModel?.recurrency {
             self.recurrency.text = "Tous les \(recurrency)"
         }
-        
-//        if viewModel?.recurrency == nil || viewModel?.reminder == nil {
-//            recurrency.isHidden = true
-//            reminder.isHidden = true
-//            switchNotif.isOn = false
-//        } else {
-//            switchNotif.isOn = true
-//        }
         name.text = viewModel?.name
         price.text = "\(viewModel?.price ?? 0)"
     }
@@ -356,7 +347,6 @@ extension EditSubController {
         view.backgroundColor = MSColors.background
         //adding name field
         name.fieldTitle = "Nom"
-        name.text = viewModel?.name
         name.textFieldInputView = UIView()
         name.textField.addDoneToolBar()
         name.textField.addTarget(self, action: #selector(nameFieldTextDidChange), for: .editingChanged)

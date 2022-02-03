@@ -40,10 +40,6 @@ final class NewSubViewModel: NSObject {
         newSub.icon = icon
         newSub.color = color
         let id = newSub.objectID.uriRepresentation().absoluteString
-//        if let reminderValue = reminderValue, let reminderType = reminderType, let recurrencyValue = recurrencyValue {
-//        newSub.reminder = "\(reminderValue) \(reminderType.stringValue)"
-//        newSub.paymentRecurrency = "\(recurrencyValue) \(recurrencyType.stringValue)"
-//        }
         //But if the date has value (mean notif has been switchOn) then both next values has to be saved, then generating a notif with it
         if viewDelegate?.switchNotif.isOn == true {
             newSub.commitment = date
