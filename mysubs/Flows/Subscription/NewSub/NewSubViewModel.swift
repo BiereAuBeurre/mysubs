@@ -22,6 +22,7 @@ final class NewSubViewModel: NSObject {
     var color: String?
     var name: String?
     var subscriptions: [NSManagedObject] = []
+    var isNotifActivated: Bool = false
     //Private properties
     private let coordinator: AppCoordinatorProtocol
     private let storageService: StorageServiceProtocol
@@ -39,16 +40,18 @@ final class NewSubViewModel: NSObject {
         newSub.icon = icon
         newSub.color = color
         let id = newSub.objectID.uriRepresentation().absoluteString
-
+//        if let reminderValue = reminderValue, let reminderType = reminderType, let recurrencyValue = recurrencyValue {
+//        newSub.reminder = "\(reminderValue) \(reminderType.stringValue)"
+//        newSub.paymentRecurrency = "\(recurrencyValue) \(recurrencyType.stringValue)"
+//        }
         //But if the date has value (mean notif has been switchOn) then both next values has to be saved, then generating a notif with it
-        if date != nil {
+        if viewDelegate?.switchNotif.isOn == true {
             newSub.commitment = date
             if let reminderValue = reminderValue, let reminderType = reminderType, let recurrencyValue = recurrencyValue, let price = price, let date = date, let name = name {
                 newSub.reminder = "\(reminderValue) \(reminderType.stringValue)"
                 newSub.paymentRecurrency = "\(recurrencyValue) \(recurrencyType.stringValue)"
                 self.notificationDate = date.adding(reminderType, value: -(reminderValue))
                 self.notificationDate = self.notificationDate?.adding(recurrencyType, value: recurrencyValue)
-                print("self.notification date in newsubVM is : \(self.notificationDate!)")
                 notificationService.generateNotificationFor(name, reminderValue, price, self.notificationDate ?? Date(), id: id, reminderType: reminderType)
             }
         }

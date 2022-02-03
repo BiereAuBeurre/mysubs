@@ -39,7 +39,7 @@ final class EditSubController: UIViewController {
 
     private var notifAuthorizer = UIStackView()
     private var notifTitle = UILabel()
-    private var switchNotif = UISwitch()
+    var switchNotif = UISwitch()
     private var notifSettingsStackView = UIStackView()
     private var colorAndIconStackView = UIStackView()
 
@@ -49,6 +49,19 @@ final class EditSubController: UIViewController {
     private var colorPreview = UIImageView()
     private var iconTitle = UIButton()
     private var iconPreview = UIImageView()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if viewModel?.recurrency == nil || viewModel?.reminder == nil {
+            recurrency.isHidden = true
+            reminder.isHidden = true
+            switchNotif.isOn = false
+        } else {
+            switchNotif.isOn = true
+            recurrency.isHidden = false
+            reminder.isHidden = false
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,8 +82,10 @@ final class EditSubController: UIViewController {
             return
         }
         // Then if the date is set up, user need to input reminder and recurrency as well (for notifications)
-        if viewModel?.date != nil {
-            if viewModel?.recurrencyType == .hour || viewModel?.reminderType == .hour {
+//        if viewModel?.date != nil {
+        if switchNotif.isOn {
+        if viewModel?.recurrencyValue == nil || viewModel?.reminderValue == nil {
+//            if viewModel?.recurrencyType == .hour || viewModel?.reminderType == .hour {
                 let alertVC = UIAlertController(title: "Champs manquant pour paramétrer la date du prochain paiement !", message: "merci d'accompagner la date d'un rappel et d'un cycle de paiement", preferredStyle: .alert)
                 alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 alertVC.addAction(UIAlertAction(title: "Ne pas mettre de rappel", style: .cancel, handler: { _ in
@@ -144,6 +159,25 @@ final class EditSubController: UIViewController {
         showPicker(recurrencyPickerView, recurrency)
     }
     
+    @objc
+     func displayNotifSettings() {
+         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+             self.recurrency.isHidden.toggle()
+             self.reminder.isHidden.toggle()
+         }, completion: nil)
+         if switchNotif.isOn {
+             viewModel?.date = commitmentDate.date
+             viewModel?.reminder = reminder.text
+             viewModel?.recurrency = recurrency.text
+         } else {
+//             viewModel?.date = nil
+             viewModel?.reminder = nil
+             viewModel?.recurrency = nil
+             reminder.text = ""
+             recurrency.text = ""
+         }
+     }
+    
     //Private METHODS
     private func deletingAlert() {
         let alert = UIAlertController(title: "Suppression de l'abonnement", message: "Êtes-vous sur de vouloir supprimer l'abonnement \(viewModel?.name ?? "") ?", preferredStyle: .actionSheet)
@@ -180,12 +214,12 @@ final class EditSubController: UIViewController {
             let valueType = self.componentDayMonthYear[picker.selectedRow(inComponent: 1)]
 
             if input == recurrency {
-                input.textField.text = "Tous les \(valueNumber) \(valueType.stringValue)"
+                input.textField.text = "\(valueNumber) \(valueType.stringValue)"
                 viewModel?.recurrencyValue = valueNumber
                 viewModel?.recurrencyType = valueType
                 viewModel?.recurrency = "\(valueNumber) \(valueType.stringValue)"
             } else {
-                input.textField.text = "\(valueNumber) \(valueType.stringValue) avant"
+                input.textField.text = "\(valueNumber) \(valueType.stringValue)"
                 viewModel?.reminderValue = valueNumber
                 viewModel?.reminderType = valueType
                 viewModel?.reminder = "\(valueNumber) \(valueType.stringValue)"
@@ -305,6 +339,14 @@ extension EditSubController {
         if let recurrency = viewModel?.recurrency {
             self.recurrency.text = "Tous les \(recurrency)"
         }
+        
+//        if viewModel?.recurrency == nil || viewModel?.reminder == nil {
+//            recurrency.isHidden = true
+//            reminder.isHidden = true
+//            switchNotif.isOn = false
+//        } else {
+//            switchNotif.isOn = true
+//        }
         name.text = viewModel?.name
         price.text = "\(viewModel?.price ?? 0)"
     }
@@ -396,6 +438,7 @@ extension EditSubController {
         notifAuthorizer.addArrangedSubview(notifTitle)
         notifAuthorizer.axis = .horizontal
         notifAuthorizer.distribution = .equalCentering
+        switchNotif.addTarget(self, action: #selector(displayNotifSettings), for: .touchUpInside)
         notifAuthorizer.addArrangedSubview(switchNotif)
         notifSettingsStackView.axis = .vertical
         notifSettingsStackView.spacing = 8

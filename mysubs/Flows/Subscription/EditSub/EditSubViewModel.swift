@@ -81,22 +81,38 @@ final class EditSubViewModel: NSObject {
         
         //But if the date has value changed (mean notif has been recalculated) then both next values has to be saved, then generating a notif with it
         let id = subscription.objectID.uriRepresentation().absoluteString
-        if isDateChanged || isReminderChanged || isRecurrencyChanged {
-            if date == nil {
-                notificationService.cancelnotif(for: id)
-            } else {
-                //If date is changed, all other parameters are reset in dateDidChange in VC
-                subscription.commitment = date
-                if let reminderValue = reminderValue, let recurrencyValue = recurrencyValue, let reminderType = reminderType, let recurrencyType = recurrencyType, let price = price, let date = date, let name = name {
-                    subscription.reminder = "\(reminderValue) \(reminderType.stringValue)"
-                    subscription.paymentRecurrency = "\(recurrencyValue) \(recurrencyType.stringValue)"
-                    self.notificationDate = date.adding(reminderType, value: -(reminderValue))
-                    self.notificationDate = self.notificationDate?.adding(recurrencyType, value: recurrencyValue)
-                    print("self.notification date in newsubVM is : \(self.notificationDate!)")
-                    notificationService.generateNotificationFor(name, reminderValue, price, self.notificationDate ?? Date(), id: id, reminderType: reminderType)
-                }
+        
+        //But if the date has value (mean notif has been switchOn) then both next values has to be saved, then generating a notif with it
+        if viewDelegate?.switchNotif.isOn == true {
+            subscription.commitment = date
+            if let reminderValue = reminderValue, let reminderType = reminderType, let recurrencyValue = recurrencyValue, let recurrencyType = recurrencyType, let price = price, let date = date, let name = name {
+                subscription.reminder = "\(reminderValue) \(reminderType.stringValue)"
+                subscription.paymentRecurrency = "\(recurrencyValue) \(recurrencyType.stringValue)"
+                self.notificationDate = date.adding(reminderType, value: -(reminderValue))
+                self.notificationDate = self.notificationDate?.adding(recurrencyType, value: recurrencyValue)
+                notificationService.generateNotificationFor(name, reminderValue, price, self.notificationDate ?? Date(), id: id, reminderType: reminderType)
             }
+        } else {
+            subscription.reminder = nil
+            subscription.paymentRecurrency = nil
         }
+        
+//        if isDateChanged || isReminderChanged || isRecurrencyChanged {
+//            if viewDelegate?.switchNotif.isOn == false {
+//                notificationService.cancelnotif(for: id)
+//            } else {
+//                //If date is changed, all other parameters are reset in dateDidChange in VC
+//                subscription.commitment = date
+//                if viewDelegate?.switchNotif.isOn == true, let reminderValue = reminderValue, let recurrencyValue = recurrencyValue, let reminderType = reminderType, let recurrencyType = recurrencyType, let price = price, let date = date, let name = name {
+//                    subscription.reminder = "\(reminderValue) \(reminderType.stringValue)"
+//                    subscription.paymentRecurrency = "\(recurrencyValue) \(recurrencyType.stringValue)"
+//                    self.notificationDate = date.adding(reminderType, value: -(reminderValue))
+//                    self.notificationDate = self.notificationDate?.adding(recurrencyType, value: recurrencyValue)
+//                    print("self.notification date in newsubVM is : \(self.notificationDate!)")
+//                    notificationService.generateNotificationFor(name, reminderValue, price, self.notificationDate ?? Date(), id: id, reminderType: reminderType)
+//                }
+//            }
+//        }
         storageService.save()
         goBack()
     }

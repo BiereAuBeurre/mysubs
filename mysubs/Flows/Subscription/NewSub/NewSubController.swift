@@ -50,7 +50,7 @@ final class NewSubController: UIViewController, UINavigationBarDelegate {
     private let iconPickerVC = IconPickerViewController()
     private var notifAuthorizer = UIStackView()
     private var notifTitle = UILabel()
-    private var switchNotif = UISwitch()
+    var switchNotif = UISwitch()
     private var notifSettingsStackView = UIStackView()
     
     override func viewDidLoad() {
@@ -59,35 +59,60 @@ final class NewSubController: UIViewController, UINavigationBarDelegate {
     }
     
     //objc methods
+//    @objc
+//    func addButtonAction() {
+//        // For a valid sub, user have to fill at least a name and a price
+//        if viewModel?.name == nil || viewModel?.price == nil {
+//            showAlert("Champs manquants", "Merci d'ajouter au moins un nom et un prix")
+//            return
+//        }
+//        // Then if the date is set up, user need to input reminder and recurrency as well (for notifications)
+//        if viewModel?.date != nil {
+////            if switchNotif.isOn {
+//            if viewModel?.recurrencyType == .hour || viewModel?.reminderType == .hour {
+//                let alertVC = UIAlertController(title: "Champs manquant pour paramétrer la date du prochain paiement !", message: "merci d'accompagner la date d'un rappel et d'un cycle de paiement", preferredStyle: .alert)
+//                alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+//                alertVC.addAction(UIAlertAction(title: "Ne pas mettre de rappel", style: .cancel, handler: { _ in
+//                    self.switchNotif.isOn = false
+////                    self.viewModel?.saveSub()
+////                    self.viewModel?.goBack()
+//                }))
+//                self.present(alertVC, animated: true, completion: nil)
+//                return
+//            }
+//        }
+////        }
+//        if switchNotif.isOn {
+//            requestNotificationPermissionIfNeeded()
+//        }
+//        viewModel?.saveSub()
+//        viewModel?.goBack()
+//    }
+    
     @objc
-    func addButtonAction() {
-        // For a valid sub, user have to fill at least a name and a price 
-        if viewModel?.name == nil || viewModel?.price == nil {
-            showAlert("Champs manquants", "Merci d'ajouter au moins un nom et un prix")
-            return
-        }
-        // Then if the date is set up, user need to input reminder and recurrency as well (for notifications)
-        if viewModel?.date != nil {
-            if switchNotif.isOn {
-            if viewModel?.recurrencyType == .hour || viewModel?.reminderType == .hour {
-                let alertVC = UIAlertController(title: "Champs manquant pour paramétrer la date du prochain paiement !", message: "merci d'accompagner la date d'un rappel et d'un cycle de paiement", preferredStyle: .alert)
-                alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                alertVC.addAction(UIAlertAction(title: "Ne pas mettre de rappel", style: .cancel, handler: { _ in
-                    self.switchNotif.isOn = false
-                    self.viewModel?.saveSub()
-                    self.viewModel?.goBack()
-                }))
-                self.present(alertVC, animated: true, completion: nil)
-                return
-            }
-        }
-        }
-        if switchNotif.isOn {
-            requestNotificationPermissionIfNeeded()
-        }
-        viewModel?.saveSub()
-        viewModel?.goBack()
-    }
+       func addButtonAction() {
+           // For a valid sub, user have to fill at least a name and a price
+           if viewModel?.name == nil || viewModel?.price == nil {
+               showAlert("Champs manquants", "Merci d'ajouter au moins un nom et un prix")
+               return
+           }
+           // Then if the date is set up, user need to input reminder and recurrency as well (for notifications)
+           if switchNotif.isOn == true && recurrency.text == "" || reminder.text == "" {
+                   let alertVC = UIAlertController(title: "Champs manquant pour paramétrer la date du prochain paiement !", message: "merci d'accompagner la date d'un rappel et d'un cycle de paiement", preferredStyle: .alert)
+                   alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                   alertVC.addAction(UIAlertAction(title: "Ne pas mettre de rappel", style: .cancel, handler: { _ in
+                       self.switchNotif.isOn = false
+                   }))
+                   self.present(alertVC, animated: true, completion: nil)
+                   return
+               }
+//           }
+           if switchNotif.isOn {
+               requestNotificationPermissionIfNeeded()
+           }
+           viewModel?.saveSub()
+           viewModel?.goBack()
+       }
     
     @objc
     func changeReminder() {
@@ -170,6 +195,14 @@ final class NewSubController: UIViewController, UINavigationBarDelegate {
         present(notificationPermissionAlert, animated: true)
     }
     
+    @objc
+     func displayNotifSettings() {
+         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+             self.recurrency.isHidden.toggle()
+             self.reminder.isHidden.toggle()
+         }, completion: nil)
+     }
+    
     private func showPicker(_ picker: UIPickerView, _ input: InputFormTextField) {
         let pickerVC = UIViewController()
         pickerVC.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
@@ -196,11 +229,11 @@ final class NewSubController: UIViewController, UINavigationBarDelegate {
             let valueType = self.componentDayMonthYear[picker.selectedRow(inComponent: 1)]
 
             if input == recurrency {
-                input.textField.text = "Tous les \(valueNumber) \(valueType.stringValue)"
+                input.textField.text = "\(valueNumber) \(valueType.stringValue)"
                 viewModel?.recurrencyValue = valueNumber
                 viewModel?.recurrencyType = valueType
             } else {
-                input.textField.text = "\(valueNumber) \(valueType.stringValue) avant"
+                input.textField.text = "\(valueNumber) \(valueType.stringValue)"
                 viewModel?.reminderValue = valueNumber
                 viewModel?.reminderType = valueType
             }
@@ -258,7 +291,9 @@ extension NewSubController {
         newSubLabel.textColor = MSColors.maintext
         newSubLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(newSubLabel)
-                
+        
+        recurrency.isHidden = true
+        reminder.isHidden = true
         // Separator line view
         separatorLine.translatesAutoresizingMaskIntoConstraints = false
         separatorLine.backgroundColor = UIColor(named: "yellowgrey")
@@ -329,6 +364,8 @@ extension NewSubController {
         commitmentDate.translatesAutoresizingMaskIntoConstraints = false
         commitmentDate.locale = Locale.init(identifier: "fr_FR")
         commitmentDate.date = Date()
+        //default value if not edited
+        viewModel?.date = commitmentDate.date
         commitmentStackView.addArrangedSubview(commitmentDate)
         
         commitmentStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -352,7 +389,7 @@ extension NewSubController {
         
         notifTitle.text = "Activer un rappel avant paiement"
         switchNotif.isOn = false
-//        switchNotif.addTarget(self, action: #selector(displayNotifSettings), for: .touchUpInside)
+        switchNotif.addTarget(self, action: #selector(displayNotifSettings), for: .touchUpInside)
         notifAuthorizer.addArrangedSubview(notifTitle)
         notifAuthorizer.addArrangedSubview(switchNotif)
         notifAuthorizer.axis = .horizontal
